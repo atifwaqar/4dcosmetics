@@ -4,12 +4,12 @@ $(function() {
 	    // array representing the format and columns of the cart, see
 	    // the cart columns documentation
 	    cartColumns: [
-	        { attr: "name" , label: "Name" },
-	        { attr: "price" , label: "Price", view: 'currency' },
+	        { attr: "name" , label: "4D Cosmetics" },
+	        { attr: "price" , label: "Price", view: 'PKR' },
 	        { view: "decrement" , label: false },
 	        { attr: "quantity" , label: "Qty" },
 	        { view: "increment" , label: false },
-	        { attr: "total" , label: "SubTotal", view: 'currency' },
+	        { attr: "total" , label: "SubTotal", view: 'PKR' },
 	        { view: "remove" , text: "Remove" , label: false }
 	    ],
 
@@ -23,7 +23,7 @@ $(function() {
 	    },
 
 	    // set the currency, see the currency reference for more info
-	    currency: "USD",
+	    currency: "PKR",
 
 	    // collection of arbitrary data you may want to store with the cart,
 	    // such as customer info
