@@ -1,3 +1,10 @@
+// Register Pakistani Rupee currency before configuring simpleCart
+simpleCart.currency({
+  code: 'PKR',
+  name: 'Pakistani Rupee',
+  symbol: 'Rs.'
+});
+
 $(function() {
   // Initialize simpleCart
   simpleCart({
