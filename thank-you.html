@@ -1,44 +1,61 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Thank You • 4D Cosmetics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/cart.css">
-  <link rel="stylesheet" href="/assets/css/checkout.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You - 4D Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/custom.css">
+  <link rel="stylesheet" href="./assets/css/cart.css">
+  <link rel="stylesheet" href="./assets/css/checkout.css">
 </head>
 <body>
-  <header class="site-header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="brand" href="/"> <span class="brand-mark">4D</span> Cosmetics</a>
-      <nav class="nav">
-        <a href="/products.html">Products</a>
-        <a href="/about.html">About</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/cart.html">Cart</a>
-      </nav>
+      <a class="navbar-brand" href="index.html">4D Cosmetics</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="cart.html">Cart (<span class="simpleCart_quantity">0</span>)</a></li>
+        </ul>
+      </div>
     </div>
-  </header>
+  </nav>
 
   <main class="container thankyou-layout">
     <h1>Thank you</h1>
     <div id="order-receipt"></div>
-    <a href="/products.html" class="btn btn-primary mt-3">Continue shopping</a>
+    <a href="products.html" class="btn btn-primary mt-3">Continue shopping</a>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <small>© 4D Cosmetics</small>
-      <nav>
-        <a href="/privacy.html">Privacy</a>
-        <a href="/terms.html">Terms</a>
-      </nav>
+  <footer class="py-4 mt-5">
+    <div class="container text-center">
+      <p class="mb-2">© 4D Cosmetics</p>
+      <a href="privacy.html" class="me-3">Privacy Policy</a>
+      <a href="terms.html">Terms</a>
+      <div class="mt-2">
+        <a href="#" class="text-dark me-2"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-dark"><i class="fab fa-instagram"></i></a>
+      </div>
     </div>
   </footer>
 
+  <script src="./assets/js/jquery-2.2.4.min.js"></script>
+  <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/js/simpleCart.min.js"></script>
+  <script src="./assets/js/simpleStore.js"></script>
+  <script src="./assets/js/config.js"></script>
   <script type="module">
-    import { fmt } from '/assets/js/payments.js';
+    import { fmt } from './assets/js/payments.js';
     const data = localStorage.getItem('4d-last-order');
     const receipt = document.getElementById('order-receipt');
     const url = new URL(window.location);
