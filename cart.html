@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Your Cart • 4D Cosmetics</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
   <link rel="stylesheet" href="/assets/css/cart.css">
 </head>
 <body>
@@ -24,15 +23,17 @@
   <main class="container cart-layout">
     <h1>Your Cart (<span id="cart-count">0</span> items)</h1>
 
-    <!-- LEFT: items panel -->
     <section class="cart-items">
       <div class="cart-head row">
         <div>Item</div>
         <div class="hide-sm">Price</div>
         <div>Quantity</div>
         <div>Total</div>
+        <div></div>
       </div>
-      <div id="cart-rows" class="cart-rows"></div>
+      <div id="cart-rows" class="cart-rows">
+        <!-- JS renders rows here -->
+      </div>
 
       <div id="empty-state" class="empty hidden">
         <p>Your cart is empty.</p>
@@ -40,7 +41,6 @@
       </div>
     </section>
 
-    <!-- RIGHT: summary card -->
     <aside class="cart-summary">
       <div class="card">
         <div class="summary-line">
@@ -55,7 +55,6 @@
             <button id="apply-coupon" class="btn btn-outline">Apply</button>
           </div>
           <div id="coupon-msg" class="coupon-msg"></div>
-
           <div id="discount-line" class="summary-line hidden">
             <span>Discount:</span>
             <span id="summary-discount">-$0.00</span>
@@ -79,11 +78,7 @@
           </div>
         </div>
 
-        <button id="checkout-btn" class="btn btn-primary btn-lg w-100" disabled>Check out</button>
-
-        <div class="continue-mobile">
-          <a href="/products.html" class="link">Continue shopping</a>
-        </div>
+        <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
       </div>
     </aside>
   </main>
@@ -98,9 +93,8 @@
     </div>
   </footer>
 
-  <!-- Required script order -->
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-  <script src="/assets/js/simpleCart.min.js"></script>
+  <script src="/assets/js/simpleCart.min.js"></script>   <!-- must be before our page script -->
   <script src="/assets/js/simpleStore.js"></script>
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/cart-page.js"></script>

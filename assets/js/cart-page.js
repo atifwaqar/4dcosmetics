@@ -1,85 +1,102 @@
-/* Cart page logic for 4D Cosmetics */
-(function($){
-  "use strict";
+const TAX_RATE = 0.10;
+const FREE_SHIP_THRESHOLD = 100;
 
-  // ---- Config ----
-  var TAX_RATE = 0.10;                  // 10%
-  var FREE_SHIP_THRESHOLD = 100;        // USD
-  var COUPONS = {
-    "WELCOME10": { type: "percent", value: 10 },
-    "OFF50":     { type: "flat",    value: 50 }
-  };
-  var LS_COUPON_KEY = "cart_applied_coupon";
+const coupons = {
+  'WELCOME10': { type: 'percent', value: 10 },
+  'OFF50': { type: 'flat', value: 50 }
+};
 
-  function fmt(n){ return "$" + (Math.round(n * 100) / 100).toFixed(2); }
+$(function () {
+  const $rows = $('#cart-rows');
+  const $empty = $('#empty-state');
+  let appliedCoupon = localStorage.getItem('couponCode') || '';
 
-  function getAppliedCoupon(){
-    var code = (localStorage.getItem(LS_COUPON_KEY) || "").trim().toUpperCase();
-    return code && COUPONS[code] ? { code: code, rule: COUPONS[code] } : null;
-  }
-  function setAppliedCoupon(code){
-    if(code){ localStorage.setItem(LS_COUPON_KEY, code.toUpperCase()); }
-    else { localStorage.removeItem(LS_COUPON_KEY); }
-  }
-  function computeDiscount(subtotal){
-    var applied = getAppliedCoupon();
-    if(!applied) return { amount: 0, label: "" };
-    var rule = applied.rule, val = 0;
-    if(rule.type === "percent") val = subtotal * (rule.value/100);
-    if(rule.type === "flat")    val = rule.value;
-    return { amount: Math.min(val, subtotal), label: applied.code };
+  function formatCurrency(n) {
+    return '$' + Number(n).toFixed(2);
   }
 
-  function renderCart(){
-    var $rows = $("#cart-rows").empty();
-    var count = simpleCart.quantity();
-    $("#cart-count").text(count);
+  function fmt(n) {
+    return formatCurrency(n);
+  }
 
-    $("#checkout-btn").prop("disabled", count === 0);
-
-    if(count === 0){
-      $("#empty-state").removeClass("hidden");
-      $(".cart-head").addClass("hidden");
-    } else {
-      $("#empty-state").addClass("hidden");
-      $(".cart-head").removeClass("hidden");
+  function renderItems() {
+    const items = simpleCart.items();
+    $rows.empty();
+    if (items.length === 0) {
+      $('.cart-head').addClass('hidden');
+      $empty.removeClass('hidden');
+      $('#cart-count').text(0);
+      return;
     }
+    $('.cart-head').removeClass('hidden');
+    $empty.addClass('hidden');
 
-    simpleCart.each(function(item){
-      var id     = item.id();
-      var name   = item.get("name") || "Product";
-      var price  = +item.get("price") || 0;
-      var image  = item.get("image") || "/assets/img/products/placeholder.jpg";
-      var desc   = item.get("description") || "";
-      var qty    = item.quantity();
-      var total  = price * qty;
+    items.forEach(item => {
+      const row = $('<div class="row"></div>').attr('data-id', item.id());
 
-      var $row = $('<div class="row" data-id="'+id+'">\
-        <div class="item">\
-          <img class="thumb" alt="'+$("<div>").text(name).html()+'" src="'+image+'">\
-          <div class="stack">\
-            <div class="title">'+name+'</div>\
-            <div class="meta">'+desc+'</div>\
-          </div>\
-          <span class="remove" title="Remove" aria-label="Remove" role="button">&times;</span>\
-        </div>\
-        <div class="price hide-sm">'+fmt(price)+'</div>\
-        <div class="qty">\
-          <button class="btn-minus" aria-label="Decrease">−</button>\
-          <input class="qty-input" type="number" min="0" step="1" value="'+qty+'">\
-          <button class="btn-plus" aria-label="Increase">+</button>\
-        </div>\
-        <div class="line-total">'+fmt(total)+'</div>\
-      </div>');
+      const itemCol = $('<div class="item"></div>');
+      const thumb = $('<img class="thumb" alt="">').attr('src', item.get('thumb') || item.get('image') || '').attr('alt', item.get('name'));
+      const info = $('<div class="info"></div>');
+      const title = $('<div class="title"></div>').text(item.get('name'));
+      const metaText = item.get('description') || item.get('meta') || '';
+      const meta = $('<div class="meta"></div>').text(metaText);
+      info.append(title);
+      if (metaText) info.append(meta);
+      itemCol.append(thumb, info);
 
-      $rows.append($row);
+      const priceCol = $('<div class="price"></div>').text(formatCurrency(item.get('price')));
+
+      const qtyCol = $('<div class="qty"></div>');
+      const minus = $('<button type="button">-</button>');
+      const qtyInput = $('<input type="text" inputmode="numeric">').val(item.get('quantity'));
+      const plus = $('<button type="button">+</button>');
+      qtyCol.append(minus, qtyInput, plus);
+
+      const totalCol = $('<div class="line-total"></div>').text(formatCurrency(item.total()));
+
+      const removeCol = $('<div class="remove" title="Remove">×</div>');
+
+      row.append(itemCol, priceCol, qtyCol, totalCol, removeCol);
+      $rows.append(row);
+
+      minus.on('click', function () {
+        const q = item.get('quantity') - 1;
+        if (q <= 0) item.remove();
+        else item.set('quantity', q);
+        simpleCart.update();
+      });
+      plus.on('click', function () {
+        item.set('quantity', item.get('quantity') + 1);
+        simpleCart.update();
+      });
+      qtyInput.on('change', function () {
+        let val = parseInt(qtyInput.val(), 10);
+        if (isNaN(val) || val <= 0) {
+          item.remove();
+        } else {
+          item.set('quantity', val);
+        }
+        simpleCart.update();
+      });
+      removeCol.on('click', function () {
+        item.remove();
+        simpleCart.update();
+      });
     });
 
-    updateSummary();
+    $('#cart-count').text(simpleCart.quantity());
+  }
+
+  function computeDiscount(subtotal) {
+    if (!appliedCoupon || !coupons[appliedCoupon]) return { amount: 0, label: '' };
+    const c = coupons[appliedCoupon];
+    let amount = c.type === 'percent' ? subtotal * (c.value / 100) : c.value;
+    amount = Math.min(amount, subtotal);
+    return { amount, label: appliedCoupon };
   }
 
   function updateSummary(){
-    var subtotal = +simpleCart.total() || 0; // <-- correct API for this build
+    var subtotal = +simpleCart.total() || 0;
 
     var discountObj = computeDiscount(subtotal);
     var discount = discountObj.amount;
@@ -88,91 +105,71 @@
     var tax = taxBase * TAX_RATE;
     var grand = Math.max(0, taxBase + tax);
 
-    $("#summary-subtotal").text(fmt(subtotal));
-    if(discount > 0){
-      $("#discount-line").removeClass("hidden");
-      $("#summary-discount").text("-" + fmt(discount).replace("$","$"));
-      $("#coupon-msg").text("Applied: " + discountObj.label);
-    }else{
-      $("#discount-line").addClass("hidden");
-      $("#coupon-msg").text("");
+    $('#summary-subtotal').text(fmt(subtotal));
+
+    if (discount > 0){
+      $('#discount-line').removeClass('hidden');
+      $('#summary-discount').text('-' + fmt(discount).replace('$','$'));
+      $('#coupon-msg').text('Applied: ' + discountObj.label).css('color','var(--brand-success)');
+    } else {
+      $('#discount-line').addClass('hidden');
+      $('#coupon-msg').text('').css('color','');
     }
-    $("#summary-tax").text(fmt(tax));
-    $("#summary-grand").text(fmt(grand));
+
+    $('#summary-tax').text(fmt(tax));
+    $('#summary-grand').text(fmt(grand));
 
     var progress = Math.max(0, Math.min(100, (subtotal / FREE_SHIP_THRESHOLD) * 100));
-    $("#fs-bar").css("width", progress + "%");
-    if(subtotal >= FREE_SHIP_THRESHOLD){
-      $("#fs-msg").text("Congrats, you're eligible for Free Shipping");
+    $('#fs-bar').css('width', progress + '%');
+    if (subtotal >= FREE_SHIP_THRESHOLD){
+      $('#fs-msg').text("Congrats, you're eligible for Free Shipping");
     } else {
       var remain = FREE_SHIP_THRESHOLD - subtotal;
-      $("#fs-msg").text("Spend " + fmt(remain) + " more to get Free Shipping");
+      $('#fs-msg').text('Spend ' + fmt(remain) + ' more to get Free Shipping');
     }
   }
 
-  function applyCoupon(code){
-    code = (code || "").trim().toUpperCase();
-    if(!code){
-      $("#coupon-msg").text("Enter a code."); setAppliedCoupon(null); updateSummary(); return;
-    }
-    if(!COUPONS[code]){
-      $("#coupon-msg").text("Invalid code."); setAppliedCoupon(null);
-    } else {
-      $("#coupon-msg").text("Applied: " + code); setAppliedCoupon(code);
-    }
+  function renderCart() {
+    renderItems();
     updateSummary();
   }
 
-  // Events
-  $(document)
-    .on("click", ".btn-plus", function(){
-      var id = $(this).closest(".row").data("id");
-      var item = simpleCart.find({ id: id })[0];
-      if(item){ item.increment(); renderCart(); }
-    })
-    .on("click", ".btn-minus", function(){
-      var id = $(this).closest(".row").data("id");
-      var item = simpleCart.find({ id: id })[0];
-      if(item){
-        if(item.quantity() <= 1){ item.remove(); }
-        else { item.decrement(); }
-        renderCart();
-      }
-    })
-    .on("change", ".qty-input", function(){
-      var id = $(this).closest(".row").data("id");
-      var val = Math.max(0, parseInt($(this).val(), 10) || 0);
-      var item = simpleCart.find({ id: id })[0];
-      if(item){
-        if(val <= 0) item.remove();
-        else item.quantity(val);
-        renderCart();
-      }
-    })
-    .on("click", ".remove", function(){
-      var id = $(this).closest(".row").data("id");
-      var item = simpleCart.find({ id: id })[0];
-      if(item){ item.remove(); renderCart(); }
-    });
-
-  $("#apply-coupon").on("click", function(){ applyCoupon($("#coupon-input").val()); });
-  $("#coupon-input").on("keypress", function(e){ if(e.which === 13){ $("#apply-coupon").click(); } });
-
-  $("#checkout-btn").on("click", function(){
-    try{
-      if(typeof simpleCart.checkout === "function"){ simpleCart.checkout(); }
-      else { alert("Checkout not configured in this demo.\nTotal: " + $("#summary-grand").text()); }
-    }catch(err){
-      console.error(err); alert("Checkout is unavailable right now.");
+  $('#apply-coupon').on('click', function () {
+    const code = $('#coupon-input').val().trim().toUpperCase();
+    if (!code) return;
+    if (!coupons[code]) {
+      appliedCoupon = '';
+      localStorage.removeItem('couponCode');
+      renderCart();
+      $('#coupon-msg').text('Invalid coupon code').css('color', 'var(--brand-danger)');
+    } else {
+      appliedCoupon = code;
+      localStorage.setItem('couponCode', code);
+      renderCart();
     }
   });
 
-  // Bind to simpleCart lifecycle
-  simpleCart.bind("ready", renderCart);
-  simpleCart.bind("update", renderCart);
-  simpleCart.bind("afterAdd", renderCart);
+  if (appliedCoupon) {
+    $('#coupon-input').val(appliedCoupon);
+  }
 
-  // Initial render after DOM ready
-  $(function(){ var c = getAppliedCoupon(); if(c){ $("#coupon-input").val(c.code); } renderCart(); });
+  $('#checkout-btn').on('click', function () {
+    try {
+      simpleCart.checkout();
+    } catch (e) {
+      const items = [];
+      simpleCart.each(function (item) {
+        items.push({ name: item.get('name'), price: item.get('price'), quantity: item.get('quantity') });
+      });
+      if (window.location.pathname !== '/checkout.html') {
+        window.location.href = '/checkout.html';
+      } else {
+        alert('TODO: Configure checkout\n\n' + JSON.stringify(items));
+      }
+    }
+  });
 
-})(jQuery);
+  simpleCart.bind('update', renderCart);
+  simpleCart.bind('ready', renderCart);
+  simpleCart.bind('afterAdd', renderCart);
+});
