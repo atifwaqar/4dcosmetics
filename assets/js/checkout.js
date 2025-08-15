@@ -4,36 +4,11 @@ const Checkout = {
   config: null,
   async init(){
     this.config = await fetch('/payments-config.json').then(r=>r.json()).catch(()=>null);
-    this.initTabs();
     const url = new URL(window.location);
     if (url.searchParams.get('cancel') === '1'){
       const fb = document.getElementById('pm-feedback');
       if (fb) fb.textContent = 'Payment was canceled. You can try another method.';
     }
-  },
-  initTabs(){
-    const tabs = document.querySelectorAll('.pm-tabs [role="tab"]');
-    const panels = document.querySelectorAll('.pm-section [role="tabpanel"]');
-    function activate(tab){
-      tabs.forEach(t=>{
-        const sel = t===tab;
-        t.setAttribute('aria-selected', sel);
-        const panel = document.getElementById(t.getAttribute('aria-controls'));
-        if(panel) panel.hidden = !sel;
-      });
-    }
-    tabs.forEach(tab=>{
-      tab.addEventListener('click', ()=>activate(tab));
-      tab.addEventListener('keydown', e=>{
-        if(e.key==='ArrowRight' || e.key==='ArrowLeft'){
-          let idx=[...tabs].indexOf(tab);
-          idx = e.key==='ArrowRight'? (idx+1)%tabs.length : (idx-1+tabs.length)%tabs.length;
-          tabs[idx].focus();
-          activate(tabs[idx]);
-        }
-      });
-    });
-    if(tabs[0]) activate(tabs[0]);
   },
   async start(order, method){
     if(!this.config) await this.init();
@@ -50,7 +25,7 @@ const Checkout = {
     }
     const notes = document.getElementById('checkout-notes');
     let ord = order;
-    if(method !== 'paypal' && order.currency !== 'PKR'){
+    if(order.currency !== 'PKR'){
       ord = toPKR(order, this.config.pkConversionRate);
       if(notes) notes.textContent = `Charged in PKR at 1 USD = ${this.config.pkConversionRate} PKR (est.).`;
     } else if(notes){ notes.textContent = ''; }
