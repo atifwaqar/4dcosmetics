@@ -7,13 +7,6 @@
     "cancel": "/cart.html"
   },
   "providers": {
-    "paypal": {
-      "type": "hosted",
-      "mode": "redirect",
-      "serverless": {
-        "createUrl": "https://YOUR_FUNCTION_DOMAIN/paypal/create-order"
-      }
-    },
     "hblpay": {
       "type": "hosted",
       "mode": "server-init",

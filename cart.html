@@ -92,37 +92,17 @@
         <section id="payment-methods" aria-labelledby="pm-title" class="pm-section">
           <h2 id="pm-title">Payment method</h2>
 
-          <!-- Tabs -->
-          <div class="pm-tabs" role="tablist" aria-label="Checkout methods">
-            <button role="tab" aria-selected="true" id="tab-international" aria-controls="panel-international">International</button>
-            <button role="tab" aria-selected="false" id="tab-pakistan" aria-controls="panel-pakistan">Pakistan</button>
-            <button role="tab" aria-selected="false" id="tab-offline" aria-controls="panel-offline">Offline</button>
-          </div>
-
-          <!-- International panel -->
-          <div role="tabpanel" id="panel-international" aria-labelledby="tab-international">
-            <label class="pm-option">
-              <input type="radio" name="pm" value="paypal" checked>
-              <span>PayPal</span>
-            </label>
-          </div>
-
-          <!-- Pakistan panel -->
-          <div role="tabpanel" id="panel-pakistan" aria-labelledby="tab-pakistan" hidden>
-            <label class="pm-option"><input type="radio" name="pm" value="hblpay"> HBLPay (Visa / Master / Debit)</label>
+          <div class="pm-options" role="radiogroup" aria-label="Payment methods">
+            <label class="pm-option"><input type="radio" name="pm" value="hblpay" checked> HBLPay (Visa / Master / Debit)</label>
             <label class="pm-option"><input type="radio" name="pm" value="easypaisa"> Easypaisa (Hosted)</label>
             <label class="pm-option"><input type="radio" name="pm" value="jazzcash"> JazzCash (Hosted)</label>
             <label class="pm-option"><input type="radio" name="pm" value="payfast"> PayFast (Aggregator)</label>
             <label class="pm-option"><input type="radio" name="pm" value="paypro"> PayPro (Aggregator)</label>
             <label class="pm-option"><input type="radio" name="pm" value="bsecure"> bSecure (Aggregator)</label>
             <label class="pm-option"><input type="radio" name="pm" value="nift"> NIFT ePay</label>
-            <small class="pm-note">Local gateways charge in PKR. A conversion line will be shown if your cart is in USD.</small>
-          </div>
-
-          <!-- Offline panel -->
-          <div role="tabpanel" id="panel-offline" aria-labelledby="tab-offline" hidden>
             <label class="pm-option"><input type="radio" name="pm" value="bank"> Bank Transfer</label>
             <label class="pm-option"><input type="radio" name="pm" value="cod"> Cash on Delivery</label>
+            <small class="pm-note">Local gateways charge in PKR. A conversion line will be shown if your cart is in USD.</small>
           </div>
 
           <div id="pm-feedback" class="pm-feedback" role="status" aria-live="polite"></div>
