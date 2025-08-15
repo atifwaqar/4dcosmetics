@@ -24,91 +24,64 @@
     <h1>Your Cart (<span id="cart-count">0</span> items)</h1>
 
     <section class="cart-items">
-      <div id="cart-rows" class="cart-rows"><!-- JS renders rows --></div>
+      <div class="cart-head row">
+        <div>Item</div>
+        <div class="hide-sm">Price</div>
+        <div>Quantity</div>
+        <div>Total</div>
+        <div></div>
+      </div>
+      <div id="cart-rows" class="cart-rows">
+        <!-- JS renders rows here -->
+      </div>
 
       <div id="empty-state" class="empty hidden">
         <p>Your cart is empty.</p>
         <a class="btn btn-primary" href="/products.html">Continue shopping</a>
       </div>
-
-      <section id="saved-for-later" class="saved hidden">
-        <h2>Saved for later</h2>
-        <div class="saved-rows"></div>
-      </section>
     </section>
 
     <aside class="cart-summary">
       <div class="card">
-        <h2>Order Summary</h2>
         <div class="summary-line">
           <span>Subtotal:</span>
-          <span id="subtotal-value">$0.00</span>
-        </div>
-        <div id="discount-row" class="summary-line hidden">
-          <span>Discount:</span>
-          <span id="discount-value">-$0.00</span>
-        </div>
-        <div class="summary-line">
-          <span>Shipping:</span>
-          <span id="shipping-value">$0.00</span>
-        </div>
-        <div class="summary-line">
-          <span>Tax:</span>
-          <span id="tax-value">$0.00</span>
-        </div>
-        <div class="summary-line grand-total">
-          <strong>Total:</strong>
-          <strong id="grandtotal-value">$0.00</strong>
+          <span id="summary-subtotal">$0.00</span>
         </div>
 
-        <div class="coupon-block">
+        <div id="coupon-block" class="coupon-block">
           <label for="coupon-input">Coupon Code</label>
           <div class="coupon-row">
             <input id="coupon-input" type="text" placeholder="Enter code">
-            <button id="coupon-apply" class="btn btn-outline">Apply</button>
+            <button id="apply-coupon" class="btn btn-outline">Apply</button>
           </div>
-          <div id="coupon-feedback" aria-live="polite" class="coupon-msg"></div>
-          <div id="coupon-chip" class="coupon-chip hidden"><span class="code"></span><button type="button" aria-label="Remove coupon">×</button></div>
+          <div id="coupon-msg" class="coupon-msg"></div>
+          <div id="discount-line" class="summary-line hidden">
+            <span>Discount:</span>
+            <span id="summary-discount">-$0.00</span>
+          </div>
         </div>
 
-        <div id="shipping-methods" class="ship-block">
-          <h2>Shipping</h2>
-          <label class="ship-option"><input type="radio" name="shippingMethod" value="standard6_99" checked> <span>Standard $6.99</span><small class="eta"></small></label>
-          <label class="ship-option"><input type="radio" name="shippingMethod" value="free_standard" disabled> <span>Free Standard (4–6 business days) <em class="helper">Free over $100</em></span><small class="eta"></small></label>
-          <label class="ship-option"><input type="radio" name="shippingMethod" value="express9_99"> <span>Express $9.99</span><small class="eta"></small></label>
-          <label class="ship-option"><input type="radio" name="shippingMethod" value="overnight24_99"> <span>Overnight $24.99</span><small class="eta"></small></label>
+        <div class="summary-line">
+          <span>Sales Tax (10%):</span>
+          <span id="summary-tax">$0.00</span>
+        </div>
+
+        <div class="grand-total">
+          <div>Grand total:</div>
+          <div id="summary-grand" class="grand-amount">$0.00</div>
         </div>
 
         <div class="free-ship">
-          <div id="fs-text" class="fs-msg">You're $100.00 away from free shipping</div>
-          <div class="progress"><div id="fs-bar" class="progress-bar" style="width:0%"></div></div>
+          <div id="fs-msg" class="fs-msg">Spend $100.00 more to get Free Shipping</div>
+          <div class="progress">
+            <div id="fs-bar" class="progress-bar" style="width:0%"></div>
+          </div>
         </div>
 
         <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
       </div>
     </aside>
   </main>
-
-  <div id="mobile-cta" class="mobile-cta">
-    <div class="mobile-total"><span>Total</span><span id="mobile-total">$0.00</span></div>
-    <button id="mobile-checkout" class="btn btn-primary w-100">Proceed to Checkout</button>
-  </div>
-
-  <div id="checkout-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
-    <div class="modal-content" tabindex="-1">
-      <h2 id="checkout-title">Order Summary</h2>
-      <div id="modal-items"></div>
-      <div id="modal-totals"></div>
-      <div class="modal-actions">
-        <button id="modal-email" class="btn btn-primary">Proceed via Email</button>
-        <button id="modal-copy" class="btn btn-outline">Copy order summary</button>
-        <button id="modal-cancel" class="btn">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="live-updates" role="status" aria-live="polite" class="visually-hidden"></div>
-  <div id="toast-region" role="status" aria-live="polite" class="toast-region"></div>
 
   <footer class="site-footer">
     <div class="container">
