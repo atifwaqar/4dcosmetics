@@ -15,6 +15,10 @@ $(function () {
     return '$' + Number(n).toFixed(2);
   }
 
+  function fmt(n) {
+    return formatCurrency(n);
+  }
+
   function renderItems() {
     const items = simpleCart.items();
     $rows.empty();
@@ -83,44 +87,49 @@ $(function () {
     $('#cart-count').text(simpleCart.quantity());
   }
 
-  function discountAmount(subtotal) {
-    if (!appliedCoupon || !coupons[appliedCoupon]) return 0;
+  function computeDiscount(subtotal) {
+    if (!appliedCoupon || !coupons[appliedCoupon]) return { amount: 0, label: '' };
     const c = coupons[appliedCoupon];
-    let val = 0;
-    if (c.type === 'percent') val = subtotal * (c.value / 100);
-    else val = c.value;
-    return Math.min(val, subtotal);
+    let amount = c.type === 'percent' ? subtotal * (c.value / 100) : c.value;
+    amount = Math.min(amount, subtotal);
+    return { amount, label: appliedCoupon };
   }
 
-  function updateSummary() {
-    const subtotal = simpleCart.subtotal();
-    $('#summary-subtotal').text(formatCurrency(subtotal));
+  function updateSummary(){
+    var subtotal = +simpleCart.total() || 0;
 
-    const discount = discountAmount(subtotal);
-    if (discount > 0) {
+    var discountObj = computeDiscount(subtotal);
+    var discount = discountObj.amount;
+
+    var taxBase = Math.max(0, subtotal - discount);
+    var tax = taxBase * TAX_RATE;
+    var grand = Math.max(0, taxBase + tax);
+
+    $('#summary-subtotal').text(fmt(subtotal));
+
+    if (discount > 0){
       $('#discount-line').removeClass('hidden');
-      $('#summary-discount').text('-' + formatCurrency(discount));
+      $('#summary-discount').text('-' + fmt(discount).replace('$','$'));
+      $('#coupon-msg').text('Applied: ' + discountObj.label).css('color','var(--brand-success)');
     } else {
       $('#discount-line').addClass('hidden');
+      $('#coupon-msg').text('').css('color','');
     }
 
-    const tax = (subtotal - discount) * TAX_RATE;
-    $('#summary-tax').text(formatCurrency(tax));
+    $('#summary-tax').text(fmt(tax));
+    $('#summary-grand').text(fmt(grand));
 
-    const grand = Math.max(0, subtotal - discount + tax);
-    $('#summary-grand').text(formatCurrency(grand));
-
-    const remain = FREE_SHIP_THRESHOLD - subtotal;
-    const pct = Math.min(100, (subtotal / FREE_SHIP_THRESHOLD) * 100);
-    $('#fs-bar').css('width', pct + '%');
-    if (remain > 0) {
-      $('#fs-msg').text(`Spend ${formatCurrency(remain)} more to get Free Shipping`);
+    var progress = Math.max(0, Math.min(100, (subtotal / FREE_SHIP_THRESHOLD) * 100));
+    $('#fs-bar').css('width', progress + '%');
+    if (subtotal >= FREE_SHIP_THRESHOLD){
+      $('#fs-msg').text("Congrats, you're eligible for Free Shipping");
     } else {
-      $('#fs-msg').text(`Congrats, you're eligible for Free Shipping`);
+      var remain = FREE_SHIP_THRESHOLD - subtotal;
+      $('#fs-msg').text('Spend ' + fmt(remain) + ' more to get Free Shipping');
     }
   }
 
-  function render() {
+  function renderCart() {
     renderItems();
     updateSummary();
   }
@@ -129,20 +138,19 @@ $(function () {
     const code = $('#coupon-input').val().trim().toUpperCase();
     if (!code) return;
     if (!coupons[code]) {
-      $('#coupon-msg').text('Invalid coupon code').css('color', 'var(--brand-danger)');
       appliedCoupon = '';
       localStorage.removeItem('couponCode');
+      renderCart();
+      $('#coupon-msg').text('Invalid coupon code').css('color', 'var(--brand-danger)');
     } else {
       appliedCoupon = code;
       localStorage.setItem('couponCode', code);
-      $('#coupon-msg').text(`Coupon ${code} applied`).css('color', 'var(--brand-success)');
+      renderCart();
     }
-    render();
   });
 
   if (appliedCoupon) {
     $('#coupon-input').val(appliedCoupon);
-    $('#coupon-msg').text(`Coupon ${appliedCoupon} applied`).css('color', 'var(--brand-success)');
   }
 
   $('#checkout-btn').on('click', function () {
@@ -161,12 +169,7 @@ $(function () {
     }
   });
 
-  simpleCart.bind('update', function () {
-    render();
-  });
-  simpleCart.bind('ready', function () {
-    render();
-  });
-
-  render();
+  simpleCart.bind('update', renderCart);
+  simpleCart.bind('ready', renderCart);
+  simpleCart.bind('afterAdd', renderCart);
 });
