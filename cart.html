@@ -1,80 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart - 4D Cosmetics</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="./assets/css/custom.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Your Cart • 4D Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/cart.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <header class="site-header">
     <div class="container">
-      <a class="navbar-brand" href="index.html">4D Cosmetics</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link active" href="cart.html">Cart (<span class="simpleCart_quantity">0</span>)</a></li>
-        </ul>
-      </div>
+      <a class="brand" href="/"><span class="brand-mark">4D</span> Cosmetics</a>
+      <nav class="nav">
+        <a href="/products.html">Products</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/cart.html" class="active">Cart</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <section class="py-5">
+  <main class="container cart-layout">
+    <h1>Your Cart (<span id="cart-count">0</span> items)</h1>
+
+    <section class="cart-items">
+      <div class="cart-head row">
+        <div>Item</div>
+        <div class="hide-sm">Price</div>
+        <div>Quantity</div>
+        <div>Total</div>
+        <div></div>
+      </div>
+      <div id="cart-rows" class="cart-rows">
+        <!-- JS renders rows here -->
+      </div>
+
+      <div id="empty-state" class="empty hidden">
+        <p>Your cart is empty.</p>
+        <a class="btn btn-primary" href="/products.html">Continue shopping</a>
+      </div>
+    </section>
+
+    <aside class="cart-summary">
+      <div class="card">
+        <div class="summary-line">
+          <span>Subtotal:</span>
+          <span id="summary-subtotal">$0.00</span>
+        </div>
+
+        <div id="coupon-block" class="coupon-block">
+          <label for="coupon-input">Coupon Code</label>
+          <div class="coupon-row">
+            <input id="coupon-input" type="text" placeholder="Enter code">
+            <button id="apply-coupon" class="btn btn-outline">Apply</button>
+          </div>
+          <div id="coupon-msg" class="coupon-msg"></div>
+          <div id="discount-line" class="summary-line hidden">
+            <span>Discount:</span>
+            <span id="summary-discount">-$0.00</span>
+          </div>
+        </div>
+
+        <div class="summary-line">
+          <span>Sales Tax (10%):</span>
+          <span id="summary-tax">$0.00</span>
+        </div>
+
+        <div class="grand-total">
+          <div>Grand total:</div>
+          <div id="summary-grand" class="grand-amount">$0.00</div>
+        </div>
+
+        <div class="free-ship">
+          <div id="fs-msg" class="fs-msg">Spend $100.00 more to get Free Shipping</div>
+          <div class="progress">
+            <div id="fs-bar" class="progress-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
     <div class="container">
-      <h1 class="mb-4 text-center">Your Cart</h1>
-      <div class="simpleCart_items mb-4"></div>
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <strong>Total: <span class="simpleCart_total"></span></strong>
-        <div>
-          <a href="javascript:;" class="btn btn-danger simpleCart_empty me-2">Empty Cart</a>
-        </div>
-      </div>
-      <h2 class="mb-3">Checkout</h2>
-      <form id="order-form" action="https://formspree.io/f/mayldwqe" method="POST">
-        <input type="hidden" name="order" id="order">
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          <input type="text" name="name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Phone</label>
-          <input type="tel" name="phone" class="form-control" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Address</label>
-          <textarea name="address" class="form-control" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Submit Order</button>
-      </form>
-    </div>
-  </section>
-
-  <footer class="py-4 mt-5">
-    <div class="container text-center">
-      <p class="mb-2">© 4D Cosmetics</p>
-      <a href="privacy.html" class="me-3">Privacy Policy</a>
-      <a href="terms.html">Terms</a>
-      <div class="mt-2">
-        <a href="#" class="text-dark me-2"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-dark"><i class="fab fa-instagram"></i></a>
-      </div>
+      <small>© 4D Cosmetics</small>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
     </div>
   </footer>
 
-  <script src="./assets/js/jquery-2.2.4.min.js"></script>
-  <script src="./assets/js/bootstrap.bundle.min.js"></script>
-  <script src="./assets/js/simpleCart.min.js"></script>
-  <script src="./assets/js/simpleStore.js"></script>
-  <script src="./assets/js/config.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="/assets/js/simpleCart.min.js"></script>
+  <script src="/assets/js/simpleStore.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/cart-page.js"></script>
 </body>
 </html>
