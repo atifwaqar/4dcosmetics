@@ -113,7 +113,7 @@ export const Payments = {
 };
 
 export function fmt(n, ccy){
-  return new Intl.NumberFormat('en-US', {style:'currency', currency: ccy}).format(n);
+  return new Intl.NumberFormat('en-PK', {style:'currency', currency: ccy}).format(n);
 }
 
 function safeBuyer(b){
