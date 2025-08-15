@@ -52,14 +52,7 @@ or manually install using the latest [release](https://github.com/chrisdiana/sim
 
 1.Make sure simpleStore is on a web server (any type will do as long as it can serve static web pages).
 
-2.Configure your payment options in `js/config.js`.
-
-```
-checkout: {
-	type: "PayPal" ,
-	email: "you@yours.com"
-},
-```
+2.Configure your payment options in `payments-config.json`.
 
 3.Edit the `js/config.js` to your liking.
 
