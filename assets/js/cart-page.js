@@ -12,7 +12,7 @@ $(function () {
   let appliedCoupon = localStorage.getItem('couponCode') || '';
 
   function getCurrency(){
-    return (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'USD';
+    return (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'PKR';
   }
 
   function cartItems(){
@@ -40,7 +40,7 @@ $(function () {
   }
 
   function formatCurrency(n) {
-    return '$' + Number(n).toFixed(2);
+    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: getCurrency() }).format(n);
   }
 
   function fmt(n) {
@@ -139,7 +139,7 @@ $(function () {
 
     if (discount > 0){
       $('#discount-line').removeClass('hidden');
-      $('#summary-discount').text('-' + fmt(discount).replace('$','$'));
+      $('#summary-discount').text('-' + fmt(discount));
       $('#coupon-msg').text('Applied: ' + discountObj.label).css('color','var(--brand-success)');
     } else {
       $('#discount-line').addClass('hidden');
@@ -199,7 +199,7 @@ $(function () {
       coupon: appliedCoupon || null,
       shippingMethod: null,
       buyer: null,
-      fx: { base: 'USD', target: 'PKR', rate: (window.Checkout && window.Checkout.config ? window.Checkout.config.pkConversionRate : 0) }
+      fx: null
     };
     const method = $('input[name="pm"]:checked').val();
     if (window.Checkout && typeof window.Checkout.start === 'function') {
