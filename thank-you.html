@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Thank You • 4D Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/cart.css">
+  <link rel="stylesheet" href="/assets/css/checkout.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="/"> <span class="brand-mark">4D</span> Cosmetics</a>
+      <nav class="nav">
+        <a href="/products.html">Products</a>
+        <a href="/about.html">About</a>
+        <a href="/contact.html">Contact</a>
+        <a href="/cart.html">Cart</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container thankyou-layout">
+    <h1>Thank you</h1>
+    <div id="order-receipt"></div>
+    <a href="/products.html" class="btn btn-primary mt-3">Continue shopping</a>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 4D Cosmetics</small>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { fmt } from '/assets/js/payments.js';
+    const data = localStorage.getItem('4d-last-order');
+    const receipt = document.getElementById('order-receipt');
+    const url = new URL(window.location);
+    if(data){
+      const order = JSON.parse(data);
+      const pm = url.searchParams.get('pm') || '—';
+      const txn = url.searchParams.get('txn');
+      let html = `<p><strong>Order ID:</strong> ${order.id}</p>`;
+      if(txn) html += `<p><strong>Reference:</strong> ${txn}</p>`;
+      html += `<p><strong>Payment method:</strong> ${pm}</p>`;
+      html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${fmt(i.subtotal, order.currency)}</li>`).join('') + '</ul>';
+      html += `<p><strong>Total:</strong> ${fmt(order.amount, order.currency)}</p>`;
+      if(order.fx && order.fx.base !== order.currency){
+        html += `<p class="small">Base amount: ${fmt(order.fx.baseAmount, order.fx.base)} (1 USD = ${order.fx.rate} PKR)</p>`;
+      }
+      receipt.innerHTML = html;
+    } else {
+      receipt.innerHTML = '<p>Thank you for your purchase.</p>';
+    }
+  </script>
+</body>
+</html>
