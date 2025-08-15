@@ -1,7 +1,0 @@
-.pm-tabs{display:flex;gap:.5rem;margin:.5rem 0;}
-.pm-tabs button{padding:.4rem .75rem;border:1px solid #ccc;background:#f8f8f8;cursor:pointer;}
-.pm-tabs button[aria-selected="true"]{background:#fff;border-bottom:2px solid var(--brand-primary,#333);}
-.pm-tabs button:focus{outline:2px solid var(--brand-primary,#333);outline-offset:2px;}
-.pm-option{display:block;margin:.25rem 0;}
-.pm-feedback{margin-top:.5rem;color:var(--brand-danger,#c00);}
-.checkout-notes{margin-top:.5rem;font-size:.9rem;color:#555;}
