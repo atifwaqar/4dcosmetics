@@ -1,0 +1,44 @@
+/* Custom styles for 4D Cosmetics */
+body {
+  background-color: #F7F9FC;
+  color: #263238;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: #263238;
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.btn-primary { background-color: #1E88E5; border-color: #1E88E5; }
+.btn-primary:hover { background-color: #1565C0; border-color: #1565C0; }
+.btn-success { background-color: #43A047; border-color: #43A047; }
+.btn-danger { background-color: #E53935; border-color: #E53935; }
+.btn-warning { background-color: #FB8C00; border-color: #FB8C00; }
+
+footer {
+  background: #fff;
+  color: #263238;
+}
+footer a {
+  color: #1E88E5;
+  text-decoration: none;
+}
+footer a:hover { text-decoration: underline; }
+
+.hero {
+  background-size: cover;
+  background-position: center;
+  padding: 120px 0;
+  color: #fff;
+  text-align: center;
+}
+
+.card .item_price {
+  font-weight: bold;
+}
