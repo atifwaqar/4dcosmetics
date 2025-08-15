@@ -11,34 +11,6 @@ $(function () {
   const $empty = $('#empty-state');
   let appliedCoupon = localStorage.getItem('couponCode') || '';
 
-  function getCurrency(){
-    return (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'USD';
-  }
-
-  function cartItems(){
-    const items = [];
-    simpleCart.each(function (item){
-      items.push({
-        id: item.id(),
-        name: item.get('name'),
-        quantity: item.get('quantity'),
-        unit: +item.get('price'),
-        subtotal: +item.total()
-      });
-    });
-    return items;
-  }
-
-  function getTotals(){
-    const subtotal = +simpleCart.total() || 0;
-    const discountObj = computeDiscount(subtotal);
-    const discount = discountObj.amount;
-    const taxBase = Math.max(0, subtotal - discount);
-    const tax = taxBase * TAX_RATE;
-    const grand = Math.max(0, taxBase + tax);
-    return { subtotal, discount, tax, shipping: 0, grandTotal: grand };
-  }
-
   function formatCurrency(n) {
     return '$' + Number(n).toFixed(2);
   }
@@ -54,12 +26,10 @@ $(function () {
       $('.cart-head').addClass('hidden');
       $empty.removeClass('hidden');
       $('#cart-count').text(0);
-      $('#checkout-btn').prop('disabled', true);
       return;
     }
     $('.cart-head').removeClass('hidden');
     $empty.addClass('hidden');
-    $('#checkout-btn').prop('disabled', false);
 
     items.forEach(item => {
       const row = $('<div class="row"></div>').attr('data-id', item.id());
@@ -184,26 +154,18 @@ $(function () {
   }
 
   $('#checkout-btn').on('click', function () {
-    const items = cartItems();
-    if (items.length === 0) return;
-    const totals = getTotals();
-    const order = {
-      id: 'ORD-' + Date.now(),
-      currency: getCurrency(),
-      items: items,
-      amount: totals.grandTotal,
-      subtotal: totals.subtotal,
-      discount: totals.discount,
-      shipping: totals.shipping,
-      tax: totals.tax,
-      coupon: appliedCoupon || null,
-      shippingMethod: null,
-      buyer: null,
-      fx: { base: 'USD', target: 'PKR', rate: (window.Checkout && window.Checkout.config ? window.Checkout.config.pkConversionRate : 0) }
-    };
-    const method = $('input[name="pm"]:checked').val();
-    if (window.Checkout && typeof window.Checkout.start === 'function') {
-      window.Checkout.start(order, method);
+    try {
+      simpleCart.checkout();
+    } catch (e) {
+      const items = [];
+      simpleCart.each(function (item) {
+        items.push({ name: item.get('name'), price: item.get('price'), quantity: item.get('quantity') });
+      });
+      if (window.location.pathname !== '/checkout.html') {
+        window.location.href = '/checkout.html';
+      } else {
+        alert('TODO: Configure checkout\n\n' + JSON.stringify(items));
+      }
     }
   });
 
