@@ -69,7 +69,7 @@
       html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${fmt(i.subtotal, order.currency)}</li>`).join('') + '</ul>';
       html += `<p><strong>Total:</strong> ${fmt(order.amount, order.currency)}</p>`;
       if(order.fx && order.fx.base !== order.currency){
-        html += `<p class="small">Base amount: ${fmt(order.fx.baseAmount, order.fx.base)} (1 USD = ${order.fx.rate} PKR)</p>`;
+        html += `<p class="small">Base amount: ${fmt(order.fx.baseAmount, order.fx.base)} (1 ${order.fx.base} = ${order.fx.rate} ${order.fx.target})</p>`;
       }
       receipt.innerHTML = html;
     } else {

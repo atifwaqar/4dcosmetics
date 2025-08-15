@@ -27,7 +27,7 @@ const Checkout = {
     let ord = order;
     if(order.currency !== 'PKR'){
       ord = toPKR(order, this.config.pkConversionRate);
-      if(notes) notes.textContent = `Charged in PKR at 1 USD = ${this.config.pkConversionRate} PKR (est.).`;
+      if(notes) notes.textContent = `Charged in PKR at 1 ${order.currency} = ${this.config.pkConversionRate} PKR (est.).`;
     } else if(notes){ notes.textContent = ''; }
 
     const returnUrls = {
