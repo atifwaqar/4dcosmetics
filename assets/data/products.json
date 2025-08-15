@@ -4,35 +4,35 @@
       "id": "LIP001",
       "name": "Velvet Matte Lipstick",
       "price": 19.99,
-      "image": "./assets/img/products/lipstick.svg",
+      "image": "./assets/img/products/lipstick.jpeg",
       "description": "Rich color with a creamy matte finish."
     },
     {
       "id": "FND001",
       "name": "Hydrating Foundation",
       "price": 29.99,
-      "image": "./assets/img/products/foundation.svg",
+      "image": "./assets/img/products/foundation.jpeg",
       "description": "Lightweight foundation for a natural glow."
     },
     {
       "id": "SER001",
       "name": "Vitamin C Serum",
       "price": 24.99,
-      "image": "./assets/img/products/serum.svg",
+      "image": "./assets/img/products/serum.jpeg",
       "description": "Brightens skin with powerful antioxidants."
     },
     {
       "id": "CRM001",
       "name": "Moisturizing Cream",
       "price": 34.99,
-      "image": "./assets/img/products/cream.svg",
+      "image": "./assets/img/products/cream.jpeg",
       "description": "Hydrates deeply for smooth, soft skin."
     },
     {
       "id": "PRF001",
       "name": "Blossom Perfume",
       "price": 39.99,
-      "image": "./assets/img/products/perfume.svg",
+      "image": "./assets/img/products/perfume.jpeg",
       "description": "Floral fragrance with fresh notes."
     }
   ]
