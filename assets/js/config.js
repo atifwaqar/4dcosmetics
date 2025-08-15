@@ -11,10 +11,6 @@ $(function() {
       { view: "remove", text: "Remove", label: false }
     ],
     cartStyle: "div",
-    checkout: {
-      type: "PayPal",
-      email: "you@yours.com"
-    },
     currency: "USD"
   });
 

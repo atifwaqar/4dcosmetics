@@ -1,23 +1,4 @@
 export const Payments = {
-  paypal: {
-    needsServer: true,
-    async start(order, cfg, returnUrls){
-      const res = await fetch(cfg.serverless.createUrl, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ order, returnUrls })
-      });
-      return await res.json();
-      /*
-      // Example serverless handler (Express style)
-      // app.post('/paypal/create-order', async (req,res)=>{
-      //   const { order, returnUrls } = req.body;
-      //   // call PayPal API with secrets
-      //   res.json({ redirectUrl: 'https://paypal.com/checkout?token=...' });
-      // });
-      */
-    }
-  },
   hblpay: {
     needsServer: true,
     async start(order, cfg, returnUrls){
