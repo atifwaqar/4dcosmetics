@@ -21,10 +21,11 @@
     </div>
   </header>
 
-  <main class="container cart-layout">
+  <main class="container">
     <h1>Your Cart (<span id="cart-count">0</span> items)</h1>
 
-    <section class="cart-items">
+    <div class="cart-layout">
+      <section class="cart-items">
       <div class="cart-head row">
         <div>Item</div>
         <div class="hide-sm">Price</div>
@@ -40,9 +41,9 @@
         <p>Your cart is empty.</p>
         <a class="btn btn-primary" href="/products.html">Continue shopping</a>
       </div>
-    </section>
+      </section>
 
-    <aside class="cart-summary">
+      <aside class="cart-summary">
       <div class="card">
         <div class="summary-line">
           <span>Subtotal:</span>
@@ -121,7 +122,8 @@
         <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
         <div id="checkout-notes" class="checkout-notes" aria-live="polite"></div>
       </div>
-    </aside>
+      </aside>
+    </div>
   </main>
 
   <footer class="site-footer">
