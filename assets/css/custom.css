@@ -42,3 +42,16 @@ footer a:hover { text-decoration: underline; }
 .card .item_price {
   font-weight: bold;
 }
+
+.simpleCart_quantity {
+  display: inline-block;
+}
+
+.cart-bounce {
+  animation: cart-bounce 0.4s ease;
+}
+
+@keyframes cart-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
