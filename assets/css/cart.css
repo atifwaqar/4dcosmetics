@@ -79,7 +79,8 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
 }
 @media (max-width:575px){
   .cart-head{display:none}
-  .row{grid-template-columns:minmax(0,1fr) 80px 120px 80px 24px;padding:12px}
+  .row{grid-template-columns:minmax(0,1fr) 72px 72px 24px;gap:8px;padding:12px}
+  .price{display:none}
   .thumb{width:48px;height:48px}
   .qty button{padding:6px 8px}
   .qty input{width:32px}
