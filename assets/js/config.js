@@ -56,4 +56,13 @@ $(function() {
     });
     $('#order').val(JSON.stringify(items));
   });
+
+  // Animate cart count when items are added
+  simpleCart.bind('afterAdd', function() {
+    var $qty = $('.simpleCart_quantity');
+    $qty.addClass('cart-bounce');
+    setTimeout(function() {
+      $qty.removeClass('cart-bounce');
+    }, 400);
+  });
 });
