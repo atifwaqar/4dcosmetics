@@ -12,7 +12,7 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;color:var(--brand-text);font-family:Inter,system-ui,Arial,sans-serif;background:var(--brand-bg)}
 h1{font-family:"Playfair Display",serif;margin:24px 0 16px;font-size:28px}
-.container{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
+main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
 
 .site-header,.site-footer{background:#fff;border-bottom:1px solid var(--border)}
 .site-footer{border-top:1px solid var(--border);border-bottom:0;margin-top:48px}
