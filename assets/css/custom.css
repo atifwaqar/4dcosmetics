@@ -64,9 +64,3 @@ footer a:hover { text-decoration: underline; }
   gap: 0.5rem;
 }
 
-/* Prevent media overflow by enforcing minimum height */
-#playerFrame,
-.live-player,
-.youtube-section.media-hub-section {
-  min-height: 315px;
-}
