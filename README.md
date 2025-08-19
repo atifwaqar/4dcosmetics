@@ -116,3 +116,25 @@ If you do wish to contribute, please follow the [Airbnb Javascript Style Guide](
 ## List of contributors
 
 You can find the list of contributors [here](https://github.com/chrisdiana/simplestore/graphs/contributors).
+
+## QA & CI
+
+A GitHub Actions workflow (`ci.yml`) runs on pushes and pull requests. It currently checks:
+
+- **Data Integrity** – `npm run validate:data` validates `assets/data/categories.json` and `products.json` against JSON schemas in `assets/schemas/` and ensures slugs and references are consistent.
+- **Static Site Lint & Lighthouse** – placeholder jobs reserved for HTML/link checks and performance budgets.
+
+### Fixing common failures
+
+- **Schema violations**: review the error output and compare the JSON files with the corresponding schema.
+- **Missing image dimensions or broken links**: ensure each `<img>` element includes width/height and that internal links resolve to valid pages.
+
+### Adding products or categories
+
+1. Add the entry to `assets/data/categories.json` or `assets/data/products.json`.
+2. Confirm the slug is unique and URL-safe (lowercase kebab-case).
+3. Include the new URL in `sitemap.xml` so it is discoverable.
+
+### Diagnostics overlay
+
+A developer diagnostics overlay can be toggled with `?debug=1` when running locally. It exposes basic page data for quick inspection and is disabled in production builds.
