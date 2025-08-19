@@ -47,13 +47,20 @@
           <div class="mt-2" id="image-thumbs"></div>
         </div>
         <div class="col-md-6">
-          <h1 id="product-title"></h1>
-          <div id="product-badges" class="mb-2"></div>
-          <p id="product-price" class="h4"></p>
-          <p id="stock-status"></p>
-          <p id="short-description"></p>
-          <div id="category-badges" class="mb-3"></div>
-          <section id="details"></section>
+          <div class="simpleCart_shelfItem">
+            <h1 id="product-title" class="item_name"></h1>
+            <div id="product-badges" class="mb-2"></div>
+            <p id="product-price" class="h4 item_price"></p>
+            <p id="stock-status"></p>
+            <p id="short-description"></p>
+            <div id="category-badges" class="mb-3"></div>
+            <div class="d-flex align-items-center mb-3">
+              <label for="product-qty" class="me-2">Qty</label>
+              <input id="product-qty" type="number" class="form-control item_Quantity" value="1" min="1" style="width:90px;">
+            </div>
+            <button type="button" class="btn btn-primary item_add mb-3">Add to Cart</button>
+            <section id="details"></section>
+          </div>
         </div>
       </div>
     </div>
