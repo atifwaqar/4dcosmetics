@@ -21,10 +21,10 @@
     "sortOrder": 3
   },
   {
-    "name": "Lipstick",
-    "slug": "lipstick",
+    "name": "Primer",
+    "slug": "primer",
     "parent": "makeup",
-    "descriptionHTML": "<p>Bold and neutral shades for lips.</p>",
+    "descriptionHTML": "<p>Prep your skin for makeup.</p>",
     "sortOrder": 1
   },
   {
@@ -35,11 +35,60 @@
     "sortOrder": 2
   },
   {
-    "name": "Primer",
-    "slug": "primer",
+    "name": "Contour & Concealer",
+    "slug": "contour-concealer",
     "parent": "makeup",
-    "descriptionHTML": "<p>Prep your skin for makeup.</p>",
+    "descriptionHTML": "<p>Define and correct with contour and concealer.</p>",
     "sortOrder": 3
+  },
+  {
+    "name": "Highlighter",
+    "slug": "highlighter",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Add glow with luminous highlighters.</p>",
+    "sortOrder": 4
+  },
+  {
+    "name": "Face powder",
+    "slug": "face-powder",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Set your look with smooth face powders.</p>",
+    "sortOrder": 5
+  },
+  {
+    "name": "Blush",
+    "slug": "blush",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Fresh color for cheeks.</p>",
+    "sortOrder": 6
+  },
+  {
+    "name": "Lipsticks",
+    "slug": "lipsticks",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Bold and neutral shades for lips.</p>",
+    "sortOrder": 7
+  },
+  {
+    "name": "Eye shadow",
+    "slug": "eye-shadow",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Shades for every eye look.</p>",
+    "sortOrder": 8
+  },
+  {
+    "name": "Eye liner",
+    "slug": "eye-liner",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Define eyes with precision liners.</p>",
+    "sortOrder": 9
+  },
+  {
+    "name": "Mascara",
+    "slug": "mascara",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Lengthen and volumize lashes.</p>",
+    "sortOrder": 10
   },
   {
     "name": "Serums",
