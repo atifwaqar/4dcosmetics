@@ -22,12 +22,67 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Placeholder static site lint
-        run: echo "Static site lint placeholder"
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - name: Static site lint
+        run: npm run lint:static
+      - name: Meta & JSON-LD snapshots
+        run: npm run test:meta
+      - name: Sitemap guard
+        run: npm run test:sitemap
+      - name: Upload lint report
+        uses: actions/upload-artifact@v3
+        with:
+          name: static-lint-report
+          path: static-lint-report.txt
+      - name: Upload meta snapshot report
+        uses: actions/upload-artifact@v3
+        with:
+          name: meta-jsonld-report
+          path: meta-jsonld-report.txt
+      - name: Upload sitemap report
+        uses: actions/upload-artifact@v3
+        with:
+          name: sitemap-report
+          path: sitemap-report.txt
 
   lighthouse:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Placeholder lighthouse
-        run: echo "Lighthouse budgets placeholder"
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - name: Lighthouse budgets
+        run: npm run test:lighthouse
+      - name: SPA fallback tests
+        run: npm run test:spa
+      - name: Upload lighthouse report
+        uses: actions/upload-artifact@v3
+        with:
+          name: lighthouse-report
+          path: lighthouse-report.json
+      - name: Upload SPA fallback log
+        uses: actions/upload-artifact@v3
+        with:
+          name: spa-fallback-log
+          path: spa-fallback-log.txt
+
+  summary:
+    if: github.event_name == 'pull_request'
+    needs: [data-integrity, static-site-lint, lighthouse]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const data = '${{ needs.data-integrity.result }}' === 'success' ? '✓' : '✗';
+            const lint = '${{ needs["static-site-lint"].result }}' === 'success' ? '✓' : '✗';
+            const lh = '${{ needs.lighthouse.result }}' === 'success' ? '✓' : '✗';
+            const body = `| Job | Status |\n| --- | --- |\n| Data Integrity | ${data} |\n| Static Site Lint & Links | ${lint} |\n| Lighthouse Budgets | ${lh} |`;
+            await github.rest.issues.createComment({issue_number: context.issue.number, owner: context.repo.owner, repo: context.repo.repo, body});

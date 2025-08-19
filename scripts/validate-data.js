@@ -24,9 +24,10 @@ if (!validateProd(products)) {
 }
 
 const categorySlugs = new Set();
+const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 categories.forEach((cat, idx) => {
   if (cat.slug !== cat.slug.trim()) errors.push(`categories[${idx}] slug has surrounding whitespace`);
-  if (cat.slug !== cat.slug.toLowerCase()) errors.push(`categories[${idx}] slug not lowercase`);
+  if (!slugPattern.test(cat.slug)) errors.push(`categories[${idx}] slug not kebab-case`);
   if (categorySlugs.has(cat.slug)) errors.push(`duplicate category slug '${cat.slug}'`);
   categorySlugs.add(cat.slug);
 });
@@ -34,7 +35,7 @@ categories.forEach((cat, idx) => {
 const productSlugs = new Set();
 products.forEach((prod, idx) => {
   if (prod.slug !== prod.slug.trim()) errors.push(`products[${idx}] slug has surrounding whitespace`);
-  if (prod.slug !== prod.slug.toLowerCase()) errors.push(`products[${idx}] slug not lowercase`);
+  if (!slugPattern.test(prod.slug)) errors.push(`products[${idx}] slug not kebab-case`);
   if (productSlugs.has(prod.slug)) errors.push(`duplicate product slug '${prod.slug}'`);
   productSlugs.add(prod.slug);
   if (typeof prod.price !== 'number') errors.push(`product '${prod.slug}' price not numeric`);
@@ -53,10 +54,13 @@ products.forEach((prod, idx) => {
   });
 });
 
+const summary = `Checked ${categories.length} categories and ${products.length} products`;
 if (errors.length) {
   console.error('Data validation failed:');
   errors.forEach(e => console.error(' - ' + e));
+  console.error(summary);
   process.exit(1);
 } else {
   console.log('Data validation passed');
+  console.log(summary);
 }
