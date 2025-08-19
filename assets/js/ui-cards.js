@@ -70,7 +70,7 @@ export function buildProductCard(prod) {
   col.innerHTML = `
     <div class="card h-100 simpleCart_shelfItem">
       <a href="/p/${prod.slug}" class="text-decoration-none text-dark">
-        <img src="${img}" class="card-img-top item_image" alt="${prod.name}" loading="lazy" decoding="async" onerror="this.src='/assets/img/products/fallback.png'" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;" srcset="${img} 300w, ${img} 600w" sizes="(max-width: 600px) 100vw, 300px">
+        <img src="${img}" class="card-img-top item_image item_thumb" alt="${prod.name}" loading="lazy" decoding="async" onerror="this.src='/assets/img/products/fallback.png'" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;" srcset="${img} 300w, ${img} 600w" sizes="(max-width: 600px) 100vw, 300px">
       </a>
       <div class="card-body p-2 d-flex flex-column">
         <span class="visually-hidden item_id">${prod.id || prod.slug}</span>
