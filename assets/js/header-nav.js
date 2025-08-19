@@ -8,16 +8,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (navList) {
       const li = document.createElement('li');
       li.className = 'nav-item dropdown';
-      li.innerHTML = `<a class="nav-link dropdown-toggle" href="#" id="shopDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a><ul class="dropdown-menu" aria-labelledby="shopDropdown"></ul>`;
-      const menu = li.querySelector('.dropdown-menu');
-      topCats.forEach(cat => {
-        const link = document.createElement('a');
-        link.className = 'dropdown-item';
-        link.href = `/c/${cat.slug}/`;
-        link.textContent = cat.name;
-        menu.appendChild(link);
-      });
-      navList.insertBefore(li, navList.firstChild ? navList.children[1] : null);
+        li.innerHTML = `<a class="nav-link dropdown-toggle" href="#" id="shopDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a><ul class="dropdown-menu" aria-labelledby="shopDropdown"></ul>`;
+        const menu = li.querySelector('.dropdown-menu');
+        const toggle = li.querySelector('#shopDropdown');
+        topCats.forEach(cat => {
+          const link = document.createElement('a');
+          link.className = 'dropdown-item';
+          link.href = `/c/${cat.slug}/`;
+          link.textContent = cat.name;
+          menu.appendChild(link);
+        });
+        navList.insertBefore(li, navList.firstChild ? navList.children[1] : null);
+        const dd = bootstrap.Dropdown.getOrCreateInstance(toggle);
+        toggle.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            dd.hide();
+            toggle.focus();
+          }
+        });
+        menu.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            dd.hide();
+            toggle.focus();
+          }
+        });
+        toggle.addEventListener('shown.bs.dropdown', () => {
+          toggle.setAttribute('aria-expanded', 'true');
+        });
+        toggle.addEventListener('hidden.bs.dropdown', () => {
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.focus();
+        });
 
       if (window.location.pathname.startsWith('/c/')) {
         const slug = window.location.pathname.split('/')[2];
