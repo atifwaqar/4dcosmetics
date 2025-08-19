@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /c/
 Allow: /p/
+Sitemap: https://4dcosmetics.com/sitemap.xml
