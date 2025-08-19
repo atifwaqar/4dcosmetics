@@ -1,3 +1,5 @@
+import { buildProductCard } from './ui-cards.js';
+
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
   const query = (params.get('q') || '').trim();
@@ -46,10 +48,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       countEl.textContent = '0 results';
     } else {
       empty.classList.add('d-none');
-      pageItems.forEach(prod=>{
-        const col=document.createElement('div'); col.className='col-6 col-md-4 col-lg-3 mb-4';
-        col.innerHTML = `<a href="/p/${prod.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(prod)}</div><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p></div></div></a>`;
-        grid.appendChild(col);
+      pageItems.forEach(prod => {
+        grid.appendChild(buildProductCard(prod));
       });
       countEl.textContent = `${total} results`;
     }
