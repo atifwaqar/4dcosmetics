@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /c/
+Allow: /p/
