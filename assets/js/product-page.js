@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     backLink.href = backHref;
 
     const mainImg = document.getElementById('main-image');
-    mainImg.classList.add('item_image');
+    mainImg.classList.add('item_image', 'item_thumb');
     const thumbs = document.getElementById('image-thumbs');
     if (product.images && product.images.length) {
       mainImg.src = product.images[0];
