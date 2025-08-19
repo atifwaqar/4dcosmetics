@@ -116,6 +116,10 @@ const StorefrontRuntime = (() => {
     return getProductBadges(prod).map(b => `<span class="badge ${b.cls} me-1" aria-label="${b.label}">${b.label}</span>`).join('');
   }
 
+  function renderProductCardHTML(prod) {
+    return `<div class="card h-100 position-relative"><button class="btn btn-sm btn-light wishlist-btn position-absolute top-0 end-0 m-2" data-slug="${prod.slug}" aria-pressed="false" aria-label="Add to wishlist"><i class="fa-regular fa-heart"></i></button><a href="/p/${prod.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${renderProductBadgesHTML(prod)}</div><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${formatPrice(prod.price, prod.currency)}</p></div></a><div class="px-2 pb-2"><div class="form-check"><input class="form-check-input compare-checkbox" type="checkbox" data-slug="${prod.slug}" id="cmp-${prod.slug}"><label class="form-check-label" for="cmp-${prod.slug}">Compare</label></div></div></div>`;
+  }
+
   return {
     loadProducts,
     loadCategories,
@@ -132,6 +136,7 @@ const StorefrontRuntime = (() => {
     addRecentlyViewed,
     getProductBadges,
     renderProductBadgesHTML,
+    renderProductCardHTML,
     RECENT_KEY
   };
 })();

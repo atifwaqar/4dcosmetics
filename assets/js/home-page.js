@@ -50,9 +50,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       recentSection.classList.remove('d-none');
       prods.forEach(p => {
         const col=document.createElement('div'); col.className='col-6 col-md-3 mb-4';
-        col.innerHTML = `<a href="/p/${p.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${p.images[0]}" class="card-img-top" alt="${p.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(p)}</div><h6 class="card-title">${p.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(p.price, p.currency)}</p></div></div></a>`;
+        col.innerHTML = StorefrontRuntime.renderProductCardHTML(p);
         recentRow.appendChild(col);
       });
+      WishlistCompare.renderButtons(recentRow);
     }
   } catch (e) {
     console.error(e);

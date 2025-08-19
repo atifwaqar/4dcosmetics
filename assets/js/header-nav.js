@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const navList = document.querySelector('.navbar-nav');
     if (navList) {
+      const cartLi = Array.from(navList.children).find(li => li.textContent.includes('Cart'));
+      const wish = document.createElement('li');
+      wish.className = 'nav-item';
+      wish.innerHTML = '<a class="nav-link" href="/wishlist/">Wishlist</a>';
+      if (cartLi) navList.insertBefore(wish, cartLi);
+      else navList.appendChild(wish);
+
       const li = document.createElement('li');
       li.className = 'nav-item dropdown';
         li.innerHTML = `<a class="nav-link dropdown-toggle" href="#" id="shopDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a><ul class="dropdown-menu" aria-labelledby="shopDropdown"></ul>`;

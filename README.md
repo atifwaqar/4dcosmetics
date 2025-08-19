@@ -79,6 +79,15 @@ or manually install using the latest [release](https://github.com/chrisdiana/sim
 - Recently viewed products are stored in `localStorage` under `recently_viewed` (up to 8 slugs).
 - The `/search/` route is client-rendered and contains `<meta name="robots" content="noindex, follow">` with no canonical tag.
 
+## Customer Experience
+
+- **Wishlist**: stored in `localStorage` key `4d:wishlist` as most-recent slugs (max 100). Toggle hearts on cards or product pages; persisted per browser.
+- **Compare**: stored in `localStorage` key `4d:compare` in added order (max 4). A bottom tray surfaces selections with quick remove, clear, and a link to `/compare/`.
+- **Related & Recommended**: related items prioritize pinned `relatedKeys`, then brand and category overlap; recommended items rely on tag then category overlap, excluding items already shown.
+- **Product variants**: each product may supply a `variants` array. Variants support `id`, `name`, `slug`, optional `price`, `images`, `stockLevel`, `inStock`, and a `swatch` object (`type` of `color`, `image`, or `text` with a `value`). Selecting a variant updates price/media/stock and deep-links via `?v={variant-slug}`.
+- **SEO**: `/wishlist/` and `/compare/` include `<meta name="robots" content="noindex, follow">`. Product canonicals never include the `?v=` parameter.
+- **Accessibility**: variant swatches form a keyboard-friendly radiogroup; wishlist buttons expose `aria-pressed`; the compare tray is fully keyboard operable.
+
 # Using Plugins
 
 To use a plugin, add a reference just before your `config.js` file

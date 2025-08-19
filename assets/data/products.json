@@ -12,7 +12,30 @@
     "shortDescription": "Rich color with a creamy matte finish.",
     "descriptionHTML": "<p>Rich color with a creamy matte finish.</p>",
     "inStock": true,
-    "sku": "LIP001"
+    "sku": "LIP001",
+    "variants": [
+      {
+        "id": "VM01",
+        "name": "Rose 01",
+        "slug": "rose-01",
+        "price": 19.99,
+        "images": ["./assets/img/products/lipstick.jpeg"],
+        "stockLevel": 5,
+        "inStock": true,
+        "swatch": {"type": "color", "value": "#c08080"}
+      },
+      {
+        "id": "VM02",
+        "name": "Ruby 02",
+        "slug": "ruby-02",
+        "price": 19.99,
+        "images": ["./assets/img/products/lipstick.jpeg"],
+        "stockLevel": 0,
+        "inStock": false,
+        "swatch": {"type": "color", "value": "#b03060"}
+      }
+    ],
+    "relatedKeys": ["FND001", "LIP002"]
   },
   {
     "id": "FND001",
