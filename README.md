@@ -137,4 +137,9 @@ A GitHub Actions workflow (`ci.yml`) runs on pushes and pull requests. It curren
 
 ### Diagnostics overlay
 
-A developer diagnostics overlay can be toggled with `?debug=1` when running locally. It exposes basic page data for quick inspection and is disabled in production builds.
+A lightweight diagnostics overlay is available for development.
+
+- Enable with the `?debug=1` query parameter or the `Ctrl+Alt+D` keyboard shortcut.
+- Displays counts of loaded products/categories, current route info, canonical URL, and breadcrumb JSON-LD.
+- Press <kbd>Escape</kbd> or the close button to dismiss; focus returns to the toggle button.
+- The overlay container carries a `data-noindex` attribute and is omitted from production builds.
