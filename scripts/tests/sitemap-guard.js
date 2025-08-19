@@ -10,6 +10,7 @@ const categories = readJSON('assets/data/categories.json', []);
 const products = readJSON('assets/data/products.json', []);
 const exclude = new Set(readJSON('assets/data/sitemap-exclude.json', []));
 const expected = new Set();
+expected.add('/categories/');
 categories.forEach(c=>{ const p = `/c/${c.slug}/`; if(!exclude.has(p)) expected.add(p); });
 products.forEach(p=>{ const u = `/p/${p.slug}`; if(!exclude.has(u)) expected.add(u); });
 
