@@ -22,16 +22,16 @@ $(function() {
   });
 
   // Load products and render
-  $.getJSON('./assets/data/products.json', function(data) {
-    simpleStore.setProducts(data.products);
-    var products = simpleStore.products;
+  $.getJSON('./assets/data/products.json', function(products) {
+    simpleStore.setProducts(products);
+    var productsList = simpleStore.products;
 
     if ($('#featured-products').length) {
-      renderProducts(products.slice(0,4), $('#featured-products'));
+      renderProducts(productsList.slice(0,4), $('#featured-products'));
     }
 
     if ($('#products-list').length) {
-      renderProducts(products, $('#products-list'));
+      renderProducts(productsList, $('#products-list'));
     }
   });
 
@@ -40,9 +40,9 @@ $(function() {
     products.forEach(function(p){
       var card = $('<div class="col-md-4 col-sm-6 mb-4">\n        <div class="card h-100 simpleCart_shelfItem">\n          <img class="card-img-top item_thumb" alt="">\n          <div class="card-body d-flex flex-column">\n            <h5 class="card-title item_name"></h5>\n            <p class="item_price text-primary"></p>\n            <p class="card-text item_description"></p>\n            <a class="btn btn-primary mt-auto item_add" href="javascript:;">Add to Cart</a>\n          </div>\n        </div>\n      </div>');
       card.find('.item_name').text(p.name);
-      card.find('.item_price').text(new Intl.NumberFormat('en-PK', {style: 'currency', currency: 'PKR'}).format(p.price));
-      card.find('.item_description').text(p.description);
-      card.find('.item_thumb').attr('src', p.image).attr('alt', p.name);
+      card.find('.item_price').text(new Intl.NumberFormat('en', {style: 'currency', currency: p.currency}).format(p.price));
+      card.find('.item_description').text(p.shortDescription);
+      card.find('.item_thumb').attr('src', p.images[0]).attr('alt', p.name);
       row.append(card);
     });
     container.html(row);
