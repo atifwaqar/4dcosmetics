@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           link.textContent = cat.name;
           menu.appendChild(link);
         });
+        const div = document.createElement('div');
+        div.className = 'dropdown-divider';
+        menu.appendChild(div);
+        const browse = document.createElement('a');
+        browse.className = 'dropdown-item';
+        browse.href = '/categories/';
+        browse.textContent = 'Browse all categories';
+        menu.appendChild(browse);
         navList.insertBefore(li, navList.firstChild ? navList.children[1] : null);
         const dd = bootstrap.Dropdown.getOrCreateInstance(toggle);
         toggle.addEventListener('keydown', e => {
