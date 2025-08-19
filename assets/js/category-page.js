@@ -1,4 +1,4 @@
-import { buildProductCard } from './ui-cards.js';
+import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
@@ -116,15 +116,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (metaDesc) document.getElementById('og-description').setAttribute('content', metaDesc); else document.getElementById('og-description').remove();
     document.getElementById('og-url').setAttribute('content', canonicalUrl);
     if (category.image) document.getElementById('og-image').setAttribute('content', category.image); else document.getElementById('og-image').remove();
-    const ld = {
+    const ld = [{
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type":"ListItem","position":1,"name":"Home","item":`${window.location.origin}/`},
         {"@type":"ListItem","position":2,"name":category.name,"item":canonicalUrl}
       ]
-    };
-    document.getElementById('ld-json').textContent = JSON.stringify(ld);
+    }];
+    const ldEl = document.getElementById('ld-json');
+    if (ldEl) ldEl.textContent = JSON.stringify(ld);
     document.getElementById('category-title').textContent = category.name;
     if (category.descriptionHTML) document.getElementById('category-description').innerHTML = category.descriptionHTML;
     const breadcrumb = document.getElementById('breadcrumb');
@@ -318,10 +319,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const link = document.createElement('a'); link.href='#'; link.textContent='Clear filters'; link.addEventListener('click', e=>{e.preventDefault(); clearFilters();});
         grid.appendChild(p); grid.appendChild(link);
       } else {
+        const rendered=[];
         pageItems.forEach(prod => {
           const card = buildProductCard(prod);
-          grid.appendChild(card);
+          if (card){ grid.appendChild(card); rendered.push(prod); }
         });
+        Analytics.viewItemList(rendered, category.name);
+        if (ldEl) {
+          ld[1] = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": rendered.map((p,i)=>({"@type":"ListItem","position":i+1,"url":`${window.location.origin}/p/${p.slug}`}))
+          };
+          ldEl.textContent = JSON.stringify(ld);
+        }
       }
       const nav = document.getElementById('pagination'); nav.innerHTML='';
       if (totalPages > 1 && pageItems.length) {

@@ -1,4 +1,4 @@
-import { buildProductCard } from './ui-cards.js';
+import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -8,8 +8,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const all = StorefrontRuntime.getAllProducts();
     grid.innerHTML = '';
-    all.forEach(p => grid.appendChild(buildProductCard(p)));
-    if (count) count.textContent = `${all.length} products`;
+    const rendered = [];
+    all.forEach(p => {
+      const card = buildProductCard(p);
+      if (card) { grid.appendChild(card); rendered.push(p); }
+    });
+    if (count) count.textContent = `${rendered.length} products`;
+    Analytics.viewItemList(rendered, 'All Products');
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": rendered.map((p,i)=>({"@type":"ListItem","position":i+1,"url":`${window.location.origin}/p/${p.slug}`}))
+    };
+    const ldEl = document.getElementById('ld-json');
+    if (ldEl) ldEl.textContent = JSON.stringify(ld);
   } catch (e) {
     console.error(e);
     const grid = document.getElementById('products-grid');

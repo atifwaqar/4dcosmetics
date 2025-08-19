@@ -1,4 +1,4 @@
-import { buildProductCard } from './ui-cards.js';
+import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
@@ -48,10 +48,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       countEl.textContent = '0 results';
     } else {
       empty.classList.add('d-none');
+      const rendered=[];
       pageItems.forEach(prod => {
-        grid.appendChild(buildProductCard(prod));
+        const card = buildProductCard(prod);
+        if (card){ grid.appendChild(card); rendered.push(prod); }
       });
       countEl.textContent = `${total} results`;
+      Analytics.viewItemList(rendered, 'Search results');
+      const ldEl = document.getElementById('ld-json');
+      if (ldEl){
+        const ld = {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "itemListElement": rendered.map((p,i)=>({"@type":"ListItem","position":i+1,"url":`${window.location.origin}/p/${p.slug}`}))
+        };
+        ldEl.textContent = JSON.stringify(ld);
+      }
     }
     const nav = document.getElementById('pagination'); nav.innerHTML='';
     if (total>perPage){
