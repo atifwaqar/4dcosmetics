@@ -1,4 +1,4 @@
-import { buildProductCard } from './ui-cards.js';
+import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const container = document.getElementById('home-categories');
@@ -50,10 +50,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       row.className = 'row';
       let items = products.filter(p => (p.tags || []).includes('featured'));
       if (!items.length) items = products.slice(0,4);
+      const rendered=[];
       items.slice(0,4).forEach(prod => {
-        row.appendChild(buildProductCard(prod));
+        const card=buildProductCard(prod);
+        if(card){ row.appendChild(card); rendered.push(prod);} 
       });
       featured.appendChild(row);
+      Analytics.viewItemList(rendered, 'Featured');
     }
 
     const recentSection = document.getElementById('recently-viewed-home');

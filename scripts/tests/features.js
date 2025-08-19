@@ -95,7 +95,14 @@ function startServer(){
   let pdata = await page.evaluate(()=>{
     const grid = document.getElementById('products-grid');
     const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
-    const ok = cards.length>0 && cards.every(c=>c.querySelector('a[href^="/p/"]') && c.querySelector('.item_add'));
+    const priceRe = /^\d+(\.\d{1,2})?$/;
+    const ok = cards.length>0 && cards.every(c=>{
+      const name = c.querySelector('.item_name');
+      const price = c.querySelector('.item_price');
+      const btn = c.querySelector('.item_add[aria-label]');
+      const links = c.querySelectorAll('a[href^="/p/"]');
+      return name && name.textContent.trim().length>0 && price && priceRe.test(price.textContent.trim()) && btn && links.length>=2;
+    });
     return {grid: !!grid, ok, count: cards.length};
   });
   if (!pdata.grid || !pdata.ok) {failed=true; report.push('Products page cards incomplete');}
@@ -106,7 +113,14 @@ function startServer(){
     pdata = await page.evaluate(()=>{
       const grid = document.getElementById('product-grid');
       const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
-      const ok = cards.length>0 && cards.every(c=>c.querySelector('a[href^="/p/"]') && c.querySelector('.item_add'));
+      const priceRe = /^\d+(\.\d{1,2})?$/;
+      const ok = cards.length>0 && cards.every(c=>{
+        const name = c.querySelector('.item_name');
+        const price = c.querySelector('.item_price');
+        const btn = c.querySelector('.item_add[aria-label]');
+        const links = c.querySelectorAll('a[href^="/p/"]');
+        return name && name.textContent.trim().length>0 && price && priceRe.test(price.textContent.trim()) && btn && links.length>=2;
+      });
       return {grid: !!grid, ok, count: cards.length};
     });
     if (!pdata.grid || !pdata.ok) {failed=true; report.push('Category page cards incomplete');}
@@ -114,27 +128,52 @@ function startServer(){
 
   // product detail simpleCart hooks
   await page.goto(`http://localhost:${port}/p/${first.slug}`,{waitUntil:'networkidle0'});
-  pdata = await page.evaluate(()=>({
-    name: !!document.querySelector('.simpleCart_shelfItem .item_name'),
-    price: !!document.querySelector('.simpleCart_shelfItem .item_price'),
-    qty: !!document.querySelector('.simpleCart_shelfItem .item_Quantity'),
-    add: !!document.querySelector('.simpleCart_shelfItem .item_add')
-  }));
+  pdata = await page.evaluate(()=>{
+    const price = document.querySelector('.simpleCart_shelfItem .item_price');
+    const qty = document.querySelector('.simpleCart_shelfItem .item_Quantity');
+    const btn = document.querySelector('.simpleCart_shelfItem .item_add[aria-label]');
+    const priceRe = /^\d+(\.\d{1,2})?$/;
+    return {
+      name: !!document.querySelector('.simpleCart_shelfItem .item_name'),
+      price: price && priceRe.test(price.textContent.trim()),
+      qty: qty && qty.getAttribute('min')==='1',
+      add: !!btn
+    };
+  });
   if (!pdata.name || !pdata.price || !pdata.qty || !pdata.add) {failed=true; report.push('Product page missing cart hooks');}
 
   // cart flow from listings
   await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
+  const firstItem = await page.evaluate(()=>{
+    const card = document.querySelector('#products-grid .simpleCart_shelfItem');
+    const name = card.querySelector('.item_name').textContent.trim();
+    const price = parseFloat(card.querySelector('.item_price').textContent.trim());
+    return {name, price};
+  });
   await page.click('#products-grid .item_add');
   await page.waitForTimeout(500);
-  if (catSlug){
-    await page.goto(`http://localhost:${port}/c/${catSlug}/`,{waitUntil:'networkidle0'});
-    await page.click('#product-grid .item_add');
-    await page.waitForTimeout(500);
-  }
   await page.goto(`http://localhost:${port}/cart.html`,{waitUntil:'networkidle0'});
-  const cartItems = await page.evaluate(()=>document.querySelectorAll('#cart-rows .row').length);
-  const expected = catSlug ? 2 : 1;
-  if (cartItems < expected) {failed=true; report.push('Cart missing items after adds');}
+  const cartCheck = await page.evaluate(()=>{
+    const row = document.querySelector('#cart-rows .row');
+    const name = row ? row.querySelector('.title')?.textContent.trim() : null;
+    const total = row ? parseFloat(row.querySelector('.line-total')?.textContent.replace(/[^0-9.]/g,'')) : null;
+    return {name, total};
+  });
+  if (cartCheck.name !== firstItem.name || Math.abs(cartCheck.total - firstItem.price) > 0.01) {
+    failed=true; report.push('Cart totals incorrect');
+  }
+
+  // a11y aria-label
+  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
+  const hasAria = await page.evaluate(()=>Array.from(document.querySelectorAll('.item_add')).every(b=>b.getAttribute('aria-label')));
+  if (!hasAria) {failed=true; report.push('aria-label missing on add buttons');}
+
+  // analytics noop
+  const analyticsNoop = await page.evaluate(()=>{
+    delete window.gtag;
+    try { window.Analytics.addToCart({id:'x',slug:'x',name:'Test',price:1},1); return true; } catch(e){ return false; }
+  });
+  if (!analyticsNoop) {failed=true; report.push('Analytics threw without gtag');}
 
   await browser.close();
   server.close();

@@ -43,14 +43,16 @@
       <a href="#" id="back-link" class="d-block mb-3">&laquo; Back</a>
       <div class="row">
         <div class="col-md-6">
-            <img id="main-image" class="img-fluid" alt="" style="object-fit:cover;aspect-ratio:1/1;" width="600" height="600">
+            <img id="main-image" class="img-fluid item_image" alt="" style="object-fit:cover;aspect-ratio:1/1;" width="600" height="600">
           <div class="mt-2" id="image-thumbs"></div>
         </div>
         <div class="col-md-6">
           <div class="simpleCart_shelfItem">
             <h1 id="product-title" class="item_name"></h1>
             <div id="product-badges" class="mb-2"></div>
-            <p id="product-price" class="h4 item_price"></p>
+            <span id="product-id" class="visually-hidden item_id"></span>
+            <a id="product-url" href="#" class="visually-hidden item_url"></a>
+            <p id="product-price" class="h4"></p>
             <p id="stock-status"></p>
             <p id="short-description"></p>
             <div id="category-badges" class="mb-3"></div>
@@ -92,7 +94,7 @@
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/storefront-runtime.js"></script>
   <script src="/assets/js/header-nav.js"></script>
-  <script src="/assets/js/product-page.js"></script>
+  <script type="module" src="/assets/js/product-page.js"></script>
   <script src="/assets/js/diagnostics-overlay.js" defer></script>
 </body>
 </html>
