@@ -68,6 +68,17 @@ or manually install using the latest [release](https://github.com/chrisdiana/sim
   - Ensure the URL is listed in `sitemap.xml`.
   - New top-level categories automatically appear in the homepage tiles and the header “Shop” menu, and all pages emit correct canonical, Open Graph, and JSON-LD metadata.
 
+## Search & Discovery
+
+- Queries are plain space-separated tokens matched case-insensitively against product name, brand, categories, tags, and short descriptions.
+- Ranking weight order: name prefix, name token, brand, category/tag, then short description.
+- Optional fields in `products.json`:
+  - `createdAt` (ISO 8601) enables a **New** badge when within 30 days.
+  - `stockLevel` (integer) triggers **Low stock** when `1–5` and `inStock` is true.
+- Badge priority (left→right): Out of stock, Low stock, New, Bestseller (`tags` includes `"bestseller"`).
+- Recently viewed products are stored in `localStorage` under `recently_viewed` (up to 8 slugs).
+- The `/search/` route is client-rendered and contains `<meta name="robots" content="noindex, follow">` with no canonical tag.
+
 # Using Plugins
 
 To use a plugin, add a reference just before your `config.js` file

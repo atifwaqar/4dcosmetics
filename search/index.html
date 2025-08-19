@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product | 4D Cosmetics</title>
-    <meta name="description" content="">
-    <link rel="canonical" id="canonical-link" href="">
-    <meta property="og:title" content="" id="og-title">
-    <meta property="og:description" content="" id="og-description">
-    <meta property="og:url" content="" id="og-url">
-    <meta property="og:image" content="" id="og-image">
-    <script type="application/ld+json" id="ld-json"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search | 4D Cosmetics</title>
+  <meta name="robots" content="noindex, follow">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -37,32 +31,24 @@
 
   <section class="py-5">
     <div class="container">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb" id="breadcrumb"></ol>
-      </nav>
-      <a href="#" id="back-link" class="d-block mb-3">&laquo; Back</a>
-      <div class="row">
-        <div class="col-md-6">
-            <img id="main-image" class="img-fluid" alt="" style="object-fit:cover;aspect-ratio:1/1;" width="600" height="600">
-          <div class="mt-2" id="image-thumbs"></div>
-        </div>
-        <div class="col-md-6">
-          <h1 id="product-title"></h1>
-          <div id="product-badges" class="mb-2"></div>
-          <p id="product-price" class="h4"></p>
-          <p id="stock-status"></p>
-          <p id="short-description"></p>
-          <div id="category-badges" class="mb-3"></div>
-          <section id="details"></section>
-        </div>
+      <h1 class="mb-3" id="search-heading"></h1>
+      <p id="results-count" aria-live="polite"></p>
+      <div class="mb-3">
+        <label for="sort" class="visually-hidden">Sort</label>
+        <select id="sort" class="form-select w-auto">
+          <option value="featured">Featured</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="name_asc">Name A-Z</option>
+          <option value="newest">Newest</option>
+        </select>
       </div>
-    </div>
-  </section>
-
-  <section class="py-5 d-none" id="recently-viewed-section">
-    <div class="container">
-      <h2 class="mb-4">Recently viewed</h2>
-      <div id="recently-viewed" class="row"></div>
+      <div id="search-grid" class="row"></div>
+      <div id="search-empty" class="d-none">
+        <p>No products found for “<span id="empty-query"></span>”.</p>
+        <div id="empty-links"></div>
+      </div>
+      <nav id="pagination" class="mt-3"></nav>
     </div>
   </section>
 
@@ -86,7 +72,8 @@
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/storefront-runtime.js"></script>
   <script src="/assets/js/header-nav.js"></script>
-  <script src="/assets/js/product-page.js"></script>
+  <script src="/assets/js/search.js"></script>
+  <script src="/assets/js/search-page.js"></script>
   <script src="/assets/js/diagnostics-overlay.js" defer></script>
 </body>
 </html>
