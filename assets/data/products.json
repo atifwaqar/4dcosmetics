@@ -39,7 +39,7 @@
       "id": "PRM001",
       "name": "RBory Face Primer",
       "price": 2500,
-      "image": "https://drive.google.com/file/d/1E3DS35UcEDTrKiGy8aayuiL1MaoUbWAY/view?usp=drivesdk",
+      "image": "./assets/img/products/Rbory-Face-Primer-30ml.jpg",
       "description": "Lightweight non greesy face Primer, Makeup Fresh & flawless all day long",
       "category": "Primer"
     },
@@ -47,7 +47,7 @@
       "id": "LIP002",
       "name": "Art skin Velvet Lipstick 6 Pcs",
       "price": 2000,
-      "image": "https://drive.google.com/file/d/1EDBYgiV5W1U4oMsEbvybcjrGIgAWvZ9f/view?usp=drivesdk",
+      "image": "./assets/img/products/art-skin-velvet-lipstick.jpg",
       "description": "Velvety Matte Lipstick with soft finish and All day Wear",
       "category": "Makeup"
     }
