@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         pageItems.forEach(prod => {
           const col = document.createElement('div'); col.className='col-6 col-md-4 col-lg-3 mb-4';
-          col.innerHTML = `<a href="/p/${prod.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p>${prod.inStock ? '' : '<span class="badge bg-secondary">Out of stock</span>'}</div></div></a>`;
+          col.innerHTML = `<a href="/p/${prod.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(prod)}</div><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p></div></div></a>`;
           grid.appendChild(col);
         });
       }

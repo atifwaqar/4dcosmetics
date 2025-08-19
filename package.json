@@ -10,7 +10,8 @@
     "test:meta": "node scripts/tests/meta-jsonld-snapshots.js",
     "test:sitemap": "node scripts/tests/sitemap-guard.js",
     "test:spa": "node scripts/tests/spa-fallback.js",
-    "test:lighthouse": "node scripts/tests/lighthouse-budgets.js"
+    "test:lighthouse": "node scripts/tests/lighthouse-budgets.js",
+    "test:features": "node scripts/tests/features.js"
   },
   "repository": {
     "type": "git",
