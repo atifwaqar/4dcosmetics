@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!container) return;
   try {
     const categories = await StorefrontRuntime.loadCategories();
-    await StorefrontRuntime.loadProducts();
+    const products = await StorefrontRuntime.loadProducts();
     const topCats = categories.filter(c => !c.parent)
       .sort((a,b)=>(a.sortOrder - b.sortOrder) || a.name.localeCompare(b.name));
     const limit = 6;
@@ -40,6 +40,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         const view = document.getElementById('view-all-categories');
         view.href = '/categories/';
       }
+    }
+
+    const featured = document.getElementById('featured-products');
+    if (featured) {
+      const row = document.createElement('div'); row.className='row';
+      products.slice(0,4).forEach(prod => {
+        const col=document.createElement('div'); col.className='col-6 col-md-3 mb-4';
+        col.innerHTML = `
+          <div class="card h-100 simpleCart_shelfItem">
+            <a href="/p/${prod.slug}" class="text-decoration-none text-dark">
+              <img src="${prod.images[0]}" class="card-img-top item_thumb" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;">
+            </a>
+            <div class="card-body p-2 d-flex flex-column">
+              <div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(prod)}</div>
+              <a href="/p/${prod.slug}" class="card-title h6 text-decoration-none text-dark item_name">${prod.name}</a>
+              <p class="card-text mb-1 item_price">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p>
+              <button class="btn btn-primary mt-auto item_add" type="button">Add to Cart</button>
+            </div>
+          </div>`;
+        row.appendChild(col);
+      });
+      featured.appendChild(row);
     }
 
     const recentSection = document.getElementById('recently-viewed-home');
