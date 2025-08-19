@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Makeup",
+    "slug": "makeup",
+    "parent": null,
+    "descriptionHTML": "<p>Color cosmetics for every style.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Skin Care",
+    "slug": "skin-care",
+    "parent": null,
+    "descriptionHTML": "<p>Essentials to nourish your skin.</p>",
+    "sortOrder": 2
+  },
+  {
+    "name": "Fragrance",
+    "slug": "fragrance",
+    "parent": null,
+    "descriptionHTML": "<p>Scents to match every mood.</p>",
+    "sortOrder": 3
+  },
+  {
+    "name": "Lipstick",
+    "slug": "lipstick",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Bold and neutral shades for lips.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Foundation",
+    "slug": "foundation",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Find your perfect base.</p>",
+    "sortOrder": 2
+  },
+  {
+    "name": "Primer",
+    "slug": "primer",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Prep your skin for makeup.</p>",
+    "sortOrder": 3
+  },
+  {
+    "name": "Serums",
+    "slug": "serums",
+    "parent": "skin-care",
+    "descriptionHTML": "<p>Targeted treatments packed with actives.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Creams",
+    "slug": "creams",
+    "parent": "skin-care",
+    "descriptionHTML": "<p>Hydration heroes for every skin type.</p>",
+    "sortOrder": 2
+  },
+  {
+    "name": "Perfume",
+    "slug": "perfume",
+    "parent": "fragrance",
+    "descriptionHTML": "<p>Signature scents to captivate.</p>",
+    "sortOrder": 1
+  }
+]

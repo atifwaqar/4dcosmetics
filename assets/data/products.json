@@ -1,55 +1,107 @@
-{
-  "products": [
-    {
-      "id": "LIP001",
-      "name": "Velvet Matte Lipstick",
-      "price": 19.99,
-      "image": "./assets/img/products/lipstick.jpeg",
-      "description": "Rich color with a creamy matte finish."
-    },
-    {
-      "id": "FND001",
-      "name": "Hydrating Foundation",
-      "price": 29.99,
-      "image": "./assets/img/products/foundation.jpeg",
-      "description": "Lightweight foundation for a natural glow."
-    },
-    {
-      "id": "SER001",
-      "name": "Vitamin C Serum",
-      "price": 24.99,
-      "image": "./assets/img/products/serum.jpeg",
-      "description": "Brightens skin with powerful antioxidants."
-    },
-    {
-      "id": "CRM001",
-      "name": "Moisturizing Cream",
-      "price": 34.99,
-      "image": "./assets/img/products/cream.jpeg",
-      "description": "Hydrates deeply for smooth, soft skin."
-    },
-    {
-      "id": "PRF001",
-      "name": "Blossom Perfume",
-      "price": 39.99,
-      "image": "./assets/img/products/perfume.jpeg",
-      "description": "Floral fragrance with fresh notes."
-    },
-    {
-      "id": "PRM001",
-      "name": "RBory Face Primer",
-      "price": 2500,
-      "image": "./assets/img/products/Rbory-Face-Primer-30ml.jpg",
-      "description": "Lightweight non greesy face Primer, Makeup Fresh & flawless all day long",
-      "category": "Primer"
-    },
-    {
-      "id": "LIP002",
-      "name": "Art skin Velvet Lipstick 6 Pcs",
-      "price": 2000,
-      "image": "./assets/img/products/art-skin-velvet-lipstick.jpg",
-      "description": "Velvety Matte Lipstick with soft finish and All day Wear",
-      "category": "Makeup"
-    }
-  ]
-}
+[
+  {
+    "id": "LIP001",
+    "name": "Velvet Matte Lipstick",
+    "slug": "velvet-matte-lipstick",
+    "images": ["./assets/img/products/lipstick.jpeg"],
+    "price": 19.99,
+    "currency": "PKR",
+    "categories": ["makeup", "lipstick"],
+    "brand": "4D Cosmetics",
+    "tags": ["matte", "long-wear"],
+    "shortDescription": "Rich color with a creamy matte finish.",
+    "descriptionHTML": "<p>Rich color with a creamy matte finish.</p>",
+    "inStock": true,
+    "sku": "LIP001"
+  },
+  {
+    "id": "FND001",
+    "name": "Hydrating Foundation",
+    "slug": "hydrating-foundation",
+    "images": ["./assets/img/products/foundation.jpeg"],
+    "price": 29.99,
+    "currency": "PKR",
+    "categories": ["makeup", "foundation"],
+    "brand": "4D Cosmetics",
+    "tags": ["lightweight"],
+    "shortDescription": "Lightweight foundation for a natural glow.",
+    "descriptionHTML": "<p>Lightweight foundation for a natural glow.</p>",
+    "inStock": true,
+    "sku": "FND001"
+  },
+  {
+    "id": "SER001",
+    "name": "Vitamin C Serum",
+    "slug": "vitamin-c-serum",
+    "images": ["./assets/img/products/serum.jpeg"],
+    "price": 24.99,
+    "currency": "PKR",
+    "categories": ["skin-care", "serums"],
+    "brand": "4D Cosmetics",
+    "tags": ["antioxidant"],
+    "shortDescription": "Brightens skin with powerful antioxidants.",
+    "descriptionHTML": "<p>Brightens skin with powerful antioxidants.</p>",
+    "inStock": true,
+    "sku": "SER001"
+  },
+  {
+    "id": "CRM001",
+    "name": "Moisturizing Cream",
+    "slug": "moisturizing-cream",
+    "images": ["./assets/img/products/cream.jpeg"],
+    "price": 34.99,
+    "currency": "PKR",
+    "categories": ["skin-care", "creams"],
+    "brand": "4D Cosmetics",
+    "tags": ["hydrating"],
+    "shortDescription": "Hydrates deeply for smooth, soft skin.",
+    "descriptionHTML": "<p>Hydrates deeply for smooth, soft skin.</p>",
+    "inStock": true,
+    "sku": "CRM001"
+  },
+  {
+    "id": "PRF001",
+    "name": "Blossom Perfume",
+    "slug": "blossom-perfume",
+    "images": ["./assets/img/products/perfume.jpeg"],
+    "price": 39.99,
+    "currency": "PKR",
+    "categories": ["fragrance", "perfume"],
+    "brand": "4D Cosmetics",
+    "tags": ["floral"],
+    "shortDescription": "Floral fragrance with fresh notes.",
+    "descriptionHTML": "<p>Floral fragrance with fresh notes.</p>",
+    "inStock": false,
+    "sku": "PRF001"
+  },
+  {
+    "id": "PRM001",
+    "name": "RBory Face Primer",
+    "slug": "rbory-face-primer",
+    "images": ["./assets/img/products/Rbory-Face-Primer-30ml.jpg"],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": ["makeup", "primer"],
+    "brand": "RBory",
+    "tags": ["non-greasy"],
+    "shortDescription": "Lightweight non-greasy face primer keeps makeup fresh all day.",
+    "descriptionHTML": "<p>Lightweight non greesy face Primer, Makeup Fresh &amp; flawless all day long</p>",
+    "inStock": true,
+    "sku": "PRM001"
+  },
+  {
+    "id": "LIP002",
+    "name": "Art skin Velvet Lipstick 6 Pcs",
+    "slug": "art-skin-velvet-lipstick-6-pcs",
+    "images": ["./assets/img/products/art-skin-velvet-lipstick.jpg"],
+    "price": 2000,
+    "currency": "PKR",
+    "categories": ["makeup", "lipstick"],
+    "brand": "Art Skin",
+    "tags": ["set", "matte"],
+    "shortDescription": "Velvety matte lipstick set for soft finish and all-day wear.",
+    "descriptionHTML": "<p>Velvety Matte Lipstick with soft finish and All day Wear</p>",
+    "inStock": true,
+    "sku": "LIP002"
+  }
+]
