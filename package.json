@@ -5,7 +5,12 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "validate:data": "node scripts/validate-data.js"
+    "validate:data": "node scripts/validate-data.js",
+    "lint:static": "node scripts/tests/static-site-lint.js",
+    "test:meta": "node scripts/tests/meta-jsonld-snapshots.js",
+    "test:sitemap": "node scripts/tests/sitemap-guard.js",
+    "test:spa": "node scripts/tests/spa-fallback.js",
+    "test:lighthouse": "node scripts/tests/lighthouse-budgets.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +30,11 @@
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-file-append": "0.0.6",
-    "ajv": "^8.12.0"
+    "ajv": "^8.12.0",
+    "jsdom": "^22.1.0",
+    "puppeteer": "^21.3.8",
+    "fast-xml-parser": "^4.3.2",
+    "lighthouse": "^11.7.0",
+    "chrome-launcher": "^0.15.0"
   }
 }
