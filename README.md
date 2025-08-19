@@ -61,6 +61,7 @@ or manually install using the latest [release](https://github.com/chrisdiana/sim
 # Categories & Products
 
 - Category pages live at `/c/{slug}/` (note the trailing slash). Product pages use `/p/{slug}` without a trailing slash.
+- Catalog navigation is category-driven; there is no `/products.html` all-products page.
 - Edit `assets/data/categories.json` and `assets/data/products.json` to manage content. Slugs must remain unique and URL-safe.
 - GitHub Pages serves `404.html` for deep links. The fallback script loads the proper category or product shell while preserving the original URL. When testing locally, run any static server and navigate directly to `/c/{slug}/` or `/p/{slug}` to verify the handoff.
 - To add a new category or product:
