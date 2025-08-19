@@ -4,7 +4,8 @@
   "description": "A clean, responsive storefront boilerplate with no database or backend.",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "validate:data": "node scripts/validate-data.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
-    "grunt-file-append": "0.0.6"
+    "grunt-file-append": "0.0.6",
+    "ajv": "^8.12.0"
   }
 }
