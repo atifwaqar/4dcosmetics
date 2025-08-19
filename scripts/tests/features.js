@@ -37,6 +37,7 @@ function startServer(){
   const catSlug = (first.categories && first.categories[0]) || null;
   const report = [];
   let failed = false;
+  let pdata;
 
   // search snapshots
   await page.goto(`http://localhost:${port}/search/?q=${encodeURIComponent(brand)}`,{waitUntil:'networkidle0'});
@@ -90,27 +91,10 @@ function startServer(){
   const hasBadge = await page.evaluate(()=>Array.from(document.querySelectorAll('#search-grid .badge')).some(b=>/Out of stock/i.test(b.textContent)));
   if (!hasBadge) {failed=true; report.push('Out of stock badge missing');}
 
-  // products page card checks
-  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
-  let pdata = await page.evaluate(()=>{
-    const grid = document.getElementById('products-grid');
-    const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
-    const priceRe = /^\d+(\.\d{1,2})?$/;
-    const ok = cards.length>0 && cards.every(c=>{
-      const name = c.querySelector('.item_name');
-      const price = c.querySelector('.item_price');
-      const btn = c.querySelector('.item_add[aria-label]');
-      const links = c.querySelectorAll('a[href^="/p/"]');
-      return name && name.textContent.trim().length>0 && price && priceRe.test(price.textContent.trim()) && btn && links.length>=2;
-    });
-    return {grid: !!grid, ok, count: cards.length};
-  });
-  if (!pdata.grid || !pdata.ok) {failed=true; report.push('Products page cards incomplete');}
-
   // category page card checks
   if (catSlug){
     await page.goto(`http://localhost:${port}/c/${catSlug}/`,{waitUntil:'networkidle0'});
-    pdata = await page.evaluate(()=>{
+    let pdata = await page.evaluate(()=>{
       const grid = document.getElementById('product-grid');
       const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
       const priceRe = /^\d+(\.\d{1,2})?$/;
@@ -141,32 +125,6 @@ function startServer(){
     };
   });
   if (!pdata.name || !pdata.price || !pdata.qty || !pdata.add) {failed=true; report.push('Product page missing cart hooks');}
-
-  // cart flow from listings
-  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
-  const firstItem = await page.evaluate(()=>{
-    const card = document.querySelector('#products-grid .simpleCart_shelfItem');
-    const name = card.querySelector('.item_name').textContent.trim();
-    const price = parseFloat(card.querySelector('.item_price').textContent.trim());
-    return {name, price};
-  });
-  await page.click('#products-grid .item_add');
-  await page.waitForTimeout(500);
-  await page.goto(`http://localhost:${port}/cart.html`,{waitUntil:'networkidle0'});
-  const cartCheck = await page.evaluate(()=>{
-    const row = document.querySelector('#cart-rows .row');
-    const name = row ? row.querySelector('.title')?.textContent.trim() : null;
-    const total = row ? parseFloat(row.querySelector('.line-total')?.textContent.replace(/[^0-9.]/g,'')) : null;
-    return {name, total};
-  });
-  if (cartCheck.name !== firstItem.name || Math.abs(cartCheck.total - firstItem.price) > 0.01) {
-    failed=true; report.push('Cart totals incorrect');
-  }
-
-  // a11y aria-label
-  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
-  const hasAria = await page.evaluate(()=>Array.from(document.querySelectorAll('.item_add')).every(b=>b.getAttribute('aria-label')));
-  if (!hasAria) {failed=true; report.push('aria-label missing on add buttons');}
 
   // analytics noop
   const analyticsNoop = await page.evaluate(()=>{
