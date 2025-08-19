@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!container) return;
   try {
     const categories = await StorefrontRuntime.loadCategories();
+    await StorefrontRuntime.loadProducts();
     const topCats = categories.filter(c => !c.parent)
       .sort((a,b)=>(a.sortOrder - b.sortOrder) || a.name.localeCompare(b.name));
     const limit = 6;
@@ -39,6 +40,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const view = document.getElementById('view-all-categories');
         view.href = '/categories/';
       }
+    }
+
+    const recentSection = document.getElementById('recently-viewed-home');
+    const recentRow = document.getElementById('recently-viewed-home-row');
+    const recSlugs = StorefrontRuntime.getRecentlyViewed();
+    const prods = recSlugs.map(StorefrontRuntime.getProductBySlug).filter(Boolean);
+    if (prods.length >= 3) {
+      recentSection.classList.remove('d-none');
+      prods.forEach(p => {
+        const col=document.createElement('div'); col.className='col-6 col-md-3 mb-4';
+        col.innerHTML = `<a href="/p/${p.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${p.images[0]}" class="card-img-top" alt="${p.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(p)}</div><h6 class="card-title">${p.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(p.price, p.currency)}</p></div></div></a>`;
+        recentRow.appendChild(col);
+      });
     }
   } catch (e) {
     console.error(e);
