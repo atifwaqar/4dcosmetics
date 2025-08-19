@@ -34,6 +34,14 @@
       "price": 39.99,
       "image": "./assets/img/products/perfume.jpeg",
       "description": "Floral fragrance with fresh notes."
+    },
+    {
+      "id": "PRM001",
+      "name": "RBory Face Primer",
+      "price": 2500,
+      "image": "https://drive.google.com/file/d/1E3DS35UcEDTrKiGy8aayuiL1MaoUbWAY/view?usp=drivesdk",
+      "description": "Lightweight non greesy face Primer, Makeup Fresh & flawless all day long",
+      "category": "Primer"
     }
   ]
 }
