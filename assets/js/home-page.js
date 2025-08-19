@@ -13,11 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       link.href = `/c/${cat.slug}/`;
       link.className = 'd-block text-decoration-none text-dark p-2';
       link.style.minHeight = '44px';
+      link.style.minWidth = '44px';
       if (cat.image) {
         const img = document.createElement('img');
         img.src = cat.image;
         img.alt = cat.name;
         img.loading = 'lazy';
+        img.width = 300;
+        img.height = 300;
         img.className = 'img-fluid mb-2';
         img.style.objectFit = 'cover';
         img.style.aspectRatio = '1 / 1';

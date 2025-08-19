@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (meta && product.shortDescription) {
         metaDesc = product.shortDescription.slice(0,160);
         meta.setAttribute('content', metaDesc);
+      } else if (meta) {
+        meta.remove();
       }
       document.getElementById('og-title').setAttribute('content', `${product.name} | 4D Cosmetics`);
       if (metaDesc) document.getElementById('og-description').setAttribute('content', metaDesc); else document.getElementById('og-description').remove();
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product.name,
-        ...(product.images ? {"image": product.images} : {}),
+        ...(product.images && product.images.length ? {"image": product.images} : {}),
         ...(product.sku ? {"sku": product.sku} : {}),
         "offers": {
           "@type": "Offer",
@@ -78,10 +80,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const backLink = document.getElementById('back-link');
     let backHref = '/';
-    if (document.referrer && document.referrer.includes('/c/')) {
+    if (document.referrer) {
       try {
         const refUrl = new URL(document.referrer);
-        backHref = refUrl.pathname;
+        if (refUrl.origin === window.location.origin && refUrl.pathname.startsWith('/c/')) {
+          backHref = refUrl.pathname;
+        }
       } catch {}
     } else if (firstCat) {
       backHref = `/c/${firstCat.slug}/`;
@@ -93,6 +97,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (product.images && product.images.length) {
         mainImg.src = product.images[0];
         mainImg.alt = product.name;
+        mainImg.loading = 'eager';
         product.images.forEach((img) => {
           const t = document.createElement('img');
           t.src = img;
