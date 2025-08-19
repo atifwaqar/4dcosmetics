@@ -34,6 +34,7 @@ function startServer(){
   const first = products[0];
   const second = products[1];
   const brand = first.brand || 'test';
+  const catSlug = (first.categories && first.categories[0]) || null;
   const report = [];
   let failed = false;
 
@@ -88,6 +89,52 @@ function startServer(){
   await page.goto(`http://localhost:${port}/search/?q=blossom`,{waitUntil:'networkidle0'});
   const hasBadge = await page.evaluate(()=>Array.from(document.querySelectorAll('#search-grid .badge')).some(b=>/Out of stock/i.test(b.textContent)));
   if (!hasBadge) {failed=true; report.push('Out of stock badge missing');}
+
+  // products page card checks
+  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
+  let pdata = await page.evaluate(()=>{
+    const grid = document.getElementById('products-grid');
+    const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
+    const ok = cards.length>0 && cards.every(c=>c.querySelector('a[href^="/p/"]') && c.querySelector('.item_add'));
+    return {grid: !!grid, ok, count: cards.length};
+  });
+  if (!pdata.grid || !pdata.ok) {failed=true; report.push('Products page cards incomplete');}
+
+  // category page card checks
+  if (catSlug){
+    await page.goto(`http://localhost:${port}/c/${catSlug}/`,{waitUntil:'networkidle0'});
+    pdata = await page.evaluate(()=>{
+      const grid = document.getElementById('product-grid');
+      const cards = Array.from(grid?.querySelectorAll('.simpleCart_shelfItem')||[]);
+      const ok = cards.length>0 && cards.every(c=>c.querySelector('a[href^="/p/"]') && c.querySelector('.item_add'));
+      return {grid: !!grid, ok, count: cards.length};
+    });
+    if (!pdata.grid || !pdata.ok) {failed=true; report.push('Category page cards incomplete');}
+  }
+
+  // product detail simpleCart hooks
+  await page.goto(`http://localhost:${port}/p/${first.slug}`,{waitUntil:'networkidle0'});
+  pdata = await page.evaluate(()=>({
+    name: !!document.querySelector('.simpleCart_shelfItem .item_name'),
+    price: !!document.querySelector('.simpleCart_shelfItem .item_price'),
+    qty: !!document.querySelector('.simpleCart_shelfItem .item_Quantity'),
+    add: !!document.querySelector('.simpleCart_shelfItem .item_add')
+  }));
+  if (!pdata.name || !pdata.price || !pdata.qty || !pdata.add) {failed=true; report.push('Product page missing cart hooks');}
+
+  // cart flow from listings
+  await page.goto(`http://localhost:${port}/products.html`,{waitUntil:'networkidle0'});
+  await page.click('#products-grid .item_add');
+  await page.waitForTimeout(500);
+  if (catSlug){
+    await page.goto(`http://localhost:${port}/c/${catSlug}/`,{waitUntil:'networkidle0'});
+    await page.click('#product-grid .item_add');
+    await page.waitForTimeout(500);
+  }
+  await page.goto(`http://localhost:${port}/cart.html`,{waitUntil:'networkidle0'});
+  const cartItems = await page.evaluate(()=>document.querySelectorAll('#cart-rows .row').length);
+  const expected = catSlug ? 2 : 1;
+  if (cartItems < expected) {failed=true; report.push('Cart missing items after adds');}
 
   await browser.close();
   server.close();
