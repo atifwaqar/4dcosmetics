@@ -30,6 +30,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (e.key === 'Escape') {
             dd.hide();
             toggle.focus();
+          } else if (e.key === ' ') {
+            e.preventDefault();
+            if (e.target && e.target.tagName === 'A') {
+              e.target.click();
+            }
           }
         });
         toggle.addEventListener('shown.bs.dropdown', () => {

@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
   const slug = parts[1];
-  const pageNum = parseInt(StorefrontRuntime.getQueryParam('page') || '1', 10);
+  let pageNum = parseInt(StorefrontRuntime.getQueryParam('page') || '1', 10);
+  if (isNaN(pageNum) || pageNum < 1) pageNum = 1;
   const perPage = 12;
   try {
     await StorefrontRuntime.loadCategories();
@@ -20,6 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         tmp.innerHTML = category.descriptionHTML;
         metaDesc = tmp.textContent.trim().slice(0,160);
         meta.setAttribute('content', metaDesc);
+      } else if (meta) {
+        meta.remove();
       }
       document.getElementById('og-title').setAttribute('content', `${category.name} | 4D Cosmetics`);
       if (metaDesc) document.getElementById('og-description').setAttribute('content', metaDesc); else document.getElementById('og-description').remove();
@@ -71,8 +74,19 @@ document.addEventListener('DOMContentLoaded', async () => {
       const p = document.createElement('p');
       p.textContent = 'No products in this category yet.';
       const link = document.createElement('a');
-      link.href = '/';
+      link.href = '#';
       link.textContent = 'Browse all categories';
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const toggle = document.getElementById('shopDropdown');
+        if (toggle) {
+          const dd = bootstrap.Dropdown.getOrCreateInstance(toggle);
+          dd.show();
+          toggle.focus();
+        } else {
+          window.location.href = '/';
+        }
+      });
       grid.appendChild(p);
       grid.appendChild(link);
       return;
@@ -81,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     pageItems.forEach(prod => {
       const col = document.createElement('div');
       col.className = 'col-6 col-md-4 col-lg-3 mb-4';
-        col.innerHTML = `<a href="/p/${prod.slug}" class="text-decoration-none text-dark"><div class="card h-100"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p>${prod.inStock ? '' : '<span class="badge bg-secondary">Out of stock</span>'}</div></div></a>`;
+      col.innerHTML = `<a href="/p/${prod.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${prod.images[0]}" class="card-img-top" alt="${prod.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><h6 class="card-title">${prod.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(prod.price, prod.currency)}</p>${prod.inStock ? '' : '<span class="badge bg-secondary">Out of stock</span>'}</div></div></a>`;
       grid.appendChild(col);
     });
     const totalPages = Math.ceil(products.length / perPage);
@@ -93,6 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const prevA = document.createElement('a');
         prevA.className = 'page-link';
         prevA.textContent = 'Previous';
+        prevA.style.minWidth = '44px';
+        prevA.style.minHeight = '44px';
         if (pageNum === 1) {
           prev.className = 'page-item disabled';
           prevA.setAttribute('aria-disabled', 'true');
@@ -109,6 +125,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const a = document.createElement('a');
         a.className = 'page-link';
         a.textContent = i;
+        a.style.minWidth = '44px';
+        a.style.minHeight = '44px';
         if (i !== pageNum) a.href = `?page=${i}`;
         li.appendChild(a);
         ulp.appendChild(li);
@@ -117,6 +135,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const nextA = document.createElement('a');
         nextA.className = 'page-link';
         nextA.textContent = 'Next';
+        nextA.style.minWidth = '44px';
+        nextA.style.minHeight = '44px';
         if (pageNum === totalPages) {
           next.className = 'page-item disabled';
           nextA.setAttribute('aria-disabled', 'true');

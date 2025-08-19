@@ -4,18 +4,34 @@
   <meta charset="UTF-8">
   <title>Page Not Found | 4D Cosmetics</title>
   <script>
-    const path = window.location.pathname;
-    if (path.startsWith('/c/') || path.startsWith('/p/')) {
-      const shell = path.startsWith('/c/') ? '/c/' : '/p/';
-      fetch(shell)
-        .then(r => r.ok ? r.text() : Promise.reject())
-        .then(html => {
-          document.open();
-          document.write(html);
-          document.close();
-        })
-        .catch(() => {});
-    }
+    (function () {
+      const loc = window.location;
+      let path = loc.pathname;
+      const isCategory = path.startsWith('/c/');
+      const isProduct = path.startsWith('/p/');
+      if (isCategory || isProduct) {
+        const parts = path.split('/').filter(Boolean);
+        const slug = parts[1];
+        if (isCategory && !path.endsWith('/')) {
+          path = `/c/${slug}/`;
+          history.replaceState(null, '', path + loc.search);
+        }
+        if (isProduct && path.endsWith('/')) {
+          path = `/p/${slug}`;
+          history.replaceState(null, '', path + loc.search);
+        }
+        const shell = isCategory ? '/c/' : '/p/';
+        fetch(shell)
+          .then(r => (r.ok ? r.text() : Promise.reject()))
+          .then(html => {
+            html = html.replace('<head>', '<head><base href="/">');
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch(() => {});
+      }
+    })();
   </script>
 </head>
 <body>

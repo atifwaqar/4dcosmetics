@@ -58,6 +58,16 @@ or manually install using the latest [release](https://github.com/chrisdiana/sim
 
 4.Add additional products in the `products.json` file.
 
+# Categories & Products
+
+- Category pages live at `/c/{slug}/` (note the trailing slash). Product pages use `/p/{slug}` without a trailing slash.
+- Edit `assets/data/categories.json` and `assets/data/products.json` to manage content. Slugs must remain unique and URL-safe.
+- GitHub Pages serves `404.html` for deep links. The fallback script loads the proper category or product shell while preserving the original URL. When testing locally, run any static server and navigate directly to `/c/{slug}/` or `/p/{slug}` to verify the handoff.
+- To add a new category or product:
+  - Add its entry to the appropriate JSON file.
+  - Ensure the URL is listed in `sitemap.xml`.
+  - New top-level categories automatically appear in the homepage tiles and the header “Shop” menu, and all pages emit correct canonical, Open Graph, and JSON-LD metadata.
+
 # Using Plugins
 
 To use a plugin, add a reference just before your `config.js` file
