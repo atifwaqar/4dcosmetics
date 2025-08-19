@@ -37,15 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (wrap) {
         wrap.classList.remove('d-none');
         const view = document.getElementById('view-all-categories');
-        view.addEventListener('click', e => {
-          e.preventDefault();
-          const toggle = document.getElementById('shopDropdown');
-          if (toggle) {
-            const dd = bootstrap.Dropdown.getOrCreateInstance(toggle);
-            dd.show();
-            toggle.focus();
-          }
-        });
+        view.href = '/categories/';
       }
     }
   } catch (e) {

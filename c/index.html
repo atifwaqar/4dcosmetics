@@ -38,19 +38,44 @@
   <section class="py-5">
     <div class="container">
       <div class="row">
-        <aside class="col-md-3 d-none d-md-block" id="category-sidebar"></aside>
+        <aside class="col-md-3 d-none d-md-block" id="category-sidebar">
+          <div id="filters-desktop"></div>
+          <div id="category-sidebar-list"></div>
+        </aside>
         <div class="col-md-9">
           <nav aria-label="Breadcrumb">
             <ol class="breadcrumb" id="breadcrumb"></ol>
           </nav>
           <h1 id="category-title"></h1>
           <div id="category-description"></div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn btn-outline-primary d-md-none" id="open-filters" style="min-width:44px;min-height:44px;" aria-controls="filterDrawer">Filters</button>
+            <div class="ms-auto">
+              <label for="sort-select" class="me-2">Sort</label>
+              <select id="sort-select" class="form-select d-inline-block w-auto" style="min-width:150px;min-height:44px;"></select>
+            </div>
+          </div>
+          <div id="product-count" class="visually-hidden" aria-live="polite"></div>
           <div class="row" id="product-grid"></div>
           <nav class="mt-4" id="pagination"></nav>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="filterDrawer" aria-labelledby="filterDrawerLabel">
+    <div class="offcanvas-header">
+      <h5 id="filterDrawerLabel">Filters</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <form id="filters-mobile"></form>
+    </div>
+    <div class="p-3 border-top d-flex justify-content-between">
+      <button class="btn btn-primary" id="apply-filters-mobile" style="min-width:44px;min-height:44px;">Apply</button>
+      <button class="btn btn-link" id="clear-filters-mobile" style="min-width:44px;min-height:44px;">Clear all</button>
+    </div>
+  </div>
 
   <footer class="py-4 mt-5">
     <div class="container text-center">

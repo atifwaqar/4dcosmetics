@@ -7,8 +7,14 @@ const root = path.join(__dirname, '..', '..');
 function startServer() {
   return new Promise(res => {
     const server = http.createServer((req, resp) => {
-      let filePath = path.join(root, req.url.split('?')[0]);
-      if (filePath.endsWith('/')) filePath += 'index.html';
+      const reqPath = req.url.split('?')[0];
+      let filePath = path.join(root, reqPath);
+      if (!fs.existsSync(filePath)) {
+        if (reqPath.startsWith('/c/')) filePath = path.join(root, 'c/index.html');
+        else if (reqPath.startsWith('/p/')) filePath = path.join(root, 'p/index.html');
+        else filePath = path.join(root, '404.html');
+      }
+      if (fs.statSync(filePath).isDirectory()) filePath = path.join(filePath, 'index.html');
       fs.readFile(filePath, (err, data) => {
         if (err) { resp.statusCode=404; resp.end('Not found'); return; }
         const ext = path.extname(filePath).toLowerCase();
