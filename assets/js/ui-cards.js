@@ -26,6 +26,15 @@ export const Analytics = {
   },
   addToCart(prod, qty) {
     fireEvent('add_to_cart', { items: [{ item_id: prod.id || prod.slug, item_name: prod.name, price: prod.price, quantity: qty }] });
+  },
+  heroClick(target) {
+    fireEvent('hero_click', { target });
+  },
+  categoryClick(cat) {
+    fireEvent('category_click', { items: [{ item_id: cat.id || cat.slug, item_name: cat.name }] });
+  },
+  newsletterSignup() {
+    fireEvent('sign_up', { method: 'homepage_newsletter' });
   }
 };
 
