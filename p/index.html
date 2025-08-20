@@ -56,6 +56,11 @@
             <span id="product-id" class="visually-hidden item_id"></span>
             <a id="product-url" href="#" class="visually-hidden item_url"></a>
             <p id="product-price" class="h4"></p>
+            <div data-region="reviews-summary" class="mb-3 small">
+              <!-- review summary injected here -->
+              <a href="#reviews" class="me-2">Read reviews</a>
+              <a href="#reviews" data-action="review-open">Write a review</a>
+            </div>
             <p id="stock-status"></p>
             <p id="short-description"></p>
             <div id="category-badges" class="mb-3"></div>
@@ -98,6 +103,17 @@
     <button type="button" id="mobile-atc-btn" class="btn btn-primary">Add to Cart</button>
   </div>
   <div id="live-region" class="visually-hidden" aria-live="polite"></div>
+  <section class="py-5" id="reviews" data-region="reviews">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0">Reviews</h2>
+        <button type="button" class="btn btn-primary" data-action="review-open">Write a review</button>
+      </div>
+      <div data-component="reviews-controls" class="mb-4"></div>
+      <div data-component="reviews-list"></div>
+      <button type="button" class="btn btn-outline-secondary mt-4" data-action="reviews-load-more">Load more</button>
+    </div>
+  </section>
 
   <section class="py-5 d-none" id="recently-viewed-section">
     <div class="container">
@@ -126,6 +142,7 @@
   <script src="/assets/js/storefront-runtime.js"></script>
   <script src="/assets/js/header-nav.js"></script>
   <script type="module" src="/assets/js/product-page.js"></script>
+  <script type="module" src="/assets/js/reviews.js"></script>
   <script src="/assets/js/diagnostics-overlay.js" defer></script>
 </body>
 </html>
