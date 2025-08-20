@@ -150,13 +150,121 @@ footer a:hover { text-decoration: underline; }
   padding: 2px 6px;
   font-size: 12px;
 }
-@media (max-width: 768px){
-  .nav-links{ display: none; }
-  .nav-container{ flex-wrap: wrap; }
-  .nav-actions{
-    flex: 1 0 100%;
-    margin-top: var(--space-3);
+
+@media (max-width:1024px){
+  .js .nav-links{ display:none; }
+  .js .search-form{ display:none; }
+}
+
+.nav-toggle{
+  display:none;
+  background:none;
+  border:none;
+  width:44px;
+  height:44px;
+  padding:0;
+  margin-right:var(--space-3);
+}
+.nav-toggle:focus-visible{
+  outline:2px solid var(--primary);
+  outline-offset:2px;
+}
+.nav-toggle .bar{
+  display:block;
+  width:24px;
+  height:2px;
+  margin:4px auto;
+  background:var(--text);
+  transition:background .2s;
+}
+.nav-toggle[aria-expanded="true"] .bar{
+  background:var(--primary);
+}
+@media (max-width:1024px){
+  .js .nav-toggle{ display:flex; align-items:center; justify-content:center; }
+}
+@media (min-width:1025px){
+  .nav-toggle{ display:none; }
+}
+
+.drawer-overlay{
+  position:fixed;
+  inset:0;
+  background:var(--text);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .2s;
+  z-index:900;
+}
+.drawer-overlay.open{
+  opacity:.4;
+  visibility:visible;
+}
+
+.mobile-drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  width:80vw;
+  max-width:320px;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  box-shadow:var(--shadow-md);
+  padding:var(--space-4);
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+  z-index:950;
+  display:flex;
+  flex-direction:column;
+}
+.mobile-drawer.open{
+  transform:translateX(0);
+}
+.mobile-drawer a{
+  display:block;
+  padding:var(--space-3) 0;
+  color:var(--text);
+}
+.mobile-drawer a:hover,
+.mobile-drawer a:focus{
+  color:var(--primary);
+}
+.drawer-close{
+  align-self:flex-end;
+  background:none;
+  border:none;
+  color:var(--text);
+  font-size:var(--font-size-300);
+  min-width:44px;
+  min-height:44px;
+  margin-bottom:var(--space-4);
+}
+.drawer-close:focus-visible{
+  outline:2px solid var(--primary);
+  outline-offset:2px;
+}
+.drawer-search{
+  margin-bottom:var(--space-4);
+}
+.drawer-search input{
+  width:100%;
+}
+.mobile-drawer .cart-link{
+  margin-left:0;
+  margin-bottom:var(--space-4);
+}
+.drawer-secondary{
+  border-top:1px solid var(--border);
+  margin-top:var(--space-4);
+  padding-top:var(--space-4);
+}
+body.drawer-open{
+  overflow:hidden;
+}
+@media (prefers-reduced-motion: reduce){
+  .drawer-overlay,
+  .mobile-drawer{
+    transition:none;
   }
-  .search-form{ flex: 1; }
-  .search-form input{ width: 100%; }
 }
