@@ -292,3 +292,31 @@ body.drawer-open{
 .price-compare{text-decoration:line-through;color:var(--muted);font-size:var(--font-size-200);}
 .price-discount{color:var(--danger);font-size:var(--font-size-200);}
 .rating{color:var(--accent);font-size:var(--font-size-200);line-height:1;}
+
+/* Variant swatches */
+.variant-swatch{
+  width:44px;
+  height:44px;
+  border:1px solid var(--border);
+  border-radius:50%;
+  cursor:pointer;
+  display:inline-block;
+}
+.variant-swatch.selected{outline:2px solid var(--primary);}
+.variant-swatch:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
+.variant-swatch[disabled]{opacity:.4;cursor:not-allowed;}
+
+/* Mobile add-to-cart bar */
+.mobile-atc{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  padding:var(--space-3) var(--space-4);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:var(--shadow-sm);
+}
