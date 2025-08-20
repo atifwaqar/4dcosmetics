@@ -1,4 +1,5 @@
 import { buildProductCard, Analytics } from './ui-cards.js';
+import { applySEO } from './seo.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
@@ -102,30 +103,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     const category = StorefrontRuntime.findCategoryBySlug(slug);
     if (!category) return render404();
     const canonicalUrl = `${window.location.origin}/c/${category.slug}/`;
-    document.title = `${category.name} | 4D Cosmetics`;
-    document.getElementById('canonical-link').setAttribute('href', canonicalUrl);
-    const meta = document.querySelector('meta[name="description"]');
     let metaDesc = '';
-    if (meta && category.descriptionHTML) {
+    if (category.descriptionHTML) {
       const tmp = document.createElement('div');
       tmp.innerHTML = category.descriptionHTML;
       metaDesc = tmp.textContent.trim().slice(0,160);
-      meta.setAttribute('content', metaDesc);
-    } else if (meta) meta.remove();
-    document.getElementById('og-title').setAttribute('content', `${category.name} | 4D Cosmetics`);
-    if (metaDesc) document.getElementById('og-description').setAttribute('content', metaDesc); else document.getElementById('og-description').remove();
-    document.getElementById('og-url').setAttribute('content', canonicalUrl);
-    if (category.image) document.getElementById('og-image').setAttribute('content', category.image); else document.getElementById('og-image').remove();
-    const ld = [{
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type":"ListItem","position":1,"name":"Home","item":`${window.location.origin}/`},
-        {"@type":"ListItem","position":2,"name":category.name,"item":canonicalUrl}
-      ]
-    }];
-    const ldEl = document.getElementById('ld-json');
-    if (ldEl) ldEl.textContent = JSON.stringify(ld);
+    }
+    applySEO({
+      canonical: canonicalUrl,
+      title: `${category.name} | 4D Cosmetics`,
+      description: metaDesc,
+      robots: 'index,follow',
+      og: {
+        type: 'website',
+        title: `${category.name} | 4D Cosmetics`,
+        description: metaDesc,
+        image: category.image || undefined,
+        url: canonicalUrl
+      },
+      twitter: { card: 'summary_large_image' },
+      schemaBlocks: [{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type":"ListItem","position":1,"name":"Home","item":`${window.location.origin}/`},
+          {"@type":"ListItem","position":2,"name":category.name,"item":canonicalUrl}
+        ]
+      }]
+    });
     document.getElementById('category-title').textContent = category.name;
     if (category.descriptionHTML) document.getElementById('category-description').innerHTML = category.descriptionHTML;
     const breadcrumb = document.getElementById('breadcrumb');

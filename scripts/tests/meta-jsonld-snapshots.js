@@ -58,8 +58,11 @@ function startServer() {
     ld: document.getElementById('ld-json')?.textContent || ''
   }));
   if (!data.ogImage) {failed=true; report.push('Category with image missing og:image');}
-  const ldCat = data.ld ? JSON.parse(data.ld) : null;
-  if (!ldCat || ldCat['@type'] !== 'BreadcrumbList') {failed=true; report.push('Category breadcrumb missing');}
+  const ldCat = data.ld ? JSON.parse(data.ld) : [];
+  const breadcrumbOk = Array.isArray(ldCat)
+    ? ldCat.some(i => i['@type'] === 'BreadcrumbList')
+    : ldCat['@type'] === 'BreadcrumbList';
+  if (!breadcrumbOk) {failed=true; report.push('Category breadcrumb missing');}
   page.removeAllListeners('request');
   await page.setRequestInterception(false);
 
