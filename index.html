@@ -12,10 +12,11 @@
   <link rel="stylesheet" href="./assets/css/custom.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header">
   <div class="container nav-container">
     <a href="/" class="logo">4DCosmetics</a>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary">
       <a href="/c/makeup/">Makeup</a>
       <a href="/c/perfume/">Perfume</a>
       <a href="/c/skincare/">Skincare</a>
@@ -32,6 +33,7 @@
   </div>
 </header>
 
+  <main id="main">
     <section class="hero">
       <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=80" alt="Assorted cosmetics displayed on a table" class="hero-img" width="1200" height="600" loading="eager" fetchpriority="high">
       <div class="hero-content">
@@ -124,6 +126,8 @@
       <div id="newsletter-success" class="text-success mt-2 d-none" role="status">Thanks! Please check your inbox to confirm.</div>
     </div>
   </section>
+
+  </main>
 
   <footer class="py-4 mt-5">
     <div class="container text-center">

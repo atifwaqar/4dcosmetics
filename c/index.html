@@ -18,10 +18,11 @@
   <link rel="stylesheet" href="/assets/css/custom.css">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to main content</a>
   <header class="site-header">
   <div class="container nav-container">
     <a href="/" class="logo">4DCosmetics</a>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primary">
       <a href="/c/makeup/">Makeup</a>
       <a href="/c/perfume/">Perfume</a>
       <a href="/c/skincare/">Skincare</a>
@@ -38,7 +39,7 @@
   </div>
 </header>
 
-  <section class="py-5">
+  <main id="main" class="py-5">
     <div class="container">
       <div class="row">
         <aside class="col-md-3 d-none d-md-block" id="category-sidebar">
@@ -66,7 +67,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="filterDrawer" aria-labelledby="filterDrawerLabel">
     <div class="offcanvas-header">

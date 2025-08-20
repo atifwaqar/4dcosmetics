@@ -10,6 +10,23 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text);
 }
 
+/* Visually hidden until focused skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--primary);
+  color: var(--primary-contrast);
+  transform: translateY(-100%);
+  transition: transform .2s ease;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .navbar-brand {
   font-family: var(--font-sans);
   font-weight: 700;
