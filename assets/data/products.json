@@ -12,7 +12,41 @@
     "shortDescription": "Rich color with a creamy matte finish.",
     "descriptionHTML": "<p>Rich color with a creamy matte finish.</p>",
     "inStock": true,
-    "sku": "LIP001"
+    "sku": "LIP001",
+    "variants": [
+      {
+        "id": "LIP001-ROSE01",
+        "name": "Rose 01",
+        "color": "#C07082",
+        "image": "/assets/img/products/lipstick.jpeg",
+        "price": 19.99,
+        "inStock": true,
+        "sku": "LIP001-ROSE01"
+      },
+      {
+        "id": "LIP001-CORAL02",
+        "name": "Coral 02",
+        "color": "#E86C5D",
+        "image": "/assets/img/products/lipstick.jpeg",
+        "price": 19.99,
+        "inStock": true,
+        "sku": "LIP001-CORAL02"
+      },
+      {
+        "id": "LIP001-BERRY03",
+        "name": "Berry 03",
+        "color": "#8B3F64",
+        "image": "/assets/img/products/lipstick.jpeg",
+        "price": 19.99,
+        "inStock": false,
+        "sku": "LIP001-BERRY03"
+      }
+    ],
+    "details": ["Rich color", "Creamy matte finish", "Long-lasting"],
+    "howTo": ["Apply to lips", "Layer for intensity"],
+    "ingredients": "Ricinus Communis (Castor) Seed Oil, Caprylic/Capric Triglyceride, etc.",
+    "goodToKnow": "Vegan and cruelty-free",
+    "shippingReturns": "Ships in 3-5 days. 30-day returns."
   },
   {
     "id": "FND001",
