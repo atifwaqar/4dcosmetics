@@ -35,6 +35,9 @@ export const Analytics = {
   },
   newsletterSignup() {
     fireEvent('sign_up', { method: 'homepage_newsletter' });
+  },
+  loadMoreClick(listName = 'Listing') {
+    fireEvent('load_more_click', { item_list_name: listName });
   }
 };
 
