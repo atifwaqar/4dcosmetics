@@ -1,0 +1,103 @@
+:root{
+  /* Colors (light theme) */
+  --bg: #FFFFFF;
+  --surface: #FAFAFA;
+  --text: #1F2937;          /* charcoal */
+  --muted: #6B7280;         /* secondary text */
+  --border: #E5E7EB;
+  --primary: #1E88E5;       /* accent */
+  --primary-contrast: #FFFFFF;
+  --accent: #FB8C00;        /* optional secondary */
+  --success: #43A047;
+  --danger: #E53935;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-size-100: 12px;
+  --font-size-200: 14px;
+  --font-size-300: 16px;    /* body */
+  --font-size-400: 18px;
+  --font-size-500: 20px;
+  --font-size-600: 24px;    /* h4 */
+  --font-size-700: 30px;    /* h3 */
+  --font-size-800: 36px;    /* h2 */
+  --font-size-900: 48px;    /* h1 */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+
+  /* Spacing (8px scale) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Radius & elevation */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+}
+
+/* Base reset + body */
+html{ box-sizing:border-box }
+*,*::before,*::after{ box-sizing:inherit }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-sans);
+  font-size:var(--font-size-300);
+  line-height:var(--leading-normal);
+}
+
+/* Headings */
+h1{ font-size:var(--font-size-900); line-height:var(--leading-tight); margin:var(--space-8) 0 var(--space-4) }
+h2{ font-size:var(--font-size-800); line-height:var(--leading-tight); margin:var(--space-8) 0 var(--space-4) }
+h3{ font-size:var(--font-size-700); line-height:var(--leading-tight); margin:var(--space-6) 0 var(--space-3) }
+h4{ font-size:var(--font-size-600); line-height:var(--leading-tight); margin:var(--space-5) 0 var(--space-3) }
+p{ margin: var(--space-4) 0; color: var(--text) }
+
+/* Links & buttons */
+a{ color:var(--primary); text-decoration:none }
+a:hover{ text-decoration:underline }
+
+.button, button, [type="button"], [type="submit"]{
+  display:inline-block;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  font-weight:600;
+  box-shadow: var(--shadow-sm);
+  cursor:pointer;
+}
+.button--ghost{
+  background: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Inputs */
+input, select, textarea{
+  width:100%;
+  padding: var(--space-3) var(--space-4);
+  border:1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* Cards / product tiles */
+.card{
+  background: var(--surface);
+  border:1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+}
