@@ -306,6 +306,22 @@ body.drawer-open{
 .variant-swatch:focus-visible{outline:2px solid var(--primary);outline-offset:2px;}
 .variant-swatch[disabled]{opacity:.4;cursor:not-allowed;}
 
+/* Site search autocomplete */
+.search-form{position:relative;}
+.search-results{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  z-index:1000;
+  background:var(--surface);
+  border:1px solid var(--border);
+  max-height:80vh;
+  overflow-y:auto;
+}
+.search-option{padding:var(--space-2);cursor:pointer;}
+.search-option.active,.search-option:hover{background:var(--bg-muted);}
+
 /* Mobile add-to-cart bar */
 .mobile-atc{
   position:fixed;
