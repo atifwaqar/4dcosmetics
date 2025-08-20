@@ -14,11 +14,7 @@ document.documentElement.classList.add('js');
 
 function navEvent(type, data = {}) {
   try {
-    if (window.gtag) {
-      window.gtag('event', type, data);
-    } else if (window.dataLayer) {
-      window.dataLayer.push({ event: type, ...data });
-    }
+    window.analytics && window.analytics.dispatch(type, { meta: data }, 'analytics');
   } catch (e) {
     console.warn('analytics error', e);
   }
