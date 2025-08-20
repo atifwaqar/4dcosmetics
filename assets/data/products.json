@@ -197,5 +197,20 @@
     "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
     "inStock": true,
     "sku": "FIX001"
+  },
+  {
+    "id": "FIX002",
+    "name": "RBORY Makeup Setting Spray",
+    "slug": "rbory-makeup-setting-spray",
+    "images": ["/assets/img/products/IMG-20250816-WA0053.jpg"],
+    "price": 1750,
+    "currency": "PKR",
+    "categories": ["makeup"],
+    "brand": "RBORY",
+    "tags": ["makeup"],
+    "shortDescription": "Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day",
+    "descriptionHTML": "<p>Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day</p>",
+    "inStock": true,
+    "sku": "FIX002"
   }
 ]
