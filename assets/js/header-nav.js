@@ -10,6 +10,134 @@ async function ensureSearchEngine() {
 
 function debounce(fn, delay){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args),delay); }; }
 
+document.documentElement.classList.add('js');
+
+function navEvent(type, data = {}) {
+  try {
+    if (window.gtag) {
+      window.gtag('event', type, data);
+    } else if (window.dataLayer) {
+      window.dataLayer.push({ event: type, ...data });
+    }
+  } catch (e) {
+    console.warn('analytics error', e);
+  }
+}
+
+function initMobileNav() {
+  const mq = window.matchMedia('(max-width:1024px)');
+  if (!mq.matches) return;
+  const navContainer = document.querySelector('.nav-container');
+  const navLinks = document.querySelector('.nav-links');
+  const navActions = document.querySelector('.nav-actions');
+  if (!navContainer || !navLinks || !navActions) return;
+
+  const searchForm = navActions.querySelector('.search-form');
+  const cartLink = navActions.querySelector('.cart-link');
+
+  const btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.setAttribute('aria-controls', 'mobile-drawer');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<span class="bar"></span><span class="bar"></span><span class="bar"></span>';
+  navContainer.insertBefore(btn, navContainer.firstChild);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'drawer-overlay';
+  document.body.appendChild(overlay);
+
+  const drawer = document.createElement('nav');
+  drawer.id = 'mobile-drawer';
+  drawer.className = 'mobile-drawer';
+  drawer.setAttribute('aria-label', 'Primary');
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'drawer-close';
+  closeBtn.textContent = 'Close';
+  closeBtn.setAttribute('aria-label', 'Close menu');
+  drawer.appendChild(closeBtn);
+
+  if (searchForm) {
+    const s = searchForm.cloneNode(true);
+    s.classList.add('drawer-search');
+    s.addEventListener('submit', () => {
+      const q = s.querySelector('input')?.value.trim();
+      navEvent('search_submit', { query: q });
+      close('search');
+    });
+    drawer.appendChild(s);
+  }
+
+  if (cartLink) {
+    const cart = cartLink.cloneNode(true);
+    drawer.appendChild(cart);
+  }
+
+  const primary = navLinks.cloneNode(true);
+  drawer.appendChild(primary);
+
+  const secondary = document.createElement('div');
+  secondary.className = 'drawer-secondary';
+  secondary.innerHTML = '<a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/docs/how-to-choose-serum.html">Help</a>';
+  drawer.appendChild(secondary);
+
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navEvent('nav_link_click', { label: a.textContent.trim() }));
+  });
+
+  document.body.appendChild(drawer);
+
+  let lastFocus = null;
+  function focusables() {
+    return drawer.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+  }
+  function trap(e) {
+    if (e.key === 'Tab') {
+      const f = focusables();
+      if (!f.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      close('esc');
+    }
+  }
+
+  function open() {
+    lastFocus = document.activeElement;
+    btn.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    const sb = window.innerWidth - document.documentElement.clientWidth;
+    document.body.classList.add('drawer-open');
+    if (sb > 0) document.body.style.paddingRight = sb + 'px';
+    const f = focusables();
+    if (f.length) f[0].focus();
+    document.addEventListener('keydown', trap);
+    navEvent('menu_open');
+  }
+
+  function close(method = 'close') {
+    btn.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    document.body.style.paddingRight = '';
+    document.removeEventListener('keydown', trap);
+    if (lastFocus) lastFocus.focus();
+    navEvent('menu_close', { method });
+  }
+
+  btn.addEventListener('click', () => {
+    drawer.classList.contains('open') ? close('toggle') : open();
+  });
+  closeBtn.addEventListener('click', () => close('close_btn'));
+  overlay.addEventListener('click', () => { navEvent('overlay_close'); close('overlay'); });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await ensureSearchEngine();
@@ -148,20 +276,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.addEventListener('click', e => { if(!form.contains(e.target)) hidePanel(); });
     }
 
-    const footerContainer = document.querySelector('footer .container');
-    if (footerContainer) {
-      const list = document.createElement('div');
-      list.className = 'mt-3 footer-categories';
-      topCats.forEach(cat => {
-        const a = document.createElement('a');
-        a.href = `/c/${cat.slug}/`;
-        a.textContent = cat.name;
-        a.className = 'me-2';
-        list.appendChild(a);
-      });
-      footerContainer.appendChild(list);
+      const footerContainer = document.querySelector('footer .container');
+      if (footerContainer) {
+        const list = document.createElement('div');
+        list.className = 'mt-3 footer-categories';
+        topCats.forEach(cat => {
+          const a = document.createElement('a');
+          a.href = `/c/${cat.slug}/`;
+          a.textContent = cat.name;
+          a.className = 'me-2';
+          list.appendChild(a);
+        });
+        footerContainer.appendChild(list);
+      }
+
+      if (window.matchMedia('(max-width:1024px)').matches) {
+        initMobileNav();
+      }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
-  }
-});
+  });
