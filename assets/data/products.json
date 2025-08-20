@@ -182,5 +182,20 @@
     "descriptionHTML": "<p>Silky-smooth, water-based moisturizing face primer that hydrates skin without cakiness or powder residue.</p>",
     "inStock": true,
     "sku": "PRM003"
+  },
+  {
+    "id": "FIX001",
+    "name": "RBORY Makeup Fixer",
+    "slug": "rbory-makeup-fixer",
+    "images": ["/assets/img/products/IMG-20250816-WA0052.jpg"],
+    "price": 1800,
+    "currency": "PKR",
+    "categories": ["makeup"],
+    "brand": "RBORY",
+    "tags": ["makeup"],
+    "shortDescription": "24 Hrs Makeup fresh, Matte finish & long lasting with a lightweight hydrating fixer",
+    "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
+    "inStock": true,
+    "sku": "FIX001"
   }
 ]
