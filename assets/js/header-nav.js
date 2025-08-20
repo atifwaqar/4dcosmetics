@@ -140,6 +140,10 @@ function initMobileNav() {
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    const s = document.createElement('script');
+    s.type = 'module';
+    s.src = '/assets/js/search-autocomplete.js';
+    document.head.appendChild(s);
     await ensureSearchEngine();
     const categories = await StorefrontRuntime.loadCategories();
     const topCats = categories.filter(c => !c.parent)
