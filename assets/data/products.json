@@ -169,6 +169,21 @@
     "sku": "FND002"
   },
   {
+    "id": "PRM003",
+    "name": "RBORY Water Moisturizing Makeup Face Primer",
+    "slug": "rbory-water-moisturizing-makeup-face-primer",
+    "images": ["/assets/img/products/IMG-20250816-WA0051.jpg"],
+    "price": 2200,
+    "currency": "PKR",
+    "categories": ["makeup", "primer"],
+    "brand": "RBory",
+    "tags": ["primer"],
+    "shortDescription": "Silky-smooth, water-based primer that hydrates without cakiness.",
+    "descriptionHTML": "<p>Silky-smooth, water-based moisturizing face primer that hydrates skin without cakiness or powder residue.</p>",
+    "inStock": true,
+    "sku": "PRM003"
+  },
+  {
     "id": "FIX001",
     "name": "RBORY Makeup Fixer",
     "slug": "rbory-makeup-fixer",
