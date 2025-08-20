@@ -227,5 +227,20 @@
     "descriptionHTML": "<p>Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day</p>",
     "inStock": true,
     "sku": "FIX002"
+  },
+  {
+    "id": "LIP003",
+    "name": "RBORY Kiss Lipstick",
+    "slug": "rbory-kiss-lipstick",
+    "images": ["/assets/img/products/IMG-20250816-WA0050.jpg"],
+    "price": 550,
+    "currency": "PKR",
+    "categories": ["makeup", "lipsticks"],
+    "brand": "RBORY",
+    "tags": ["makeup"],
+    "shortDescription": "A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color",
+    "descriptionHTML": "<p>A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color</p>",
+    "inStock": true,
+    "sku": "LIP003"
   }
 ]
