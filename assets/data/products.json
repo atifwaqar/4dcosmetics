@@ -124,6 +124,21 @@
     "sku": "PRM001"
   },
   {
+    "id": "PRM002",
+    "name": "RBory Long Wear Face Primer",
+    "slug": "rbory-long-wear-face-primer",
+    "images": ["/assets/img/products/IMG-20250816-WA0049.jpg"],
+    "price": 2200,
+    "currency": "PKR",
+    "categories": ["makeup", "primer"],
+    "brand": "RBory",
+    "tags": ["primer"],
+    "shortDescription": "Long wear & lightweight face primer keeps makeup fresh all day.",
+    "descriptionHTML": "<p>Long wear &amp; lightweight face primer, makeup fresh &amp; flawless all day long</p>",
+    "inStock": true,
+    "sku": "PRM002"
+  },
+  {
     "id": "LIP002",
     "name": "Art skin Velvet Lipstick 6 Pcs",
     "slug": "art-skin-velvet-lipstick-6-pcs",
