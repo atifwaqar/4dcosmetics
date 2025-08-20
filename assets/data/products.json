@@ -137,5 +137,20 @@
     "descriptionHTML": "<p>Velvety Matte Lipstick with soft finish and All day Wear</p>",
     "inStock": true,
     "sku": "LIP002"
+  },
+  {
+    "id": "FND002",
+    "name": "Roseberry Foundation & Concealer Stick",
+    "slug": "roseberry-foundation-concealer-stick",
+    "images": ["/assets/img/products/IMG-20250816-WA0048.jpg"],
+    "price": 1850,
+    "currency": "PKR",
+    "categories": ["makeup", "foundation"],
+    "brand": "Roseberry",
+    "tags": ["makeup"],
+    "shortDescription": "Flawless Coverage, a lightweight feel, a natural, long last finishing.",
+    "descriptionHTML": "<p>Flawless Coverage, a lightweight feel, a natural, long last finishing.</p>",
+    "inStock": true,
+    "sku": "FND002"
   }
 ]
