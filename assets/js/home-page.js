@@ -1,6 +1,20 @@
 import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const heroPrimary = document.getElementById('hero-primary-cta');
+  const heroSecondary = document.getElementById('hero-secondary-cta');
+  heroPrimary?.addEventListener('click', () => Analytics.heroClick('primary'));
+  heroSecondary?.addEventListener('click', () => Analytics.heroClick('secondary'));
+
+  const newsletterForm = document.getElementById('newsletter-form');
+  const newsletterSuccess = document.getElementById('newsletter-success');
+  newsletterForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    Analytics.newsletterSignup();
+    newsletterSuccess?.classList.remove('d-none');
+    newsletterForm.reset();
+  });
+
   const container = document.getElementById('home-categories');
   if (!container) return;
   try {
@@ -32,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const span = document.createElement('span');
       span.textContent = cat.name;
       link.appendChild(span);
+      link.addEventListener('click', () => Analytics.categoryClick(cat));
       col.appendChild(link);
       container.appendChild(col);
     });
@@ -49,27 +64,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       const row = document.createElement('div');
       row.className = 'row';
       let items = products.filter(p => (p.tags || []).includes('featured'));
-      if (!items.length) items = products.slice(0,4);
+      if (!items.length) items = products.slice(0,8);
       const rendered=[];
-      items.slice(0,4).forEach(prod => {
+      items.slice(0,8).forEach(prod => {
         const card=buildProductCard(prod);
         if(card){ row.appendChild(card); rendered.push(prod);} 
       });
       featured.appendChild(row);
-      Analytics.viewItemList(rendered, 'Featured');
-    }
-
-    const recentSection = document.getElementById('recently-viewed-home');
-    const recentRow = document.getElementById('recently-viewed-home-row');
-    const recSlugs = StorefrontRuntime.getRecentlyViewed();
-    const prods = recSlugs.map(StorefrontRuntime.getProductBySlug).filter(Boolean);
-    if (prods.length >= 3) {
-      recentSection.classList.remove('d-none');
-      prods.forEach(p => {
-        const col=document.createElement('div'); col.className='col-6 col-md-3 mb-4';
-        col.innerHTML = `<a href="/p/${p.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${p.images[0]}" class="card-img-top" alt="${p.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(p)}</div><h6 class="card-title">${p.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(p.price, p.currency)}</p></div></div></a>`;
-        recentRow.appendChild(col);
-      });
+      const observer=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            Analytics.viewItemList(rendered,'Featured');
+            observer.disconnect();
+          }
+        });
+      },{threshold:0.1});
+      observer.observe(featured);
     }
   } catch (e) {
     console.error(e);
