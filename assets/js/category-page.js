@@ -142,6 +142,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const productsAll = StorefrontRuntime.listProductsForCategory(slug);
     const brands = Array.from(new Set(productsAll.map(p=>p.brand).filter(Boolean))).sort();
     const tagsAll = Array.from(new Set(productsAll.flatMap(p=>p.tags||[]))).sort();
+    let currentItems = [];
+    let totalPages = 1;
+    let loadedPage = 0;
+    const grid = document.getElementById('product-grid');
+    const productCount = document.getElementById('product-count');
+    const loadMoreBtn = document.getElementById('load-more');
+    const loadMoreContainer = document.getElementById('load-more-container');
     // sanitize state for unknown values
     state.brand = state.brand.filter(b=>brands.includes(b));
     state.tags = state.tags.filter(t=>tagsAll.includes(t));
@@ -303,53 +310,68 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function render(scroll=true) {
-      const grid = document.getElementById('product-grid');
       grid.innerHTML='';
-      let items = filterProducts(productsAll);
-      items = sortProducts(items);
-      const total = items.length;
+      loadedPage = 0;
+      currentItems = sortProducts(filterProducts(productsAll));
+      const total = currentItems.length;
       grid.setAttribute('data-total', total);
-      const productCount = document.getElementById('product-count');
       productCount.textContent = `${total} products`;
-      const totalPages = Math.ceil(total / perPage) || 1;
+      totalPages = Math.ceil(total / perPage) || 1;
       if (state.page > totalPages) { state.page = totalPages; replaceURL(); }
-      const pageItems = StorefrontRuntime.paginateArray(items, state.page, perPage);
-      if (pageItems.length === 0) {
+      if (total === 0) {
         const p = document.createElement('p'); p.textContent = 'No products match your filters.';
         const link = document.createElement('a'); link.href='#'; link.textContent='Clear filters'; link.addEventListener('click', e=>{e.preventDefault(); clearFilters();});
         grid.appendChild(p); grid.appendChild(link);
-      } else {
-        const rendered=[];
-        pageItems.forEach(prod => {
-          const card = buildProductCard(prod);
-          if (card){ grid.appendChild(card); rendered.push(prod); }
-        });
-        Analytics.viewItemList(rendered, category.name);
-        if (ldEl) {
-          ld[1] = {
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "itemListElement": rendered.map((p,i)=>({"@type":"ListItem","position":i+1,"url":`${window.location.origin}/p/${p.slug}`}))
-          };
-          ldEl.textContent = JSON.stringify(ld);
-        }
+        updateLoadMore();
+        return;
       }
-      const nav = document.getElementById('pagination'); nav.innerHTML='';
-      if (totalPages > 1 && pageItems.length) {
-        const ulp = document.createElement('ul'); ulp.className='pagination';
-        const prev = document.createElement('li'); const prevA=document.createElement('a'); prevA.className='page-link'; prevA.textContent='Previous'; prevA.style.minWidth='44px'; prevA.style.minHeight='44px';
-        if (state.page === 1){ prev.className='page-item disabled'; prevA.setAttribute('aria-disabled','true'); prevA.tabIndex=-1; } else { prev.className='page-item'; prevA.href = buildQuery({page: state.page-1}); }
-        prev.appendChild(prevA); ulp.appendChild(prev);
-        for(let i=1;i<=totalPages;i++){
-          const li=document.createElement('li'); li.className='page-item'+(i===state.page?' active':'');
-          const a=document.createElement('a'); a.className='page-link'; a.textContent=i; a.style.minWidth='44px'; a.style.minHeight='44px'; if(i!==state.page) a.href=buildQuery({page:i}); li.appendChild(a); ulp.appendChild(li);
-        }
-        const next=document.createElement('li'); const nextA=document.createElement('a'); nextA.className='page-link'; nextA.textContent='Next'; nextA.style.minWidth='44px'; nextA.style.minHeight='44px';
-        if (state.page === totalPages){ next.className='page-item disabled'; nextA.setAttribute('aria-disabled','true'); nextA.tabIndex=-1; } else { next.className='page-item'; nextA.href=buildQuery({page: state.page+1}); }
-        next.appendChild(nextA); ulp.appendChild(next); nav.appendChild(ulp);
+      while (loadedPage < state.page) {
+        appendNextPage();
       }
-      if (scroll) document.getElementById('product-grid').scrollIntoView();
+      updateLoadMore();
+      if (scroll) grid.scrollIntoView();
     }
+
+    function appendNextPage() {
+      const start = loadedPage * perPage;
+      const pageItems = currentItems.slice(start, start + perPage);
+      if (!pageItems.length) return;
+      const rendered = [];
+      pageItems.forEach(prod => {
+        const card = buildProductCard(prod);
+        if (card){ grid.appendChild(card); rendered.push(prod); }
+      });
+      loadedPage++;
+      Analytics.viewItemList(rendered, category.name);
+      updateLD();
+    }
+
+    function updateLoadMore() {
+      if (loadedPage >= totalPages) {
+        loadMoreContainer.classList.add('d-none');
+      } else {
+        loadMoreContainer.classList.remove('d-none');
+      }
+    }
+
+    function updateLD() {
+      if (!ldEl) return;
+      ld[1] = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": currentItems.slice(0, loadedPage * perPage).map((p,i)=>({"@type":"ListItem","position":i+1,"url":`${window.location.origin}/p/${p.slug}`}))
+      };
+      ldEl.textContent = JSON.stringify(ld);
+    }
+    loadMoreBtn.addEventListener('click', () => {
+      if (loadedPage < totalPages) {
+        state.page = loadedPage + 1;
+        replaceURL();
+        appendNextPage();
+        updateLoadMore();
+        Analytics.loadMoreClick(category.name);
+      }
+    });
 
     render(false);
   } catch (e) {
