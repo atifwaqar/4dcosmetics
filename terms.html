@@ -11,22 +11,25 @@
   <link rel="stylesheet" href="./assets/css/custom.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="index.html"><img src="./assets/img/logo.png" alt="4D Cosmetics logo" width="40" height="40"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="cart.html">Cart (<span class="simpleCart_quantity">0</span>)</a></li>
-        </ul>
-      </div>
+  <header class="site-header">
+  <div class="container nav-container">
+    <a href="/" class="logo">4DCosmetics</a>
+    <nav class="nav-links">
+      <a href="/c/makeup/">Makeup</a>
+      <a href="/c/perfume/">Perfume</a>
+      <a href="/c/skincare/">Skincare</a>
+      <a href="/c/accessories/">Accessories</a>
+    </nav>
+    <div class="nav-actions">
+      <form class="search-form" action="/search/" method="get">
+        <input type="search" name="q" placeholder="Search products…" aria-label="Search">
+      </form>
+      <a href="/cart.html" class="cart-link">
+        🛒 <span class="cart-count simpleCart_quantity">0</span>
+      </a>
     </div>
-  </nav>
+  </div>
+</header>
 
   <section class="py-5">
     <div class="container">
