@@ -64,44 +64,61 @@ export function buildProductCard(prod) {
   }
   const img = (prod.images && prod.images[0]) || '/assets/img/products/fallback.png';
   const priceNum = normalizePrice(prod.price);
+  const compareNum = normalizePrice(prod.compareAtPrice);
   const currency = prod.currency || 'USD';
 
-  const col = document.createElement('div');
-  col.className = 'col-6 col-md-4 col-lg-3 mb-4';
+  const wrap = document.createElement('div');
+  wrap.className = 'product-card';
 
-  const priceHTML = priceNum !== null
-    ? `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-ui">${StorefrontRuntime.formatPrice(priceNum, currency)}</span>`
-    : `<span class="visually-hidden item_price"></span><span aria-hidden="true" class="price-ui">Unavailable</span>`;
+  let priceHTML = '';
+  if (priceNum !== null) {
+    priceHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-current">${StorefrontRuntime.formatPrice(priceNum, currency)}</span>`;
+    if (compareNum !== null && compareNum > priceNum) {
+      const pct = Math.round((1 - priceNum / compareNum) * 100);
+      priceHTML += ` <span class="price-compare">${StorefrontRuntime.formatPrice(compareNum, currency)}</span> <span class="price-discount">${pct}% off</span>`;
+    }
+  } else {
+    priceHTML = `<span class="visually-hidden item_price"></span><span aria-hidden="true" class="price-current">Unavailable</span>`;
+  }
 
-  const disabled = priceNum === null ? 'disabled' : '';
-  const btnLabel = priceNum === null ? 'Unavailable' : 'Add to Cart';
+  const disabled = priceNum === null || prod.inStock === false;
+  const actionHTML = disabled
+    ? `<a href="/p/${prod.slug}" class="btn btn-secondary mt-auto" aria-label="View details for ${prod.name}">View details</a>`
+    : `<button class="btn btn-primary mt-auto item_add" type="button" aria-label="Add ${prod.name} to cart">Add to Cart</button>`;
 
-  col.innerHTML = `
+  const ratingHTML = prod.rating
+    ? `<div class="rating mb-1" aria-label="Rated ${prod.rating} out of 5">${'★'.repeat(Math.round(prod.rating))}${'☆'.repeat(5 - Math.round(prod.rating))} <span class="text-muted small">(${prod.ratingCount || 0})</span></div>`
+    : '';
+
+  wrap.innerHTML = `
     <div class="card h-100 simpleCart_shelfItem">
       <a href="/p/${prod.slug}" class="text-decoration-none text-dark">
-        <img src="${img}" class="card-img-top item_image item_thumb" alt="${prod.name}" loading="lazy" decoding="async" onerror="this.src='/assets/img/products/fallback.png'" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;" srcset="${img} 300w, ${img} 600w" sizes="(max-width: 600px) 100vw, 300px">
+        <img src="${img}" class="card-img-top item_image item_thumb" alt="${prod.name}" loading="lazy" decoding="async" onerror="this.src='/assets/img/products/fallback.png'" width="300" height="375" srcset="${img} 300w, ${img} 600w" sizes="(max-width: 600px) 100vw, 300px">
       </a>
       <div class="card-body p-2 d-flex flex-column">
         <span class="visually-hidden item_id">${prod.id || prod.slug}</span>
         <span class="visually-hidden item_url">/p/${prod.slug}</span>
         <div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(prod) || ''}</div>
+        ${prod.brand ? `<p class="brand mb-1 small text-muted">${prod.brand}</p>` : ''}
         <a href="/p/${prod.slug}" class="card-title h6 text-decoration-none text-dark item_name">${prod.name}</a>
-        <p class="card-text mb-1">${priceHTML}</p>
-        <button class="btn btn-primary mt-auto item_add" type="button" aria-label="Add ${prod.name} to cart" ${disabled}>${btnLabel}</button>
+        ${prod.variant ? `<p class="variant text-muted mb-1">${prod.variant}</p>` : ''}
+        ${ratingHTML}
+        <p class="card-text price-block mb-1">${priceHTML}</p>
+        ${actionHTML}
       </div>
     </div>`;
 
-  const btn = col.querySelector('.item_add');
-  if (priceNum !== null) {
+  if (!disabled) {
+    const btn = wrap.querySelector('.item_add');
     btn.addEventListener('click', () => {
       Analytics.addToCart(prod, 1);
       showAddedToast(prod.name);
     });
   }
-  col.querySelectorAll('a[href^="/p/"]').forEach(a => {
+  wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
     a.addEventListener('click', () => Analytics.selectItem(prod));
   });
-  return col;
+  return wrap;
 }
 
 // expose helpers globally
