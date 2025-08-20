@@ -68,9 +68,24 @@ document.addEventListener('DOMContentLoaded', async () => {
       const rendered=[];
       items.slice(0,8).forEach(prod => {
         const card=buildProductCard(prod);
-        if(card){ row.appendChild(card); rendered.push(prod);} 
+        if(card){ row.appendChild(card); rendered.push(prod);}
       });
       featured.appendChild(row);
+      if(rendered.length){
+        const ld={
+          "@context":"https://schema.org",
+          "@type":"ItemList",
+          itemListElement: rendered.map((p,idx)=>({
+            "@type":"ListItem",
+            position: idx+1,
+            url: `${location.origin}/p/${p.slug}`
+          }))
+        };
+        const ldScript=document.createElement('script');
+        ldScript.type='application/ld+json';
+        ldScript.textContent=JSON.stringify(ld);
+        document.head.appendChild(ldScript);
+      }
       const observer=new IntersectionObserver(entries=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){
