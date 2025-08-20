@@ -197,5 +197,20 @@
     "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
     "inStock": true,
     "sku": "FIX001"
+  },
+  {
+    "id": "FND003",
+    "name": "SK Forever Skin Nourishing Liquid Foundation",
+    "slug": "sk-forever-skin-nourishing-liquid-foundation",
+    "images": ["/assets/img/products/IMG-20250816-WA0054.jpg"],
+    "price": 950,
+    "currency": "PKR",
+    "categories": ["makeup", "foundation"],
+    "brand": "SK",
+    "tags": ["makeup"],
+    "shortDescription": "Hydrates, evens tone, and leaves a radiant finish.",
+    "descriptionHTML": "<p>A skin-nourishing liquid foundation that hydrates, evens tone, and delivers a radiant, natural finish.</p>",
+    "inStock": true,
+    "sku": "FND003"
   }
 ]
