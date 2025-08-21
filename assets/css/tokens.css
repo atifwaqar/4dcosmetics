@@ -101,3 +101,24 @@ input, select, textarea{
   box-shadow: var(--shadow-sm);
   padding: var(--space-4);
 }
+:root{
+  --bg:#ffffff;
+  --bg-alt:#fafafa;
+  --text:#222;
+  --muted:#666;
+  --border:#eee;
+  --brand:#E91E63;
+  --brand-600:#C2185B;
+  --accent:#FF5252;
+  --success:#43A047;
+  --warning:#FB8C00;
+  --sale:#D32F2F;
+  --badge:#111;
+  --fs-base: clamp(14px,1.6vw,16px);
+  --lh: 1.5;
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:0 8px 24px rgba(0,0,0,.06);
+  --space-1:4px; --space-2:8px; --space-3:12px;
+  --space-4:16px; --space-5:20px; --space-6:24px;
+}
