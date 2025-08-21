@@ -66,3 +66,28 @@ a:hover{color:var(--brand-600); text-decoration:underline}
 .drawer-links{display:flex;flex-direction:column;gap:12px;font-size:16px}
 .drawer-search input{margin-top:12px;border-radius:999px;border:1px solid var(--border);padding:10px 14px}
 .body-lock{overflow:hidden}
+/* Center the primary category tabs */
+.bnz-tabs{
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* <-- centers the row */
+  gap:12px;
+  width:100%;
+  margin:10px auto 18px;
+  padding:4px 0;
+}
+
+.bnz-tabs__item{
+  flex:0 0 auto;            /* prevent stretching */
+}
+
+/* Optional: keep them left-aligned on very small screens with horizontal scroll */
+@media (max-width: 640px){
+  .bnz-tabs{
+    justify-content:flex-start;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:4px 12px;
+  }
+  .bnz-tabs__item{ scroll-snap-align:center; }
+}
