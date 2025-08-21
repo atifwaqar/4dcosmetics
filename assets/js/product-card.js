@@ -1,0 +1,140 @@
+// exports: renderProductCard(item), formatPrice(number, currency)
+(function(global){
+  const WISHLIST_KEY = 'wishlist_ids_v1';
+
+  function loadWishlist(){
+    try{ return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }catch{ return []; }
+  }
+  function saveWishlist(arr){ localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr)); }
+  function inWishlist(id){ return loadWishlist().includes(String(id)); }
+  function toggleWishlist(id){
+    const idStr = String(id);
+    let list = loadWishlist();
+    if(list.includes(idStr)) list = list.filter(x=>x!==idStr); else list.push(idStr);
+    saveWishlist(list);
+    return list.includes(idStr);
+  }
+
+  function formatPrice(n, currency='PKR'){
+    try{
+      return new Intl.NumberFormat(undefined, { style:'currency', currency }).format(n);
+    }catch{
+      // fallback
+      return (currency + ' ' + (n||0).toLocaleString());
+    }
+  }
+
+  function starsSVG(value){
+    // returns inline SVG string for 0..5 with halves
+    const v = Math.max(0, Math.min(5, Number(value)||0));
+    const full = Math.floor(v);
+    const half = v - full >= 0.5 ? 1 : 0;
+    const empty = 5 - full - half;
+    const icon = (type)=>`<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${type}"/></svg>`;
+    const PATH_FULL = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z";
+    const PATH_HALF = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2v15.27z"; // half star
+    const PATH_EMPTY= "M22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24zm-10 6.11-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 3.89 4.38.38-3.32 2.88 1 4.28L12 15.35z";
+    return [
+      ...Array(full).fill(icon(PATH_FULL)),
+      ...Array(half).fill(icon(PATH_HALF)),
+      ...Array(empty).fill(icon(PATH_EMPTY))
+    ].join('');
+  }
+
+  function renderProductCard(raw){
+    // Accept multiple shapes; normalize to a single item schema
+    const item = normalize(raw);
+
+    const badges = [];
+    if(item.is_oos) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
+    if(item.is_new) badges.push('<span class="pc-badge pc-badge--new">New</span>');
+    if(item.is_best) badges.push('<span class="pc-badge pc-badge--best">Best</span>');
+    if(item.price.old && item.price.current < item.price.old) badges.push('<span class="pc-badge pc-badge--sale">Sale</span>');
+
+    const wishPressed = inWishlist(item.id);
+    const priceNew = formatPrice(item.price.current, item.price.currency);
+    const priceOld = item.price.old ? formatPrice(item.price.old, item.price.currency) : '';
+
+    const oosClass = item.is_oos ? ' pc--oos' : '';
+    const atcLabel = item.is_oos ? 'Notify Me' : 'Add to Cart';
+
+    return `
+      <article class="pc card-soft${oosClass}" data-id="${item.id}">
+        <a class="pc__link" href="${item.url}" aria-label="${escapeHtml(item.title)}"></a>
+
+        <div class="pc__media aspect-1x1">
+          <img class="pc__img" src="${item.image}" alt="${escapeHtml(item.image_alt || item.title)}" loading="lazy">
+          ${item.image_alt2 ? `<img class="pc__img--alt" src="${item.image_alt2}" alt="" aria-hidden="true" loading="lazy">` : ''}
+          <div class="pc__badges">${badges.join('')}</div>
+          <button class="pc__wish" aria-label="Add to wishlist" aria-pressed="${wishPressed}" data-id="${item.id}">♥</button>
+        </div>
+
+        <div class="pc__body">
+          <h3 class="pc__title clamp-2">${escapeHtml(item.title)}</h3>
+          <div class="pc__rating" aria-label="${item.rating.value} out of 5 stars">
+            <span class="pc__rating-stars" aria-hidden="true">${starsSVG(item.rating.value)}</span>
+            <span class="pc__rating-num">${item.rating.value.toFixed(1)}</span>
+            <span class="pc__rating-count">(${item.rating.count})</span>
+          </div>
+          <div class="pc__price">
+            <span class="price price--new">${priceNew}</span>
+            ${priceOld ? `<span class="price price--old">${priceOld}</span>` : ''}
+          </div>
+          <div class="pc__cta">
+            <button class="btn-modern btn-modern--primary pc__atc" data-id="${item.id}">${atcLabel}</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  // Map existing repo data shapes to the unified schema
+  function normalize(raw){
+    // Try common keys from storefront-runtime / search
+    const id = raw.id || raw.item_id || raw.sku || raw.handle || raw.slug || raw._id;
+    const url = raw.url || raw.item_url || (raw.handle ? '/p/'+raw.handle+'/' : raw.slug ? '/p/'+raw.slug+'/' : '#');
+    return {
+      id: String(id||''),
+      url,
+      title: raw.title || raw.name || 'Untitled',
+      image: raw.image || raw.item_image || (raw.images && raw.images[0]) || '',
+      image_alt: raw.image_alt || raw.alt || raw.title || '',
+      image_alt2: raw.image_alt2 || (raw.images && raw.images[1]) || '',
+      is_new: !!(raw.is_new || raw.tags?.includes?.('new')),
+      is_best: !!(raw.is_best || raw.tags?.includes?.('bestseller')),
+      is_oos: !!(raw.is_oos === true || raw.stock === 0 || raw.available === false),
+      rating: {
+        value: Number(raw.rating?.value ?? raw.rating ?? 0) || 0,
+        count: Number(raw.rating?.count ?? raw.reviews ?? 0) || 0
+      },
+      price: {
+        current: Number(raw.price?.current ?? raw.price ?? raw.salePrice ?? 0) || 0,
+        old: raw.price?.old ?? raw.compareAt ?? raw.mrp ?? null,
+        currency: raw.price?.currency || raw.currency || 'PKR'
+      }
+    };
+  }
+
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' }[m])); }
+
+  // delegate wishlist/atc events at document level (cards are dynamic)
+  document.addEventListener('click', (e)=>{
+    const wish = e.target.closest('.pc__wish');
+    if(wish){
+      e.preventDefault(); e.stopPropagation();
+      const id = wish.getAttribute('data-id');
+      const state = toggleWishlist(id);
+      wish.setAttribute('aria-pressed', state ? 'true' : 'false');
+      return;
+    }
+    const atc = e.target.closest('.pc__atc');
+    if(atc){
+      const id = atc.getAttribute('data-id');
+      const evt = new CustomEvent('product:addToCart', { detail: { id }, bubbles:true });
+      atc.dispatchEvent(evt);
+    }
+  });
+
+  // expose
+  global.ProductCard = { renderProductCard, formatPrice };
+})(window);
