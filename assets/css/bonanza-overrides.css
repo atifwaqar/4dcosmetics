@@ -34,3 +34,40 @@ small{ color:var(--muted); }
 .pc__swatches{ display:flex; gap:6px; padding-top:8px; }
 .pc__swatch{ width:10px; height:10px; border-radius:999px; display:inline-block; border:1px solid rgba(0,0,0,.08); }
 .pc__swatch.more{ font-size:12px; color:#555; padding-left:4px; }
+
+
+/* --- Bonanza-style tabs rail with rounded gray background and separators --- */
+.bnz-tabs{ padding:12px 0; }
+.bnz-tabs__rail{
+  display:flex;
+  align-items:center;
+  gap:24px;
+  padding:10px 16px;
+  background:#f3f3f3;
+  border-radius:14px;
+  overflow:auto;
+  white-space:nowrap;
+}
+.bnz-tab{
+  display:inline-flex;
+  align-items:center;
+  color:#111;
+  text-decoration:none;
+  padding:8px 4px;
+  border-radius:0;
+  font-size:14px;
+}
+/* thin divider like Bonanza between items */
+.bnz-tab + .bnz-tab{ 
+  border-left:1px solid #e2e2e2;
+  padding-left:24px;
+  margin-left:0;
+}
+/* active text weight + underline */
+.bnz-tab.is-active{
+  background:transparent;
+  color:#000;
+  font-weight:700;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
