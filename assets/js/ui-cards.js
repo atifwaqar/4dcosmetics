@@ -127,3 +127,38 @@ export function buildProductCard(prod) {
 // expose helpers globally
 window.Analytics = Analytics;
 window.showAddedToast = showAddedToast;
+
+// --- appended modern product card integration ---
+// Override buildProductCard to use ProductCard component
+buildProductCard = function(prod){
+  if (!prod || !prod.name || !prod.slug) {
+    console.warn('Invalid product skipped', prod);
+    return null;
+  }
+  const tmp = document.createElement('template');
+  tmp.innerHTML = window.ProductCard.renderProductCard(prod).trim();
+  const el = tmp.content.firstElementChild;
+  if(!el) return null;
+
+  // analytics: product selection
+  const link = el.querySelector('.pc__link');
+  link?.addEventListener('click', () => Analytics.selectItem(prod));
+
+  // cart and analytics on add to cart
+  const priceNum = normalizePrice(prod.price);
+  el.addEventListener('product:addToCart', () => {
+    try{
+      if(typeof simpleCart !== 'undefined' && priceNum !== null){
+        simpleCart.add({
+          id: prod.id || prod.slug,
+          name: prod.name,
+          price: priceNum,
+          quantity: 1
+        });
+      }
+    }catch(e){ console.warn('cart error', e); }
+    Analytics.addToCart(prod, 1);
+    showAddedToast(prod.name);
+  });
+  return el;
+};

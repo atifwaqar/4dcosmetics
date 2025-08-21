@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const featured = document.getElementById('featured-products');
     if (featured) {
       const row = document.createElement('div');
-      row.className = 'row';
+      row.className = 'product-grid';
       let items = products.filter(p => (p.tags || []).includes('featured'));
       if (!items.length) items = products.slice(0,8);
       const rendered=[];
