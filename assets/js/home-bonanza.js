@@ -22,19 +22,28 @@
     return Array.from(new Set(colors)).slice(0,6);
   }
 
-  function renderTabs(){
-    const el = document.getElementById('home-tabs');
-    if(!el) return;
-    const cats = [
-      {label:'Beauty', href:'/c/makeup/'}, 
-      {label:'Face', href:'/c/makeup/'}, 
-      {label:'Eyes', href:'/c/makeup/'}, 
-      {label:'Lips', href:'/c/makeup/'}, 
-      {label:'Nails', href:'/c/accessories/'}, 
-      {label:'Skin Care', href:'/c/skincare/'}
-    ];
-    el.innerHTML = cats.map((c,i)=> `<a class="bnz-tab ${i===0?'is-active':''}" href="${c.href}">${c.label}</a>`).join('');
-  }
+  
+function renderTabs(){
+  const el = document.getElementById('home-tabs');
+  if(!el) return;
+  const cats = [
+    {label:'Beauty', href:'/c/makeup/'}, 
+    {label:'Face', href:'/c/makeup/'}, 
+    {label:'Eyes', href:'/c/makeup/'}, 
+    {label:'Lips', href:'/c/makeup/'}, 
+    {label:'Nails', href:'/c/accessories/'}, 
+    {label:'Skin Care', href:'/c/skincare/'}
+  ];
+  const active = (document.body && document.body.dataset && document.body.dataset.activeTab) ? document.body.dataset.activeTab.trim() : '';
+  const html = '<div class="bnz-tabs__rail">' + 
+    cats.map(c=> {
+      const isActive = (active && active.toLowerCase() === c.label.toLowerCase());
+      return `<a class="bnz-tab ${isActive ? 'is-active':''}" href="${c.href}">${c.label}</a>`
+    }).join('') +
+  '</div>';
+  el.innerHTML = html;
+}
+
 
   function cardHTML(prod){
     // Use ProductCard to keep behavior, then inject swatches row
