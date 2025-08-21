@@ -6,11 +6,11 @@
   <title>Cart - 4D Cosmetics</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/tokens.css">
-  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="./assets/css/custom.css">
-  <link rel="stylesheet" href="./assets/css/cart.css">
-  <link rel="stylesheet" href="./assets/css/checkout.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/cart.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -34,90 +34,18 @@
   </div>
 </header>
 
-  <main id="main" class="container">
-    <h1>Your Cart (<span id="cart-count">0</span> items)</h1>
 
-    <div class="cart-layout">
-      <section class="cart-items">
-      <div class="cart-head row">
-        <div>Item</div>
-        <div class="hide-sm">Price</div>
-        <div>Quantity</div>
-        <div>Total</div>
-        <div></div>
-      </div>
-      <div id="cart-rows" class="cart-rows">
-        <!-- JS renders rows here -->
-      </div>
-
-      <div id="empty-state" class="empty hidden">
-        <p>Your cart is empty.</p>
-        <a class="btn btn-primary" href="categories/">Continue shopping</a>
-      </div>
-      </section>
-
-      <aside class="cart-summary">
-      <div class="card">
-        <div class="summary-line">
-          <span>Subtotal:</span>
-          <span id="summary-subtotal">Rs 0.00</span>
-        </div>
-
-        <div id="coupon-block" class="coupon-block">
-          <label for="coupon-input">Coupon Code</label>
-          <div class="coupon-row">
-            <input id="coupon-input" type="text" placeholder="Enter code">
-            <button id="apply-coupon" class="btn btn-outline">Apply</button>
-          </div>
-          <div id="coupon-msg" class="coupon-msg"></div>
-          <div id="discount-line" class="summary-line hidden">
-            <span>Discount:</span>
-            <span id="summary-discount">-Rs 0.00</span>
-          </div>
-        </div>
-
-        <div class="summary-line">
-          <span>Sales Tax (10%):</span>
-          <span id="summary-tax">Rs 0.00</span>
-        </div>
-
-        <div class="grand-total">
-          <div>Grand total:</div>
-          <div id="summary-grand" class="grand-amount">Rs 0.00</div>
-        </div>
-
-        <div class="free-ship">
-          <div id="fs-msg" class="fs-msg">Spend Rs 100.00 more to get Free Shipping</div>
-          <div class="progress">
-            <div id="fs-bar" class="progress-bar" style="width:0%"></div>
-          </div>
-        </div>
-
-        <section id="payment-methods" aria-labelledby="pm-title" class="pm-section">
-          <h2 id="pm-title">Payment method</h2>
-
-          <div class="pm-options" role="radiogroup" aria-label="Payment methods">
-            <label class="pm-option"><input type="radio" name="pm" value="hblpay" checked> HBLPay (Visa / Master / Debit)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="easypaisa"> Easypaisa (Hosted)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="jazzcash"> JazzCash (Hosted)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="payfast"> PayFast (Aggregator)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="paypro"> PayPro (Aggregator)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="bsecure"> bSecure (Aggregator)</label>
-            <label class="pm-option"><input type="radio" name="pm" value="nift"> NIFT ePay</label>
-            <label class="pm-option"><input type="radio" name="pm" value="bank"> Bank Transfer</label>
-            <label class="pm-option"><input type="radio" name="pm" value="cod"> Cash on Delivery</label>
-            <small class="pm-note">All transactions are charged in PKR.</small>
-          </div>
-
-          <div id="pm-feedback" class="pm-feedback" role="status" aria-live="polite"></div>
-        </section>
-
-        <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
-        <div id="checkout-notes" class="checkout-notes" aria-live="polite"></div>
-      </div>
-      </aside>
-    </div>
-  </main>
+<main class="container cart py-4" id="main">
+  <section>
+    <h1>Your Cart</h1>
+    <div id="cart-lines"></div>
+  </section>
+  <aside class="cart-summary">
+    <div class="row"><span>Subtotal</span><span id="cart-subtotal">—</span></div>
+    <div class="row total"><span>Total</span><span id="cart-total">See checkout</span></div>
+    <a href="/checkout.html" class="btn btn-primary w-100 mt-2">Proceed to Checkout</a>
+  </aside>
+</main>
 
   <footer class="py-4 mt-5">
     <div class="container text-center">
@@ -132,14 +60,13 @@
     </div>
   </footer>
 
-  <div id="checkout-return" data-checkout-return></div>
-  <script src="./assets/js/jquery-2.2.4.min.js"></script>
-  <script src="./assets/js/bootstrap.bundle.min.js"></script>
-  <script src="./assets/js/simpleCart.min.js"></script>   <!-- must be before our page script -->
-  <script src="./assets/js/config.js"></script>
-  <script src="./assets/js/storefront-runtime.js"></script>
-  <script src="./assets/js/header-nav.js"></script>
-  <script src="./assets/js/cart-page.js"></script>
-  <script type="module" src="./assets/js/checkout.js"></script>
+  <script src="/assets/js/jquery-2.2.4.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/simpleCart.min.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/storefront-runtime.js"></script>
+  <script src="/assets/js/header-nav.js"></script>
+  <script src="/assets/js/product-card.js"></script>
+  <script src="/assets/js/cart-ui.js"></script>
 </body>
 </html>
