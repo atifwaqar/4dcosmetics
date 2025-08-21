@@ -24,26 +24,46 @@
     }
   }
 
+  // Add helper for market-friendly display of prices
+  function formatDisplayPrice(n, currency='PKR'){
+    // For PKR, many local stores drop the currency code. Show thousands separators only.
+    if((currency||'').toUpperCase() === 'PKR'){
+      return Number(n||0).toLocaleString(undefined, { maximumFractionDigits: 0 });
+      }
+    return formatPrice(n, currency);
+  }
+
   function starsSVG(value){
-    // returns inline SVG string for 0..5 with halves
     const v = Math.max(0, Math.min(5, Number(value)||0));
     const full = Math.floor(v);
     const half = v - full >= 0.5 ? 1 : 0;
     const empty = 5 - full - half;
-    const icon = (type)=>`<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${type}"/></svg>`;
-    const PATH_FULL = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z";
-    const PATH_HALF = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2v15.27z"; // half star
-    const PATH_EMPTY= "M22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24zm-10 6.11-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 3.89 4.38.38-3.32 2.88 1 4.28L12 15.35z";
+
+    const STAR_PATH = "M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21 12 17.27z";
+
+    const fullStar = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${STAR_PATH}"/></svg>`;
+    const emptyStar = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="${STAR_PATH}"/></svg>`;
+    const halfStar = `
+  <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+    <defs>
+      <clipPath id="halfClip"><rect x="0" y="0" width="12" height="24"/></clipPath>
+    </defs>
+    <g clip-path="url(#halfClip)"><path fill="currentColor" d="${STAR_PATH}"/></g>
+    <path fill="none" stroke="currentColor" stroke-width="2" d="${STAR_PATH}"/>
+  </svg>`;
+
     return [
-      ...Array(full).fill(icon(PATH_FULL)),
-      ...Array(half).fill(icon(PATH_HALF)),
-      ...Array(empty).fill(icon(PATH_EMPTY))
+      ...Array(full).fill(fullStar),
+      ...Array(half).fill(halfStar),
+      ...Array(empty).fill(emptyStar)
     ].join('');
   }
 
   function renderProductCard(raw){
     // Accept multiple shapes; normalize to a single item schema
     const item = normalize(raw);
+    const FALLBACK_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="18">No image</text></svg>';
+    const mainImg = item.image || FALLBACK_IMG;
 
     const badges = [];
     if(item.is_oos) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
@@ -52,18 +72,19 @@
     if(item.price.old && item.price.current < item.price.old) badges.push('<span class="pc-badge pc-badge--sale">Sale</span>');
 
     const wishPressed = inWishlist(item.id);
-    const priceNew = formatPrice(item.price.current, item.price.currency);
-    const priceOld = item.price.old ? formatPrice(item.price.old, item.price.currency) : '';
+    const priceNew = formatDisplayPrice(item.price.current, item.price.currency);
+    const priceOld = item.price.old ? formatDisplayPrice(item.price.old, item.price.currency) : '';
 
     const oosClass = item.is_oos ? ' pc--oos' : '';
     const atcLabel = item.is_oos ? 'Notify Me' : 'Add to Cart';
+    const atcAttrs = item.is_oos ? 'aria-disabled="true" title="Out of stock — get notified"' : '';
 
     return `
       <article class="pc card-soft${oosClass}" data-id="${item.id}">
         <a class="pc__link" href="${item.url}" aria-label="${escapeHtml(item.title)}"></a>
 
         <div class="pc__media aspect-1x1">
-          <img class="pc__img" src="${item.image}" alt="${escapeHtml(item.image_alt || item.title)}" loading="lazy">
+          <img class="pc__img" src="${mainImg}" alt="${escapeHtml(item.image_alt || item.title)}" loading="lazy">
           ${item.image_alt2 ? `<img class="pc__img--alt" src="${item.image_alt2}" alt="" aria-hidden="true" loading="lazy">` : ''}
           <div class="pc__badges">${badges.join('')}</div>
           <button class="pc__wish" aria-label="Add to wishlist" aria-pressed="${wishPressed}" data-id="${item.id}">♥</button>
@@ -71,17 +92,17 @@
 
         <div class="pc__body">
           <h3 class="pc__title clamp-2">${escapeHtml(item.title)}</h3>
-          <div class="pc__rating" aria-label="${item.rating.value} out of 5 stars">
+          <div class="pc__rating" aria-label="${item.rating.value} out of 5 stars, ${item.rating.count} review${item.rating.count===1?'':'s'}">
             <span class="pc__rating-stars" aria-hidden="true">${starsSVG(item.rating.value)}</span>
             <span class="pc__rating-num">${item.rating.value.toFixed(1)}</span>
             <span class="pc__rating-count">(${item.rating.count})</span>
           </div>
-          <div class="pc__price">
+          <div class="pc__price" aria-label="${priceOld ? `Now ${priceNew}, was ${priceOld}` : `Price ${priceNew}`}">
             <span class="price price--new">${priceNew}</span>
             ${priceOld ? `<span class="price price--old">${priceOld}</span>` : ''}
           </div>
           <div class="pc__cta">
-            <button class="btn-modern btn-modern--primary pc__atc" data-id="${item.id}">${atcLabel}</button>
+            <button class="btn-modern btn-modern--primary pc__atc" data-id="${item.id}" ${atcAttrs}>${atcLabel}</button>
           </div>
         </div>
       </article>

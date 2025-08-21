@@ -39,3 +39,30 @@
 
 /* Disabled state */
 .pc--oos .pc__atc{ opacity:.6; pointer-events:none; }
+
+/* Improve badge contrast on bright images */
+.pc-badge{
+  text-shadow: 0 1px 1px rgba(0,0,0,.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+  backdrop-filter: saturate(1.2);
+}
+
+/* Card hover lift (desktop only) */
+@media (hover:hover){
+  .pc:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+}
+.pc{ transition: transform .18s ease, box-shadow .18s ease; }
+
+/* Make new price pop and old price smaller */
+.price--new{ font-size: 16px; font-weight: 700; }
+.price--old{ font-size: 13px; opacity: .75; }
+.pc__price{ gap: 6px; align-items: baseline; }
+
+/* Star size consistency + motion preference */
+.pc__rating-stars svg{ width:14px; height:14px; }
+@media (prefers-reduced-motion: reduce){
+  .pc, .pc__img--alt{ transition: none !important; }
+}
+
+/* Wishlist focus ring */
+.pc__wish:focus{ outline:2px solid var(--brand); outline-offset:2px; }
