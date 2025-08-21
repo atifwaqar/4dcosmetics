@@ -353,3 +353,8 @@ body.drawer-open{
   align-items:center;
   box-shadow:var(--shadow-sm);
 }
+/* Enhanced search focus */
+.search-form input:focus{
+  outline:2px solid var(--primary);
+  outline-offset:2px;
+}
