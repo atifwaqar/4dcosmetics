@@ -43,12 +43,13 @@
 
     const fullStar = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${STAR_PATH}"/></svg>`;
     const emptyStar = `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="${STAR_PATH}"/></svg>`;
+    const clipId = `halfClip-${Math.random().toString(36).slice(2)}`;
     const halfStar = `
   <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
     <defs>
-      <clipPath id="halfClip"><rect x="0" y="0" width="12" height="24"/></clipPath>
+      <clipPath id="${clipId}"><rect x="0" y="0" width="12" height="24"/></clipPath>
     </defs>
-    <g clip-path="url(#halfClip)"><path fill="currentColor" d="${STAR_PATH}"/></g>
+    <g clip-path="url(#${clipId})"><path fill="currentColor" d="${STAR_PATH}"/></g>
     <path fill="none" stroke="currentColor" stroke-width="2" d="${STAR_PATH}"/>
   </svg>`;
 
@@ -64,6 +65,7 @@
     const item = normalize(raw);
     const FALLBACK_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="18">No image</text></svg>';
     const mainImg = item.image || FALLBACK_IMG;
+    const imgAlt = item.image ? escapeHtml(item.image_alt || item.title) : 'No image available';
 
     const badges = [];
     if(item.is_oos) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
@@ -72,6 +74,7 @@
     if(item.price.old && item.price.current < item.price.old) badges.push('<span class="pc-badge pc-badge--sale">Sale</span>');
 
     const wishPressed = inWishlist(item.id);
+    const wishLabel = wishPressed ? 'Remove from wishlist' : 'Add to wishlist';
     const priceNew = formatDisplayPrice(item.price.current, item.price.currency);
     const priceOld = item.price.old ? formatDisplayPrice(item.price.old, item.price.currency) : '';
 
@@ -84,10 +87,10 @@
         <a class="pc__link" href="${item.url}" aria-label="${escapeHtml(item.title)}"></a>
 
         <div class="pc__media aspect-1x1">
-          <img class="pc__img" src="${mainImg}" alt="${escapeHtml(item.image_alt || item.title)}" loading="lazy">
+          <img class="pc__img" src="${mainImg}" alt="${imgAlt}" loading="lazy">
           ${item.image_alt2 ? `<img class="pc__img--alt" src="${item.image_alt2}" alt="" aria-hidden="true" loading="lazy">` : ''}
           <div class="pc__badges">${badges.join('')}</div>
-          <button class="pc__wish" aria-label="Add to wishlist" aria-pressed="${wishPressed}" data-id="${item.id}">♥</button>
+          <button class="pc__wish" aria-label="${wishLabel}" aria-pressed="${wishPressed}" data-id="${item.id}">♥</button>
         </div>
 
         <div class="pc__body">
@@ -146,6 +149,7 @@
       const id = wish.getAttribute('data-id');
       const state = toggleWishlist(id);
       wish.setAttribute('aria-pressed', state ? 'true' : 'false');
+      wish.setAttribute('aria-label', state ? 'Remove from wishlist' : 'Add to wishlist');
       return;
     }
     const atc = e.target.closest('.pc__atc');
