@@ -1,6 +1,5 @@
 
 (function(){
-  // If PDP already hydrated, skip
   var titleEl = document.querySelector('.pdp__title');
   if (!titleEl) return;
   if (titleEl.textContent && titleEl.textContent.trim() && !titleEl.textContent.includes('{{')) return;
@@ -36,9 +35,12 @@
   }
   function normalize(p){
     var images=[];
-    if (Array.isArray(p.images)&&p.images.length){ for(var i=0;i<p.images.length;i++){ if(p.images[i]) images.push(p.images[i]); } }
+    if (Array.isArray(p.images)&&p.images.length){
+      for(var i=0;i<p.images.length;i++){ var src=p.images[i]; if(typeof src==='string' && src.trim().length>4) images.push(src); }
+    }
     if (p.image && !images.length) images.push(p.image);
     if (p.item_image && !images.length) images.push(p.item_image);
+    images = images.filter(function(s){ return typeof s==='string' && s.trim().length>4; });
     var priceCurrent = (p.price && (p.price.current ?? p.price)) ?? p.salePrice ?? p.min_price ?? p.amount ?? 0;
     var priceOld = p.price?.old ?? p.compareAt ?? p.mrp ?? null;
     var currency = p.price?.currency || p.currency || 'PKR';
@@ -52,6 +54,7 @@
       description: p.description || p.body_html || p.body || p.details || '',
       how_to_use: p.how_to_use || p.instructions || '',
       ingredients: p.ingredients || '',
+      bullets: p.bullets || p.highlights || p.features || '',
       rating: { value: Number(p.rating?.value ?? p.rating ?? 0) || 0, count: Number(p.rating?.count ?? p.reviews ?? 0) || 0 },
       price: { current: Number(priceCurrent)||0, old: priceOld, currency: currency }
     };
@@ -59,21 +62,59 @@
 
   function setHTML(sel, html){ var el = document.querySelector(sel); if(el){ el.innerHTML = html; } }
   function setText(sel, text){ var el = document.querySelector(sel); if(el){ el.textContent = text; } }
-  function show(el){ el && (el.hidden=false); } function hide(el){ el && (el.hidden=true); }
+  function esc(s){ return String(s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 
   function renderGallery(p){
     var mainBox = document.querySelector('.pdp__main');
     var thumbs  = document.querySelector('.pdp__thumbs');
     if (!mainBox || !thumbs) return;
-    var imgs = p.images && p.images.length ? p.images : [''];
-    function setMain(src, alt){ mainBox.innerHTML = src ? `<img src="${src}" alt="${(alt||p.title).replace(/"/g,'&quot;')}">` : `<div style="width:100%;height:100%;background:#f5f5f5;border:1px solid var(--border);border-radius:var(--radius)"></div>`; }
-    setMain(imgs[0], p.title);
+    var imgs = (p.images && p.images.length ? p.images : []).filter(function(s){ return typeof s==='string' && s.trim().length>4; });
+    function setMain(src, alt){
+      if (src){ mainBox.innerHTML = `<img src="${src}" alt="${esc(alt||p.title)}">`; }
+      else { mainBox.innerHTML = `<div style="width:100%;height:100%;background:#f5f5f5;border:1px solid var(--border);border-radius:var(--radius)"></div>`; }
+    }
+    setMain(imgs[0]||'', p.title);
+    if (!imgs.length){ thumbs.innerHTML = ''; return; }
     thumbs.innerHTML = imgs.map((src,i)=>`<button class="pdp__thumb ${i===0?'is-active':''}" type="button" data-src="${src}"><img src="${src}" alt=""></button>`).join('');
     thumbs.addEventListener('click', function(e){
       var btn = e.target.closest('.pdp__thumb'); if(!btn) return;
       thumbs.querySelectorAll('.pdp__thumb').forEach(b=>b.classList.remove('is-active'));
       btn.classList.add('is-active'); setMain(btn.dataset.src, p.title);
     });
+  }
+
+  function renderBullets(p){
+    var bullets = [];
+    if (Array.isArray(p.bullets)) bullets = p.bullets.filter(Boolean);
+    else if (typeof p.bullets === 'string') bullets = p.bullets.split(/[•\n,;]+/).map(s=>s.trim()).filter(Boolean);
+    else if (typeof p.description === 'string' && p.description.includes(',')){
+      bullets = p.description.split(',').map(s=>s.trim()).filter(Boolean).slice(0,4);
+    }
+    var holder = document.querySelector('.pdp__bullets');
+    if (bullets.length){
+      var items = bullets.slice(0,6).map(li=>`<li>${esc(li)}</li>`).join('');
+      if (holder){ holder.innerHTML = items; holder.style.display='block'; }
+      else {
+        // Replace any literal {{ bullets }} placeholder
+        var replaced = false;
+        document.querySelectorAll('body *').forEach(function(node){
+          if (!replaced && node.childNodes && node.childNodes.length===1 && node.childNodes[0].nodeType===3){
+            if (node.textContent.trim() === '{{ bullets }}'){
+              node.outerHTML = `<ul class="pdp__bullets">${items}</ul>`;
+              replaced = true;
+            }
+          }
+        });
+      }
+    }else{
+      if (holder) holder.remove();
+      // remove plain placeholder if present
+      document.querySelectorAll('body *').forEach(function(node){
+        if (node.childNodes && node.childNodes.length===1 && node.childNodes[0].nodeType===3){
+          if (node.textContent.trim() === '{{ bullets }}'){ node.remove(); }
+        }
+      });
+    }
   }
 
   function renderPrice(p){
@@ -91,12 +132,11 @@
     try{
       var ratingEl = document.querySelector('.pdp__rating-stars');
       if(!ratingEl) return;
-      // reuse ProductCard trick to get stars markup
       var html = (window.ProductCard && ProductCard.renderProductCard) ?
         ProductCard.renderProductCard({ rating:{ value:p.rating.value, count:p.rating.count }, id:'__', url:'#', title:'', image:'' }).match(/pc__rating-stars"[^>]*>(.*?)<\/span>/)?.[1] : '';
       if(html) ratingEl.innerHTML = html;
-      setText('.pc__rating-num', (p.rating.value||0).toFixed(1));
-      setText('.pc__rating-count', '('+(p.rating.count||0)+')');
+      var num = document.querySelector('.pc__rating-num'); if(num) num.textContent = (p.rating.value||0).toFixed(1);
+      var cnt = document.querySelector('.pc__rating-count'); if(cnt) cnt.textContent = '('+(p.rating.count||0)+')';
     }catch(_){}
   }
 
@@ -114,22 +154,21 @@
   }
 
   async function hydrate(){
-    // use existing
     var p = window.__CURRENT_PRODUCT__ || null;
     if (!p){
       const all = await loadAllProducts();
       var raw = all.find(x => matchBySlug(x, slug));
       if (!raw) raw = all.find(x => (x.name||x.title||'').toLowerCase().includes(slug.replace(/-/g,' ')));
-      if (!raw) return; // nothing we can do
+      if (!raw) return;
       p = normalize(raw);
       window.__CURRENT_PRODUCT__ = p;
     }
-    // render
     if(p.brand) setText('.pdp__brand', p.brand); else { var b=document.querySelector('.pdp__brand'); if(b) b.style.display='none'; }
     setText('.pdp__title', p.title || p.name || '');
     setHTML('[data-panel="desc"]', p.description || '');
     setHTML('[data-panel="ingr"]', p.ingredients || '');
     setHTML('[data-panel="use"]',  p.how_to_use || '');
+    renderBullets(p);
     renderGallery(p);
     renderPrice(p);
     renderRating(p);
