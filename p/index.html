@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/product-card.css">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -40,90 +42,55 @@
 </header>
 
   <main id="main">
-  <section class="py-5">
-    <div class="container">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb" id="breadcrumb"></ol>
-      </nav>
-      <a href="#" id="back-link" class="d-block mb-3">&laquo; Back</a>
-      <div class="row">
-        <div class="col-md-6">
-            <img id="main-image" class="img-fluid item_image item_thumb" alt="" style="object-fit:cover;aspect-ratio:1/1;" width="600" height="600">
-          <div class="mt-2" id="image-thumbs"></div>
-        </div>
-        <div class="col-md-6" id="summary">
-          <div class="simpleCart_shelfItem">
-            <h1 id="product-title" class="item_name"></h1>
-            <div id="product-badges" class="mb-2"></div>
-            <span id="product-id" class="visually-hidden item_id"></span>
-            <a id="product-url" href="#" class="visually-hidden item_url"></a>
-            <p id="product-price" class="h4"></p>
-            <div data-region="reviews-summary" class="mb-3 small">
-              <!-- review summary injected here -->
-              <a href="#reviews" class="me-2">Read reviews</a>
-              <a href="#reviews" data-action="review-open">Write a review</a>
-            </div>
-            <p id="stock-status"></p>
-            <p id="short-description"></p>
-            <div id="category-badges" class="mb-3"></div>
-            <div id="variant-options" class="mb-3"></div>
-            <div class="d-flex align-items-center mb-3">
-              <label for="product-qty" class="me-2">Qty</label>
-              <input id="product-qty" type="number" class="form-control item_Quantity" value="1" min="1" style="width:90px;">
-            </div>
-            <button type="button" class="btn btn-primary item_add mb-3">Add to Cart</button>
-            <section id="details-accordion" class="mt-4">
-              <details open>
-                <summary>Details</summary>
-                <div id="details"></div>
-              </details>
-              <details>
-                <summary>How to use</summary>
-                <div id="how-to"></div>
-              </details>
-              <details>
-                <summary>Ingredients</summary>
-                <div id="ingredients"></div>
-              </details>
-              <details>
-                <summary>Good to know</summary>
-                <div id="good-to-know"></div>
-              </details>
-              <details>
-                <summary>Shipping &amp; returns</summary>
-                <div id="shipping-returns"></div>
-              </details>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<nav aria-label="Breadcrumb"><ol class="breadcrumb" id="breadcrumb"></ol></nav>
 
-  <div id="mobile-atc-bar" class="mobile-atc d-md-none" hidden>
-    <span id="mobile-atc-info"></span>
-    <button type="button" id="mobile-atc-btn" class="btn btn-primary">Add to Cart</button>
+<section class="pdp container-narrow pdp">
+  <div class="pdp__media">
+    <div class="pdp__main aspect-1x1"></div>
+    <div class="pdp__thumbs" aria-label="Product thumbnails"></div>
   </div>
-  <div id="live-region" class="visually-hidden" aria-live="polite"></div>
-  <section class="py-5" id="reviews" data-region="reviews">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h3 mb-0">Reviews</h2>
-        <button type="button" class="btn btn-primary" data-action="review-open">Write a review</button>
-      </div>
-      <div data-component="reviews-controls" class="mb-4"></div>
-      <div data-component="reviews-list"></div>
-      <button type="button" class="btn btn-outline-secondary mt-4" data-action="reviews-load-more">Load more</button>
-    </div>
-  </section>
 
-  <section class="py-5 d-none" id="recently-viewed-section">
-    <div class="container">
-      <h2 class="mb-4">Recently viewed</h2>
-      <div id="recently-viewed" class="row"></div>
+  <div class="pdp__details">
+    <p class="pdp__brand">{{ brand }}</p>
+    <h1 class="pdp__title">{{ title }}</h1>
+    <div class="pdp__rating" aria-label="{{ rating }} out of 5 stars, {{ reviews }} reviews">
+      <span class="pdp__rating-stars" aria-hidden="true"></span>
+      <span class="pc__rating-num">{{ rating }}</span>
+      <span class="pc__rating-count">({{ reviews }})</span>
     </div>
-  </section>
 
+    <div class="pdp__price"></div>
+
+    <ul class="pdp__bullets">
+      <!-- Render 3–6 key bullets (ingredients highlights, benefits, size) -->
+      {{ bullets }}
+    </ul>
+
+    <div class="pdp__cta">
+      <button class="btn-modern btn-modern--primary" data-atc>Add to Cart</button>
+      <button class="btn-modern btn-modern--ghost">Add to Wishlist</button>
+    </div>
+
+    <div class="pdp-tabs">
+      <nav class="pdp-tabs__nav" role="tablist">
+        <button data-tab="desc" class="is-active">Description</button>
+        <button data-tab="ingr">Ingredients</button>
+        <button data-tab="use">How to Use</button>
+        <button data-tab="rev">Reviews</button>
+      </nav>
+      <div class="pdp-tabs__panel is-active" data-panel="desc">{{ description }}</div>
+      <div class="pdp-tabs__panel" data-panel="ingr">{{ ingredients }}</div>
+      <div class="pdp-tabs__panel" data-panel="use">{{ how_to_use }}</div>
+      <div class="pdp-tabs__panel" data-panel="rev">{{ reviews_html }}</div>
+    </div>
+  </div>
+</section>
+
+<!-- Sticky mobile ATC -->
+<div class="mobile-atc">
+  <button class="btn-modern btn-modern--primary" data-atc>Add to Cart</button>
+  <div class="mobile-atc__price" id="mobile-atc-price"></div>
+</div>
   </main>
 
   <footer class="py-4 mt-5">
@@ -139,14 +106,15 @@
     </div>
   </footer>
 
-  <script src="/assets/js/jquery-2.2.4.min.js"></script>
-  <script src="/assets/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/simpleCart.min.js"></script>
-  <script src="/assets/js/config.js"></script>
-  <script src="/assets/js/storefront-runtime.js"></script>
-  <script src="/assets/js/header-nav.js"></script>
-  <script type="module" src="/assets/js/product-page.js"></script>
-  <script type="module" src="/assets/js/reviews.js"></script>
-  <script src="/assets/js/diagnostics-overlay.js" defer></script>
+<link rel="stylesheet" href="/assets/css/pdp.css">
+<script src="/assets/js/jquery-2.2.4.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/simpleCart.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/storefront-runtime.js"></script>
+<script src="/assets/js/header-nav.js"></script>
+<script src="/assets/js/product-card.js"></script>
+<script src="/assets/js/pdp.js"></script>
+<script src="/assets/js/diagnostics-overlay.js" defer></script>
 </body>
 </html>
