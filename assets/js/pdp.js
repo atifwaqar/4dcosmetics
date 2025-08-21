@@ -51,6 +51,35 @@
     btn.addEventListener('click', ()=> addToCart(1));
   });
 
+  // Wishlist button
+  const WISHLIST_KEY = 'wishlist_ids_v1';
+  function loadWishlist(){
+    try{ return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }catch{ return []; }
+  }
+  function saveWishlist(arr){ localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr)); }
+  function inWishlist(id){ return loadWishlist().includes(String(id)); }
+  function toggleWishlist(id){
+    const idStr = String(id);
+    let list = loadWishlist();
+    if(list.includes(idStr)) list = list.filter(x=>x!==idStr); else list.push(idStr);
+    saveWishlist(list);
+    return list.includes(idStr);
+  }
+  const wishBtn = document.querySelector('[data-wishlist]');
+  const pid = product.id || product.slug;
+  if(wishBtn && pid){
+    function sync(){
+      const state = inWishlist(pid);
+      wishBtn.setAttribute('aria-pressed', state ? 'true' : 'false');
+      wishBtn.textContent = state ? 'Remove from Wishlist' : 'Add to Wishlist';
+    }
+    wishBtn.addEventListener('click', ()=>{
+      toggleWishlist(pid);
+      sync();
+    });
+    sync();
+  }
+
   // Tabs
   const tabs = document.querySelectorAll('[data-tab]');
   const panels = document.querySelectorAll('[data-panel]');
