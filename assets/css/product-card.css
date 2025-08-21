@@ -1,0 +1,41 @@
+/* Grid alignment */
+.product-grid{ display:grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); }
+
+/* Card basics */
+.pc{ position:relative; display:flex; flex-direction:column; overflow:hidden; }
+.pc__link{ position:absolute; inset:0; z-index:1; }
+.pc__media{ position:relative; }
+.pc__img, .pc__img--alt{ width:100%; height:100%; object-fit:cover; display:block; transition:opacity .25s ease; }
+.pc__img--alt{ position:absolute; inset:0; opacity:0; }
+@media (hover:hover){
+  .pc:hover .pc__img--alt{ opacity:1; }
+}
+
+/* Badges */
+.pc__badges{ position:absolute; top:8px; left:8px; display:flex; flex-direction:column; gap:6px; z-index:2; }
+.pc-badge{ font-size:11px; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; background:var(--badge); color:#fff; box-shadow: var(--shadow); }
+.pc-badge--sale{ background: var(--sale); }
+.pc-badge--new{ background: var(--brand); }
+.pc-badge--best{ background: #333; }
+.pc-badge--oos{ background: var(--muted); }
+
+/* Wishlist */
+.pc__wish{ position:absolute; top:8px; right:8px; z-index:2; background:#fff; border:1px solid var(--border); width:36px; height:36px; border-radius:999px; display:grid; place-items:center; cursor:pointer; }
+.pc__wish[aria-pressed="true"]{ background:var(--brand); color:#fff; border-color:var(--brand); }
+
+/* Body */
+.pc__body{ padding: var(--space-4); display:flex; flex-direction:column; gap:8px; }
+.pc__title{ font-size:14px; margin:0; }
+.pc__rating{ display:flex; align-items:center; gap:6px; color: var(--muted); font-size:12px; }
+.pc__rating-num{ font-variant-numeric: tabular-nums; }
+.pc__price{ display:flex; align-items:baseline; gap:8px; }
+.pc__cta{ margin-top:auto; }
+
+/* Stars (mask technique or inline svg) */
+.pc__rating-stars{ --s:14px; width: calc(var(--s)*5); height: var(--s); display:inline-block; background-repeat:no-repeat; background-size: contain; }
+
+/* Focus visibility */
+.pc:focus-within{ outline:2px solid var(--brand); outline-offset:2px; }
+
+/* Disabled state */
+.pc--oos .pc__atc{ opacity:.6; pointer-events:none; }
