@@ -14,23 +14,42 @@
   <link rel="stylesheet" href="/assets/css/theme.css">
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header header-compact">
   <div class="container nav-container">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+
     <a href="/" class="logo">4DCosmetics</a>
-    <nav class="nav-links">
+
+    <nav class="nav-links" aria-label="Primary">
       <a href="/c/makeup/">Makeup</a>
       <a href="/c/perfume/">Perfume</a>
       <a href="/c/skincare/">Skincare</a>
       <a href="/c/accessories/">Accessories</a>
     </nav>
+
     <div class="nav-actions">
       <form class="search-form" action="/search/" method="get">
         <input type="search" name="q" placeholder="Search products…" aria-label="Search">
       </form>
-      <a href="/cart.html" class="cart-link">
-        🛒 <span class="cart-count simpleCart_quantity">0</span>
-      </a>
+      <a href="/cart.html" class="cart-link">🛒 <span class="cart-count simpleCart_quantity">0</span></a>
     </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="site-drawer" class="site-drawer" hidden>
+    <nav class="drawer-links" aria-label="Mobile">
+      <a href="/c/makeup/">Makeup</a>
+      <a href="/c/perfume/">Perfume</a>
+      <a href="/c/skincare/">Skincare</a>
+      <a href="/c/accessories/">Accessories</a>
+      <form class="drawer-search" action="/search/" method="get">
+        <input type="search" name="q" placeholder="Search products…" aria-label="Search">
+      </form>
+    </nav>
   </div>
 </header>
 
@@ -77,10 +96,10 @@
   <script src="/assets/js/simpleCart.min.js"></script>
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/storefront-runtime.js"></script>
-  <script src="/assets/js/header-nav.js"></script>
   <script src="/assets/js/search.js"></script>
   <script type="module" src="/assets/js/ui-cards.js"></script>
   <script type="module" src="/assets/js/search-page.js"></script>
+  <script src="/assets/js/header-drawer.js"></script>
   <script src="/assets/js/diagnostics-overlay.js" defer></script>
 </body>
 </html>
