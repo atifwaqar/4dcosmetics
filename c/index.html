@@ -1,125 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category | 4D Cosmetics</title>
-    <meta name="description" content="">
-    <link rel="canonical" id="canonical-link" href="">
-    <meta property="og:title" content="" id="og-title">
-    <meta property="og:description" content="" id="og-description">
-    <meta property="og:url" content="" id="og-url">
-    <meta property="og:image" content="" id="og-image">
-    <script type="application/ld+json" id="ld-json"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category | 4D Cosmetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/assets/css/custom.css">
   <link rel="stylesheet" href="/assets/css/theme.css">
   <link rel="stylesheet" href="/assets/css/product-card.css">
-  <link rel="stylesheet" href="/assets/css/collection.css">
+  <link rel="stylesheet" href="/assets/css/bonanza-layout.css">
 </head>
-<body>
-  <a class="skip-link" href="#main">Skip to main content</a>
-  <header class="site-header header-compact">
-  <div class="container nav-container">
-    <button class="nav-toggle" aria-expanded="false" aria-controls="site-drawer" aria-label="Open menu">
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-      <span class="nav-toggle__bar"></span>
-    </button>
-
-    <a href="/" class="logo">4DCosmetics</a>
-
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/c/makeup/">Makeup</a>
-      <a href="/c/perfume/">Perfume</a>
-      <a href="/c/skincare/">Skincare</a>
-      <a href="/c/accessories/">Accessories</a>
-    </nav>
-
-    <div class="nav-actions">
-      <form class="search-form" action="/search/" method="get">
-        <input type="search" name="q" placeholder="Search products…" aria-label="Search">
+<body data-active-tab="Beauty">
+  
+<div class="annc" role="region" aria-label="Site announcement">
+  <div class="container-narrow annc__inner">No Return or Exchange on Sale Items</div>
+</div>
+<header class="bnz-header">
+  <div class="container-narrow bnz-header__row">
+    <div></div>
+    <a class="bnz-logo" href="/">4D COSMETICS</a>
+    <div class="bnz-header__right">
+      <form class="bnz-search d-none d-md-flex" role="search" action="/search/" method="get">
+        <input type="search" name="q" placeholder="Search">
+        <button type="submit" aria-label="Search"><i class="fa fa-search"></i></button>
       </form>
-      <a href="/cart.html" class="cart-link">🛒 <span class="cart-count simpleCart_quantity">0</span></a>
+      <a class="bnz-icon" href="/account.html" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+      <a class="bnz-icon" href="/wishlist.html" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+      <a class="bnz-icon" href="/cart.html" aria-label="Cart"><i class="fa-solid fa-bag-shopping"></i><span class="bnz-badge simpleCart_quantity">0</span></a>
     </div>
   </div>
-
-  <!-- Mobile drawer -->
-  <div id="site-drawer" class="site-drawer" hidden>
-    <nav class="drawer-links" aria-label="Mobile">
-      <a href="/c/makeup/">Makeup</a>
-      <a href="/c/perfume/">Perfume</a>
-      <a href="/c/skincare/">Skincare</a>
-      <a href="/c/accessories/">Accessories</a>
-      <form class="drawer-search" action="/search/" method="get">
-        <input type="search" name="q" placeholder="Search products…" aria-label="Search">
-      </form>
-    </nav>
-  </div>
+  <nav class="bnz-tabs" aria-label="Primary">
+    <div class="container-narrow" id="home-tabs"></div>
+  </nav>
 </header>
 
-  <main id="main" class="py-5">
-    <div class="container">
-      <div class="row">
-        <aside class="col-md-3 d-none d-md-block" id="category-sidebar">
-          <div id="filters-desktop"></div>
-          <div id="category-sidebar-list"></div>
-        </aside>
-        <div class="col-md-9">
-          <nav aria-label="Breadcrumb">
-            <ol class="breadcrumb" id="breadcrumb"></ol>
-          </nav>
-          <h1 id="category-title"></h1>
-          <div id="category-description"></div>
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-outline-primary d-md-none" id="open-filters" style="min-width:44px;min-height:44px;" aria-controls="filterDrawer">Filters</button>
-            <div class="ms-auto">
-              <label for="sort-select" class="me-2">Sort</label>
-              <select id="sort-select" class="form-select d-inline-block w-auto" style="min-width:150px;min-height:44px;"></select>
-            </div>
-          </div>
-          <div id="product-count" class="visually-hidden" aria-live="polite"></div>
-          <div class="product-grid" id="product-grid"></div>
-          <nav class="c-pager mt-4" aria-label="Pagination">
-            <ul class="pagination pagination-sm justify-content-center" id="pager"></ul>
-          </nav>
-          <div class="text-center mt-4" id="load-more-container">
-            <button id="load-more" class="btn btn-outline-primary" style="min-width:44px;min-height:44px;">Load more</button>
-          </div>
-        </div>
+  <main id="main" class="bnz-main">
+    <div class="container-narrow">
+      <div id="product-count" class="visually-hidden" aria-live="polite"></div>
+      <div class="product-grid" id="product-grid"></div>
+      <div class="bnz-progress" id="cat-progress" hidden>
+        <div class="bnz-progress__label">You’ve viewed <span id="cat-viewed">0</span> of <span id="cat-total">0</span> products</div>
+        <div class="bnz-progress__bar"><span id="cat-bar" style="width:0%"></span></div>
       </div>
+      <div class="bnz-loadmore"><button id="load-more" class="btn btn-outline-dark">Load More</button></div>
     </div>
   </main>
-
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="filterDrawer" aria-labelledby="filterDrawerLabel">
-    <div class="offcanvas-header">
-      <h5 id="filterDrawerLabel">Filters</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <form id="filters-mobile"></form>
-    </div>
-    <div class="p-3 border-top d-flex justify-content-between">
-      <button class="btn btn-primary" id="apply-filters-mobile" style="min-width:44px;min-height:44px;">Apply</button>
-      <button class="btn btn-link" id="clear-filters-mobile" style="min-width:44px;min-height:44px;">Clear all</button>
-    </div>
-  </div>
-
-  <footer class="py-4 mt-5">
-    <div class="container text-center">
-      <p class="mb-2">© 4D Cosmetics</p>
-      <a href="/privacy.html" class="me-3">Privacy Policy</a>
-      <a href="/terms.html">Terms</a>
-      <div class="mt-2">
-        <a href="#" class="text-dark me-2"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="text-dark me-2"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-dark"><i class="fab fa-instagram"></i></a>
+  
+<footer class="bnz-footer">
+  <div class="container-narrow">
+    <div class="bnz-footer__cols">
+      <div>
+        <h4>CONTACT US</h4>
+        <ul><li>+92 21 111-244-266</li><li><a href="mailto:info@4dcosmetics.com">info@4dcosmetics.com</a></li></ul>
+      </div>
+      <div>
+        <h4>INFORMATION</h4>
+        <ul>
+          <li><a href="/track-order.html">Track Your Order</a></li>
+          <li><a href="/shipping.html">Shipping Information</a></li>
+          <li><a href="/returns.html">Return & Exchange Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>CUSTOMER CARE</h4>
+        <ul>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>NEWSLETTER SIGN UP</h4>
+        <form class="bnz-news"><input type="email" placeholder="Enter Email" aria-label="Email"><button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button></form>
       </div>
     </div>
-  </footer>
+    <div class="bnz-copy">© 4D Cosmetics</div>
+  </div>
+</footer>
 
   <script src="/assets/js/jquery-2.2.4.min.js"></script>
   <script src="/assets/js/bootstrap.bundle.min.js"></script>
@@ -127,12 +86,18 @@
   <script src="/assets/js/config.js"></script>
   <script src="/assets/js/storefront-runtime.js"></script>
   <script src="/assets/js/product-card.js"></script>
-  <script type="module" src="/assets/js/ui-cards.js"></script>
-  <!--
-  <script type="module" src="/assets/js/category-page.js"></script>
-  -->
-  <script src="/assets/js/header-drawer.js"></script>
-  <script src="/assets/js/diagnostics-overlay.js" defer></script>
+  <script src="/assets/js/tabs.js"></script>
   <script src="/assets/js/collection.js"></script>
+  <script>
+  window.__updateCollectionProgress = function(viewed, total){
+    var wrap = document.getElementById('cat-progress');
+    if(!wrap) return;
+    wrap.hidden = false;
+    document.getElementById('cat-viewed').textContent = viewed;
+    document.getElementById('cat-total').textContent = total;
+    var pct = total ? Math.min(100, Math.round((viewed/total)*100)) : 0;
+    document.getElementById('cat-bar').style.width = pct + '%';
+  };
+  </script>
 </body>
 </html>
