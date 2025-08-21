@@ -6,29 +6,35 @@
   <title>FAQs - 4D Cosmetics</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/tokens.css">
-  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="./assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/product-card.css">
+  <link rel="stylesheet" href="/assets/css/bonanza-layout.css">
 </head>
-<body>
-  <header class="site-header">
-  <div class="container nav-container">
-    <a href="/" class="logo">4DCosmetics</a>
-    <nav class="nav-links">
-      <a href="/c/makeup/">Makeup</a>
-      <a href="/c/perfume/">Perfume</a>
-      <a href="/c/skincare/">Skincare</a>
-      <a href="/c/accessories/">Accessories</a>
-    </nav>
-    <div class="nav-actions">
-      <form class="search-form" action="/search/" method="get">
-        <input type="search" name="q" placeholder="Search products…" aria-label="Search">
+<body data-active-tab="Beauty">
+
+<div class="annc" role="region" aria-label="Site announcement">
+  <div class="container-narrow annc__inner">No Return or Exchange on Sale Items</div>
+</div>
+<header class="bnz-header">
+  <div class="container-narrow bnz-header__row">
+    <div></div>
+    <a class="bnz-logo" href="/">4D COSMETICS</a>
+    <div class="bnz-header__right">
+      <form class="bnz-search d-none d-md-flex" role="search" action="/search/" method="get">
+        <input type="search" name="q" placeholder="Search">
+        <button type="submit" aria-label="Search"><i class="fa fa-search"></i></button>
       </form>
-      <a href="/cart.html" class="cart-link">
-        🛒 <span class="cart-count simpleCart_quantity">0</span>
-      </a>
+      <a class="bnz-icon" href="/account.html" aria-label="Account"><i class="fa-regular fa-user"></i></a>
+      <a class="bnz-icon" href="/wishlist.html" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+      <a class="bnz-icon" href="/cart.html" aria-label="Cart"><i class="fa-solid fa-bag-shopping"></i><span class="bnz-badge simpleCart_quantity">0</span></a>
     </div>
   </div>
+  <nav class="bnz-tabs" aria-label="Primary">
+    <div class="container-narrow" id="home-tabs"></div>
+  </nav>
 </header>
 
   <section class="py-5">
@@ -45,13 +51,42 @@
     </div>
   </section>
 
-  <footer data-region="site-footer"></footer>
-  <script src="./assets/js/jquery-2.2.4.min.js"></script>
-  <script src="./assets/js/bootstrap.bundle.min.js"></script>
-  <script src="./assets/js/simpleCart.min.js"></script>
-  <script src="./assets/js/config.js"></script>
-  <script src="./assets/js/storefront-runtime.js"></script>
-  <script src="./assets/js/header-nav.js"></script>
-  <script src="./assets/js/footer.js"></script>
+  <footer class="bnz-footer">
+  <div class="container-narrow">
+    <div class="bnz-footer__cols">
+      <div>
+        <h4>CONTACT US</h4>
+        <ul><li>+92 21 111-244-266</li><li><a href="mailto:info@4dcosmetics.com">info@4dcosmetics.com</a></li></ul>
+      </div>
+      <div>
+        <h4>INFORMATION</h4>
+        <ul>
+          <li><a href="/track-order.html">Track Your Order</a></li>
+          <li><a href="/shipping.html">Shipping Information</a></li>
+          <li><a href="/returns.html">Return & Exchange Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>CUSTOMER CARE</h4>
+        <ul>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>NEWSLETTER SIGN UP</h4>
+        <form class="bnz-news"><input type="email" placeholder="Enter Email" aria-label="Email"><button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button></form>
+      </div>
+    </div>
+    <div class="bnz-copy">© 4D Cosmetics</div>
+  </div>
+</footer>
+  <script src="/assets/js/jquery-2.2.4.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/simpleCart.min.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/storefront-runtime.js"></script>
+  <script src="/assets/js/product-card.js"></script>
+  <script src="/assets/js/tabs.js"></script>
 </body>
 </html>
