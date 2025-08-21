@@ -1,0 +1,44 @@
+:root{
+  /* colors */
+  --bg:#ffffff; --bg-alt:#fafafa;
+  --text:#222; --muted:#666; --border:#eee;
+  --brand:#E91E63; --brand-600:#C2185B;
+  --accent:#FF5252; --success:#43A047; --warning:#FB8C00; --sale:#D32F2F; --badge:#111;
+
+  /* type & sizing */
+  --fs-base: clamp(14px,1.6vw,16px);
+  --lh: 1.5;
+  --radius:14px; --radius-sm:10px;
+  --shadow:0 8px 24px rgba(0,0,0,.06);
+
+  /* spacing scale */
+  --space-1:4px; --space-2:8px; --space-3:12px;
+  --space-4:16px; --space-5:20px; --space-6:24px;
+}
+
+html{font-size:16px}
+body{background:var(--bg); color:var(--text); font-size:var(--fs-base); line-height:var(--lh); -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-weight:600; line-height:1.2; letter-spacing:.2px}
+a{color:var(--brand); text-decoration:none}
+a:hover{color:var(--brand-600); text-decoration:underline}
+
+.container-narrow{max-width:1120px; margin:0 auto; padding:0 var(--space-4)}
+.grid{display:grid; gap:var(--space-5)}
+.grid--auto{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.sr-only,.visually-hidden{position:absolute!important; height:1px;width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px)}
+.clamp-1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.clamp-2{-webkit-line-clamp:2}
+.btn-modern{border-radius:999px; padding:10px 16px; border:1px solid transparent; box-shadow:none}
+.btn-modern--primary{background:var(--brand); color:#fff}
+.btn-modern--primary:hover{background:var(--brand-600)}
+.btn-modern--ghost{background:#fff;border-color:var(--border);color:var(--text)}
+.badge-chip{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.04em}
+.price{font-weight:600}
+.price--old{color:var(--muted); text-decoration:line-through; margin-left:8px; font-weight:400}
+.card-soft{border:1px solid var(--border); border-radius:var(--radius); background:#fff; box-shadow:var(--shadow)}
+.aspect-1x1{aspect-ratio:1/1; position:relative; overflow:hidden; border-radius:var(--radius-sm)}
+.aspect-1x1 img{width:100%; height:100%; object-fit:cover; display:block}
+
+.header-compact{position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--border)}
+.header-compact .row{align-items:center; min-height:64px}
+@media(max-width:640px){.header-compact .row{min-height:56px}}
