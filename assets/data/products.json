@@ -242,5 +242,20 @@
     "descriptionHTML": "<p>A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color</p>",
     "inStock": true,
     "sku": "LIP003"
+  },
+  {
+    "id": "SPG001",
+    "name": "Halloween Makeup Finger Sponge/ Puff",
+    "slug": "halloween-makeup-finger-sponge-puff",
+    "images": ["/assets/img/products/IMG-20250820-WA0176.jpg"],
+    "price": 220,
+    "currency": "PKR",
+    "categories": ["makeup"],
+    "brand": "4D Cosmetics",
+    "tags": ["makeup"],
+    "shortDescription": "Dry & Wet Dual Use & applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.",
+    "descriptionHTML": "<p>Dry &amp; Wet Dual Use &amp; applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.</p>",
+    "inStock": true,
+    "sku": "SPG001"
   }
 ]
