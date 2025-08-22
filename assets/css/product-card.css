@@ -1,6 +1,11 @@
 /* Grid alignment */
 .product-grid{ display:grid; gap: var(--space-5); grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); }
 
+/* Two columns on small screens */
+@media (max-width: 640px){
+  .product-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+
 /* Card basics */
 .pc{ position:relative; display:flex; flex-direction:column; overflow:hidden; }
 .pc__link{ position:absolute; inset:0; z-index:1; }
