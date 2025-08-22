@@ -1,7 +1,6 @@
 
 (function(){
-  const phone = document.documentElement.getAttribute('data-whatsapp') || '923001234567';
-  const link = 'https://wa.me/' + phone;
+  const link = 'https://wa.link/712nwk';
   const a = document.createElement('a');
   a.href = link;
   a.target = '_blank';
