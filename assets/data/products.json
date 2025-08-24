@@ -218,6 +218,21 @@
     "sku": "SPG001"
   },
   {
+    "id": "LIP004",
+    "name": "RBORY Mate Lipgloss",
+    "slug": "rbory-mate-lip-gloss",
+    "images": ["/assets/img/products/IMG-20250820-WA0177.jpg"],
+    "price": 599,
+    "currency": "PKR",
+    "categories": ["makeup"],
+    "brand": "RBORY",
+    "tags": ["makeup"],
+    "shortDescription": "RBORY Mate Lip Gloss offers a luscious, matte finish with 16 vibrant colors.",
+    "descriptionHTML": "<p>RBORY Mate Lip Gloss offers a luscious, matte finish with vibrant 16 colors available</p>",
+    "inStock": true,
+    "sku": "LIP004"
+  },
+  {
     "id": "KIT001",
     "name": "Roseberry Make-up Kit",
     "slug": "roseberry-make-up-kit",
