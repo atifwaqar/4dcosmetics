@@ -218,6 +218,21 @@
     "sku": "SPG001"
   },
   {
+    "id": "CPD001",
+    "name": "Sheglam Compact Powder",
+    "slug": "sheglam-compact-powder",
+    "images": ["/assets/img/products/IMG-20250820-WA0211.jpg"],
+    "price": 1450,
+    "currency": "PKR",
+    "categories": ["makeup", "face-powder"],
+    "brand": "Sheglam",
+    "tags": ["makeup"],
+    "shortDescription": "Sheglam compact powder for a smooth, matte finish.",
+    "descriptionHTML": "<p>Sheglam compact powder for a smooth, matte finish.</p>",
+    "inStock": true,
+    "sku": "CPD001"
+  },
+  {
     "id": "LIP004",
     "name": "RBORY Mate Lipgloss",
     "slug": "rbory-mate-lip-gloss",
