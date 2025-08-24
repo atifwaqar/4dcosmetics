@@ -218,6 +218,21 @@
     "sku": "SPG001"
   },
   {
+    "id": "CON001",
+    "name": "Roseberry Concealer",
+    "slug": "roseberry-concealer",
+    "images": ["/assets/img/products/IMG-20250820-WA0178.jpg"],
+    "price": 850,
+    "currency": "PKR",
+    "categories": ["makeup", "contour-concealer"],
+    "brand": "Roseberry",
+    "tags": ["makeup"],
+    "shortDescription": "Roseberry 12-Hours full coverage concealer, 3 colors available",
+    "descriptionHTML": "<p>Roseberry 12-Hours full coverage concealer 3 colors available</p>",
+    "inStock": true,
+    "sku": "CON001"
+  },
+  {
     "id": "CPD001",
     "name": "Sheglam Compact Powder",
     "slug": "sheglam-compact-powder",
