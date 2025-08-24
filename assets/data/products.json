@@ -3,12 +3,19 @@
     "id": "PRM001",
     "name": "RBory Face Primer",
     "slug": "rbory-face-primer",
-    "images": ["/assets/img/products/Rbory-Face-Primer-30ml.jpg"],
+    "images": [
+      "/assets/img/products/Rbory-Face-Primer-30ml.jpg"
+    ],
     "price": 2500,
     "currency": "PKR",
-    "categories": ["makeup", "primer"],
+    "categories": [
+      "makeup",
+      "primer"
+    ],
     "brand": "RBory",
-    "tags": ["non-greasy"],
+    "tags": [
+      "non-greasy"
+    ],
     "shortDescription": "Lightweight non-greasy face primer keeps makeup fresh all day.",
     "descriptionHTML": "<p>Lightweight non greesy face Primer, Makeup Fresh &amp; flawless all day long</p>",
     "inStock": true,
@@ -18,12 +25,19 @@
     "id": "PRM002",
     "name": "RBory Long Wear Face Primer",
     "slug": "rbory-long-wear-face-primer",
-    "images": ["/assets/img/products/IMG-20250816-WA0049.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0049.jpg"
+    ],
     "price": 2200,
     "currency": "PKR",
-    "categories": ["makeup", "primer"],
+    "categories": [
+      "makeup",
+      "primer"
+    ],
     "brand": "RBory",
-    "tags": ["primer"],
+    "tags": [
+      "primer"
+    ],
     "shortDescription": "Long wear & lightweight face primer keeps makeup fresh all day.",
     "descriptionHTML": "<p>Long wear &amp; lightweight face primer, makeup fresh &amp; flawless all day long</p>",
     "inStock": true,
@@ -33,12 +47,20 @@
     "id": "LIP002",
     "name": "Art skin Velvet Lipstick 6 Pcs",
     "slug": "art-skin-velvet-lipstick-6-pcs",
-    "images": ["/assets/img/products/art-skin-velvet-lipstick.jpg"],
+    "images": [
+      "/assets/img/products/art-skin-velvet-lipstick.jpg"
+    ],
     "price": 2000,
     "currency": "PKR",
-    "categories": ["makeup", "lipsticks"],
+    "categories": [
+      "makeup",
+      "lipsticks"
+    ],
     "brand": "Art Skin",
-    "tags": ["set", "matte"],
+    "tags": [
+      "set",
+      "matte"
+    ],
     "shortDescription": "Velvety matte lipstick set for soft finish and all-day wear.",
     "descriptionHTML": "<p>Velvety Matte Lipstick with soft finish and All day Wear</p>",
     "inStock": true,
@@ -48,12 +70,19 @@
     "id": "FND002",
     "name": "Roseberry Foundation & Concealer Stick",
     "slug": "roseberry-foundation-concealer-stick",
-    "images": ["/assets/img/products/IMG-20250816-WA0048.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0048.jpg"
+    ],
     "price": 1850,
     "currency": "PKR",
-    "categories": ["makeup", "foundation"],
+    "categories": [
+      "makeup",
+      "foundation"
+    ],
     "brand": "Roseberry",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Flawless Coverage, a lightweight feel, a natural, long last finishing.",
     "descriptionHTML": "<p>Flawless Coverage, a lightweight feel, a natural, long last finishing.</p>",
     "inStock": true,
@@ -63,12 +92,19 @@
     "id": "PRM003",
     "name": "RBORY Water Moisturizing Makeup Face Primer",
     "slug": "rbory-water-moisturizing-makeup-face-primer",
-    "images": ["/assets/img/products/IMG-20250816-WA0051.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0051.jpg"
+    ],
     "price": 2200,
     "currency": "PKR",
-    "categories": ["makeup", "primer"],
+    "categories": [
+      "makeup",
+      "primer"
+    ],
     "brand": "RBory",
-    "tags": ["primer"],
+    "tags": [
+      "primer"
+    ],
     "shortDescription": "Silky-smooth, water-based primer that hydrates without cakiness.",
     "descriptionHTML": "<p>Silky-smooth, water-based moisturizing face primer that hydrates skin without cakiness or powder residue.</p>",
     "inStock": true,
@@ -78,12 +114,18 @@
     "id": "FIX001",
     "name": "RBORY Makeup Fixer",
     "slug": "rbory-makeup-fixer",
-    "images": ["/assets/img/products/IMG-20250816-WA0052.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0052.jpg"
+    ],
     "price": 1800,
     "currency": "PKR",
-    "categories": ["makeup"],
+    "categories": [
+      "makeup"
+    ],
     "brand": "RBORY",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "24 Hrs Makeup fresh, Matte finish & long lasting with a lightweight hydrating fixer",
     "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
     "inStock": true,
@@ -93,12 +135,19 @@
     "id": "FND003",
     "name": "SK Forever Skin Nourishing Liquid Foundation",
     "slug": "sk-forever-skin-nourishing-liquid-foundation",
-    "images": ["/assets/img/products/IMG-20250816-WA0054.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0054.jpg"
+    ],
     "price": 950,
     "currency": "PKR",
-    "categories": ["makeup", "foundation"],
+    "categories": [
+      "makeup",
+      "foundation"
+    ],
     "brand": "SK",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Hydrates, evens tone, and leaves a radiant finish.",
     "descriptionHTML": "<p>A skin-nourishing liquid foundation that hydrates, evens tone, and delivers a radiant, natural finish.</p>",
     "inStock": true,
@@ -108,12 +157,18 @@
     "id": "FIX002",
     "name": "RBORY Makeup Setting Spray",
     "slug": "rbory-makeup-setting-spray",
-    "images": ["/assets/img/products/IMG-20250816-WA0053.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0053.jpg"
+    ],
     "price": 1750,
     "currency": "PKR",
-    "categories": ["makeup"],
+    "categories": [
+      "makeup"
+    ],
     "brand": "RBORY",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day",
     "descriptionHTML": "<p>Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day</p>",
     "inStock": true,
@@ -123,12 +178,19 @@
     "id": "LIP003",
     "name": "RBORY Kiss Lipstick",
     "slug": "rbory-kiss-lipstick",
-    "images": ["/assets/img/products/IMG-20250816-WA0050.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250816-WA0050.jpg"
+    ],
     "price": 550,
     "currency": "PKR",
-    "categories": ["makeup", "lipsticks"],
+    "categories": [
+      "makeup",
+      "lipsticks"
+    ],
     "brand": "RBORY",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color",
     "descriptionHTML": "<p>A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color</p>",
     "inStock": true,
@@ -138,15 +200,43 @@
     "id": "SPG001",
     "name": "Halloween Makeup Finger Sponge/ Puff",
     "slug": "halloween-makeup-finger-sponge-puff",
-    "images": ["/assets/img/products/IMG-20250820-WA0176.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0176.jpg"
+    ],
     "price": 220,
     "currency": "PKR",
-    "categories": ["makeup"],
+    "categories": [
+      "makeup"
+    ],
     "brand": "4D Cosmetics",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Dry & Wet Dual Use & applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.",
     "descriptionHTML": "<p>Dry &amp; Wet Dual Use &amp; applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.</p>",
     "inStock": true,
     "sku": "SPG001"
+  },
+  {
+    "id": "KIT001",
+    "name": "Roseberry Make-up Kit",
+    "slug": "roseberry-make-up-kit",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0182.jpg"
+    ],
+    "price": 15500,
+    "currency": "PKR",
+    "categories": [
+      "makeup"
+    ],
+    "brand": "Roseberry",
+    "tags": [
+      "makeup",
+      "kit"
+    ],
+    "shortDescription": "Complete makeup kit with eyeshadow, blush, concealer, lipsticks, lip glosses, and liquid blush.",
+    "descriptionHTML": "<p>Roseberry Branded Makeup kit \"Eyeshadow Palette\", \"Blush highlighter palette\", \"Concealer\", \"3 lipsticks\", \"3 lipgloss\",\"1 liquid blush\" available in makeup kit</p>",
+    "inStock": true,
+    "sku": "KIT001"
   }
 ]
