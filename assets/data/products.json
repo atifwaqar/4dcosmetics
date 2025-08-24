@@ -148,5 +148,20 @@
     "descriptionHTML": "<p>Dry &amp; Wet Dual Use &amp; applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.</p>",
     "inStock": true,
     "sku": "SPG001"
+  },
+  {
+    "id": "CON001",
+    "name": "Roseberry Concealer",
+    "slug": "roseberry-concealer",
+    "images": ["/assets/img/products/IMG-20250820-WA0178.jpg"],
+    "price": 850,
+    "currency": "PKR",
+    "categories": ["makeup", "contour-concealer"],
+    "brand": "Roseberry",
+    "tags": ["makeup"],
+    "shortDescription": "Roseberry 12-Hours full coverage concealer, 3 colors available",
+    "descriptionHTML": "<p>Roseberry 12-Hours full coverage concealer 3 colors available</p>",
+    "inStock": true,
+    "sku": "CON001"
   }
 ]
