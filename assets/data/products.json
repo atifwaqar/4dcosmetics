@@ -383,5 +383,27 @@
     "descriptionHTML": "<p>80-piece pack of organic cotton pads, ideal for makeup removal, skincare applications, and gentle cleansing.</p>",
     "inStock": true,
     "sku": "SKN004"
+  },
+  {
+    "id": "MSC001",
+    "name": "OG Extension Mascara",
+    "slug": "og-extension-mascara",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0218.jpg"
+    ],
+    "price": 1250,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "mascara"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "mascara"
+    ],
+    "shortDescription": "One step extreme extension mascara and lash tint effect with curved curling brush.",
+    "descriptionHTML": "<p>One step extreme extension mascara &amp; lash tint effect available with curved curling brush</p>",
+    "inStock": true,
+    "sku": "MSC001"
   }
 ]
