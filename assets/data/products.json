@@ -405,5 +405,26 @@
     "descriptionHTML": "<p>One step extreme extension mascara &amp; lash tint effect available with curved curling brush</p>",
     "inStock": true,
     "sku": "MSC001"
+  },
+  {
+    "id": "LIP006",
+    "name": "OG Lip & Cheek Tint",
+    "slug": "og-lip-cheek-tint",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0217.jpg"
+    ],
+    "price": 950,
+    "currency": "PKR",
+    "categories": [
+      "makeup"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "makeup"
+    ],
+    "shortDescription": "Vibrant, blendable lip and cheek tint 4 colours available.",
+    "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
+    "inStock": true,
+    "sku": "LIP006"
   }
 ]
