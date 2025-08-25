@@ -320,5 +320,26 @@
     "descriptionHTML": "<p>Nourishing and smoothing whitening serum for brightening skin, eliminating dark spots, and evening out skin tone, suitable for day and night use, with natural ingredients.</p>",
     "inStock": true,
     "sku": "SKN001"
+  },
+  {
+    "id": "SKN002",
+    "name": "O.G Vitamin C+E Face Wash",
+    "slug": "og-vitamin-c-e-face-wash",
+    "images": [
+      "/assets/img/products/IMG-20250825-WA0014.jpg"
+    ],
+    "price": 1699,
+    "currency": "PKR",
+    "categories": [
+      "skin-care"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "Gently cleansing face wash infused with Vitamin C and E to brighten, hydrate, and protect the skin for a radiant glow.",
+    "descriptionHTML": "<p>Gently cleansing face wash infused with Vitamin C and E to brighten, hydrate, and protect the skin for a radiant glow.</p>",
+    "inStock": true,
+    "sku": "SKN002"
   }
 ]
