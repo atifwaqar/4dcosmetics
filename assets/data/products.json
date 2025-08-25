@@ -320,5 +320,26 @@
     "descriptionHTML": "<p>Nourishing and smoothing whitening serum for brightening skin, eliminating dark spots, and evening out skin tone, suitable for day and night use, with natural ingredients.</p>",
     "inStock": true,
     "sku": "SKN001"
+  },
+  {
+    "id": "SKN002",
+    "name": "O.G Niacinamide Face Wash",
+    "slug": "og-niacinamide-face-wash",
+    "images": [
+      "/assets/img/products/IMG-20250825-WA0015.jpg"
+    ],
+    "price": 1799,
+    "currency": "PKR",
+    "categories": [
+      "skin-care"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "Niacinamide face wash gently cleanses and brightens skin, reducing hyperpigmentation and improving skin complexion.",
+    "descriptionHTML": "<p>Niacinamide face wash gently cleanses and brightens skin, reducing hyperpigmentation and improving skin complexion.</p>",
+    "inStock": true,
+    "sku": "SKN002"
   }
 ]
