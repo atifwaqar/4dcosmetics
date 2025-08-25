@@ -242,8 +242,8 @@
     "categories": ["makeup", "face-powder"],
     "brand": "Sheglam",
     "tags": ["makeup"],
-    "shortDescription": "Sheglam compact powder for a smooth, matte finish.",
-    "descriptionHTML": "<p>Sheglam compact powder for a smooth, matte finish.</p>",
+    "shortDescription": "Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.",
+    "descriptionHTML": "<p>Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.</p>",
     "inStock": true,
     "sku": "CPD001"
   },
@@ -298,5 +298,27 @@
     "descriptionHTML": "<p>Rhode Lipgloss 8 different colors available</p>",
     "inStock": true,
     "sku": "LIP005"
+  },
+  {
+    "id": "SKN001",
+    "name": "Silkfull Face Serum",
+    "slug": "silkfull-face-serum",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0204.jpg"
+    ],
+    "price": 2350,
+    "currency": "PKR",
+    "categories": [
+      "skin-care",
+      "serums"
+    ],
+    "brand": "Silkfull",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "Nourishing whitening serum brightens skin, reduces dark spots, and evens tone.",
+    "descriptionHTML": "<p>Nourishing and smoothing whitening serum for brightening skin, eliminating dark spots, and evening out skin tone, suitable for day and night use, with natural ingredients.</p>",
+    "inStock": true,
+    "sku": "SKN001"
   }
 ]
