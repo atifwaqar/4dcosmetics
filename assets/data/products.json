@@ -285,6 +285,21 @@
     "sku": "KIT001"
   },
   {
+    "id": "LIP005",
+    "name": "Rhode Lipgloss",
+    "slug": "rhode-lipgloss",
+    "images": ["/assets/img/products/IMG-20250820-WA0229.jpg"],
+    "price": 550,
+    "currency": "PKR",
+    "categories": ["makeup"],
+    "brand": "Rhode",
+    "tags": ["makeup"],
+    "shortDescription": "Rhode Lipgloss 8 different colors available",
+    "descriptionHTML": "<p>Rhode Lipgloss 8 different colors available</p>",
+    "inStock": true,
+    "sku": "LIP005"
+  },
+  {
     "id": "SKN001",
     "name": "Silkfull Face Serum",
     "slug": "silkfull-face-serum",
