@@ -362,5 +362,26 @@
     "descriptionHTML": "<p>Gently cleansing face wash infused with Vitamin C and E to brighten, hydrate, and protect the skin for a radiant glow.</p>",
     "inStock": true,
     "sku": "SKN003"
+  },
+  {
+    "id": "SKN004",
+    "name": "O.G Cotton Pads",
+    "slug": "og-cotton-pads",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0202.jpg"
+    ],
+    "price": 850,
+    "currency": "PKR",
+    "categories": [
+      "skin-care"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "80-piece pack of organic cotton pads for makeup removal, skincare, and gentle cleansing.",
+    "descriptionHTML": "<p>80-piece pack of organic cotton pads, ideal for makeup removal, skincare applications, and gentle cleansing.</p>",
+    "inStock": true,
+    "sku": "SKN004"
   }
 ]
