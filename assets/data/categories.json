@@ -14,13 +14,6 @@
     "sortOrder": 2
   },
   {
-    "name": "Fragrance",
-    "slug": "fragrance",
-    "parent": null,
-    "descriptionHTML": "<p>Scents to match every mood.</p>",
-    "sortOrder": 3
-  },
-  {
     "name": "Primer",
     "slug": "primer",
     "parent": "makeup",
@@ -103,12 +96,5 @@
     "parent": "skin-care",
     "descriptionHTML": "<p>Hydration heroes for every skin type.</p>",
     "sortOrder": 2
-  },
-  {
-    "name": "Perfume",
-    "slug": "perfume",
-    "parent": "fragrance",
-    "descriptionHTML": "<p>Signature scents to captivate.</p>",
-    "sortOrder": 1
   }
 ]
