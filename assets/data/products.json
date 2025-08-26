@@ -264,10 +264,12 @@
   },
   {
     "id": "KIT001",
-    "name": "Roseberry Make-up Kit",
-    "slug": "roseberry-make-up-kit",
+    "name": "Roseberry Makeup Kit",
+    "slug": "roseberry-makeup-kit",
     "images": [
-      "/assets/img/products/IMG-20250820-WA0182.jpg"
+      "/assets/img/products/IMG-20250820-WA0182.jpg",
+      "/assets/img/products/IMG-20250820-WA0183.jpg",
+      "/assets/img/products/IMG-20250820-WA0187.jpg"
     ],
     "price": 15500,
     "currency": "PKR",
