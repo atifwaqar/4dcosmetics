@@ -51,6 +51,20 @@
         <div class="progress"><div id="fs-bar" class="progress-bar" style="width:0%"></div></div>
       </div>
 
+      <section id="buyer-details" aria-labelledby="bd-title" class="pm-section">
+        <h2 id="bd-title">Buyer details</h2>
+        <label for="buyer-name">Full Name</label>
+        <input id="buyer-name" type="text" required placeholder="Your name">
+        <label for="buyer-phone">Phone</label>
+        <input id="buyer-phone" type="tel" required placeholder="03001234567">
+        <label for="buyer-address">Address</label>
+        <textarea id="buyer-address" required placeholder="Street and house no."></textarea>
+        <label for="buyer-city">City</label>
+        <input id="buyer-city" type="text" required placeholder="City">
+        <label for="checkout-notes">Notes (optional)</label>
+        <textarea id="checkout-notes" placeholder="Any delivery instructions"></textarea>
+      </section>
+
       <section id="payment-methods" aria-labelledby="pm-title" class="pm-section">
         <h2 id="pm-title">Payment method</h2>
         <div class="pm-options" role="radiogroup" aria-label="Payment methods">
@@ -69,7 +83,7 @@
       </section>
 
       <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
-      <div id="checkout-notes" class="checkout-notes" aria-live="polite"></div>
+      <div id="checkout-feedback" class="checkout-notes" aria-live="polite"></div>
     `;
 
     return aside;
@@ -207,7 +221,7 @@
       const sel = document.querySelector('input[name="pm"]:checked');
       const method = sel ? sel.value : 'cod';
       localStorage.setItem('checkout_pm', method);
-      const note = document.getElementById('checkout-notes');
+      const note = document.getElementById('checkout-feedback');
       if (note) note.textContent = `Selected payment method: ${method.toUpperCase()}.`;
     }
   });
