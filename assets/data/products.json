@@ -426,5 +426,28 @@
     "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
     "inStock": true,
     "sku": "LIP006"
+  },
+  {
+    "id": "SKN005",
+    "name": "Elfinz Neck & Decollete Firming Cream",
+    "slug": "elfinz-neck-decollete-firming-cream",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0224.jpg"
+    ],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": [
+      "skin-care",
+      "creams"
+    ],
+    "brand": "Elfinz",
+    "tags": [
+      "skincare",
+      "cream"
+    ],
+    "shortDescription": "Elfinz Neck & Decollete Firming Cream with natural snail slime smooths fine lines and wrinkles, firming and rejuvenating the delicate skin.",
+    "descriptionHTML": "<p>Elfinz Neck &amp; Decollete Firming Cream with natural snail slime smooths fine lines and wrinkles, firming and rejuvenating the delicate skin.</p>",
+    "inStock": true,
+    "sku": "SKN005"
   }
 ]
