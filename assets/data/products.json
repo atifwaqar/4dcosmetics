@@ -497,5 +497,29 @@
     "descriptionHTML": "<p>2-in-1 pure glow lip mask &amp; scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.</p>",
     "inStock": true,
     "sku": "SKN007"
+  },
+  {
+    "id": "HGL001",
+    "name": "OG Aqua Jelly Highlighter Stick",
+    "slug": "og-aqua-jelly-highlighter-stick",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0215.jpg",
+      "/assets/img/products/IMG-20250820-WA0216.jpg"
+    ],
+    "price": 1299,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "highlighter"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "jelly",
+      "highlighter"
+    ],
+    "shortDescription": "Bouncy water-based gel stick delivers long-lasting, highly pigmented shine for a natural wet-look finish.",
+    "descriptionHTML": "<p>OG jelly highlighter stick is a bouncy, water-based gel stick that delivers a long-lasting, highly pigmented shine for a natural, wet-look finish.</p>",
+    "inStock": true,
+    "sku": "HGL001"
   }
 ]
