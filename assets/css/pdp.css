@@ -3,20 +3,28 @@
 
 .pdp__media{ position:relative; }
 
-/* Main image — centered both horizontally & vertically */
+/* Main image — fixed box, image always centered */
 .pdp__main {
   border:1px solid var(--border);
   border-radius: var(--radius);
   overflow:hidden;
   background:#fff;
+
+  /* 👇 fixed viewing window (adjust as you like) */
+  aspect-ratio: 1 / 1;     /* keeps a square box */
+  max-height: 600px;       /* caps box height on big screens */
+  display:flex;            /* so we can center the <img> */
+  align-items:center;      
+  justify-content:center;
 }
+
 .pdp__main img {
-  display:block;
-  width:100%;
-  height:100%;
+  max-width:100%;
+  max-height:100%;
   object-fit:contain;
-  object-position:center; /* 👈 ensures both horizontal & vertical centering */
+  object-position:center;
   background:#fff;
+  display:block;
 }
 
 /* Thumbs: natural horizontal row */
