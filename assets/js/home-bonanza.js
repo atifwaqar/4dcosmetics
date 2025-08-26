@@ -27,7 +27,7 @@ function renderTabs(){
   const el = document.getElementById('home-tabs');
   if(!el) return;
   const cats = [
-    {label:'Beauty', href:'/c/makeup/'}, 
+    {label:'All', href:'/c/makeup/'},
     {label:'Face', href:'/c/makeup/'}, 
     {label:'Eyes', href:'/c/makeup/'}, 
     {label:'Lips', href:'/c/makeup/'}, 
