@@ -23,6 +23,7 @@
     aside.dataset.enhanced = '1';
 
     // Clear & rebuild a consistent summary layout
+    const defaultPM = localStorage.getItem('checkout_pm') || 'whatsappCod';
     aside.innerHTML = `
       <div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
 
@@ -68,16 +69,8 @@
       <section id="payment-methods" aria-labelledby="pm-title" class="pm-section">
         <h2 id="pm-title">Payment method</h2>
         <div class="pm-options" role="radiogroup" aria-label="Payment methods">
-          <label class="pm-option"><input type="radio" name="pm" value="hblpay" checked> HBLPay (Visa / Master / Debit)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="easypaisa"> Easypaisa (Hosted)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="jazzcash"> JazzCash (Hosted)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="payfast"> PayFast (Aggregator)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="paypro"> PayPro (Aggregator)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="bsecure"> bSecure (Aggregator)</label>
-          <label class="pm-option"><input type="radio" name="pm" value="nift"> NIFT ePay</label>
-          <label class="pm-option"><input type="radio" name="pm" value="bank"> Bank Transfer</label>
-          <label class="pm-option"><input type="radio" name="pm" value="cod"> Cash on Delivery</label>
-          <label class="pm-option"><input type="radio" name="pm" value="whatsappCod"> WhatsApp (Cash on Delivery)</label>
+          <label class="pm-option"><input type="radio" name="payment-method" value="whatsappCod" ${defaultPM === 'whatsappCod' ? 'checked' : ''}> WhatsApp (Cash on Delivery)</label>
+          <label class="pm-option"><input type="radio" name="payment-method" value="cod" ${defaultPM === 'cod' ? 'checked' : ''}> Cash on Delivery (Email)</label>
           <small class="pm-note">All transactions are charged in PKR.</small>
         </div>
         <div id="pm-feedback" class="pm-feedback" role="status" aria-live="polite"></div>
@@ -219,11 +212,13 @@
     }
 
     if (e.target && e.target.id === 'checkout-btn'){
-      const sel = document.querySelector('input[name="pm"]:checked');
-      const method = sel ? sel.value : 'cod';
+      const method = (document.querySelector('input[name="payment-method"]:checked')?.value) || 'whatsappCod';
       localStorage.setItem('checkout_pm', method);
       const note = document.getElementById('checkout-feedback');
-      if (note) note.textContent = `Selected payment method: ${method.toUpperCase()}.`;
+      if (note){
+        const friendly = method === 'whatsappCod' ? 'WhatsApp COD' : 'Cash on Delivery (Email)';
+        note.textContent = `Selected payment method: ${friendly}.`;
+      }
 
       // Build order from cart contents
       const items = getItems();
