@@ -211,9 +211,9 @@
     }
     if(p.brand) setText('.pdp__brand', p.brand); else { var b=document.querySelector('.pdp__brand'); if(b) b.style.display='none'; }
     setText('.pdp__title', p.title || p.name || '');
-    setHTML('[data-panel="desc"]', p.description || '');
+    setHTML('[data-panel="desc"]', p.descriptionHTML || p.description || '');
     setHTML('[data-panel="ingr"]', p.ingredients || '');
-    setHTML('[data-panel="use"]',  p.how_to_use || '');
+    setHTML('[data-panel="use"]',  p.howToUse || p.how_to_use || '');
     renderBullets(p);
     renderGallery(p);
     renderPrice(p);
