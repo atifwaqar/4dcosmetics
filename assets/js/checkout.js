@@ -37,21 +37,30 @@ const Checkout = {
 
     try{
       const res = await adapter.start(ord, providerCfg, returnUrls);
-      ord.id = ord.id || (`ORD-${Date.now()}`);
-      localStorage.setItem('4d-last-order', JSON.stringify(ord));
-      if(res.redirectUrl){
-        const successUrl = (this.config && this.config.returnUrls && this.config.returnUrls.success)
-          ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}`
-          : `/thank-you.html?oid=${encodeURIComponent(ord.id)}`;
-        window.open(res.redirectUrl, '_blank');
-        window.location.href = successUrl;
-      } else if(res.action && res.fields){
-        const f = document.createElement('form');
-        f.method='POST'; f.action = res.action;
-        Object.entries(res.fields).forEach(([k,v])=>{ const i=document.createElement('input'); i.type='hidden'; i.name=k; i.value=v; f.appendChild(i); });
-        document.body.appendChild(f); f.submit();
-      } else if(res.mailto){
-        window.location = res.mailto;
+      if(method === 'whatsappCod' && res.redirectUrl){
+        order.id = order.id || (`ORD-${Date.now()}`);
+        localStorage.setItem('4d-last-order', JSON.stringify(order));
+        const redirectUrl = res.redirectUrl;
+        window.open(redirectUrl, '_blank');
+        const success = (returnUrls?.success) || `/thank-you.html?oid=${encodeURIComponent(order.id)}&pm=whatsappCod`;
+        window.location.href = success;
+      } else {
+        ord.id = ord.id || (`ORD-${Date.now()}`);
+        localStorage.setItem('4d-last-order', JSON.stringify(ord));
+        if(res.redirectUrl){
+          const successUrl = (this.config && this.config.returnUrls && this.config.returnUrls.success)
+            ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}`
+            : `/thank-you.html?oid=${encodeURIComponent(ord.id)}`;
+          window.open(res.redirectUrl, '_blank');
+          window.location.href = successUrl;
+        } else if(res.action && res.fields){
+          const f = document.createElement('form');
+          f.method='POST'; f.action = res.action;
+          Object.entries(res.fields).forEach(([k,v])=>{ const i=document.createElement('input'); i.type='hidden'; i.name=k; i.value=v; f.appendChild(i); });
+          document.body.appendChild(f); f.submit();
+        } else if(res.mailto){
+          window.location = res.mailto;
+        }
       }
     }catch(e){
       console.error(e);
