@@ -71,7 +71,7 @@
     }
 
     // optional "All" tab pointing to home (matches reference)
-    const allTab = { id:'__all', name:'Beauty', url: '/', order: -1, parent:null };
+    const allTab = { id:'__all', name:'All', url: '/', order: -1, parent:null };
     const normalized = cats.map(normalize);
     const uniq = uniqueBy(normalized, 'slug').sort((a,b)=> (a.order||0) - (b.order||0) || a.name.localeCompare(b.name));
 
@@ -96,7 +96,7 @@
         const nav = document.querySelector('.bnz-tabs');
         if (nav && !nav.children.length){
           nav.innerHTML = `
-            <a class="bnz-tabs__item is-active" href="/">Beauty</a>
+            <a class="bnz-tabs__item is-active" href="/">All</a>
           `;
         }
       }
