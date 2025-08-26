@@ -32,6 +32,8 @@ a:hover{color:var(--brand-600); text-decoration:underline}
 .btn-modern--primary{background:var(--brand); color:#fff}
 .btn-modern--primary:hover{background:var(--brand-600)}
 .btn-modern--ghost{background:#fff;border-color:var(--border);color:var(--text)}
+.btn-modern--whatsapp{background:#25D366;color:#fff}
+.btn-modern--whatsapp:hover{background:#1EBE57}
 .badge-chip{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.04em}
 .price{font-weight:600}
 .price--old{color:var(--muted); text-decoration:line-through; margin-left:8px; font-weight:400}
