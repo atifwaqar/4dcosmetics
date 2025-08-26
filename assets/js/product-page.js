@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       currentVariant = v;
       const priceNum = normalizePrice(v && v.price !== undefined ? v.price : product.price);
       if (priceNum !== null) {
-        priceEl.innerHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-ui">${StorefrontRuntime.formatPrice(priceNum, currency)}</span>`;
+        priceEl.innerHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-ui">${StorefrontRuntime.formatPrice(priceNum)}</span>`;
         addBtn.disabled = v && v.inStock === false;
         addBtn.textContent = v && v.inStock === false ? 'Notify me' : 'Add to Cart';
       } else {
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (v && v.image) { mainImg.src = v.image; mainImg.alt = `${product.name} - ${v.name}`; }
       StorefrontRuntime.setQueryParam('variant', v ? v.id : null);
       const mobileInfo = document.getElementById('mobile-atc-info');
-      if (mobileInfo) mobileInfo.textContent = `${v ? v.name : product.name} • ${StorefrontRuntime.formatPrice(normalizePrice(v && v.price !== undefined ? v.price : product.price), currency)}`;
+      if (mobileInfo) mobileInfo.textContent = `${v ? v.name : product.name} • ${StorefrontRuntime.formatPrice(normalizePrice(v && v.price !== undefined ? v.price : product.price))}`;
       if (liveRegion) liveRegion.textContent = `${v ? v.name : ''} selected`;
     }
 
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const row = document.getElementById('recently-viewed');
       prods.forEach(p => {
         const col=document.createElement('div'); col.className='col-6 col-md-3 mb-4';
-        col.innerHTML = `<a href="/p/${p.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${p.images[0]}" class="card-img-top" alt="${p.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(p)}</div><h6 class="card-title">${p.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(p.price, p.currency)}</p></div></div></a>`;
+        col.innerHTML = `<a href="/p/${p.slug}" class="text-decoration-none text-dark" style="display:block;min-width:44px;min-height:44px;"><div class="card h-100"><img src="${p.images[0]}" class="card-img-top" alt="${p.name}" loading="lazy" width="300" height="300" style="object-fit:cover;aspect-ratio:1/1;"><div class="card-body p-2"><div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(p)}</div><h6 class="card-title">${p.name}</h6><p class="card-text mb-1">${StorefrontRuntime.formatPrice(p.price)}</p></div></div></a>`;
         row.appendChild(col);
       });
       sec.classList.remove('d-none');

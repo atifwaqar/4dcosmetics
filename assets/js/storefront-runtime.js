@@ -39,12 +39,8 @@ const StorefrontRuntime = (() => {
     return arr.slice(start, start + perPage);
   }
 
-  function formatPrice(value, currency) {
-    try {
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(value);
-    } catch (e) {
-      return value + ' ' + (currency || '');
-    }
+  function formatPrice(value) {
+    return moneyPKR(value);
   }
 
   function getQueryParam(name) {

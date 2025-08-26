@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const img=document.createElement('img'); img.src=prod.images[0]; img.alt=''; img.width=40; img.height=40; img.loading='lazy'; img.className='me-2'; a.appendChild(img);
             const span=document.createElement('span'); span.textContent=prod.name; a.appendChild(span);
             if(prod.brand){ const b=document.createElement('small'); b.className='text-muted ms-1'; b.textContent=prod.brand; a.appendChild(b); }
-            const price=document.createElement('span'); price.className='ms-auto'; price.textContent=StorefrontRuntime.formatPrice(prod.price, prod.currency); a.appendChild(price);
+            const price=document.createElement('span'); price.className='ms-auto'; price.textContent=StorefrontRuntime.formatPrice(prod.price); a.appendChild(price);
             panel.appendChild(a);
           });
           const view=document.createElement('a'); view.href=`/search/?q=${encodeURIComponent(q)}`; view.className='list-group-item list-group-item-action'; view.textContent=`View all results for "${q}"`; panel.appendChild(view);

@@ -1,3 +1,5 @@
+import { moneyPKR } from './money.js';
+
 export const Payments = {
   hblpay: {
     needsServer: true,
@@ -97,7 +99,7 @@ export const Payments = {
   bank: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount, order.currency)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty} = ${fmt(i.subtotal, order.currency)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
+      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty} = ${fmt(i.subtotal)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('Bank Transfer - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
@@ -105,7 +107,7 @@ export const Payments = {
   cod: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount, order.currency)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
+      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('COD - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
@@ -125,15 +127,15 @@ export const Payments = {
       }
       lines.push('');
       if(order.id) lines.push(`Order ID: ${order.id}`);
-      lines.push(`Subtotal: ${fmt(order.subtotal, order.currency)}`);
-      if(order.shipping) lines.push(`Shipping: ${fmt(order.shipping, order.currency)}`);
-      lines.push(`Total: ${fmt(order.amount, order.currency)}`);
+      lines.push(`Subtotal: ${fmt(order.subtotal)}`);
+      if(order.shipping) lines.push(`Shipping: ${fmt(order.shipping)}`);
+      lines.push(`Total: ${fmt(order.amount)}`);
       lines.push('');
       lines.push('Items:');
       lines.push(order.items.map(i=>{
         const qty = i.qty || i.quantity || 1;
         const title = i.name || i.title;
-        const price = fmt(i.subtotal || (i.unit * qty) || i.unit || 0, order.currency);
+        const price = fmt(i.subtotal || (i.unit * qty) || i.unit || 0);
         return `• ${title} × ${qty} — ${price}`;
       }).join('\n'));
       const message = lines.join('\n');
@@ -143,8 +145,8 @@ export const Payments = {
   }
 };
 
-export function fmt(n, ccy){
-  return new Intl.NumberFormat('en-PK', {style:'currency', currency: ccy}).format(n);
+export function fmt(n){
+  return moneyPKR(n);
 }
 
 function safeBuyer(b){

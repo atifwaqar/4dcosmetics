@@ -121,9 +121,9 @@
   }
 
   function renderPrice(p){
-    var fmt = (window.ProductCard && ProductCard.formatPrice) ? ProductCard.formatPrice : function(n,c){ try{return new Intl.NumberFormat(undefined,{style:'currency',currency:c||'PKR'}).format(n);}catch(_){return (c||'PKR')+' '+(n||0);} };
-    var priceNew = fmt(p.price.current, p.price.currency);
-    var priceOld = p.price.old ? fmt(p.price.old, p.price.currency) : '';
+    var fmt = moneyPKR;
+    var priceNew = fmt(p.price.current);
+    var priceOld = p.price.old ? fmt(p.price.old) : '';
     var block = document.querySelector('.pdp__price');
     if(block){
       block.innerHTML = `<span class="price price--new">${priceNew}</span>${priceOld?` <span class="price price--old">${priceOld}</span>`:''}`;

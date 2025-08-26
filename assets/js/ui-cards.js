@@ -75,10 +75,10 @@ export function buildProductCard(prod) {
 
   let priceHTML = '';
   if (priceNum !== null) {
-    priceHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-current">${StorefrontRuntime.formatPrice(priceNum, currency)}</span>`;
+    priceHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-current">${StorefrontRuntime.formatPrice(priceNum)}</span>`;
     if (compareNum !== null && compareNum > priceNum) {
       const pct = Math.round((1 - priceNum / compareNum) * 100);
-      priceHTML += ` <span class="price-compare">${StorefrontRuntime.formatPrice(compareNum, currency)}</span> <span class="price-discount">${pct}% off</span>`;
+      priceHTML += ` <span class="price-compare">${StorefrontRuntime.formatPrice(compareNum)}</span> <span class="price-discount">${pct}% off</span>`;
     }
   } else {
     priceHTML = `<span class="visually-hidden item_price"></span><span aria-hidden="true" class="price-current">Unavailable</span>`;
