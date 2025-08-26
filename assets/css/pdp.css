@@ -2,32 +2,24 @@
 @media (min-width: 992px){ .pdp{ grid-template-columns: 1fr 1fr; } }
 
 .pdp__media{ position:relative; }
-.pdp__main.aspect-1x1{ border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
-.pdp__main img{ width:100%; height:100%; object-fit:contain; background:#fff; }
 
-/* Thumbs: natural, clean row with scroll on overflow */
+/* Main image — natural aspect, fill width */
+.pdp__main{ border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; background:transparent; }
+.pdp__main.aspect-1x1{ /* keep border style but do NOT force square */ }
+.pdp__main img{ display:block; width:100%; height:auto; object-fit:unset; background:transparent; }
+
+/* Thumbs: natural horizontal row */
 .pdp__thumbs{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-  overflow-x:auto;
-  padding:6px 2px;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
+  display:flex; gap:10px; margin-top:10px;
+  overflow-x:auto; padding:6px 2px;
+  -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
 }
 .pdp__thumbs::-webkit-scrollbar{ height:8px; }
 .pdp__thumbs::-webkit-scrollbar-thumb{ background: var(--hairline,#e5e7eb); border-radius:10px; }
 
 .pdp__thumb{
-  width:72px; height:72px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  overflow:hidden;
-  cursor:pointer;
-  flex:0 0 auto;
-  background:none;
-  padding:0;
-  scroll-snap-align: start;
+  width:72px; height:72px; border-radius:10px; border:1px solid var(--border);
+  overflow:hidden; cursor:pointer; flex:0 0 auto; background:none; padding:0; scroll-snap-align:start;
 }
 .pdp__thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
 .pdp__thumb.is-active{ outline:2px solid var(--brand); outline-offset:2px; }
@@ -53,8 +45,3 @@
   padding:10px 12px; display:flex; gap:10px; align-items:center; }
 .mobile-atc__price{ margin-left:auto; font-weight:700; }
 @media (min-width: 768px){ .mobile-atc{ display:none; } }
-
-/* --- PDP main image: natural aspect, fill width --- */
-.pdp__main { border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; background:transparent; }
-.pdp__main.aspect-1x1 { /* keep the border style but don't force a square */ }
-.pdp__main img { display:block; width:100%; height:auto; object-fit:unset; background:transparent; }
