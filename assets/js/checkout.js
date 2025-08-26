@@ -1,4 +1,4 @@
-import { Payments, fmt, toPKR } from './payments.js';
+import { Payments } from './payments.js';
 
 const Checkout = {
   config: null,
@@ -11,6 +11,7 @@ const Checkout = {
     }
   },
   async start(order, method){
+    order.currency = 'PKR';
     if(!this.config) await this.init();
     const providerCfg = this.config && this.config.providers[method];
     const fb = document.getElementById('pm-feedback');
@@ -23,20 +24,14 @@ const Checkout = {
       if(fb) fb.textContent = 'This method isn\u2019t configured.';
       return;
     }
-    const fb2 = document.getElementById('checkout-feedback');
-    let ord = order;
-    if(order.currency !== 'PKR'){
-      ord = toPKR(order, this.config.pkConversionRate);
-      if(fb2) fb2.textContent = `Charged in PKR at 1 ${order.currency} = ${this.config.pkConversionRate} PKR (est.).`;
-    } else if(fb2){ fb2.textContent = ''; }
 
     const returnUrls = {
-      successUrl: `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}&pm=${method}`,
+      successUrl: `${this.config.returnUrls.success}?oid=${encodeURIComponent(order.id)}&pm=${method}`,
       cancelUrl: `${this.config.returnUrls.cancel}?cancel=1&pm=${method}`
     };
 
     try{
-      const res = await adapter.start(ord, providerCfg, returnUrls);
+      const res = await adapter.start(order, providerCfg, returnUrls);
       if(method === 'whatsappCod' && res.redirectUrl){
         order.id = order.id || (`ORD-${Date.now()}`);
         localStorage.setItem('4d-last-order', JSON.stringify(order));
@@ -45,12 +40,12 @@ const Checkout = {
         const success = (returnUrls?.success) || `/thank-you.html?oid=${encodeURIComponent(order.id)}&pm=whatsappCod`;
         window.location.href = success;
       } else {
-        ord.id = ord.id || (`ORD-${Date.now()}`);
-        localStorage.setItem('4d-last-order', JSON.stringify(ord));
+        order.id = order.id || (`ORD-${Date.now()}`);
+        localStorage.setItem('4d-last-order', JSON.stringify(order));
         if(res.redirectUrl){
           const successUrl = (this.config && this.config.returnUrls && this.config.returnUrls.success)
-            ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}`
-            : `/thank-you.html?oid=${encodeURIComponent(ord.id)}`;
+            ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(order.id)}`
+            : `/thank-you.html?oid=${encodeURIComponent(order.id)}`;
           window.open(res.redirectUrl, '_blank');
           window.location.href = successUrl;
         } else if(res.action && res.fields){
