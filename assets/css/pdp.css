@@ -5,6 +5,7 @@
 .pdp__main.aspect-1x1{ border:1px solid var(--border); border-radius: var(--radius); }
 .pdp__thumbs{ display:grid; grid-auto-flow:column; gap:8px; margin-top:10px; overflow-x:auto; padding-bottom:4px; }
 .pdp__thumb{ width:72px; height:72px; border-radius:10px; border:1px solid var(--border); overflow:hidden; cursor:pointer; flex:0 0 auto; }
+.pdp__thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; }
 .pdp__thumb.is-active{ outline:2px solid var(--brand); outline-offset:2px; }
 
 .pdp__title{ margin:0 0 6px; font-weight:600; }
