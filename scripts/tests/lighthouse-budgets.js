@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
+
+let lighthouse;
 
 const root = path.join(__dirname, '..', '..');
 function startServer() {
@@ -21,6 +22,7 @@ function startServer() {
   });
 }
 async function runLh(url){
+  lighthouse ??= (await import('lighthouse')).default;
   const chrome = await chromeLauncher.launch({chromeFlags:['--headless']});
   const result = await lighthouse(url,{port:chrome.port, output:'json',logLevel:'error',emulatedFormFactor:'desktop'});
   await chrome.kill();
