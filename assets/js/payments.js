@@ -114,6 +114,7 @@ export const Payments = {
     needsServer:false,
     async start(order){
       const raw = (document.documentElement?.dataset?.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
+      const formatTotal = (n)=> 'PKR ' + Number(n || 0).toLocaleString('en-PK');
       const lines = [];
       lines.push('New COD Order');
       if(order.buyer){
@@ -125,15 +126,15 @@ export const Payments = {
       }
       lines.push('');
       if(order.id) lines.push(`Order ID: ${order.id}`);
-      lines.push(`Subtotal: ${fmt(order.subtotal, order.currency)}`);
-      if(order.shipping) lines.push(`Shipping: ${fmt(order.shipping, order.currency)}`);
-      lines.push(`Total: ${fmt(order.amount, order.currency)}`);
+      lines.push(`Subtotal: ${formatTotal(order.subtotal)}`);
+      if(order.shipping) lines.push(`Shipping: ${formatTotal(order.shipping)}`);
+      lines.push(`Total: ${formatTotal(order.amount)}`);
       lines.push('');
       lines.push('Items:');
       lines.push(order.items.map(i=>{
         const qty = i.qty || i.quantity || 1;
         const title = i.name || i.title;
-        const price = fmt(i.subtotal || (i.unit * qty) || i.unit || 0, order.currency);
+        const price = formatTotal(i.subtotal || (i.unit * qty) || i.unit || 0);
         return `• ${title} × ${qty} — ${price}`;
       }).join('\n'));
       const message = lines.join('\n');
