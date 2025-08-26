@@ -76,7 +76,7 @@
         <div id="pm-feedback" class="pm-feedback" role="status" aria-live="polite"></div>
       </section>
 
-      <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Check out</button>
+      <button id="checkout-btn" class="btn btn-primary btn-lg w-100">Place Order (Cash on Delivery)</button>
       <div id="checkout-feedback" class="checkout-notes" aria-live="polite"></div>
     `;
 
