@@ -1,4 +1,4 @@
-import { Payments, fmt, toPKR } from './payments.js';
+import { Payments } from './payments.js';
 
 const Checkout = {
   config: null,
@@ -24,11 +24,8 @@ const Checkout = {
       return;
     }
     const fb2 = document.getElementById('checkout-feedback');
-    let ord = order;
-    if(order.currency !== 'PKR'){
-      ord = toPKR(order, this.config.pkConversionRate);
-      if(fb2) fb2.textContent = `Charged in PKR at 1 ${order.currency} = ${this.config.pkConversionRate} PKR (est.).`;
-    } else if(fb2){ fb2.textContent = ''; }
+    const ord = order;
+    if(fb2) fb2.textContent = '';
 
     const returnUrls = {
       successUrl: `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}&pm=${method}`,
