@@ -59,20 +59,21 @@ function startServer(){
   }));
   if (!/No products found/i.test(data.empty)) {failed=true; report.push('Search empty state missing');}
 
-  // autocomplete smoke
+  // autocomplete product suggestions
   await page.goto(`http://localhost:${port}/`,{waitUntil:'networkidle0'});
   await page.waitForSelector('#header-search');
-  await page.waitForTimeout(500);
   await page.focus('#header-search');
+  let panel = await page.$('#site-search-results:not(.d-none)');
+  if (panel) {failed=true; report.push('Suggestions visible before typing');}
   const prefix = first.name.slice(0,3);
   await page.type('#header-search', prefix);
-  await page.waitForSelector('#search-autocomplete:not(.d-none)',{timeout:10000});
-  const sugg = await page.$$eval('#search-autocomplete a', els => els.length);
-  if (sugg < 1) {failed=true; report.push('Autocomplete suggestions missing');}
+  await page.waitForSelector('#site-search-results:not(.d-none)',{timeout:10000});
+  const sugg = await page.$$eval('#site-search-results .search-option.product', els => els.length);
+  if (sugg < 1) {failed=true; report.push('Product suggestions missing');}
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
   await page.waitForNavigation({waitUntil:'networkidle0'});
-  const title = await page.$eval('#product-title', el=>el.textContent);
+  const title = await page.$eval('.pdp__title', el=>el.textContent);
   if (!title.includes(first.name)) {failed=true; report.push('Autocomplete navigation failed');}
 
   // recently viewed
