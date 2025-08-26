@@ -11,9 +11,9 @@ $(function () {
   const $empty = $('#empty-state');
   let appliedCoupon = localStorage.getItem('couponCode') || '';
 
-  function getCurrency(){
-    return (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'PKR';
-  }
+    function getCurrency(){
+      return 'PKR';
+    }
 
   function cartItems(){
     const items = [];
