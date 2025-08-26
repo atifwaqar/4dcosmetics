@@ -82,7 +82,7 @@ jobs:
         with:
           script: |
             const data = '${{ needs.data-integrity.result }}' === 'success' ? '✓' : '✗';
-            const lint = '${{ needs["static-site-lint"].result }}' === 'success' ? '✓' : '✗';
+            const lint = "${{ needs['static-site-lint'].result }}" === 'success' ? '✓' : '✗';
             const lh = '${{ needs.lighthouse.result }}' === 'success' ? '✓' : '✗';
             const body = `| Job | Status |\n| --- | --- |\n| Data Integrity | ${data} |\n| Static Site Lint & Links | ${lint} |\n| Lighthouse Budgets | ${lh} |`;
             await github.rest.issues.createComment({issue_number: context.issue.number, owner: context.repo.owner, repo: context.repo.repo, body});
