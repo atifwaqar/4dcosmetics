@@ -182,7 +182,9 @@
       // Simple "Load more" if legacy button exists
       var btn = document.getElementById('load-more');
       if (btn){
-        var cursor = 24;
+        var cursor = initial.length;
+        btn.disabled = cursor >= filtered.length;
+        if (btn.disabled && btn.parentElement) btn.parentElement.style.display = 'none';
         btn.addEventListener('click', function(){
           var next = filtered.slice(cursor, cursor+24);
           cursor += 24;
@@ -197,7 +199,10 @@
               });
             }
           }
-          if (cursor >= filtered.length) btn.disabled = true;
+          if (cursor >= filtered.length){
+            btn.disabled = true;
+            if (btn.parentElement) btn.parentElement.style.display = 'none';
+          }
         });
       }
     }catch(e){
