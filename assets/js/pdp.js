@@ -2,7 +2,7 @@
   // Expect product data from runtime (adapt if your runtime differs)
   const product = window.Storefront?.getCurrentProduct?.() || window.__CURRENT_PRODUCT__;
   if(!product) return;
-  const outOfStock = product.inStock === false || product.is_oos === true || product.stock === 0 || product.available === false;
+  const outOfStock = product.inStock === false;
 
   // Populate gallery
   const mainBox = document.querySelector('.pdp__main');
