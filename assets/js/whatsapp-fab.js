@@ -1,7 +1,7 @@
 (function(){
-  const raw = (document.documentElement.dataset.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
+  const raw = (document.documentElement?.dataset?.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
   if(!raw) return;
-  const href = 'https://wa.me/' + raw;
+  const href = `https://wa.me/${raw}`;
   const a = document.createElement('a');
   a.href = href;
   a.target = '_blank';
