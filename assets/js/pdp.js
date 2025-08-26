@@ -2,6 +2,7 @@
   // Expect product data from runtime (adapt if your runtime differs)
   const product = window.Storefront?.getCurrentProduct?.() || window.__CURRENT_PRODUCT__;
   if(!product) return;
+  const outOfStock = product.inStock === false || product.is_oos === true || product.stock === 0 || product.available === false;
 
   // Populate gallery
   const mainBox = document.querySelector('.pdp__main');
@@ -47,9 +48,21 @@
     }catch(e){ console.warn('cart error', e); }
     document.dispatchEvent(new CustomEvent('product:addToCart', { detail:{ id: product.id || product.slug, qty: qty||1 }}));
   }
-  document.querySelectorAll('[data-atc]').forEach(btn=>{
-    btn.addEventListener('click', ()=> addToCart(1));
-  });
+  const atcButtons = document.querySelectorAll('[data-atc]');
+  if(outOfStock){
+    atcButtons.forEach(btn=>{
+      btn.setAttribute('disabled','');
+      btn.setAttribute('aria-disabled','true');
+      btn.textContent = 'Out of stock';
+    });
+    document.querySelectorAll('[data-qty], [data-qty-controls], .qty-controls, .pdp__qty').forEach(el=>{
+      el.style.display = 'none';
+    });
+  }else{
+    atcButtons.forEach(btn=>{
+      btn.addEventListener('click', ()=> addToCart(1));
+    });
+  }
 
   // Wishlist button
   const WISHLIST_KEY = 'wishlist_ids_v1';
