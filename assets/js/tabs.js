@@ -43,13 +43,8 @@
     const slug = c.slug || c.handle || (name||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
     const url  = c.url || c.href || `/c/${slug}/`;
     const parent = c.parent_id ?? c.parent ?? c.parentId ?? null;
-    const order = c.order ?? c.position ?? c.sort ?? 0;
+    const order = c.order ?? c.position ?? c.sort ?? c.sortOrder ?? 0;
     return { id: c.id || slug, name, slug, url, parent, order };
-  }
-
-  function isTopLevel(c){
-    // treat null/undefined/0/'' as top-level
-    return c.parent == null || c.parent === 0 || c.parent === '' || c.parent === 'root';
   }
 
   function uniqueBy(arr, key){
@@ -77,12 +72,10 @@
 
     // optional "All" tab pointing to home (matches reference)
     const allTab = { id:'__all', name:'Beauty', url: '/', order: -1, parent:null };
-    const tops = cats.filter(isTopLevel).map(normalize);
-    const uniq = uniqueBy(tops, 'slug').sort((a,b)=> (a.order||0) - (b.order||0) || a.name.localeCompare(b.name));
+    const normalized = cats.map(normalize);
+    const uniq = uniqueBy(normalized, 'slug').sort((a,b)=> (a.order||0) - (b.order||0) || a.name.localeCompare(b.name));
 
-    // Limit to 6–8 like the reference; you can increase if needed.
-    const limited = uniq.slice(0, 8);
-    const items = [allTab, ...limited];
+    const items = [allTab, ...uniq];
 
     // Render
     nav.innerHTML = items.map(it => `
