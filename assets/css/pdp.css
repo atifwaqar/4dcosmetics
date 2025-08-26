@@ -53,3 +53,8 @@
   padding:10px 12px; display:flex; gap:10px; align-items:center; }
 .mobile-atc__price{ margin-left:auto; font-weight:700; }
 @media (min-width: 768px){ .mobile-atc{ display:none; } }
+
+/* --- PDP main image: natural aspect, fill width --- */
+.pdp__main { border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; background:transparent; }
+.pdp__main.aspect-1x1 { /* keep the border style but don't force a square */ }
+.pdp__main img { display:block; width:100%; height:auto; object-fit:unset; background:transparent; }
