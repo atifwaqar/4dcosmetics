@@ -52,7 +52,7 @@
         <div class="progress"><div id="fs-bar" class="progress-bar" style="width:0%"></div></div>
       </div>
 
-      <section id="buyer-details" aria-labelledby="bd-title" class="pm-section">
+      <section id="buyer-details" aria-labelledby="bd-title" class="pm-section card">
         <h2 id="bd-title">Buyer details</h2>
         <label for="buyer-name">Full Name</label>
         <input id="buyer-name" type="text" required placeholder="Your name">
@@ -66,7 +66,7 @@
         <textarea id="checkout-notes" placeholder="Any delivery instructions"></textarea>
       </section>
 
-      <section id="payment-methods" aria-labelledby="pm-title" class="pm-section">
+      <section id="payment-methods" aria-labelledby="pm-title" class="pm-section card">
         <h2 id="pm-title">Payment method</h2>
         <div class="pm-options" role="radiogroup" aria-label="Payment methods">
           <label class="pm-option"><input type="radio" name="payment-method" value="whatsappCod" ${defaultPM === 'whatsappCod' ? 'checked' : ''}> WhatsApp (Cash on Delivery)</label>
