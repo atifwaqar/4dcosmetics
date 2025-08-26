@@ -240,8 +240,7 @@
         tax: totals.tax,
         coupon: totals.coupon ? totals.coupon.code : null,
         shippingMethod: null,
-        buyer: null,
-        fx: null
+        buyer: null
       };
 
       order.currency = 'PKR';

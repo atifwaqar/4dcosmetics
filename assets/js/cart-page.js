@@ -198,8 +198,7 @@ $(function () {
       tax: totals.tax,
       coupon: appliedCoupon || null,
       shippingMethod: null,
-      buyer: null,
-      fx: null
+      buyer: null
     };
     const method = $('input[name="pm"]:checked').val();
     if (window.Checkout && typeof window.Checkout.start === 'function') {
