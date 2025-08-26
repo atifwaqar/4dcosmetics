@@ -37,9 +37,14 @@ const Checkout = {
 
     try{
       const res = await adapter.start(ord, providerCfg, returnUrls);
+      ord.id = ord.id || (`ORD-${Date.now()}`);
       localStorage.setItem('4d-last-order', JSON.stringify(ord));
       if(res.redirectUrl){
-        window.location = res.redirectUrl;
+        const successUrl = (this.config && this.config.returnUrls && this.config.returnUrls.success)
+          ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}`
+          : `/thank-you.html?oid=${encodeURIComponent(ord.id)}`;
+        window.open(res.redirectUrl, '_blank');
+        window.location.href = successUrl;
       } else if(res.action && res.fields){
         const f = document.createElement('form');
         f.method='POST'; f.action = res.action;
