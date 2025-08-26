@@ -9,9 +9,9 @@
   };
 
   function fmt(n){
-    if (window.ProductCard && ProductCard.formatPrice) return ProductCard.formatPrice(n, 'PKR');
-    try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'PKR' }).format(n); }
-    catch(_) { return 'PKR ' + (Number(n)||0).toLocaleString(); }
+    if (window.ProductCard && ProductCard.formatDisplayPrice) return ProductCard.formatDisplayPrice(n, 'PKR');
+    try { return Number(n||0).toLocaleString(undefined, { maximumFractionDigits: 0 }); }
+    catch(_) { return (Number(n)||0).toString(); }
   }
 
   function ensureSummaryBlocks(){
@@ -226,7 +226,6 @@
       const totals = calcTotals();
       const order = {
         id: 'ORD-' + Date.now(),
-        currency: (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'PKR',
         items: items.map(it => ({
           id: it.id(),
           name: it.get('name'),
@@ -244,6 +243,8 @@
         buyer: null,
         fx: null
       };
+
+      order.currency = 'PKR';
 
       const buyer = {
         name: (document.getElementById('buyer-name')?.value || '').trim(),
