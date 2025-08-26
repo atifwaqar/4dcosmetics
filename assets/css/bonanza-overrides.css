@@ -20,7 +20,7 @@ small{ color:var(--muted); }
 .bnz-tab.is-active{ background:#111; color:#fff; }
 
 /* Search bar */
-.bnz-search{ display:flex; align-items:center; border:1px solid var(--border); border-radius:999px; padding:6px 10px; background:#fff; }
+.bnz-search{ display:flex; align-items:center; border:1px solid var(--border); border-radius:999px; padding:6px 10px; background:#fff; position:relative; }
 .bnz-search input[type="search"]{ border:0; outline:0; min-width:220px; height:30px; padding-left:8px; }
 .bnz-search button{ border:0; background:transparent; cursor:pointer; padding:0 6px; }
 

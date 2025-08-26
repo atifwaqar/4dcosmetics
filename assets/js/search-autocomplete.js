@@ -1,6 +1,16 @@
 const CACHE_TTL = 120000; // 2 minutes
 const RECENT_KEY = 'search:recent';
 
+async function ensureSearchEngine() {
+  if (window.SearchEngine) return;
+  await new Promise(res => {
+    const s = document.createElement('script');
+    s.src = '/assets/js/search.js';
+    s.onload = res;
+    document.head.appendChild(s);
+  });
+}
+
 function analyticsEvent(type, data = {}) {
   try {
     if (window.gtag) {
@@ -258,7 +268,9 @@ function renderResults(data, q) {
 }
 
 function init() {
-  input = document.querySelector('[data-component="site-search-input"]') || document.querySelector('.search-form input[type="search"]');
+  input = document.querySelector('[data-component="site-search-input"]') ||
+          document.querySelector('.search-form input[type="search"]') ||
+          document.querySelector('.bnz-search input[type="search"]');
   if (!input) return;
   input.setAttribute('data-component', 'site-search-input');
   input.setAttribute('role', 'combobox');
