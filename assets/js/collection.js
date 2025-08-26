@@ -178,6 +178,9 @@
       // Limit initial render to something reasonable
       var initial = filtered.slice(0, 24);
       renderGrid(initial);
+      if (window.__updateCollectionProgress){
+        window.__updateCollectionProgress(initial.length, filtered.length);
+      }
 
       // Simple "Load more" if legacy button exists
       var btn = document.getElementById('load-more');
@@ -198,6 +201,9 @@
                 if (el) grid.appendChild(el);
               });
             }
+          }
+          if (window.__updateCollectionProgress){
+            window.__updateCollectionProgress(Math.min(cursor, filtered.length), filtered.length);
           }
           if (cursor >= filtered.length){
             btn.disabled = true;
