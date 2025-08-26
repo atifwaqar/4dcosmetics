@@ -32,6 +32,7 @@
 .pdp__bullets{ margin:12px 0; padding-left:18px; }
 .pdp__cta{ display:flex; gap:10px; margin-top:12px; }
 .pdp__cta .btn-modern{ min-height:44px; }
+.pdp__cod-note{ margin-top:var(--space-2); font-size:var(--font-size-200); color:var(--muted); }
 
 .pdp-tabs{ margin-top:24px; border-top:1px solid var(--border); }
 .pdp-tabs__nav{ display:flex; gap:16px; padding:12px 0; }
