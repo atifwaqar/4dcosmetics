@@ -288,7 +288,11 @@
     "id": "LIP005",
     "name": "Rhode Lipgloss",
     "slug": "rhode-lipgloss",
-    "images": ["/assets/img/products/IMG-20250820-WA0229.jpg"],
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0229.jpg",
+      "/assets/img/products/IMG-20250820-WA0227.jpg",
+      "/assets/img/products/IMG-20250820-WA0233.jpg"
+    ],
     "price": 550,
     "currency": "PKR",
     "categories": ["makeup"],
