@@ -1,5 +1,8 @@
-export const SHOP_CURRENCY = 'PKR';
-export const SHOP_CURRENCY_SYMBOL = '₨';
+// Currency configuration for the shop.
+// Define constants without ES module syntax so the script can run
+// in browsers that load it as a classic script tag.
+const SHOP_CURRENCY = 'PKR';
+const SHOP_CURRENCY_SYMBOL = '₨';
 
 // Register Pakistani Rupee currency before configuring simpleCart
 simpleCart.currency({
