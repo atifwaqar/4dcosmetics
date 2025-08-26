@@ -3,10 +3,22 @@
 
 .pdp__media{ position:relative; }
 
-/* Main image — natural aspect, fill width */
-.pdp__main{ border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; background:transparent; }
+/* Main image — centered both horizontally & vertically */
+.pdp__main {
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  overflow:hidden;
+  background:#fff;
+}
+.pdp__main img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center; /* 👈 ensures both horizontal & vertical centering */
+  background:#fff;
+}
 .pdp__main.aspect-1x1{ /* keep border style but do NOT force square */ }
-.pdp__main img{ display:block; width:100%; height:auto; object-fit:unset; background:transparent; }
 
 /* Thumbs: natural horizontal row */
 .pdp__thumbs{
