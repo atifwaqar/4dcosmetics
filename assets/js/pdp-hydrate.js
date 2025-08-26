@@ -176,6 +176,29 @@
     sync();
   }
 
+  function getSelectedVariant(){
+    var el = document.querySelector('.variant-swatch.selected') || document.querySelector('.variant-swatch[aria-pressed="true"]') || document.querySelector('select[name="variant"] option:checked') || document.querySelector('input[name="variant"]:checked');
+    if(!el) return '';
+    return el.getAttribute('aria-label') || el.title || el.textContent || el.value || '';
+  }
+
+  function wireWhatsApp(p){
+    document.querySelectorAll('[data-wa-order]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var raw = (document.documentElement?.dataset?.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
+        if(!raw) return;
+        var variant = getSelectedVariant();
+        var lines = [];
+        lines.push(p.title || p.name || '');
+        if(variant) lines[0] += ' - ' + variant;
+        lines.push(location.href);
+        lines.push("I'd like to order via Cash on Delivery.");
+        var waUrl = 'https://wa.me/' + raw + '?text=' + encodeURIComponent(lines.join('\n'));
+        window.open(waUrl, '_blank');
+      });
+    });
+  }
+
   async function hydrate(){
     var p = window.__CURRENT_PRODUCT__ || null;
     if (!p){
@@ -197,6 +220,7 @@
     renderRating(p);
     wireATC(p);
     wireWishlist(p);
+    wireWhatsApp(p);
   }
 
   hydrate();
