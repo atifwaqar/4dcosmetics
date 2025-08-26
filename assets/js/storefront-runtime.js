@@ -39,11 +39,11 @@ const StorefrontRuntime = (() => {
     return arr.slice(start, start + perPage);
   }
 
-  function formatPrice(value, currency) {
+  function formatPrice(value) {
     try {
-      return new Intl.NumberFormat('en-PK', { style: 'currency', currency: currency || 'PKR' }).format(value);
+      return moneyPKR(value);
     } catch (e) {
-      return value + ' ' + (currency || '');
+      return value + ' PKR';
     }
   }
 

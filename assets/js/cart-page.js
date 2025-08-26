@@ -39,12 +39,8 @@ $(function () {
     return { subtotal, discount, tax, shipping: 0, grandTotal: grand };
   }
 
-  function formatCurrency(n) {
-    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: getCurrency() }).format(n);
-  }
-
   function fmt(n) {
-    return formatCurrency(n);
+    return moneyPKR(n);
   }
 
   function renderItems() {
@@ -74,7 +70,7 @@ $(function () {
       if (metaText) info.append(meta);
       itemCol.append(thumb, info);
 
-      const priceCol = $('<div class="price"></div>').text(formatCurrency(item.get('price')));
+      const priceCol = $('<div class="price"></div>').text(moneyPKR(item.get('price')));
 
       const qtyCol = $('<div class="qty"></div>');
       const minus = $('<button type="button">-</button>');
@@ -82,7 +78,7 @@ $(function () {
       const plus = $('<button type="button">+</button>');
       qtyCol.append(minus, qtyInput, plus);
 
-      const totalCol = $('<div class="line-total"></div>').text(formatCurrency(item.total()));
+      const totalCol = $('<div class="line-total"></div>').text(moneyPKR(item.total()));
 
       const removeCol = $('<div class="remove" title="Remove">×</div>');
 

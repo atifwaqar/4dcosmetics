@@ -81,6 +81,7 @@
   <script src="/assets/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/js/simpleCart.min.js"></script>
   <script src="/assets/js/config.js"></script>
+  <script type="module" src="/assets/js/money.js"></script>
   <script src="/assets/js/storefront-runtime.js"></script>
   <script src="/assets/js/product-card.js"></script>
   <script src="/assets/js/tabs.js"></script>
@@ -88,7 +89,6 @@
     const data = localStorage.getItem('4d-last-order');
     const receipt = document.getElementById('order-receipt');
     const url = new URL(window.location);
-    const moneyPKR = (n) => 'PKR ' + Number(n || 0).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
     if(data){
       const order = JSON.parse(data);
       const pm = url.searchParams.get('pm');
