@@ -15,22 +15,8 @@
     return list.includes(idStr);
   }
 
-  function formatPrice(n, currency='PKR'){
-    try{
-      return new Intl.NumberFormat(undefined, { style:'currency', currency }).format(n);
-    }catch{
-      // fallback
-      return (currency + ' ' + (n||0).toLocaleString());
-    }
-  }
-
-  // Add helper for market-friendly display of prices
-  function formatDisplayPrice(n, currency='PKR'){
-    // For PKR, many local stores drop the currency code. Show thousands separators only.
-    if((currency||'').toUpperCase() === 'PKR'){
-      return Number(n||0).toLocaleString(undefined, { maximumFractionDigits: 0 });
-      }
-    return formatPrice(n, currency);
+  function formatPrice(n){
+    return moneyPKR(n);
   }
 
   function starsSVG(value){
@@ -77,8 +63,8 @@
 
     const wishPressed = inWishlist(item.id);
     const wishLabel = wishPressed ? 'Remove from wishlist' : 'Add to wishlist';
-    const priceNew = formatDisplayPrice(item.price.current, item.price.currency);
-    const priceOld = item.price.old ? formatDisplayPrice(item.price.old, item.price.currency) : '';
+    const priceNew = moneyPKR(item.price.current);
+    const priceOld = item.price.old ? moneyPKR(item.price.old) : '';
 
     const oosClass = outOfStock ? ' pc--oos is-oos' : '';
     const atcLabel = outOfStock ? 'Out of stock' : 'Add to Cart';

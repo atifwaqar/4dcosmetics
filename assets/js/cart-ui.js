@@ -9,9 +9,7 @@
   };
 
   function fmt(n){
-    if (window.ProductCard && ProductCard.formatDisplayPrice) return ProductCard.formatDisplayPrice(n, 'PKR');
-    try { return Number(n||0).toLocaleString(undefined, { maximumFractionDigits: 0 }); }
-    catch(_) { return (Number(n)||0).toString(); }
+    return moneyPKR(n);
   }
 
   function ensureSummaryBlocks(){

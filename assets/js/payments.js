@@ -97,7 +97,7 @@ export const Payments = {
   bank: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount, order.currency)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty} = ${fmt(i.subtotal, order.currency)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
+      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty} = ${fmt(i.subtotal)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('Bank Transfer - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
@@ -105,7 +105,7 @@ export const Payments = {
   cod: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount, order.currency)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
+      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('COD - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
@@ -114,7 +114,7 @@ export const Payments = {
     needsServer:false,
     async start(order){
       const raw = (document.documentElement?.dataset?.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
-      const formatTotal = (n)=> 'PKR ' + Number(n || 0).toLocaleString('en-PK');
+      const formatTotal = (n)=> moneyPKR(n);
       const lines = [];
       lines.push('New COD Order');
       if(order.buyer){
@@ -144,8 +144,8 @@ export const Payments = {
   }
 };
 
-export function fmt(n, ccy){
-  return new Intl.NumberFormat('en-PK', {style:'currency', currency: ccy}).format(n);
+export function fmt(n){
+  return moneyPKR(n);
 }
 
 function safeBuyer(b){
