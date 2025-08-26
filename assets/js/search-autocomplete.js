@@ -1,5 +1,4 @@
 const CACHE_TTL = 120000; // 2 minutes
-const RECENT_KEY = 'search:recent';
 
 async function ensureSearchEngine() {
   if (window.SearchEngine) return;
@@ -31,28 +30,6 @@ function debounce(fn, delay) {
   };
 }
 
-function getRecent() {
-  try {
-    const arr = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveRecent(q) {
-  const list = getRecent().filter(x => x !== q);
-  list.unshift(q);
-  if (list.length > 5) list.length = 5;
-  try {
-    localStorage.setItem(RECENT_KEY, JSON.stringify(list));
-  } catch {}
-}
-
-function clearRecent() {
-  try { localStorage.removeItem(RECENT_KEY); } catch {}
-}
-
 function buildProductItem(p, index) {
   const li = document.createElement('div');
   li.className = 'search-option product d-flex align-items-center';
@@ -69,23 +46,9 @@ function buildProductItem(p, index) {
   return li;
 }
 
-function buildCategoryItem(c, index) {
-  const li = document.createElement('div');
-  li.className = 'search-option category';
-  li.id = `search-option-${index}`;
-  li.setAttribute('role', 'option');
-  li.setAttribute('data-type', 'category');
-  li.setAttribute('data-url', c.url);
-  li.textContent = `Shop ${c.name} (${c.count})`;
-  return li;
-}
-
 async function searchAPI(q, limit = 6, signal) {
   await ensureSearchEngine();
-  const [productsRaw, categories] = await Promise.all([
-    SearchEngine.search(q),
-    StorefrontRuntime.loadCategories()
-  ]);
+  const productsRaw = await SearchEngine.search(q);
 
   const norm = q.trim().toLowerCase();
   const products = productsRaw.slice(0, limit).map(p => ({
@@ -99,44 +62,7 @@ async function searchAPI(q, limit = 6, signal) {
     badges: StorefrontRuntime.getProductBadges(p).map(b => b.label)
   }));
 
-  const tokens = norm.split(/\s+/).filter(Boolean);
-  const catMatches = categories.filter(c => {
-    const n = c.name.toLowerCase();
-    return tokens.some(t => n.includes(t));
-  }).slice(0, 3).map(c => ({
-    name: c.name,
-    url: `/c/${c.slug}/`,
-    count: StorefrontRuntime.listProductsForCategory(c.slug).length
-  }));
-
-  return { products, categories: catMatches, suggestions: [] };
-}
-
-function renderRecent(container) {
-  const rec = getRecent();
-  if (!rec.length) return false;
-  const wrap = document.createElement('div');
-  wrap.className = 'recent-searches mb-2';
-  rec.forEach(q => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'btn btn-sm btn-outline-secondary me-1 mb-1';
-    b.textContent = q;
-    b.addEventListener('click', () => {
-      input.value = q;
-      input.dispatchEvent(new Event('input'));
-      input.focus();
-    });
-    wrap.appendChild(b);
-  });
-  const clr = document.createElement('button');
-  clr.type = 'button';
-  clr.className = 'btn btn-sm btn-link';
-  clr.textContent = 'Clear';
-  clr.addEventListener('click', () => { clearRecent(); close(); });
-  wrap.appendChild(clr);
-  container.appendChild(wrap);
-  return true;
+  return { products };
 }
 
 function renderEmpty(container, q) {
@@ -189,7 +115,6 @@ function selectCurrent() {
     id: el.getAttribute('data-id') || '',
     position: activeIndex + 1
   });
-  saveRecent(input.value.trim());
   window.location.href = url;
 }
 
@@ -197,8 +122,8 @@ async function handleInput() {
   const q = input.value.trim();
   if (!q) {
     results.innerHTML = '';
-    if (!renderRecent(results)) { close(); if (liveRegion) liveRegion.textContent = ''; }
-    else { open(); if (liveRegion) liveRegion.textContent = ''; }
+    close();
+    if (liveRegion) liveRegion.textContent = '';
     return;
   }
   if (q.length < 2) { close(); return; }
@@ -219,50 +144,28 @@ async function handleInput() {
   }
   renderResults(data, q);
   analyticsEvent('search_suggestion_impression', {
-    products: data.products.length,
-    categories: data.categories.length
+    products: data.products.length
   });
 }
 
 function renderResults(data, q) {
   results.innerHTML = '';
   items = [];
-  if (!data.products.length && !data.categories.length) {
+  if (!data.products.length) {
     renderEmpty(results, q);
     open();
     return;
   }
-  if (liveRegion) liveRegion.textContent = `${data.products.length + data.categories.length} results`;
+  if (liveRegion) liveRegion.textContent = `${data.products.length} results`;
   const frag = document.createDocumentFragment();
-  if (data.products.length) {
-    const header = document.createElement('div');
-    header.className = 'px-2 pt-2 text-muted small';
-    header.textContent = 'Products';
-    frag.appendChild(header);
-    data.products.forEach((p, i) => {
-      const el = buildProductItem(p, items.length);
-      frag.appendChild(el); items.push(el);
-    });
-  }
-  if (data.categories.length) {
-    const header = document.createElement('div');
-    header.className = 'px-2 pt-2 text-muted small';
-    header.textContent = 'Categories';
-    frag.appendChild(header);
-    data.categories.forEach(c => {
-      const el = buildCategoryItem(c, items.length);
-      frag.appendChild(el); items.push(el);
-    });
-  }
-  const footer = document.createElement('div');
-  footer.id = `search-option-${items.length}`;
-  footer.setAttribute('role', 'option');
-  footer.setAttribute('data-type', 'see_all');
-  footer.setAttribute('data-url', `/search/?q=${encodeURIComponent(q)}`);
-  footer.setAttribute('data-action', 'search-view-all');
-  footer.className = 'search-option see-all';
-  footer.textContent = `See all results for "${q}"`;
-  frag.appendChild(footer); items.push(footer);
+  const header = document.createElement('div');
+  header.className = 'px-2 pt-2 text-muted small';
+  header.textContent = 'Products';
+  frag.appendChild(header);
+  data.products.forEach((p, i) => {
+    const el = buildProductItem(p, items.length);
+    frag.appendChild(el); items.push(el);
+  });
   results.appendChild(frag);
   open();
 }
@@ -272,6 +175,7 @@ function init() {
           document.querySelector('.search-form input[type="search"]') ||
           document.querySelector('.bnz-search input[type="search"]');
   if (!input) return;
+  if (!input.id) input.id = 'header-search';
   input.setAttribute('data-component', 'site-search-input');
   input.setAttribute('role', 'combobox');
   input.setAttribute('aria-autocomplete', 'list');
@@ -294,12 +198,11 @@ function init() {
     document.body.appendChild(liveRegion);
   }
 
-  input.addEventListener('focus', () => { analyticsEvent('search_focus'); handleInput(); });
+  input.addEventListener('focus', () => { analyticsEvent('search_focus'); });
   input.addEventListener('input', debounce(handleInput, 200));
   input.form && input.form.addEventListener('submit', () => {
     const q = input.value.trim();
     analyticsEvent('search_submit', { query: q });
-    saveRecent(q);
   });
 
   input.addEventListener('keydown', e => {
