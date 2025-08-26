@@ -14,7 +14,7 @@ small{ color:var(--muted); }
 
 /* Tabs */
 .bnz-tabs{ border-top:1px solid var(--border); background:#fff; }
-.bnz-tabs .container-narrow{ display:flex; gap:14px; padding:10px 0; overflow:auto; white-space:nowrap; }
+.bnz-tabs .container-narrow{ display:flex; gap:14px; padding:10px 0; overflow:auto; white-space:nowrap; justify-content:center; }
 .bnz-tab{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; background:#f0f0f0; color:#111; text-decoration:none; font-size:14px; }
 .bnz-tab:hover{ background:#e5e5e5; }
 .bnz-tab.is-active{ background:#111; color:#fff; }
