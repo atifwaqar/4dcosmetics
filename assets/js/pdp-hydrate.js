@@ -44,6 +44,7 @@
     var priceCurrent = (p.price && (p.price.current ?? p.price)) ?? p.salePrice ?? p.min_price ?? p.amount ?? 0;
     var priceOld = p.price?.old ?? p.compareAt ?? p.mrp ?? null;
     var currency = p.price?.currency || p.currency || 'PKR';
+    var oos = p.inStock === false || p.is_oos === true || p.stock === 0 || p.available === false;
     return {
       id: String(p.id || p.slug || p.handle || p._id || ''),
       slug: p.slug || p.handle || norm(p.name || p.title || ''),
@@ -56,7 +57,9 @@
       ingredients: p.ingredients || p.Ingredients || '',
       bullets: p.bullets || p.highlights || p.features || p.bulletPoints || '',
       rating: { value: Number(p.rating?.value ?? p.rating ?? 0) || 0, count: Number(p.rating?.count ?? p.reviews ?? 0) || 0 },
-      price: { current: Number(priceCurrent)||0, old: priceOld, currency: currency }
+      price: { current: Number(priceCurrent)||0, old: priceOld, currency: currency },
+      inStock: !oos,
+      is_oos: oos
     };
   }
 
@@ -141,7 +144,19 @@
   }
 
   function wireATC(p){
-    document.querySelectorAll('[data-atc]').forEach(function(btn){
+    var buttons = document.querySelectorAll('[data-atc]');
+    if(p.inStock === false){
+      buttons.forEach(function(btn){
+        btn.setAttribute('disabled','');
+        btn.setAttribute('aria-disabled','true');
+        btn.textContent = 'Out of stock';
+      });
+      document.querySelectorAll('[data-qty], [data-qty-controls], .qty-controls, .pdp__qty').forEach(function(el){
+        el.style.display = 'none';
+      });
+      return;
+    }
+    buttons.forEach(function(btn){
       btn.addEventListener('click', function(){
         try{
           if(typeof simpleCart !== 'undefined'){
