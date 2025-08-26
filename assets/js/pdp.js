@@ -13,7 +13,7 @@
   setMain(images[0], product.alt || product.title);
   thumbs.innerHTML = images.map((src,i)=>`
     <button class="pdp__thumb ${i===0?'is-active':''}" type="button" data-src="${src}">
-      <img src="${src}" alt="" aria-hidden="true">
+      <img src="${src}" alt="" aria-hidden="true" loading="lazy">
     </button>`).join('');
   thumbs.addEventListener('click', (e)=>{
     const btn = e.target.closest('.pdp__thumb'); if(!btn) return;
