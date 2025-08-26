@@ -1,7 +1,7 @@
 [
   {
-    "name": "Makeup",
-    "slug": "makeup",
+    "name": "All",
+    "slug": "all",
     "parent": null,
     "descriptionHTML": "<p>Color cosmetics for every style.</p>",
     "sortOrder": 1
