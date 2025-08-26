@@ -1,5 +1,4 @@
 const CACHE_TTL = 120000; // 2 minutes
-const RECENT_KEY = 'search:recent';
 
 async function ensureSearchEngine() {
   if (window.SearchEngine) return;
@@ -29,28 +28,6 @@ function debounce(fn, delay) {
     clearTimeout(t);
     t = setTimeout(() => fn(...args), delay);
   };
-}
-
-function getRecent() {
-  try {
-    const arr = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveRecent(q) {
-  const list = getRecent().filter(x => x !== q);
-  list.unshift(q);
-  if (list.length > 5) list.length = 5;
-  try {
-    localStorage.setItem(RECENT_KEY, JSON.stringify(list));
-  } catch {}
-}
-
-function clearRecent() {
-  try { localStorage.removeItem(RECENT_KEY); } catch {}
 }
 
 function buildProductItem(p, index) {
@@ -112,33 +89,6 @@ async function searchAPI(q, limit = 6, signal) {
   return { products, categories: catMatches, suggestions: [] };
 }
 
-function renderRecent(container) {
-  const rec = getRecent();
-  if (!rec.length) return false;
-  const wrap = document.createElement('div');
-  wrap.className = 'recent-searches mb-2';
-  rec.forEach(q => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'btn btn-sm btn-outline-secondary me-1 mb-1';
-    b.textContent = q;
-    b.addEventListener('click', () => {
-      input.value = q;
-      input.dispatchEvent(new Event('input'));
-      input.focus();
-    });
-    wrap.appendChild(b);
-  });
-  const clr = document.createElement('button');
-  clr.type = 'button';
-  clr.className = 'btn btn-sm btn-link';
-  clr.textContent = 'Clear';
-  clr.addEventListener('click', () => { clearRecent(); close(); });
-  wrap.appendChild(clr);
-  container.appendChild(wrap);
-  return true;
-}
-
 function renderEmpty(container, q) {
   const p = document.createElement('div');
   p.className = 'px-2 py-2 text-muted';
@@ -189,7 +139,6 @@ function selectCurrent() {
     id: el.getAttribute('data-id') || '',
     position: activeIndex + 1
   });
-  saveRecent(input.value.trim());
   window.location.href = url;
 }
 
@@ -197,8 +146,8 @@ async function handleInput() {
   const q = input.value.trim();
   if (!q) {
     results.innerHTML = '';
-    if (!renderRecent(results)) { close(); if (liveRegion) liveRegion.textContent = ''; }
-    else { open(); if (liveRegion) liveRegion.textContent = ''; }
+    close();
+    if (liveRegion) liveRegion.textContent = '';
     return;
   }
   if (q.length < 2) { close(); return; }
@@ -272,6 +221,7 @@ function init() {
           document.querySelector('.search-form input[type="search"]') ||
           document.querySelector('.bnz-search input[type="search"]');
   if (!input) return;
+  if (!input.id) input.id = 'header-search';
   input.setAttribute('data-component', 'site-search-input');
   input.setAttribute('role', 'combobox');
   input.setAttribute('aria-autocomplete', 'list');
@@ -299,7 +249,6 @@ function init() {
   input.form && input.form.addEventListener('submit', () => {
     const q = input.value.trim();
     analyticsEvent('search_submit', { query: q });
-    saveRecent(q);
   });
 
   input.addEventListener('keydown', e => {
