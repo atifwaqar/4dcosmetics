@@ -121,7 +121,7 @@
 
   function renderGrid(items){
     if (!items.length){
-      grid.innerHTML = '<p class="text-center text-muted my-4">No products found in this category.</p>';
+      grid.innerHTML = '<p class="text-center text-muted my-4">No products available yet.</p>';
       return;
     }
     // use ProductCard renderer if present, else fallback to ui-cards buildProductCard
@@ -166,8 +166,11 @@
       all = all.map(function(x){ return x.product || x.node || x; });
       // Filter to category
       var filtered = all.filter(function(p){ return belongsToCategory(p, CAT_SLUG); });
-      // If filtering produced nothing but we had products, fallback to all
-      if (!filtered.length && all.length) filtered = all;
+      // If filtering produced nothing, render empty state
+      if (!filtered.length){
+        renderGrid([]);
+        return;
+      }
       // Sort
       filtered = applySort(filtered, getSort());
       // Limit initial render to something reasonable
