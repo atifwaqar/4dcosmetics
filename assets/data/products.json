@@ -426,5 +426,27 @@
     "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
     "inStock": true,
     "sku": "LIP006"
+  },
+  {
+    "id": "SKN005",
+    "name": "Elfinz Lift & Firm Booty Mask",
+    "slug": "elfinz-lift-firm-booty-mask",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0223.jpg"
+    ],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": [
+      "skin-care",
+      "creams"
+    ],
+    "brand": "Elfinz",
+    "tags": [
+      "cream"
+    ],
+    "shortDescription": "Natural snail slime mask smooths and firms hips and thighs for all skin types.",
+    "descriptionHTML": "<p>Elfinz Lift &amp; Firm Booty Mask with natural snail slime smooths &amp; firms hips and thighs, reducing fatty skin appearance, suitable for all skin types.</p>",
+    "inStock": true,
+    "sku": "SKN005"
   }
 ]
