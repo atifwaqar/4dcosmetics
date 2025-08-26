@@ -1,8 +1,9 @@
-
 (function(){
-  const link = 'https://wa.link/712nwk';
+  const raw = (document.documentElement.dataset.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
+  if(!raw) return;
+  const href = 'https://wa.me/' + raw;
   const a = document.createElement('a');
-  a.href = link;
+  a.href = href;
   a.target = '_blank';
   a.rel = 'noopener';
   a.className = 'wa-fab';
@@ -12,4 +13,4 @@
   style.textContent = '.wa-fab{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.2);z-index:60;text-decoration:none;} .wa-fab:hover{filter:brightness(.95);} @media (max-width:640px){.wa-fab{right:14px;bottom:14px;width:52px;height:52px;}}';
   document.head.appendChild(style);
   document.body.appendChild(a);
-})(); 
+})();
