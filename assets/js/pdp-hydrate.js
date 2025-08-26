@@ -51,10 +51,10 @@
       title: p.title || p.name || 'Untitled product',
       brand: p.brand || p.vendor || p.manufacturer || '',
       images: images,
-      description: p.description || p.body_html || p.body || p.details || '',
-      how_to_use: p.how_to_use || p.instructions || '',
-      ingredients: p.ingredients || '',
-      bullets: p.bullets || p.highlights || p.features || '',
+      description: p.description || p.longDescription || p.body_html || p.body || p.details || p.shortDescription || '',
+      how_to_use: p.how_to_use || p.instructions || p.howToUse || '',
+      ingredients: p.ingredients || p.Ingredients || '',
+      bullets: p.bullets || p.highlights || p.features || p.bulletPoints || '',
       rating: { value: Number(p.rating?.value ?? p.rating ?? 0) || 0, count: Number(p.rating?.count ?? p.reviews ?? 0) || 0 },
       price: { current: Number(priceCurrent)||0, old: priceOld, currency: currency }
     };
