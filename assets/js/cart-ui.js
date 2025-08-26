@@ -223,6 +223,48 @@
       localStorage.setItem('checkout_pm', method);
       const note = document.getElementById('checkout-feedback');
       if (note) note.textContent = `Selected payment method: ${method.toUpperCase()}.`;
+
+      // Build order from cart contents
+      const items = getItems();
+      if (!items.length) return;
+      const totals = calcTotals();
+      const order = {
+        id: 'ORD-' + Date.now(),
+        currency: (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'PKR',
+        items: items.map(it => ({
+          id: it.id(),
+          name: it.get('name'),
+          quantity: it.quantity(),
+          unit: Number(it.get('price') || 0),
+          subtotal: Number(it.get('price') || 0) * it.quantity()
+        })),
+        amount: totals.grand,
+        subtotal: totals.subtotal,
+        discount: totals.discount,
+        shipping: 0,
+        tax: totals.tax,
+        coupon: totals.coupon ? totals.coupon.code : null,
+        shippingMethod: null,
+        buyer: null,
+        fx: null
+      };
+
+      const buyer = {
+        name: (document.getElementById('buyer-name')?.value || '').trim(),
+        phone: (document.getElementById('buyer-phone')?.value || '').trim(),
+        address: (document.getElementById('buyer-address')?.value || '').trim(),
+        city: (document.getElementById('buyer-city')?.value || '').trim(),
+        notes: (document.getElementById('checkout-notes')?.value || '').trim()
+      };
+      if (!buyer.name || !buyer.phone || !buyer.address || !buyer.city) {
+        alert('Please enter name, phone, address, and city to proceed.');
+        return;
+      }
+      order.buyer = buyer;
+
+      if (window.Checkout && typeof window.Checkout.start === 'function') {
+        window.Checkout.start(order, method);
+      }
     }
   });
 
