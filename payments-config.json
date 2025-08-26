@@ -78,6 +78,10 @@
       "type": "offline",
       "mode": "mailto",
       "mailto": "orders@4dcosmetics.com"
+    },
+    "whatsappCod": {
+      "type": "offline",
+      "mode": "redirect"
     }
   }
 }
