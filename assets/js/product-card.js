@@ -67,7 +67,7 @@
     const mainImg = item.image || FALLBACK_IMG;
     const imgAlt = item.image ? escapeHtml(item.image_alt || item.title) : 'No image available';
 
-    const outOfStock = item.inStock === false || item.is_oos;
+    const outOfStock = item.inStock === false;
 
     const badges = [];
     if(outOfStock) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
