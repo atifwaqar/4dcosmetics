@@ -42,10 +42,10 @@ async function runLh(url){
   const lines=[]; let failed=false;
   for (const u of urls){
     const lhr = await runLh(u.url);
-    const cls = lhr.audits['cumulative-layout-shift'].numericValue;
-    const lcp = lhr.audits['largest-contentful-paint'].numericValue;
-    const seo = lhr.categories.seo.score*100;
-    const acc = lhr.categories.accessibility.score*100;
+    const cls = lhr.audits['cumulative-layout-shift']?.numericValue ?? 0;
+    const lcp = lhr.audits['largest-contentful-paint']?.numericValue ?? 0;
+    const seo = (lhr.categories.seo?.score ?? 0) * 100;
+    const acc = (lhr.categories.accessibility?.score ?? 0) * 100;
     lines.push(`${u.name}: CLS ${cls.toFixed(3)}, LCP ${(lcp/1000).toFixed(2)}s, SEO ${seo.toFixed(0)}, Acc ${acc.toFixed(0)}`);
     if (cls>0.06 || lcp>2500 || seo<90 || acc<90) failed=true;
     if (u.name==='missing-category'){
