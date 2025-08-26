@@ -67,8 +67,10 @@
     const mainImg = item.image || FALLBACK_IMG;
     const imgAlt = item.image ? escapeHtml(item.image_alt || item.title) : 'No image available';
 
+    const outOfStock = item.inStock === false || item.is_oos;
+
     const badges = [];
-    if(item.is_oos) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
+    if(outOfStock) badges.push('<span class="pc-badge pc-badge--oos">Out of stock</span>');
     if(item.is_new) badges.push('<span class="pc-badge pc-badge--new">New</span>');
     if(item.is_best) badges.push('<span class="pc-badge pc-badge--best">Best</span>');
     if(item.price.old && item.price.current < item.price.old) badges.push('<span class="pc-badge pc-badge--sale">Sale</span>');
@@ -78,9 +80,9 @@
     const priceNew = formatDisplayPrice(item.price.current, item.price.currency);
     const priceOld = item.price.old ? formatDisplayPrice(item.price.old, item.price.currency) : '';
 
-    const oosClass = item.is_oos ? ' pc--oos' : '';
-    const atcLabel = item.is_oos ? 'Notify Me' : 'Add to Cart';
-    const atcAttrs = item.is_oos ? 'aria-disabled="true" title="Out of stock — get notified"' : '';
+    const oosClass = outOfStock ? ' pc--oos is-oos' : '';
+    const atcLabel = outOfStock ? 'Out of stock' : 'Add to Cart';
+    const atcAttrs = outOfStock ? 'aria-disabled="true" disabled title="Out of stock"' : '';
 
     return `
       <article class="pc card-soft${oosClass}" data-id="${item.id}">
@@ -117,6 +119,7 @@
     // Try common keys from storefront-runtime / search
     const id = raw.id || raw.item_id || raw.sku || raw.handle || raw.slug || raw._id;
     const url = raw.url || raw.item_url || (raw.handle ? '/p/'+raw.handle+'/' : raw.slug ? '/p/'+raw.slug+'/' : '#');
+    const oos = raw.inStock === false || raw.is_oos === true || raw.stock === 0 || raw.available === false;
     return {
       id: String(id||''),
       url,
@@ -126,7 +129,8 @@
       image_alt2: raw.image_alt2 || (raw.images && raw.images[1]) || '',
       is_new: !!(raw.is_new || raw.tags?.includes?.('new')),
       is_best: !!(raw.is_best || raw.tags?.includes?.('bestseller')),
-      is_oos: !!(raw.is_oos === true || raw.stock === 0 || raw.available === false),
+      is_oos: oos,
+      inStock: !oos,
       rating: {
         value: Number(raw.rating?.value ?? raw.rating ?? 0) || 0,
         count: Number(raw.rating?.count ?? raw.reviews ?? 0) || 0
