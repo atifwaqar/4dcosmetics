@@ -91,16 +91,16 @@
     const url = new URL(window.location);
     if(data){
       const order = JSON.parse(data);
-      const pm = url.searchParams.get('pm') || '—';
+      const pm = url.searchParams.get('pm');
       const txn = url.searchParams.get('txn');
       let html = `<p><strong>Order ID:</strong> ${order.id}</p>`;
       if(txn) html += `<p><strong>Reference:</strong> ${txn}</p>`;
-      html += `<p><strong>Payment method:</strong> ${pm}</p>`;
       html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${fmt(i.subtotal, order.currency)}</li>`).join('') + '</ul>';
       html += `<p><strong>Total:</strong> ${fmt(order.amount, order.currency)}</p>`;
       if(order.fx && order.fx.base !== order.currency){
         html += `<p class="small">Base amount: ${fmt(order.fx.baseAmount, order.fx.base)} (1 ${order.fx.base} = ${order.fx.rate} ${order.fx.target})</p>`;
       }
+      if(pm) html += `<p><strong>Payment method:</strong> ${pm === 'whatsappCod' ? 'WhatsApp COD' : pm}</p>`;
       receipt.innerHTML = html;
     } else {
       receipt.innerHTML = '<p>Thank you for your purchase.</p>';
