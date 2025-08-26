@@ -34,17 +34,17 @@ jobs:
       - name: Sitemap guard
         run: npm run test:sitemap
       - name: Upload lint report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: static-lint-report
           path: static-lint-report.txt
       - name: Upload meta snapshot report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: meta-jsonld-report
           path: meta-jsonld-report.txt
       - name: Upload sitemap report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sitemap-report
           path: sitemap-report.txt
@@ -63,12 +63,12 @@ jobs:
       - name: SPA fallback tests
         run: npm run test:spa
       - name: Upload lighthouse report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lighthouse-report
           path: lighthouse-report.json
       - name: Upload SPA fallback log
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: spa-fallback-log
           path: spa-fallback-log.txt
