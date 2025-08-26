@@ -27,13 +27,13 @@
   if(ratingEl && window.ProductCard){ ratingEl.innerHTML = ProductCard.renderProductCard({ rating:{ value: product.rating?.value || product.rating || 0, count: product.rating?.count || product.reviews || 0 }, id:'__r', url:'#', title:'', image:'' }).match(/pc__rating-stars"[^>]*>(.*?)<\/span>/)?.[1] || ''; }
 
   // Price
-  const priceNew = window.ProductCard?.formatPrice ? ProductCard.formatPrice(product.price?.current ?? product.price, product.price?.currency || product.currency || 'PKR') : (product.price?.current ?? product.price);
+  const priceNew = moneyPKR(product.price?.current ?? product.price);
   const priceOld = product.price?.old ?? product.compareAt ?? null;
   const priceBlock = document.querySelector('.pdp__price');
   if(priceBlock){
     priceBlock.innerHTML = `
       <span class="price price--new">${priceNew}</span>
-      ${priceOld? `<span class="price price--old">${ProductCard ? ProductCard.formatPrice(priceOld, product.price?.currency || product.currency || 'PKR') : priceOld}</span>`:''}
+      ${priceOld? `<span class="price price--old">${moneyPKR(priceOld)}</span>`:''}
     `;
     const mobilePrice = document.getElementById('mobile-atc-price');
     if(mobilePrice) mobilePrice.textContent = priceNew;
