@@ -1,6 +1,5 @@
 {
   "currencyDefault": "PKR",
-  "pkConversionRate": 278.00,
   "sandbox": true,
   "returnUrls": {
     "success": "/thank-you.html",

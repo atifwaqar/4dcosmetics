@@ -41,7 +41,7 @@ const StorefrontRuntime = (() => {
 
   function formatPrice(value, currency) {
     try {
-      return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency || 'USD' }).format(value);
+      return new Intl.NumberFormat('en-PK', { style: 'currency', currency: currency || 'PKR' }).format(value);
     } catch (e) {
       return value + ' ' + (currency || '');
     }

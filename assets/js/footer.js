@@ -79,14 +79,6 @@
       <option value="sv">Svenska</option>
     `;
 
-    const curSelect = document.createElement('select');
-    curSelect.setAttribute('data-action', 'change-currency');
-    curSelect.className = 'form-select w-auto';
-    curSelect.innerHTML = `
-      <option value="EUR">EUR</option>
-      <option value="SEK">SEK</option>
-    `;
-
     const live = document.createElement('span');
     live.className = 'visually-hidden';
     live.setAttribute('aria-live', 'polite');
@@ -98,15 +90,7 @@
       window.dispatchEvent(new CustomEvent('footer_locale_change', { detail: { language: val } }));
     });
 
-    curSelect.addEventListener('change', () => {
-      const val = curSelect.value;
-      localStorage.setItem('locale.currency', val);
-      live.textContent = `Currency set to ${val}`;
-      window.dispatchEvent(new CustomEvent('footer_locale_change', { detail: { currency: val } }));
-    });
-
     localeWrapper.appendChild(langSelect);
-    localeWrapper.appendChild(curSelect);
     localeWrapper.appendChild(live);
     container.appendChild(localeWrapper);
 

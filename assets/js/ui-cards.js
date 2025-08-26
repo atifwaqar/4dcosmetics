@@ -68,7 +68,7 @@ export function buildProductCard(prod) {
   const img = (prod.images && prod.images[0]) || '/assets/img/products/fallback.png';
   const priceNum = normalizePrice(prod.price);
   const compareNum = normalizePrice(prod.compareAtPrice);
-  const currency = prod.currency || 'USD';
+  const currency = prod.currency || 'PKR';
 
   const wrap = document.createElement('div');
   wrap.className = 'product-card';
