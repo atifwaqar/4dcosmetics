@@ -1,5 +1,12 @@
 [
   {
+    "name": "All",
+    "slug": "makeup",
+    "parent": null,
+    "descriptionHTML": "<p>Color cosmetics for every style.</p>",
+    "sortOrder": 1
+  },
+  {
     "name": "Skin Care",
     "slug": "skin-care",
     "parent": null,
