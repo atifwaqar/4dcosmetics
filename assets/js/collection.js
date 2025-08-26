@@ -121,7 +121,7 @@
 
   function renderGrid(items){
     if (!items.length){
-      grid.innerHTML = '<p class="text-center text-muted my-4">No products available yet.</p>';
+      grid.innerHTML = '<p class="text-center text-muted my-4">No products found in this category.</p>';
       return;
     }
     // use ProductCard renderer if present, else fallback to ui-cards buildProductCard
@@ -166,6 +166,8 @@
       all = all.map(function(x){ return x.product || x.node || x; });
       // Filter to category
       var filtered = all.filter(function(p){ return belongsToCategory(p, CAT_SLUG); });
+      // If filtering produced nothing but we had products, fallback to all
+      if (!filtered.length && all.length) filtered = all;
       // Sort
       filtered = applySort(filtered, getSort());
       // Limit initial render to something reasonable
@@ -175,7 +177,6 @@
       // Simple "Load more" if legacy button exists
       var btn = document.getElementById('load-more');
       if (btn){
-        if (filtered.length <= initial.length) btn.disabled = true;
         var cursor = 24;
         btn.addEventListener('click', function(){
           var next = filtered.slice(cursor, cursor+24);
