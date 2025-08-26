@@ -207,14 +207,8 @@
       const sel = document.querySelector('input[name="pm"]:checked');
       const method = sel ? sel.value : 'cod';
       localStorage.setItem('checkout_pm', method);
-      // If your site has /checkout.html, go there; else show a basic confirmation
-      try{
-        // check existence by attempting to fetch HEAD quickly (non-blocking in static env, so just navigate)
-        window.location.href = '/checkout.html';
-      }catch(_){
-        const note = document.getElementById('checkout-notes');
-        if (note) note.textContent = `Selected payment method: ${method.toUpperCase()}.`;
-      }
+      const note = document.getElementById('checkout-notes');
+      if (note) note.textContent = `Selected payment method: ${method.toUpperCase()}.`;
     }
   });
 
