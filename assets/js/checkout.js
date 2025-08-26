@@ -23,12 +23,12 @@ const Checkout = {
       if(fb) fb.textContent = 'This method isn\u2019t configured.';
       return;
     }
-    const notes = document.getElementById('checkout-notes');
+    const fb2 = document.getElementById('checkout-feedback');
     let ord = order;
     if(order.currency !== 'PKR'){
       ord = toPKR(order, this.config.pkConversionRate);
-      if(notes) notes.textContent = `Charged in PKR at 1 ${order.currency} = ${this.config.pkConversionRate} PKR (est.).`;
-    } else if(notes){ notes.textContent = ''; }
+      if(fb2) fb2.textContent = `Charged in PKR at 1 ${order.currency} = ${this.config.pkConversionRate} PKR (est.).`;
+    } else if(fb2){ fb2.textContent = ''; }
 
     const returnUrls = {
       successUrl: `${this.config.returnUrls.success}?oid=${encodeURIComponent(ord.id)}&pm=${method}`,
