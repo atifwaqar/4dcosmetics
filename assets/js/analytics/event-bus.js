@@ -26,7 +26,7 @@ const EventBus = (() => {
         pageUrl: location.href,
         referrer: document.referrer || '',
         language: document.documentElement.lang || 'en',
-        currency: 'USD',
+          currency: 'PKR',
         deviceClass: /Mobi/.test(navigator.userAgent) ? 'mobile' : 'desktop'
       },
       user: { loggedIn: false, userId: undefined, consent },
