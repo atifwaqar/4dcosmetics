@@ -109,6 +109,37 @@ export const Payments = {
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('COD - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
+  },
+  whatsappCod: {
+    needsServer:false,
+    async start(order){
+      const raw = (document.documentElement?.dataset?.whatsapp || window.__SHOP_WHATSAPP__ || '').replace(/\D/g,'');
+      const lines = [];
+      lines.push('New COD Order');
+      if(order.buyer){
+        lines.push('');
+        if(order.buyer.name) lines.push(`Name: ${order.buyer.name}`);
+        if(order.buyer.phone) lines.push(`Phone: ${order.buyer.phone}`);
+        if(order.buyer.address) lines.push(`Address: ${order.buyer.address}`);
+        if(order.buyer.city) lines.push(`City: ${order.buyer.city}`);
+      }
+      lines.push('');
+      if(order.id) lines.push(`Order ID: ${order.id}`);
+      lines.push(`Subtotal: ${fmt(order.subtotal, order.currency)}`);
+      if(order.shipping) lines.push(`Shipping: ${fmt(order.shipping, order.currency)}`);
+      lines.push(`Total: ${fmt(order.amount, order.currency)}`);
+      lines.push('');
+      lines.push('Items:');
+      lines.push(order.items.map(i=>{
+        const qty = i.qty || i.quantity || 1;
+        const title = i.name || i.title;
+        const price = fmt(i.subtotal || (i.unit * qty) || i.unit || 0, order.currency);
+        return `• ${title} × ${qty} — ${price}`;
+      }).join('\n'));
+      const message = lines.join('\n');
+      const redirectUrl = `https://wa.me/${raw}?text=${encodeURIComponent(message)}`;
+      return { redirectUrl };
+    }
   }
 };
 

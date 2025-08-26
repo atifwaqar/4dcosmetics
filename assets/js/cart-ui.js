@@ -77,6 +77,7 @@
           <label class="pm-option"><input type="radio" name="pm" value="nift"> NIFT ePay</label>
           <label class="pm-option"><input type="radio" name="pm" value="bank"> Bank Transfer</label>
           <label class="pm-option"><input type="radio" name="pm" value="cod"> Cash on Delivery</label>
+          <label class="pm-option"><input type="radio" name="pm" value="whatsappCod"> WhatsApp (Cash on Delivery)</label>
           <small class="pm-note">All transactions are charged in PKR.</small>
         </div>
         <div id="pm-feedback" class="pm-feedback" role="status" aria-live="polite"></div>
