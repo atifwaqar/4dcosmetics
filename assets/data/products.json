@@ -476,5 +476,26 @@
     "descriptionHTML": "<p>Elfinz Neck &amp; Decollete Firming Cream with natural snail slime smooths fine lines and wrinkles, firming and rejuvenating the delicate skin.</p>",
     "inStock": true,
     "sku": "SKN006"
+  },
+  {
+    "id": "SKN007",
+    "name": "OG Lip Scrub & Mask",
+    "slug": "og-lip-scrub-mask",
+    "images": [
+      "/assets/img/products/IMG-20250826-WA0071.jpg"
+    ],
+    "price": 950,
+    "currency": "PKR",
+    "categories": [
+      "skin-care"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "2-in-1 lip mask and scrub providing 24-hour hydration while gently exfoliating and nourishing lips.",
+    "descriptionHTML": "<p>2-in-1 pure glow lip mask &amp; scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.</p>",
+    "inStock": true,
+    "sku": "SKN007"
   }
 ]
