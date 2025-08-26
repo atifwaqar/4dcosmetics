@@ -18,7 +18,6 @@
   object-position:center; /* 👈 ensures both horizontal & vertical centering */
   background:#fff;
 }
-.pdp__main.aspect-1x1{ /* keep border style but do NOT force square */ }
 
 /* Thumbs: natural horizontal row */
 .pdp__thumbs{
