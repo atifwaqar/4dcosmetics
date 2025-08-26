@@ -122,6 +122,8 @@
   function renderGrid(items){
     if (!items.length){
       grid.innerHTML = '<p class="text-center text-muted my-4">No products available yet.</p>';
+      var lmWrap = document.querySelector('.bnz-loadmore');
+      if (lmWrap) lmWrap.style.display = 'none';
       return;
     }
     // use ProductCard renderer if present, else fallback to ui-cards buildProductCard
