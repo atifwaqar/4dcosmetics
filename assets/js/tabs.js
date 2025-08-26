@@ -105,11 +105,3 @@ document.addEventListener('DOMContentLoaded', async function(){
     }
   });
 })();
-
-// Load search autocomplete module on every page
-document.addEventListener('DOMContentLoaded', function(){
-  const s = document.createElement('script');
-  s.type = 'module';
-  s.src = '/assets/js/search-autocomplete.js';
-  document.head.appendChild(s);
-});

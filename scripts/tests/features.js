@@ -59,21 +59,13 @@ function startServer(){
   }));
   if (!/No products found/i.test(data.empty)) {failed=true; report.push('Search empty state missing');}
 
-  // autocomplete smoke
+  // autocomplete should be disabled
   await page.goto(`http://localhost:${port}/`,{waitUntil:'networkidle0'});
   await page.waitForSelector('#header-search');
-  await page.waitForTimeout(500);
   await page.focus('#header-search');
-  const prefix = first.name.slice(0,3);
-  await page.type('#header-search', prefix);
-  await page.waitForSelector('#search-autocomplete:not(.d-none)',{timeout:10000});
-  const sugg = await page.$$eval('#search-autocomplete a', els => els.length);
-  if (sugg < 1) {failed=true; report.push('Autocomplete suggestions missing');}
-  await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('Enter');
-  await page.waitForNavigation({waitUntil:'networkidle0'});
-  const title = await page.$eval('#product-title', el=>el.textContent);
-  if (!title.includes(first.name)) {failed=true; report.push('Autocomplete navigation failed');}
+  await page.type('#header-search', first.name.slice(0,3));
+  const panel = await page.$('#search-autocomplete:not(.d-none)');
+  if (panel) {failed=true; report.push('Autocomplete panel should not be visible');}
 
   // recently viewed
   await page.goto(`http://localhost:${port}/p/${first.slug}`,{waitUntil:'networkidle0'});
