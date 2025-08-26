@@ -12,7 +12,7 @@ $(function () {
   let appliedCoupon = localStorage.getItem('couponCode') || '';
 
   function getCurrency(){
-    return (window.Checkout && window.Checkout.config && window.Checkout.config.currencyDefault) || 'PKR';
+    return 'PKR';
   }
 
   function cartItems(){
@@ -199,7 +199,6 @@ $(function () {
       coupon: appliedCoupon || null,
       shippingMethod: null,
       buyer: null,
-      fx: null
     };
     const method = $('input[name="pm"]:checked').val();
     if (window.Checkout && typeof window.Checkout.start === 'function') {

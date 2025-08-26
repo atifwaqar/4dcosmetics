@@ -1,8 +1,11 @@
+export const SHOP_CURRENCY = 'PKR';
+export const SHOP_CURRENCY_SYMBOL = '₨';
+
 // Register Pakistani Rupee currency before configuring simpleCart
 simpleCart.currency({
-  code: 'PKR',
+  code: SHOP_CURRENCY,
   name: 'Pakistani Rupee',
-  symbol: 'Rs.'
+  symbol: SHOP_CURRENCY_SYMBOL
 });
 
 $(function() {

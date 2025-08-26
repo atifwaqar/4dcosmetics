@@ -241,7 +241,6 @@
         coupon: totals.coupon ? totals.coupon.code : null,
         shippingMethod: null,
         buyer: null,
-        fx: null
       };
 
       order.currency = 'PKR';

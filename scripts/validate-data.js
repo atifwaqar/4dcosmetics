@@ -39,7 +39,7 @@ products.forEach((prod, idx) => {
   if (productSlugs.has(prod.slug)) errors.push(`duplicate product slug '${prod.slug}'`);
   productSlugs.add(prod.slug);
   if (typeof prod.price !== 'number') errors.push(`product '${prod.slug}' price not numeric`);
-  if (!/^[A-Z]{3}$/.test(prod.currency)) errors.push(`product '${prod.slug}' currency invalid`);
+  if (prod.currency !== 'PKR') errors.push(`product '${prod.slug}' currency must be PKR`);
   if (prod.brand && typeof prod.brand !== 'string') errors.push(`product '${prod.slug}' brand must be string`);
   if (prod.sku && typeof prod.sku !== 'string') errors.push(`product '${prod.slug}' sku must be string`);
   if (prod.tags && !Array.isArray(prod.tags)) {

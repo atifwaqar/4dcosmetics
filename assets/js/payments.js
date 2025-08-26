@@ -155,17 +155,3 @@ function safeBuyer(b){
   if(b.email) parts.push(b.email);
   return parts.join(' / ') || '—';
 }
-
-export function toPKR(order, rate){
-  const cloned = JSON.parse(JSON.stringify(order));
-  cloned.fx = { base: order.currency, target: 'PKR', rate: rate, baseAmount: order.amount };
-  const convert = (n)=> Math.round(n * rate * 100)/100;
-  cloned.currency = 'PKR';
-  cloned.amount = convert(order.amount);
-  cloned.subtotal = convert(order.subtotal);
-  cloned.discount = convert(order.discount);
-  cloned.shipping = convert(order.shipping);
-  cloned.tax = convert(order.tax);
-  cloned.items = order.items.map(i=>({ ...i, unit: convert(i.unit), subtotal: convert(i.subtotal) }));
-  return cloned;
-}
