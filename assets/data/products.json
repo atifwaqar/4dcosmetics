@@ -426,5 +426,26 @@
     "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
     "inStock": true,
     "sku": "LIP006"
+  },
+  {
+    "id": "SKN005",
+    "name": "OG Lip Scrub & Mask",
+    "slug": "og-lip-scrub-mask",
+    "images": [
+      "/assets/img/products/IMG-20250826-WA0071.jpg"
+    ],
+    "price": 950,
+    "currency": "PKR",
+    "categories": [
+      "skin-care"
+    ],
+    "brand": "O.G",
+    "tags": [
+      "skincare"
+    ],
+    "shortDescription": "2-in-1 pure glow lip mask & scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.",
+    "descriptionHTML": "<p>2-in-1 pure glow lip mask &amp; scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.</p>",
+    "inStock": true,
+    "sku": "SKN005"
   }
 ]
