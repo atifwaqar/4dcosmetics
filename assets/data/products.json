@@ -454,5 +454,27 @@
     "descriptionHTML": "<p>Elfinz Lift &amp; Firm Booty Mask with natural snail slime smooths &amp; firms hips and thighs, reducing fatty skin appearance, suitable for all skin types.</p>",
     "inStock": true,
     "sku": "SKN005"
+  },
+  {
+    "id": "SKN006",
+    "name": "Elfinz Neck & Decollete Firming Cream",
+    "slug": "elfinz-neck-decollete-firming-cream",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0224.jpg"
+    ],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": [
+      "skin-care",
+      "creams"
+    ],
+    "brand": "Elfinz",
+    "tags": [
+      "cream"
+    ],
+    "shortDescription": "Snail slime cream firms and rejuvenates delicate neck and decollete skin.",
+    "descriptionHTML": "<p>Elfinz Neck &amp; Decollete Firming Cream with natural snail slime smooths fine lines and wrinkles, firming and rejuvenating the delicate skin.</p>",
+    "inStock": true,
+    "sku": "SKN006"
   }
 ]
