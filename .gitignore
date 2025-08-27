@@ -5,3 +5,4 @@ release/*
 release.zip
 .idea/
 dev/*
+static-lint-report.txt
