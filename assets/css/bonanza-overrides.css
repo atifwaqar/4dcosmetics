@@ -82,3 +82,13 @@ small{ color:var(--muted); }
 /* === Override Bonanza card flattening on product cards === */
 body .pc.card-soft{ border-radius: 14px !important; box-shadow: 0 1px 2px rgba(0,0,0,.04) !important; border:1px solid var(--border) !important; }
 body .pc__title{ text-transform: none !important; letter-spacing: 0 !important; }
+
+
+/* === Highest-priority fix: sticky only for summary on desktop === */
+.cart-summary .pm-section.card{ position: static !important; top:auto !important; z-index:auto !important; }
+.cart-summary .summary-card{ position: sticky !important; top: var(--space-6) !important; z-index: 20 !important; }
+/* Disable sticky on smaller viewports (avoid stacking issues) */
+@media (max-width: 900px){
+  .cart-summary .summary-card{ position: static !important; top:auto !important; }
+}
+
