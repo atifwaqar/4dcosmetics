@@ -315,6 +315,7 @@
     "price": 2350,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care",
       "serums"
     ],
@@ -337,6 +338,7 @@
     "price": 1799,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care"
     ],
     "brand": "O.G",
@@ -358,6 +360,7 @@
     "price": 1699,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care"
     ],
     "brand": "O.G",
@@ -379,6 +382,7 @@
     "price": 850,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care"
     ],
     "brand": "O.G",
@@ -443,6 +447,7 @@
     "price": 2500,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care",
       "creams"
     ],
@@ -487,6 +492,7 @@
     "price": 950,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care"
     ],
     "brand": "O.G",
