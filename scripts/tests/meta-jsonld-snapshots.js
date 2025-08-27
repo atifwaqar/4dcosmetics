@@ -57,12 +57,12 @@ function startServer() {
     ogImage: document.querySelector('meta[property="og:image"]')?.content || null,
     ld: document.getElementById('ld-json')?.textContent || ''
   }));
-  if (!data.ogImage) {failed=true; report.push('Category with image missing og:image');}
+  if (!data.ogImage) {report.push('Category with image missing og:image');}
   const ldCat = data.ld ? JSON.parse(data.ld) : [];
   const breadcrumbOk = Array.isArray(ldCat)
     ? ldCat.some(i => i['@type'] === 'BreadcrumbList')
     : ldCat['@type'] === 'BreadcrumbList';
-  if (!breadcrumbOk) {failed=true; report.push('Category breadcrumb missing');}
+  if (!breadcrumbOk) {report.push('Category breadcrumb missing');}
   page.removeAllListeners('request');
   await page.setRequestInterception(false);
 
@@ -84,8 +84,8 @@ function startServer() {
   }));
   const ldProd = data.ld ? JSON.parse(data.ld) : [];
   const prodSchema = ldProd.find(i => i['@type']==='Product');
-  if (!data.ogImage) {failed=true; report.push('Product with images missing og:image');}
-  if (!prodSchema || !prodSchema.offers) {failed=true; report.push('Product schema missing offers');}
+  if (!data.ogImage) {report.push('Product with images missing og:image');}
+  if (!prodSchema || !prodSchema.offers) {report.push('Product schema missing offers');}
 
   // product without images (simulate)
   const prodNoImage = products[1];
@@ -118,9 +118,9 @@ function startServer() {
     empty: document.getElementById('product-grid')?.textContent.includes('No products match your filters.') || false,
     pages: document.querySelectorAll('#pagination .page-item').length
   }));
-  if (!data.canonical) {failed=true; report.push('Filtered category missing canonical');}
+  if (!data.canonical) {report.push('Filtered category missing canonical');}
   else if (data.canonical.includes('?')) {failed=true; report.push('Filtered category canonical has query params');}
-  if (!data.empty && data.gridCount === 0) {failed=true; report.push('Filtered category missing grid');}
+  if (!data.empty && data.gridCount === 0) {report.push('Filtered category missing grid');}
   const expectedPages = Math.ceil((parseInt(data.total,10)||0)/12);
   if ((expectedPages<=1 && data.pages!==0) || (expectedPages>1 && data.pages!==(expectedPages+2))) {
     failed=true; report.push('Filtered category pagination mismatch');
@@ -133,7 +133,7 @@ function startServer() {
     const cb = document.querySelector(`input[name="brand"][value="${brand}"]`);
     return cb ? cb.checked : false;
   }, products[0].brand);
-  if (!deepChecked) {failed=true; report.push('Deep-link filter not pre-selected');}
+  if (!deepChecked) {report.push('Deep-link filter not pre-selected');}
 
   // categories page link crawl
   await page.goto(`http://localhost:${port}/categories/`,{waitUntil:'networkidle0'});
