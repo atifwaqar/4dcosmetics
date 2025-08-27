@@ -106,3 +106,23 @@
 }
 */
 
+
+
+/* === Best‑practice product imagery === */
+/* PDP hero: 1:1 on mobile (stable), 4:5 on desktop (showcase vertical products) */
+.pdp__main.aspect-1x1{ aspect-ratio: 1 / 1; }
+@media (min-width: 992px){
+  .pdp__main.aspect-1x1{ aspect-ratio: 4 / 5; }
+}
+
+/* Keep premium crop without distortion */
+.pdp__main.aspect-1x1 img{
+  width:100% !important;
+  height:100% !important;
+  object-fit: cover !important;
+  display:block;
+}
+
+/* Thumbs stay square and crop cleanly */
+.pdp__thumb img{ aspect-ratio: 1 / 1; object-fit: cover; display:block; }
+
