@@ -18,15 +18,15 @@
 
 /* Badges */
 .pc__badges{ position:absolute; top:8px; left:8px; display:flex; flex-direction:column; gap:6px; z-index:2; }
-.pc-badge{ font-size:11px; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; background:var(--badge); color:#fff; box-shadow: var(--shadow); }
+.pc-badge{ font-size:11px; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; background:var(--badge); color:var(--on-brand); box-shadow: var(--shadow); }
 .pc-badge--sale{ background: var(--sale); }
 .pc-badge--new{ background: var(--brand); }
 .pc-badge--best{ background: #333; }
 .pc-badge--oos{ background: var(--muted); }
 
 /* Wishlist */
-.pc__wish{ position:absolute; top:8px; right:8px; z-index:2; background:#fff; border:1px solid var(--border); width:36px; height:36px; border-radius:999px; display:grid; place-items:center; cursor:pointer; }
-.pc__wish[aria-pressed="true"]{ background:var(--brand); color:#fff; border-color:var(--brand); }
+.pc__wish{ position:absolute; top:8px; right:8px; z-index:2; background:var(--on-brand); border:1px solid var(--border); width:36px; height:36px; border-radius:999px; display:grid; place-items:center; cursor:pointer; }
+.pc__wish[aria-pressed="true"]{ background:var(--brand); color:var(--on-brand); border-color:var(--brand); }
 
 /* Body */
 .pc__body{ padding: var(--space-4); display:flex; flex-direction:column; gap:8px; }
@@ -112,7 +112,7 @@
 .pc__media{
   position:relative;
   aspect-ratio: 1 / 1;
-  background:#fff;
+  background:var(--on-brand);
 }
 .pc__img, .pc__img--alt{
   width:100%; height:100%; object-fit:cover; display:block;
@@ -125,7 +125,7 @@
   position:absolute; top:10px; right:10px; z-index:2;
   width:36px; height:36px; border-radius:999px;
   display:grid; place-items:center;
-  border:1px solid var(--border); background:#fff; color: var(--muted);
+  border:1px solid var(--border); background:var(--on-brand); color: var(--muted);
   box-shadow: 0 1px 2px rgba(0,0,0,.04);
 }
 .pc__wish[aria-pressed="true"]{ color: var(--danger); border-color: rgba(229,57,53,.25); }
@@ -160,3 +160,11 @@
 .pc__cta{ margin-top: auto; display:flex; gap:8px; }
 .pc__cta .btn-modern{ min-height:40px; }
 
+
+.badge-warning{ background:var(--danger); color:var(--on-brand); }
+
+.badge-brand{ background:var(--brand); color:var(--on-brand); }
+
+.badge-danger{ background:var(--warning); color:var(--on-brand); }
+
+.badge-exclusive{ background:var(--info); color:var(--on-brand); }

@@ -14,7 +14,7 @@
   -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
 }
 .pdp__thumbs::-webkit-scrollbar{ height:8px; }
-.pdp__thumbs::-webkit-scrollbar-thumb{ background: var(--hairline,#e5e7eb); border-radius:10px; }
+.pdp__thumbs::-webkit-scrollbar-thumb{ background: var(--hairline,var(--border)); border-radius:10px; }
 
 .pdp__thumb{
   width:72px; height:72px; border-radius:10px; border:1px solid var(--border);
@@ -41,7 +41,7 @@
 .pdp-tabs__panel{ display:none; padding:12px 0; }
 .pdp-tabs__panel.is-active{ display:block; }
 
-.mobile-atc{ position:sticky; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--border);
+.mobile-atc{ position:sticky; bottom:0; left:0; right:0; background:var(--on-brand); border-top:1px solid var(--border);
   padding:10px 12px; display:flex; gap:10px; align-items:center; }
 .mobile-atc__price{ margin-left:auto; font-weight:700; }
 @media (min-width: 768px){ .mobile-atc{ display:none; } }
@@ -102,7 +102,7 @@
 /*
 .pdp.pdp--contain .pdp__main.aspect-1x1 img{
   object-fit:contain !important;
-  background:#fff;
+  background:var(--on-brand);
 }
 */
 
@@ -126,3 +126,11 @@
 /* Thumbs stay square and crop cleanly */
 .pdp__thumb img{ aspect-ratio: 1 / 1; object-fit: cover; display:block; }
 
+
+.badge-warning{ background:var(--danger); color:var(--on-brand); }
+
+.badge-brand{ background:var(--brand); color:var(--on-brand); }
+
+.badge-danger{ background:var(--warning); color:var(--on-brand); }
+
+.badge-exclusive{ background:var(--info); color:var(--on-brand); }
