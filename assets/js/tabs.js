@@ -89,6 +89,13 @@
     }
   }
 
+  function adjustTabsAlignment(){
+    const nav = document.querySelector('.bnz-tabs');
+    if (!nav) return;
+    const shouldCenter = window.innerWidth >= 900 && nav.scrollWidth <= nav.clientWidth;
+    nav.classList.toggle('bnz-tabs--center', shouldCenter);
+  }
+
 document.addEventListener('DOMContentLoaded', async function(){
     try{
       const raw = await loadCategories();
@@ -107,6 +114,8 @@ document.addEventListener('DOMContentLoaded', async function(){
     }catch(e){
       console.warn('tabs render error', e);
     }
+    adjustTabsAlignment();
+    window.addEventListener('resize', adjustTabsAlignment);
   });
 })();
 
