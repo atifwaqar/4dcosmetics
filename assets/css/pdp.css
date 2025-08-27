@@ -74,3 +74,14 @@
 /* Ensure inner blocks wrap correctly */
 .pdp *{ max-width: 100%; }
 
+
+
+/* === PDP Mobile Fit (hardening) === */
+@media (max-width: 768px){
+  .pdp{ overflow-x:hidden; }
+}
+.pdp__media, .pdp__main{ max-width:100%; }
+.pdp__main{ width:100%; }
+.pdp__main img{ width:100%; height:auto; display:block; }
+.mobile-atc{ left:0; right:0; overflow:hidden; }
+
