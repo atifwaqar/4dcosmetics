@@ -437,10 +437,3 @@ input:focus,select:focus,textarea:focus{
 .badge-exclusive{ background:var(--info); color:var(--on-brand); }
 
 /* [Guard] Secondary/Ghost and Badges expected already from previous step */
-
-/* Reviews */
-.reviews{ margin:28px 0; }
-.reviews__row{ display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
-.review{ border:1px solid var(--border); border-radius:var(--radius); padding:16px; background:var(--surface); }
-.review blockquote{ margin:8px 0 4px; }
-.review small{ color:var(--muted); }
