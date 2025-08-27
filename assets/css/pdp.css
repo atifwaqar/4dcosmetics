@@ -85,3 +85,24 @@
 .pdp__main img{ width:100%; height:auto; display:block; }
 .mobile-atc{ left:0; right:0; overflow:hidden; }
 
+
+
+/* === Restore PDP main image square/cropped look === */
+/* Keep container responsive */
+.pdp__main.aspect-1x1{ width:100%; max-width:100%; }
+/* Bring back square cropping inside the fixed aspect-ratio box */
+.pdp__main.aspect-1x1 img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block;
+}
+
+/* Optional: if you ever want a no-crop variant, add .pdp--contain on <section class="pdp ..."> */
+/*
+.pdp.pdp--contain .pdp__main.aspect-1x1 img{
+  object-fit:contain !important;
+  background:#fff;
+}
+*/
+
