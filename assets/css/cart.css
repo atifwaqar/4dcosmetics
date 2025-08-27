@@ -103,3 +103,29 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 .cart-summary .row{ display:flex; justify-content:space-between; margin:6px 0; }
 .cart-summary .row.total{ font-weight:700; }
 .cart-empty{ text-align:center; padding:40px 0; color:var(--muted); }
+
+/* === UX fixes appended === */
+
+/* Cart lines layout */
+.cart-lines{ display:flex; flex-direction:column; gap: var(--space-3); }
+.cart-line{ display:grid; grid-template-columns: 88px 1fr auto; gap: var(--space-3); align-items:center; padding: var(--space-3); background: var(--surface); border:1px solid var(--border); border-radius:12px; }
+.cart-line__img img{ width:88px; height:88px; border-radius:10px; object-fit:cover; }
+.cart-line__title{ margin:0 0 2px; font-weight:600; color: var(--text); }
+.cart-line__meta{ margin:0 0 8px; color: var(--muted); font-size: var(--font-size-100); }
+.cart-line__qty{ display:flex; align-items:center; gap: 6px; }
+.cart-line__qty input[type="number"]{ width:72px; text-align:center; }
+.cart-line__total{ font-weight:700; font-size: var(--font-size-400); }
+
+.cart-empty{ padding: var(--space-4); background: var(--surface); border:1px solid var(--border); border-radius:12px; }
+
+/* Summary card polish */
+.cart-summary .card{ border-radius:12px; border:1px solid var(--border); background: var(--surface); }
+.summary-line{ display:flex; justify-content:space-between; align-items:center; padding: 8px 0; }
+.grand-total{ border-top:1px solid var(--border); padding-top: var(--space-3); }
+
+/* Responsive */
+@media (max-width: 768px){
+  .cart-line{ grid-template-columns: 64px 1fr; }
+  .cart-line__total{ justify-self:end; grid-column: 2; }
+}
+

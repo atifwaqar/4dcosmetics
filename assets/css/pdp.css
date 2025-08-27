@@ -45,3 +45,20 @@
   padding:10px 12px; display:flex; gap:10px; align-items:center; }
 .mobile-atc__price{ margin-left:auto; font-weight:700; }
 @media (min-width: 768px){ .mobile-atc{ display:none; } }
+
+/* === UX fixes appended === */
+
+/* Rating on PDP */
+.pdp__rating{ display:flex; align-items:center; gap:8px; color: var(--muted); margin: 6px 0 4px; }
+.pdp__rating-stars{ display:inline-flex; gap:2px; color: var(--accent); }
+.pdp__rating-stars svg{ width:16px; height:16px; display:block; }
+.pc__rating-num, .pdp__rating .pc__rating-num{ font-weight:600; color: var(--text); }
+.pc__rating-count, .pdp__rating .pc__rating-count{ color: var(--muted); }
+
+/* Tabs contrast and affordance */
+.pdp-tabs__nav{ gap:20px; }
+.pdp-tabs__nav button{ background:none; border:0; padding:10px 2px; font-weight:600; color: var(--muted); }
+.pdp-tabs__nav button:hover{ color: var(--text); }
+.pdp-tabs__nav .is-active{ color: var(--text); border-bottom: 2px solid var(--primary); }
+.pdp-tabs__panel{ color: var(--text); }
+

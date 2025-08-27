@@ -209,6 +209,11 @@
         lines.push("I'd like to order via Cash on Delivery.");
         var waUrl = 'https://wa.me/' + raw + '?text=' + encodeURIComponent(lines.join('\n'));
         window.open(waUrl, '_blank');
+        try {
+          var oid = 'ORD-' + Date.now();
+          localStorage.setItem('4d-last-order', JSON.stringify({ id: oid, pm:'whatsappCod', item:(p.title||p.name||'') }));
+        } catch(_){}
+        window.location.href = '/thank-you.html?pm=whatsappCod';
       });
     });
   }
