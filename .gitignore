@@ -6,3 +6,4 @@ release.zip
 .idea/
 dev/*
 static-lint-report.txt
+lighthouse-report.json
