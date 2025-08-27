@@ -215,20 +215,6 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 /* Header separation */
 .annc{ margin-bottom: 4px; }
 .bnz-header{ border-bottom:1px solid var(--border); }
-.bnz-tabs{ padding: 10px 0; margin-bottom: 12px; }
-
-/* Horizontal tab fade indicator */
-.bnz-tabs .container-narrow{
-  position:relative;
-}
-.bnz-tabs::after{
-  content:"";
-  position:absolute;
-  right:0; top:0; bottom:0;
-  width:30px;
-  background:linear-gradient(to right, transparent, #fff);
-  pointer-events:none;
-}
 
 /* Cart item card layout */
 .cart-line, .cart-item, .cart-product{
