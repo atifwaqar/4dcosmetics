@@ -13,7 +13,7 @@ const categories = readJSON('assets/data/categories.json');
 const products = readJSON('assets/data/products.json');
 const catSlugs = new Set(categories.map(c => c.slug));
 const prodSlugs = new Set(products.map(p => p.slug));
-const dynamicPaths = new Set(['/account.html', '/wishlist.html', '/checkout.html']);
+const dynamicPaths = new Set(['/wishlist.html', '/checkout.html']);
 
 function walk(dir) {
   const res = [];
