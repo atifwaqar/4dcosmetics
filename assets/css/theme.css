@@ -72,7 +72,7 @@ a:hover{color:var(--brand-600); text-decoration:underline}
 .bnz-tabs{
   display:flex;
   align-items:center;
-  justify-content:flex-start;   /* keep first tabs visible on small screens */
+  justify-content:flex-start;   /* default left alignment; JS centers when overflow isn't needed */
   gap:12px;
   width:100%;
   margin:10px auto 18px;
@@ -82,7 +82,7 @@ a:hover{color:var(--brand-600); text-decoration:underline}
 }
 
 @media (min-width: 900px){
-  .bnz-tabs{
+  .bnz-tabs--center{
     justify-content:center;
   }
 }
