@@ -53,9 +53,9 @@
 
 /* Ensure BNZ tabs keep styling regardless of injected content */
 .bnz-tabs{ border-top:1px solid var(--border); }
-.bnz-tabs__item{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; border:1px solid var(--border,#eee); color:var(--text,#111); white-space:nowrap; }
-.bnz-tabs__item.is-active{ background:#111; color:#fff; border-color:#111; }
-.bnz-tabs__item:hover{ text-decoration:none; }
+.bnz-tabs__item{ display:inline-flex; align-items:center; padding:10px 14px; border:1px solid var(--border,#eee); color:var(--text,#111); white-space:nowrap; border-radius:999px; background:#fff; }
+.bnz-tabs__item.is-active{ background:var(--brand-50); color:var(--text); border-color:var(--brand); }
+.bnz-tabs__item:hover{ text-decoration:none; background:var(--brand-50); border-color:var(--brand); }
 
 
 /* === Unified sticky header behavior === */
