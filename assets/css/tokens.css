@@ -2,7 +2,7 @@
   --on-surface: #1F2937;
   --on-brand: #FFFFFF;
   --info: #1E88E5;
-  --brand-50: #FFF1F5;
+  --brand-50: #E3F2FD;
   /* Colors (light theme) */
   --bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -111,8 +111,8 @@ input, select, textarea{
   --text:#1F2937;
   --muted:#6B7280;
   --border:#E5E7EB;
-  --brand:#E91E63;
-  --brand-600:#C2185B;
+  --brand:#1E88E5;
+  --brand-600:#1565C0;
   --accent:#FB8C00;
   --success:#43A047;
   --warning:#FB8C00;
