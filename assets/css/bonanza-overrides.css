@@ -92,3 +92,8 @@ body .pc__title{ text-transform: none !important; letter-spacing: 0 !important; 
   .cart-summary .summary-card{ position: static !important; top:auto !important; }
 }
 
+
+
+/* Disable sticky entirely when forms are present in the aside */
+.cart-summary.has-forms .summary-card{ position: static !important; top:auto !important; z-index:auto !important; }
+

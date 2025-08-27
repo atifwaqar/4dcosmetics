@@ -204,3 +204,8 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
   .cart-summary .summary-card{ position: static !important; top:auto !important; }
 }
 
+
+
+/* Ensure spacing between blocks in the aside column */
+.cart-summary > * + *{ margin-top: var(--space-4); }
+
