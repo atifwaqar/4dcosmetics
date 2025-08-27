@@ -75,3 +75,88 @@
 
 /* Wishlist focus ring */
 .pc__wish:focus{ outline:2px solid var(--brand); outline-offset:2px; }
+
+
+/* === Product Card Revamp (UX pass) === */
+
+/* Responsive grid */
+.product-grid{
+  display:grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+@media (max-width: 900px){
+  .product-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px){
+  .product-grid{ grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+}
+
+/* Card surface + hover */
+.pc{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+@media (hover:hover){
+  .pc:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); border-color: rgba(30,136,229,.25); }
+}
+
+/* Media area with fixed aspect */
+.pc__media{
+  position:relative;
+  aspect-ratio: 1 / 1;
+  background:#fff;
+}
+.pc__img, .pc__img--alt{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.pc__img--alt{ position:absolute; inset:0; opacity:0; transition: opacity .25s ease; }
+@media (hover:hover){ .pc:hover .pc__img--alt{ opacity:1; } }
+
+/* Wishlist button */
+.pc__wish{
+  position:absolute; top:10px; right:10px; z-index:2;
+  width:36px; height:36px; border-radius:999px;
+  display:grid; place-items:center;
+  border:1px solid var(--border); background:#fff; color: var(--muted);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+}
+.pc__wish[aria-pressed="true"]{ color: var(--danger); border-color: rgba(229,57,53,.25); }
+.pc--oos .pc__img{ filter: grayscale(1) opacity(.7); }
+
+/* Body */
+.pc__body{ padding: var(--space-3) var(--space-3) var(--space-4); display:flex; flex-direction:column; gap:6px; }
+.pc__title{
+  margin: 2px 0 2px;
+  font-size: var(--font-size-300);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+  text-transform: none;
+}
+/* Clamp helper */
+.clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient: vertical; overflow:hidden; }
+
+/* Rating row */
+.pc__rating{ display:flex; align-items:center; gap:6px; color: var(--muted); min-height: 22px; }
+.pc__rating-stars{ display:inline-flex; gap:2px; color: var(--accent); }
+.pc__rating-stars svg{ width:14px; height:14px; display:block; }
+.pc__rating-num{ font-weight:600; color: var(--text); }
+.pc__rating-count{ color: var(--muted); font-size: var(--font-size-100); }
+
+/* Price row */
+.pc__price{ display:flex; gap:6px; align-items: baseline; margin-top: 4px; }
+.price--new{ font-size: 16px; font-weight: 700; color: var(--text); }
+.price--old{ font-size: 13px; opacity:.75; text-decoration: line-through; }
+
+/* CTA area pinned to bottom if used */
+.pc__cta{ margin-top: auto; display:flex; gap:8px; }
+.pc__cta .btn-modern{ min-height:40px; }
+
