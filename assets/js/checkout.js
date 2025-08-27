@@ -1,5 +1,14 @@
 import { Payments } from './payments.js';
 
+function cacheOrder(order){
+  localStorage.setItem('4d-last-order', JSON.stringify(order));
+  try{
+    const all = JSON.parse(localStorage.getItem('4d-orders') || '[]');
+    all.push(order);
+    localStorage.setItem('4d-orders', JSON.stringify(all));
+  }catch(_){/* noop */}
+}
+
 const Checkout = {
   config: null,
   async init(){
@@ -34,14 +43,14 @@ const Checkout = {
       const res = await adapter.start(order, providerCfg, returnUrls);
       if(method === 'whatsappCod' && res.redirectUrl){
         order.id = order.id || (`ORD-${Date.now()}`);
-        localStorage.setItem('4d-last-order', JSON.stringify(order));
+        cacheOrder(order);
         const redirectUrl = res.redirectUrl;
         window.open(redirectUrl, '_blank');
         const success = (returnUrls?.success) || `/thank-you.html?oid=${encodeURIComponent(order.id)}&pm=whatsappCod`;
         window.location.href = success;
       } else {
         order.id = order.id || (`ORD-${Date.now()}`);
-        localStorage.setItem('4d-last-order', JSON.stringify(order));
+        cacheOrder(order);
         if(res.redirectUrl){
           const successUrl = (this.config && this.config.returnUrls && this.config.returnUrls.success)
             ? `${this.config.returnUrls.success}?oid=${encodeURIComponent(order.id)}`
