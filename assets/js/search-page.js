@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sortSel = document.getElementById('sort');
   const perPage = 12;
   const loadMoreBtn = document.getElementById('load-more');
-  const loadMoreContainer = document.getElementById('load-more-container');
+  // load-more container may not have an explicit id in markup
+  const loadMoreContainer = document.getElementById('load-more-container') || loadMoreBtn.parentElement;
   let sort = params.get('sort') || 'featured';
   let page = parseInt(params.get('page') || '1',10);
   let currentItems = [];
@@ -75,6 +76,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadedPage++;
     Analytics.viewItemList(rendered, 'Search results');
     updateLD();
+    if (window.__updateSearchProgress){
+      const viewed = Math.min(loadedPage * perPage, currentItems.length);
+      window.__updateSearchProgress(viewed, currentItems.length);
+    }
   }
 
   function updateLoadMore(){

@@ -73,11 +73,15 @@
     var page = 0, size = 24;
     var all = await loadAllProducts();
     var btn = document.getElementById('load-more');
+    var wrap = btn ? btn.parentElement : null;
     function draw(){
       var slice = all.slice(0, (page+1)*size);
       renderGrid(slice);
       updateProgress(slice.length, all.length);
-      if (slice.length >= all.length && btn) btn.disabled = true;
+      if (btn){
+        btn.disabled = slice.length >= all.length;
+        if (wrap) wrap.style.display = btn.disabled ? 'none' : '';
+      }
     }
     if (btn){ btn.addEventListener('click', function(){ page++; draw(); }); }
     draw();

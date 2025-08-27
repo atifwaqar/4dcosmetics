@@ -1,9 +1,9 @@
 [
   {
-    "name": "Makeup",
+    "name": "All",
     "slug": "makeup",
     "parent": null,
-    "descriptionHTML": "<p>Color cosmetics for face, eyes, and lips.</p>",
+    "descriptionHTML": "<p>Color cosmetics for every style.</p>",
     "sortOrder": 1
   },
   {
