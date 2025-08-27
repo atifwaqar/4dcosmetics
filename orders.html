@@ -89,12 +89,20 @@
 <script src="/assets/js/product-card.js"></script>
 <script src="/assets/js/tabs.js"></script>
 <script type="module">
-  const data = localStorage.getItem('4d-last-order');
   const list = document.getElementById('orders-list');
-  if(data){
+  let orders = [];
+  try {
+    orders = JSON.parse(localStorage.getItem('4d-orders') || '[]');
+  } catch(_) {}
+  if(!orders.length){
     try {
-      const order = JSON.parse(data);
-      let html = `<p><strong>Order ID:</strong> ${order.id}</p>`;
+      const last = localStorage.getItem('4d-last-order');
+      if(last) orders = [JSON.parse(last)];
+    } catch(_) {}
+  }
+  if(orders.length){
+    list.innerHTML = orders.map(order => {
+      let html = `<div class="order"><p><strong>Order ID:</strong> ${order.id}</p>`;
       if(order.items && Array.isArray(order.items)){
         html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${moneyPKR(i.subtotal)}</li>`).join('') + '</ul>';
         if(order.amount) html += `<p><strong>Total:</strong> ${moneyPKR(order.amount)}</p>`;
@@ -103,12 +111,11 @@
         if(order.amount) html += `<p><strong>Total:</strong> ${moneyPKR(order.amount)}</p>`;
       }
       if(order.pm) html += `<p><strong>Payment method:</strong> ${order.pm === 'whatsappCod' ? 'WhatsApp COD' : order.pm}</p>`;
-      list.innerHTML = html;
-    } catch(e){
-      list.innerHTML = '<p>Unable to load your order.</p>';
-    }
+      html += '</div>';
+      return html;
+    }).join('<hr>');
   } else {
-    list.innerHTML = '<p>No recent orders found.</p>';
+    list.innerHTML = '<p>No orders found.</p>';
   }
 </script>
 <script src="/assets/js/whatsapp-fab.js"></script>

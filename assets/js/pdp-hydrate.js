@@ -211,7 +211,11 @@
         window.open(waUrl, '_blank');
         try {
           var oid = 'ORD-' + Date.now();
-          localStorage.setItem('4d-last-order', JSON.stringify({ id: oid, pm:'whatsappCod', item:(p.title||p.name||'') }));
+          var order = { id: oid, pm:'whatsappCod', item:(p.title||p.name||'') };
+          localStorage.setItem('4d-last-order', JSON.stringify(order));
+          var all = JSON.parse(localStorage.getItem('4d-orders') || '[]');
+          all.push(order);
+          localStorage.setItem('4d-orders', JSON.stringify(all));
         } catch(_){}
         window.location.href = '/thank-you.html?pm=whatsappCod';
       });
