@@ -364,7 +364,7 @@ body.drawer-open{
 [id]{ scroll-margin-top: 80px; }
 
 /* cart header refinements */
-.bnz-header{ position:sticky; top:0; z-index:30; background:#fff; }
+.bnz-header{ position:sticky; top:0; z-index:30; background:var(--on-brand); }
 .annc{ position:relative; }
 
 .whatsapp-fab{ position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:30; }
@@ -380,13 +380,13 @@ body.drawer-open{
 .btn-primary:active{ background:var(--brand-600); filter:saturate(1.05); }
 
 .btn-outline{
-  background:#fff; color:var(--brand);
+  background:var(--on-brand); color:var(--brand);
   border:1px solid var(--brand);
 }
 .btn-outline:hover{ color:var(--on-brand); background:var(--brand); }
 
 .btn-danger{
-  background:var(--danger); color:#fff; border-color:var(--danger);
+  background:var(--danger); color:var(--on-brand); border-color:var(--danger);
 }
 .btn-danger:hover{ filter:brightness(.95); }
 
@@ -396,7 +396,7 @@ a:hover{ color:var(--brand-600); }
 
 /* Tabs/Chips */
 .tab-chip{
-  color:var(--text); background:#fff; border:1px solid var(--border); border-radius:999px;
+  color:var(--text); background:var(--on-brand); border:1px solid var(--border); border-radius:999px;
 }
 .tab-chip:hover{ background:var(--brand-50); border-color:var(--brand); }
 .tab-chip.is-active{
@@ -414,11 +414,11 @@ input:focus,select:focus,textarea:focus{
 
 /* Badges */
 .badge-brand{ background:var(--brand-50); color:var(--brand-600); border:1px solid var(--brand); }
-.badge-success{ background:color-mix(in srgb,var(--success) 12%, #fff); color:var(--success); }
-.badge-danger{ background:color-mix(in srgb,var(--danger) 12%, #fff); color:var(--danger); }
+.badge-success{ background:color-mix(in srgb,var(--success) 12%, var(--on-brand)); color:var(--success); }
+.badge-danger{ background:color-mix(in srgb,var(--danger) 12%, var(--on-brand)); color:var(--danger); }
 
 /* Cards/Headers */
-.card{ background:#fff; border:1px solid var(--border); }
+.card{ background:var(--on-brand); border:1px solid var(--border); }
 .card .accent-bar{ height:2px; background:var(--brand); }
 
 /* Cart specifics */
@@ -427,3 +427,13 @@ input:focus,select:focus,textarea:focus{
 
 /* Ensure anchors don't hide under sticky header */
 [id]{ scroll-margin-top: 80px; }
+
+.badge-sale{ background:var(--danger); color:var(--on-brand); }
+
+.badge-new{ background:var(--brand); color:var(--on-brand); }
+
+.badge-hot{ background:var(--warning); color:var(--on-brand); }
+
+.badge-exclusive{ background:var(--info); color:var(--on-brand); }
+
+/* [Guard] Secondary/Ghost and Badges expected already from previous step */
