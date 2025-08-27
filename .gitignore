@@ -8,3 +8,4 @@ dev/*
 static-lint-report.txt
 lighthouse-report.json
 spa-fallback-log.txt
+meta-jsonld-report.txt

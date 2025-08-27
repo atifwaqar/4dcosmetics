@@ -99,12 +99,14 @@ function startServer() {
   await page.goto(`http://localhost:${port}/p/${prodNoImage.slug}`,{waitUntil:'networkidle0'});
   data = await page.evaluate(() => ({
     ogImage: document.querySelector('meta[property="og:image"]')?.content || null,
-    ld: document.getElementById('ld-json').textContent
+    ld: document.getElementById('ld-json')?.textContent || ''
   }));
   const ldProd2 = data.ld ? JSON.parse(data.ld) : [];
   const prodSchema2 = ldProd2.find(i=>i['@type']==='Product');
   if (data.ogImage) {failed=true; report.push('Product without images has og:image');}
   if (prodSchema2 && prodSchema2.image) {failed=true; report.push('Product schema unexpectedly has image');}
+  page.removeAllListeners('request');
+  await page.setRequestInterception(false);
 
   // filtered category snapshot
   const filteredUrl = `http://localhost:${port}/c/${categories[0].slug}/?brand=${encodeURIComponent(products[0].brand)}&inStock=true&priceMin=10&sort=price_desc&page=2`;
