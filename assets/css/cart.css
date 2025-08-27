@@ -184,3 +184,9 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
   .cart-line{ grid-template-columns: 64px 1fr; }
   .cart-line__total{ grid-column: 2; justify-self:end; }
 }
+
+
+/* === Fix: stop global sticky cards causing overlap === */
+.card{ position: static !important; top: auto !important; }
+.cart-summary .card{ position: sticky !important; top: var(--space-6) !important; }
+
