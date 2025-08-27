@@ -1,4 +1,8 @@
 :root{
+  --on-surface: #1F2937;
+  --on-brand: #FFFFFF;
+  --info: #1E88E5;
+  --brand-50: #FFF1F5;
   /* Colors (light theme) */
   --bg: #FFFFFF;
   --surface: #FAFAFA;
@@ -102,14 +106,14 @@ input, select, textarea{
   padding: var(--space-4);
 }
 :root{
-  --bg:#ffffff;
+  --bg:#FFFFFF;
   --bg-alt:#fafafa;
-  --text:#222;
-  --muted:#666;
-  --border:#eee;
+  --text:#1F2937;
+  --muted:#6B7280;
+  --border:#E5E7EB;
   --brand:#E91E63;
   --brand-600:#C2185B;
-  --accent:#FF5252;
+  --accent:#FB8C00;
   --success:#43A047;
   --warning:#FB8C00;
   --sale:#D32F2F;
