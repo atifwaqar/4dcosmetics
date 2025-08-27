@@ -112,13 +112,14 @@ function startServer() {
   const filteredUrl = `http://localhost:${port}/c/${categories[0].slug}/?brand=${encodeURIComponent(products[0].brand)}&inStock=true&priceMin=10&sort=price_desc&page=2`;
   await page.goto(filteredUrl,{waitUntil:'networkidle0'});
   data = await page.evaluate(() => ({
-    canonical: document.querySelector('link[rel="canonical"]').href,
-    total: document.getElementById('product-grid').dataset.total,
+    canonical: document.querySelector('link[rel="canonical"]')?.href || '',
+    total: document.getElementById('product-grid')?.dataset.total,
     gridCount: document.querySelectorAll('#product-grid > div').length,
-    empty: document.getElementById('product-grid').textContent.includes('No products match your filters.'),
+    empty: document.getElementById('product-grid')?.textContent.includes('No products match your filters.') || false,
     pages: document.querySelectorAll('#pagination .page-item').length
   }));
-  if (data.canonical.includes('?')) {failed=true; report.push('Filtered category canonical has query params');}
+  if (!data.canonical) {failed=true; report.push('Filtered category missing canonical');}
+  else if (data.canonical.includes('?')) {failed=true; report.push('Filtered category canonical has query params');}
   if (!data.empty && data.gridCount === 0) {failed=true; report.push('Filtered category missing grid');}
   const expectedPages = Math.ceil((parseInt(data.total,10)||0)/12);
   if ((expectedPages<=1 && data.pages!==0) || (expectedPages>1 && data.pages!==(expectedPages+2))) {
