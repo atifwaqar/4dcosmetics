@@ -29,11 +29,11 @@
 .pc__wish[aria-pressed="true"]{ background:var(--brand); color:var(--on-brand); border-color:var(--brand); }
 
 /* Body */
-.pc__body{ padding:10px; display:flex; flex-direction:column; gap:6px; }
-.pc__title{ margin:0 0 6px; font-size:14px; line-height:1.35; }
+.pc__body{ padding: var(--space-4); display:flex; flex-direction:column; gap:8px; }
+.pc__title{ font-size:14px; margin:0; }
 .pc__rating{ display:flex; align-items:center; gap:6px; color: var(--muted); font-size:12px; }
 .pc__rating-num{ font-variant-numeric: tabular-nums; }
-.pc__price{ display:flex; align-items:baseline; gap:8px; font-weight:800; }
+.pc__price{ display:flex; align-items:baseline; gap:8px; }
 .pc__cta{ margin-top:auto; }
 
 /* Stars (mask technique or inline svg) */
@@ -63,9 +63,9 @@
 .pc{ transition: transform .18s ease, box-shadow .18s ease; }
 
 /* Make new price pop and old price smaller */
-.price--new{ font-size: 16px; font-weight: 800; }
+.price--new{ font-size: 16px; font-weight: 700; }
 .price--old{ font-size: 13px; opacity: .75; }
-.pc__price{ gap: 6px; align-items: baseline; font-weight:800; }
+.pc__price{ gap: 6px; align-items: baseline; }
 
 /* Star size consistency + motion preference */
 .pc__rating-stars svg{ width:14px; height:14px; }
@@ -132,10 +132,10 @@
 .pc--oos .pc__img{ filter: grayscale(1) opacity(.7); }
 
 /* Body */
-.pc__body{ padding:10px; display:flex; flex-direction:column; gap:6px; }
+.pc__body{ padding: var(--space-3) var(--space-3) var(--space-4); display:flex; flex-direction:column; gap:6px; }
 .pc__title{
-  margin: 0 0 6px;
-  font-size: 14px;
+  margin: 2px 0 2px;
+  font-size: var(--font-size-300);
   font-weight: 600;
   line-height: 1.35;
   color: var(--text);
@@ -152,8 +152,8 @@
 .pc__rating-count{ color: var(--muted); font-size: var(--font-size-100); }
 
 /* Price row */
-.pc__price{ display:flex; gap:6px; align-items: baseline; margin-top: 4px; font-weight:800; }
-.price--new{ font-size: 16px; font-weight: 800; color: var(--text); }
+.pc__price{ display:flex; gap:6px; align-items: baseline; margin-top: 4px; }
+.price--new{ font-size: 16px; font-weight: 700; color: var(--text); }
 .price--old{ font-size: 13px; opacity:.75; text-decoration: line-through; }
 
 /* CTA area pinned to bottom if used */
