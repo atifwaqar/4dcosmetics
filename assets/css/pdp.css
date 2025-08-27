@@ -79,6 +79,8 @@
 /* === PDP Mobile Fit (hardening) === */
 @media (max-width: 768px){
   .pdp{ overflow-x:hidden; }
+  .pdp__cta,
+  .pdp__cod-note{ display:none; }
 }
 .pdp__media, .pdp__main{ max-width:100%; }
 .pdp__main{ width:100%; }
