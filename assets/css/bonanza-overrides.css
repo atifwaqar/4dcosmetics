@@ -16,6 +16,10 @@ small{ color:var(--muted); }
 .bnz-tabs{
   border-top:1px solid var(--border);
   background:#fff;
+}
+
+/* Center tab rail on all screen sizes */
+.bnz-tabs .container-narrow{
   justify-content:center;
 }
 .bnz-tab{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; background:#f0f0f0; color:#111; text-decoration:none; font-size:14px; }
