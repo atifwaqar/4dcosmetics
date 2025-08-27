@@ -21,6 +21,7 @@ small{ color:var(--muted); }
 /* Center tab rail on all screen sizes */
 .bnz-tabs .container-narrow{
   justify-content:center;
+  position:relative;
 }
 .bnz-tab{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; background:#f0f0f0; color:#111; text-decoration:none; font-size:14px; }
 .bnz-tab:hover{ background:#e5e5e5; }
@@ -44,7 +45,16 @@ small{ color:var(--muted); }
 
 
 /* --- Bonanza-style tabs rail with rounded gray background and separators --- */
-.bnz-tabs{ padding:12px 0; }
+.bnz-tabs{ padding:10px 0; margin-bottom:12px; }
+/* Horizontal tab fade indicator */
+.bnz-tabs::after{
+  content:"";
+  position:absolute;
+  right:0; top:0; bottom:0;
+  width:30px;
+  background:linear-gradient(to right, transparent, #fff);
+  pointer-events:none;
+}
 .bnz-tabs__rail{
   display:flex;
   align-items:center;
