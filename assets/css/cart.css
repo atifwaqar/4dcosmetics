@@ -89,7 +89,7 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 .cart > *{ width:100%; }
 @media(min-width:992px){ .cart{ grid-template-columns: 2fr 1fr; } }
 
-.cart-line{ display:grid; grid-template-columns: 72px 1fr auto; gap:12px; padding:12px; border:1px solid var(--border);
+.cart-line{ display:grid; grid-template-columns: 88px 1fr auto; gap:12px; padding:12px; border:1px solid var(--border);
   border-radius: var(--radius); background:#fff; align-items:center; }
 .cart-line + .cart-line{ margin-top:12px; }
 .cart-line__img img{ width:72px; height:72px; object-fit:cover; border-radius:10px; border:1px solid var(--border); }
@@ -209,3 +209,60 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 /* Ensure spacing between blocks in the aside column */
 .cart-summary > * + *{ margin-top: var(--space-4); }
 
+
+/* === Cart Page UI/UX Refinements === */
+
+/* Header separation */
+.annc{ margin-bottom: 4px; }
+.bnz-header{ border-bottom:1px solid var(--border); }
+.bnz-tabs{ padding: 10px 0; margin-bottom: 12px; }
+
+/* Horizontal tab fade indicator */
+.bnz-tabs .container-narrow{
+  position:relative;
+}
+.bnz-tabs::after{
+  content:"";
+  position:absolute;
+  right:0; top:0; bottom:0;
+  width:30px;
+  background:linear-gradient(to right, transparent, #fff);
+  pointer-events:none;
+}
+
+/* Cart item card layout */
+.cart-line, .cart-item, .cart-product{
+  display:grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: var(--space-3);
+  align-items:center;
+}
+.cart-line img{ max-width:72px; border-radius:8px; }
+.cart-line .product-name{ font-weight:500; margin-bottom:4px; }
+.cart-line .qty-controls{ display:flex; align-items:center; gap:6px; }
+.cart-line .remove-link{ display:block; font-size:13px; color:var(--danger); margin-top:4px; }
+.cart-line .price{ font-weight:600; text-align:right; }
+
+/* Summary card readability */
+.summary-card .row{ margin:10px 0; }
+.summary-card .row span:last-child{ font-weight:600; }
+.summary-card .total span{ font-size:18px; font-weight:700; }
+
+/* WhatsApp button spacing */
+.whatsapp-float, .whatsapp-button{
+  bottom:80px !important;
+}
+
+.cart-title{ font-weight:600; margin-bottom:4px; }
+
+.cart-controls{ display:flex; align-items:center; gap:8px; }
+
+.cart-remove{ color:var(--danger); text-decoration:none; font-size:14px; }
+.cart-remove:hover{ text-decoration:underline; }
+
+.cart-price{ font-weight:700; align-self:center; justify-self:end; }
+
+@media (max-width: 480px){ .cart-line{ grid-template-columns:72px 1fr; } .cart-price{ grid-column:2; justify-self:start; margin-top:6px; } .cart-remove{ display:inline-block; margin-top:6px; } }
+
+.cart-summary .row{ justify-content:space-between; gap:12px; margin:8px 0; }
+.cart-summary .row.total{ font-weight:700; font-size:var(--font-size-500); }

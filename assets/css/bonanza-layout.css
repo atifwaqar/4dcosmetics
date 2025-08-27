@@ -2,8 +2,8 @@
 :root{ --bnz-max:1240px; }
 .annc{ background:#ebebeb; color:#111; font-size:12px; }
 .annc__inner{ text-align:center; padding:8px 0; }
-.bnz-header{ border-bottom:1px solid var(--border); background:#fff; position:sticky; top:0; z-index:40; }
-.bnz-header__row{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:74px; }
+.bnz-header{ border-bottom:1px solid var(--border); background:#fff; position:sticky; top:0; z-index:40; box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.bnz-header__row{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:78px; }
 .bnz-logo{ font-family:'Playfair Display',serif; letter-spacing:4px; font-weight:700; color:#000; text-decoration:none; font-size:22px; }
 .bnz-header__right{ display:flex; gap:16px; justify-self:end; align-items:center; }
 .bnz-search{ border:1px solid var(--border); border-radius:999px; padding:4px 10px; }
@@ -12,7 +12,7 @@
 .bnz-icon{ position:relative; color:#111; }
 .bnz-badge{ position:absolute; top:-6px; right:-8px; background:#111; color:#fff; border-radius:999px; font-size:10px; line-height:1; padding:2px 6px; }
 .bnz-tabs{ border-top:1px solid var(--border); }
-.bnz-tabs .container-narrow{ display:flex; gap:18px; overflow:auto; white-space:nowrap; }
+.bnz-tabs .container-narrow{ display:flex; gap:18px; overflow:auto; white-space:nowrap; padding:8px 0; -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 32px), transparent 100%); mask-image:linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 32px), transparent 100%);}
 .bnz-tab{ padding:10px 12px; display:inline-block; border-radius:999px; font-size:14px; color:#111; text-decoration:none; }
 .bnz-tab.is-active{ background:#111; color:#fff; }
 .bnz-main{ padding:28px 0 40px; }
@@ -52,7 +52,7 @@
 .bnz-copy{ margin-top:20px; font-size:13px; color:#555; text-align:center; }
 
 /* Ensure BNZ tabs keep styling regardless of injected content */
-.bnz-tabs{ display:flex; gap:20px; padding:12px 0; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.bnz-tabs{ border-top:1px solid var(--border); }
 .bnz-tabs__item{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; border:1px solid var(--border,#eee); color:var(--text,#111); white-space:nowrap; }
 .bnz-tabs__item.is-active{ background:#111; color:#fff; border-color:#111; }
 .bnz-tabs__item:hover{ text-decoration:none; }
