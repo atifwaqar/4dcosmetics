@@ -62,3 +62,15 @@
 .pdp-tabs__nav .is-active{ color: var(--text); border-bottom: 2px solid var(--primary); }
 .pdp-tabs__panel{ color: var(--text); }
 
+
+
+/* --- Fix: PDP should not use the global container-narrow scroller --- */
+.pdp.container-narrow{
+  display: grid !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  gap: var(--space-6);
+}
+/* Ensure inner blocks wrap correctly */
+.pdp *{ max-width: 100%; }
+
