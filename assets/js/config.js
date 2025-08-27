@@ -1,8 +1,12 @@
 // Currency configuration for the shop.
-// Define constants without ES module syntax so the script can run
-// in browsers that load it as a classic script tag.
-const SHOP_CURRENCY = 'PKR';
-const SHOP_CURRENCY_SYMBOL = '₨';
+// Use `var` and guard against existing globals so the script can be
+// included multiple times without throwing "Identifier has already been
+// declared" errors.
+var SHOP_CURRENCY = window.SHOP_CURRENCY || 'PKR';
+var SHOP_CURRENCY_SYMBOL = window.SHOP_CURRENCY_SYMBOL || '₨';
+// Persist values on the `window` object for other scripts.
+window.SHOP_CURRENCY = SHOP_CURRENCY;
+window.SHOP_CURRENCY_SYMBOL = SHOP_CURRENCY_SYMBOL;
 
 // Register Pakistani Rupee currency before configuring simpleCart
 simpleCart.currency({
