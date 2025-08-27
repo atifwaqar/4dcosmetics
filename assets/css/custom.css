@@ -362,3 +362,10 @@ body.drawer-open{
 
 /* Ensure in-page anchors don't hide under sticky header */
 [id]{ scroll-margin-top: 80px; }
+
+/* cart header refinements */
+.bnz-header{ position:sticky; top:0; z-index:30; background:#fff; }
+.annc{ position:relative; }
+
+.whatsapp-fab{ position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:30; }
+@media(max-width:480px){ .whatsapp-fab{ bottom:80px; } }
