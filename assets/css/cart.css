@@ -194,3 +194,13 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 /* Only the summary card is sticky */
 .cart-summary .summary-card{ position: sticky; top: var(--space-6); }
 .cart-summary .pm-section.card{ position: static; }
+
+
+/* === FINAL STICKY SCOPE PATCH === */
+.cart-summary .pm-section.card{ position: static !important; top:auto !important; }
+.cart-summary .summary-card{ position: sticky !important; top: var(--space-6) !important; z-index: 1; }
+/* On narrow screens, disable sticky entirely */
+@media (max-width: 900px){
+  .cart-summary .summary-card{ position: static !important; top:auto !important; }
+}
+
