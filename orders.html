@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cookie Policy - 4D Cosmetics</title>
+  <title>My Orders - 4D Cosmetics</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
@@ -12,10 +12,12 @@
   <link rel="stylesheet" href="/assets/css/theme.css">
   <link rel="stylesheet" href="/assets/css/product-card.css">
   <link rel="stylesheet" href="/assets/css/bonanza-layout.css">
+  <link rel="stylesheet" href="/assets/css/cart.css">
+  <link rel="stylesheet" href="/assets/css/checkout.css">
   <link rel="stylesheet" href="/assets/css/bonanza-overrides.css">
+  <link rel="stylesheet" href="/assets/css/orders.css">
 </head>
 <body data-active-tab="Beauty">
-
 <div class="annc" role="region" aria-label="Site announcement">
   <div class="container-narrow annc__inner">No Return or Exchange on Sale Items</div>
 </div>
@@ -37,22 +39,16 @@
   </nav>
 </header>
 
-  <section class="py-5">
-    <div class="container">
-      <a href="/" class="d-inline-block mb-3">← Back to shopping</a>
-      <h1 class="mb-4">Cookie Policy</h1>
-      <p>We use cookies to improve your experience. Cookies fall into these categories:</p>
-      <ul>
-        <li><strong>Strictly necessary</strong> – essential for site function.</li>
-        <li><strong>Performance</strong> – help us measure usage.</li>
-        <li><strong>Functional</strong> – remember your preferences.</li>
-        <li><strong>Marketing</strong> – used for advertising.</li>
-      </ul>
-      <p>You can change your preferences at any time via the Manage Cookies link in the footer.</p>
-    </div>
-  </section>
+<main class="container orders-layout">
+  <div class="orders-card">
+    <div class="orders-icon"><i class="fa-solid fa-receipt"></i></div>
+    <h1>My Orders</h1>
+    <div id="orders-list"></div>
+    <a href="/" class="btn btn-primary mt-3">Continue shopping</a>
+  </div>
+</main>
 
-  <footer class="bnz-footer">
+<footer class="bnz-footer">
   <div class="container-narrow">
     <div class="bnz-footer__cols">
       <div>
@@ -83,15 +79,39 @@
     <div class="bnz-copy">© 4D Cosmetics</div>
   </div>
 </footer>
-  <script src="/assets/js/jquery-2.2.4.min.js"></script>
-  <script src="/assets/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/simpleCart.min.js"></script>
-  <script src="/assets/js/config.js"></script>
-  <script type="module" src="/assets/js/money.js"></script>
-  <script src="/assets/js/storefront-runtime.js"></script>
-  <script src="/assets/js/product-card.js"></script>
-  <script src="/assets/js/tabs.js"></script>
-  <script src="/assets/js/whatsapp-fab.js"></script>
-  <script src="/assets/js/header-affordance.js" defer></script>
+
+<script src="/assets/js/jquery-2.2.4.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/simpleCart.min.js"></script>
+<script src="/assets/js/config.js"></script>
+<script type="module" src="/assets/js/money.js"></script>
+<script src="/assets/js/storefront-runtime.js"></script>
+<script src="/assets/js/product-card.js"></script>
+<script src="/assets/js/tabs.js"></script>
+<script type="module">
+  const data = localStorage.getItem('4d-last-order');
+  const list = document.getElementById('orders-list');
+  if(data){
+    try {
+      const order = JSON.parse(data);
+      let html = `<p><strong>Order ID:</strong> ${order.id}</p>`;
+      if(order.items && Array.isArray(order.items)){
+        html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${moneyPKR(i.subtotal)}</li>`).join('') + '</ul>';
+        if(order.amount) html += `<p><strong>Total:</strong> ${moneyPKR(order.amount)}</p>`;
+      } else {
+        if(order.item) html += `<p><strong>Item:</strong> ${order.item}</p>`;
+        if(order.amount) html += `<p><strong>Total:</strong> ${moneyPKR(order.amount)}</p>`;
+      }
+      if(order.pm) html += `<p><strong>Payment method:</strong> ${order.pm === 'whatsappCod' ? 'WhatsApp COD' : order.pm}</p>`;
+      list.innerHTML = html;
+    } catch(e){
+      list.innerHTML = '<p>Unable to load your order.</p>';
+    }
+  } else {
+    list.innerHTML = '<p>No recent orders found.</p>';
+  }
+</script>
+<script src="/assets/js/whatsapp-fab.js"></script>
+<script src="/assets/js/header-affordance.js" defer></script>
 </body>
 </html>
