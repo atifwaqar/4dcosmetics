@@ -1,0 +1,27 @@
+.orders-layout {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orders-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-8) var(--space-6);
+  max-width: 600px;
+  text-align: center;
+}
+
+.orders-icon {
+  font-size: 3rem;
+  color: var(--primary);
+  margin-bottom: var(--space-4);
+}
+
+#orders-list {
+  margin-top: var(--space-4);
+  text-align: left;
+}
