@@ -1,5 +1,12 @@
 [
   {
+    "name": "Makeup",
+    "slug": "makeup",
+    "parent": null,
+    "descriptionHTML": "<p>Color cosmetics for face, eyes, and lips.</p>",
+    "sortOrder": 1
+  },
+  {
     "name": "Skin Care",
     "slug": "skin-care",
     "parent": null,

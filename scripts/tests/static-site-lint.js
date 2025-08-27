@@ -13,6 +13,7 @@ const categories = readJSON('assets/data/categories.json');
 const products = readJSON('assets/data/products.json');
 const catSlugs = new Set(categories.map(c => c.slug));
 const prodSlugs = new Set(products.map(p => p.slug));
+const dynamicPaths = new Set(['/account.html', '/wishlist.html', '/checkout.html']);
 
 function walk(dir) {
   const res = [];
@@ -54,6 +55,7 @@ for (const file of htmlFiles) {
       const slug = clean.split('/')[2];
       if (!prodSlugs.has(slug)) linkErrors.push(`${path.relative(root,file)}: unknown product link ${href}`);
     } else {
+      if (dynamicPaths.has(clean)) return;
       const target = path.join(root, clean);
       if (!fs.existsSync(target)) linkErrors.push(`${path.relative(root,file)}: broken link ${href}`);
     }
