@@ -470,6 +470,7 @@
     "price": 2500,
     "currency": "PKR",
     "categories": [
+      "makeup",
       "skin-care",
       "creams"
     ],
