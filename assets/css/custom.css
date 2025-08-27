@@ -120,12 +120,12 @@ footer a:hover { text-decoration: underline; }
 }
 /* Header styles */
 .site-header{
-  position: sticky;
-  top: 0;
+  position: static;
+  top:auto;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  z-index: 50;
+  z-index: 1;
 }
 .nav-container{
   display: flex;
@@ -358,3 +358,7 @@ body.drawer-open{
   outline:2px solid var(--primary);
   outline-offset:2px;
 }
+
+
+/* Ensure in-page anchors don't hide under sticky header */
+[id]{ scroll-margin-top: 80px; }
