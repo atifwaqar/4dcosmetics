@@ -20,6 +20,9 @@
     if (aside.dataset.enhanced === '1') return aside;
     aside.dataset.enhanced = '1';
 
+    // Mark aside as having checkout forms (so CSS can disable sticky)
+    aside.classList.add('has-forms');
+
     // Clear & rebuild a consistent summary layout
     const defaultPM = localStorage.getItem('checkout_pm') || 'whatsappCod';
     aside.innerHTML = `
