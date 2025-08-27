@@ -23,7 +23,7 @@
     // Clear & rebuild a consistent summary layout
     const defaultPM = localStorage.getItem('checkout_pm') || 'whatsappCod';
     aside.innerHTML = `
-      <div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
+      <div class="summary-card card"><div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
 
       <div class="coupon-block" id="coupon-block">
         <label for="coupon-input">Coupon Code</label>
@@ -48,9 +48,9 @@
       <div class="free-ship">
         <div id="fs-msg" class="fs-msg">Spend more to get Free Shipping</div>
         <div class="progress"><div id="fs-bar" class="progress-bar" style="width:0%"></div></div>
-      </div>
+      </div></div>
 
-      <section id="buyer-details" aria-labelledby="bd-title" class="pm-section card">
+<section id="buyer-details" aria-labelledby="bd-title" class="pm-section card">
         <h2 id="bd-title">Buyer details</h2>
         <label for="buyer-name">Full Name</label>
         <input id="buyer-name" type="text" required placeholder="Your name">
