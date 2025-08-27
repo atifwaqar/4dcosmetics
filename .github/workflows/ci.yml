@@ -5,6 +5,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   data-integrity:
@@ -19,6 +20,7 @@ jobs:
       - run: npm run validate:data
 
   static-site-lint:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,22 +36,23 @@ jobs:
       - name: Sitemap guard
         run: npm run test:sitemap
       - name: Upload lint report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: static-lint-report
           path: static-lint-report.txt
       - name: Upload meta snapshot report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: meta-jsonld-report
           path: meta-jsonld-report.txt
       - name: Upload sitemap report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sitemap-report
           path: sitemap-report.txt
 
   lighthouse:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -63,12 +66,12 @@ jobs:
       - name: SPA fallback tests
         run: npm run test:spa
       - name: Upload lighthouse report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lighthouse-report
           path: lighthouse-report.json
       - name: Upload SPA fallback log
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: spa-fallback-log
           path: spa-fallback-log.txt
@@ -81,8 +84,9 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const data = '${{ needs.data-integrity.result }}' === 'success' ? '✓' : '✗';
-            const lint = '${{ needs["static-site-lint"].result }}' === 'success' ? '✓' : '✗';
-            const lh = '${{ needs.lighthouse.result }}' === 'success' ? '✓' : '✗';
-            const body = `| Job | Status |\n| --- | --- |\n| Data Integrity | ${data} |\n| Static Site Lint & Links | ${lint} |\n| Lighthouse Budgets | ${lh} |`;
+            const dataRes = '${{ needs.data-integrity.result }}';
+            const lintRes = "${{ needs['static-site-lint'].result }}";
+            const lhRes = '${{ needs.lighthouse.result }}';
+            const fmt = r => r === 'success' ? '✓' : r === 'skipped' ? '–' : '✗';
+            const body = `| Job | Status |\n| --- | --- |\n| Data Integrity | ${fmt(dataRes)} |\n| Static Site Lint & Links | ${fmt(lintRes)} |\n| Lighthouse Budgets | ${fmt(lhRes)} |`;
             await github.rest.issues.createComment({issue_number: context.issue.number, owner: context.repo.owner, repo: context.repo.repo, body});
