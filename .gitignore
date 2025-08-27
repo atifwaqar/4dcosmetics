@@ -7,3 +7,4 @@ release.zip
 dev/*
 static-lint-report.txt
 lighthouse-report.json
+spa-fallback-log.txt
