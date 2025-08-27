@@ -56,3 +56,8 @@
 .bnz-tabs__item{ display:inline-flex; align-items:center; padding:8px 14px; border-radius:999px; border:1px solid var(--border,#eee); color:var(--text,#111); white-space:nowrap; }
 .bnz-tabs__item.is-active{ background:#111; color:#fff; border-color:#111; }
 .bnz-tabs__item:hover{ text-decoration:none; }
+
+
+/* Safety: make tabs rail itself not cause page overflow */
+.bnz-tabs .container-narrow{ max-width:100%; overflow-x:auto; }
+
