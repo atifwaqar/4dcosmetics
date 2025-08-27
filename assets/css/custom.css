@@ -369,3 +369,61 @@ body.drawer-open{
 
 .whatsapp-fab{ position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:30; }
 @media(max-width:480px){ .whatsapp-fab{ bottom:80px; } }
+
+
+/* === Palette wiring (Color Usage Guide) === */
+.btn-primary{
+  background:var(--brand); color:var(--on-brand);
+  border:1px solid var(--brand);
+}
+.btn-primary:hover{ background:var(--brand-600); border-color:var(--brand-600); }
+.btn-primary:active{ background:var(--brand-600); filter:saturate(1.05); }
+
+.btn-outline{
+  background:#fff; color:var(--brand);
+  border:1px solid var(--brand);
+}
+.btn-outline:hover{ color:var(--on-brand); background:var(--brand); }
+
+.btn-danger{
+  background:var(--danger); color:#fff; border-color:var(--danger);
+}
+.btn-danger:hover{ filter:brightness(.95); }
+
+/* Links */
+a{ color:var(--text); text-underline-offset:2px; }
+a:hover{ color:var(--brand-600); }
+
+/* Tabs/Chips */
+.tab-chip{
+  color:var(--text); background:#fff; border:1px solid var(--border); border-radius:999px;
+}
+.tab-chip:hover{ background:var(--brand-50); border-color:var(--brand); }
+.tab-chip.is-active{
+  color:var(--text);
+  background:var(--brand-50);
+  border-color:var(--brand);
+}
+
+/* Form focus */
+input,select,textarea{ border:1px solid var(--border); }
+input:focus,select:focus,textarea:focus{
+  outline:0; border-color:var(--brand-600);
+  box-shadow:0 0 0 .2rem color-mix(in srgb, var(--brand-600) 28%, transparent);
+}
+
+/* Badges */
+.badge-brand{ background:var(--brand-50); color:var(--brand-600); border:1px solid var(--brand); }
+.badge-success{ background:color-mix(in srgb,var(--success) 12%, #fff); color:var(--success); }
+.badge-danger{ background:color-mix(in srgb,var(--danger) 12%, #fff); color:var(--danger); }
+
+/* Cards/Headers */
+.card{ background:#fff; border:1px solid var(--border); }
+.card .accent-bar{ height:2px; background:var(--brand); }
+
+/* Cart specifics */
+.cart-price{ color:var(--text); font-weight:700; }
+.cart-remove{ color:var(--danger); }
+
+/* Ensure anchors don't hide under sticky header */
+[id]{ scroll-margin-top: 80px; }
