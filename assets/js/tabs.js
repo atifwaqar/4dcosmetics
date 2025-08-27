@@ -70,12 +70,10 @@
       }catch{ return false; }
     }
 
-    // optional "All" tab pointing to home (matches reference)
-    const allTab = { id:'__all', name:'All', url: '/', order: -1, parent:null };
     const normalized = cats.map(normalize);
-    const uniq = uniqueBy(normalized, 'slug').sort((a,b)=> (a.order||0) - (b.order||0) || a.name.localeCompare(b.name));
-
-    const items = [allTab, ...uniq];
+    const items = uniqueBy(normalized, 'slug').sort(
+      (a,b)=> (a.order||0) - (b.order||0) || a.name.localeCompare(b.name)
+    );
 
     // Render
     nav.innerHTML = items.map(it => `
