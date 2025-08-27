@@ -91,3 +91,8 @@ a:hover{color:var(--brand-600); text-decoration:underline}
   }
   .bnz-tabs__item{ scroll-snap-align:center; }
 }
+
+
+/* === Unified sticky header behavior (alt header) === */
+.header-compact{ position: sticky; top:0; z-index: 100; transition: box-shadow .2s ease, background-color .2s ease, backdrop-filter .2s ease; }
+html.scrolled .header-compact{ box-shadow: var(--shadow); background: rgba(255,255,255,.98); backdrop-filter: saturate(160%) blur(4px); }

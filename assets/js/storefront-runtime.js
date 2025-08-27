@@ -1,4 +1,5 @@
-const StorefrontRuntime = (() => {
+if (!window.StorefrontRuntime) {
+  window.StorefrontRuntime = (() => {
   let productsCache = null;
   let categoriesCache = null;
   const RECENT_KEY = 'recently_viewed';
@@ -134,4 +135,5 @@ const StorefrontRuntime = (() => {
     renderProductBadgesHTML,
     RECENT_KEY
   };
-})();
+  })();
+}
