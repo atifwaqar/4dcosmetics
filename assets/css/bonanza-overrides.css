@@ -86,7 +86,7 @@ body .pc__title{ text-transform: none !important; letter-spacing: 0 !important; 
 
 /* === Highest-priority fix: sticky only for summary on desktop === */
 .cart-summary .pm-section.card{ position: static !important; top:auto !important; z-index:auto !important; }
-.cart-summary .summary-card{ position: sticky !important; top: var(--space-6) !important; z-index: 20 !important; }
+.cart-summary .summary-card{ position: sticky !important; top: var(--space-6) !important;  }
 /* Disable sticky on smaller viewports (avoid stacking issues) */
 @media (max-width: 900px){
   .cart-summary .summary-card{ position: static !important; top:auto !important; }
