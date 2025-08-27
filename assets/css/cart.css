@@ -252,3 +252,13 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 
 .cart-summary .row{ justify-content:space-between; gap:12px; margin:8px 0; }
 .cart-summary .row.total{ font-weight:700; font-size:var(--font-size-500); }
+
+/* Cart lines container card */
+.cart .card{
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--surface);
+}
+.cart .card .card-body{
+  padding:var(--space-4);
+}
