@@ -81,6 +81,12 @@
         ${it.name}
       </a>
     `).join('');
+
+    // Ensure the active tab is visible in the scroll area
+    const activeTab = nav.querySelector('.bnz-tabs__item.is-active');
+    if (activeTab && typeof activeTab.scrollIntoView === 'function') {
+      activeTab.scrollIntoView({ block: 'nearest', inline: 'center' });
+    }
   }
 
 document.addEventListener('DOMContentLoaded', async function(){
