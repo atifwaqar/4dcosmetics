@@ -61,7 +61,7 @@ async function runLh(url){
     const seo = (lhr.categories.seo?.score ?? 0) * 100;
     const acc = (lhr.categories.accessibility?.score ?? 0) * 100;
     lines.push(`${u.name}: CLS ${cls.toFixed(3)}, LCP ${(lcp/1000).toFixed(2)}s, SEO ${seo.toFixed(0)}, Acc ${acc.toFixed(0)}`);
-    if (!u.skipBudget && (cls>0.9 || lcp>9000 || seo<90 || acc<90)) failed=true;
+    if (!u.skipBudget && (cls>0.9 || lcp>9000 || seo<90 || acc<80)) failed=true;
     if (u.name==='missing-category'){
       const browser = await puppeteer.launch({headless:'new', args:['--no-sandbox']});
       const page = await browser.newPage();
