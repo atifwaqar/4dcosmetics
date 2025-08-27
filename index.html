@@ -1,48 +1,124 @@
+<!DOCTYPE html>
+<html data-whatsapp="923315033342" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4D Cosmetics</title>
+  <meta name="description" content="Shop premium makeup, skincare, perfume and accessories at 4D Cosmetics.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+  <link rel="stylesheet" href="/assets/css/product-card.css">
+  <link rel="stylesheet" href="/assets/css/bonanza-layout.css">
+  <link rel="stylesheet" href="/assets/css/bonanza-overrides.css">
+</head>
+<body data-active-tab="Beauty">
+  
+<div class="annc" role="region" aria-label="Site announcement">
+  <div class="container-narrow annc__inner">No Return or Exchange on Sale Items</div>
+</div>
+<header class="bnz-header">
+  <div class="container-narrow bnz-header__row">
+    <div></div>
+    <a class="bnz-logo" href="/">4D COSMETICS</a>
+    <div class="bnz-header__right">
+      <form class="bnz-search d-none d-md-flex" role="search" action="/search/" method="get">
+        <input type="search" name="q" placeholder="Search">
+        <button type="submit" aria-label="Search"><i class="fa fa-search"></i></button>
+      </form>
+      <a class="bnz-icon" href="/wishlist.html" aria-label="Wishlist"><i class="fa-regular fa-heart"></i></a>
+      <a class="bnz-icon" href="/cart.html" aria-label="Cart"><i class="fa-solid fa-bag-shopping"></i><span class="bnz-badge simpleCart_quantity">0</span></a>
+    </div>
+  </div>
+  <nav class="bnz-tabs" aria-label="Primary">
+    <div class="container-narrow" id="home-tabs"></div>
+  </nav>
+</header>
 
-<!-- index.html (modified block only; place inside your existing index.html) -->
-<!-- BEGIN home-enhanced (Canvas-parity v2, hp-classes) -->
-<div class="home-enhanced">
-  <!-- Hero -->
-  <section class="hp-hero">
-    <div class="hp-container-narrow hp-hero__inner">
-      <h1 class="hp-hero__title">Premium Makeup & Skincare in PKR with Cash on Delivery</h1>
-      <p class="hp-hero__sub">Curated, authentic brands. Fast shipping across Pakistan. Easy WhatsApp support.</p>
-      <div class="hp-hero__cta">
-        <a class="hp-btn" href="/search/?q=">Shop Products</a>
+  <main id="main" class="bnz-main">
+    <section class="container-narrow">
+      <div id="home-grid" class="product-grid"></div>
+      <div class="bnz-progress" id="home-progress" hidden>
+        <div class="bnz-progress__label">You’ve viewed <span id="viewed-count">0</span> of <span id="total-count">0</span> products</div>
+        <div class="bnz-progress__bar"><span id="progress-bar" style="width:0%"></span></div>
+      </div>
+      <div class="bnz-loadmore"><button id="load-more" class="btn btn-outline-dark">Load More</button></div>
+    </section>
+  </main>
+  
+<footer class="bnz-footer">
+  <div class="container-narrow">
+    <div class="bnz-footer__cols">
+      <div>
+        <h4>CONTACT US</h4>
+        <ul><li>+92 331 5033342</li><li><a href="mailto:info@4dcosmetics.com">info@4dcosmetics.com</a></li></ul>
+      </div>
+      <div>
+        <h4>INFORMATION</h4>
+        <ul>
+          <li><a href="/track-order.html">Track Your Order</a></li>
+          <li><a href="/shipping.html">Shipping Information</a></li>
+          <li><a href="/returns.html">Return & Exchange Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>CUSTOMER CARE</h4>
+        <ul>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>NEWSLETTER SIGN UP</h4>
+        <form class="bnz-news"><input type="email" placeholder="Enter Email" aria-label="Email"><button type="submit" aria-label="Subscribe"><i class="fa-solid fa-arrow-right"></i></button></form>
       </div>
     </div>
-  </section>
+    <div class="bnz-copy">© 4D Cosmetics</div>
+  </div>
+</footer>
 
-  <!-- USPs -->
-  <section class="hp-usp">
-    <div class="hp-container-narrow hp-usp__row">
-      <div class="hp-usp__item">Cash on Delivery</div>
-      <div class="hp-usp__item">WhatsApp Support</div>
-      <div class="hp-usp__item">Prices in PKR</div>
-    </div>
-  </section>
-
-  <!-- Categories -->
-  <nav class="hp-cats" aria-label="Shop by category">
-    <div class="hp-container-narrow hp-cats__row">
-      <a class="hp-chip" href="/search/?q=makeup">Makeup</a>
-      <a class="hp-chip" href="/search/?q=skincare">Skincare</a>
-      <a class="hp-chip" href="/search/?q=fragrance">Fragrance</a>
-      <a class="hp-chip" href="/search/?q=accessories">Accessories</a>
-      <a class="hp-chip" href="/search/?q=bundles">Bundles</a>
-      <a class="hp-chip" href="/search/?q=gifts">Gifts</a>
-    </div>
-  </nav>
-
-  <!-- All Products -->
-  <section class="hp-container-narrow hp-shelf">
-    <div class="hp-shelf__head">
-      <h2>All Products</h2>
-      <span class="hp-shelf__link" aria-hidden="true">Showing latest</span>
-    </div>
-    <div class="hp-grid" id="grid-all"></div>
-    <button id="loadMore" class="hp-btn hp-load-more">Load More</button>
-    <div id="progress" class="hp-progress" aria-live="polite"></div>
-  </section>
-</div>
-<!-- END home-enhanced (Canvas-parity v2) -->
+  <script src="/assets/js/jquery-2.2.4.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/simpleCart.min.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script type="module" src="/assets/js/money.js"></script>
+  <script src="/assets/js/storefront-runtime.js"></script>
+  <script src="/assets/js/product-card.js"></script>
+  <script src="/assets/js/tabs.js"></script>
+  <script>
+  (function(){
+    var grid = document.getElementById('home-grid');
+    var all = (window.__ALL_PRODUCTS__ || []);
+    if (!all.length && window.Storefront && Storefront.getAllProducts) {
+      Storefront.getAllProducts().then(function(items){
+        all = items || [];
+        init();
+      });
+    } else { init(); }
+    function init(){
+      var page = 0, size = 12;
+      function render(){
+        var slice = all.slice(0, (page+1)*size);
+        grid.innerHTML = slice.map(function(p){ return window.ProductCard.renderProductCard(p); }).join('');
+        var viewed = slice.length, total = all.length, pct = total? Math.min(100, Math.round((viewed/total)*100)) : 0;
+        document.getElementById('home-progress').hidden = false;
+        document.getElementById('viewed-count').textContent = viewed;
+        document.getElementById('total-count').textContent = total;
+        document.getElementById('progress-bar').style.width = pct + '%';
+      }
+      document.getElementById('load-more').addEventListener('click', function(){
+        page++; render();
+      });
+      render();
+    }
+  })();
+  </script>
+  <script src="/assets/js/home-feed.js"></script>
+  <script src="/assets/js/whatsapp-fab.js"></script>
+  <script src="/assets/js/home-bonanza.js"></script>
+  <script src="/assets/js/header-affordance.js" defer></script>
+</body>
+</html>
