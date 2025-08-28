@@ -93,6 +93,16 @@
     sync();
   }
 
+  // Remove tabs whose panels have no text
+  document.querySelectorAll('.pdp-tabs__panel').forEach(panel=>{
+    if(!panel.textContent.trim()){
+      const id = panel.dataset.panel;
+      const btn = document.querySelector(`.pdp-tabs__nav [data-tab="${id}"]`);
+      if(btn) btn.remove();
+      panel.remove();
+    }
+  });
+
   // Tabs
   const tabs = document.querySelectorAll('[data-tab]');
   const panels = document.querySelectorAll('[data-panel]');
