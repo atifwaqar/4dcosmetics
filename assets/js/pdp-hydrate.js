@@ -56,6 +56,7 @@
       how_to_use: p.how_to_use || p.instructions || p.howToUse || '',
       ingredients: p.ingredients || p.Ingredients || '',
       bullets: p.bullets || p.highlights || p.features || p.bulletPoints || '',
+      reviews_html: p.reviews_html || p.reviewsHTML || '',
       rating: { value: Number(p.rating?.value ?? p.rating ?? 0) || 0, count: Number(p.rating?.count ?? p.reviews ?? 0) || 0 },
       price: { current: Number(priceCurrent)||0, old: priceOld, currency: currency },
       inStock: !oos,
@@ -237,6 +238,25 @@
     setHTML('[data-panel="desc"]', p.descriptionHTML || p.description || '');
     setHTML('[data-panel="ingr"]', p.ingredients || '');
     setHTML('[data-panel="use"]',  p.howToUse || p.how_to_use || '');
+    setHTML('[data-panel="rev"]',  p.reviews_html || '');
+
+    document.querySelectorAll('.pdp-tabs__panel').forEach(function(panel){
+      if(!panel.textContent.trim()){
+        var id = panel.dataset.panel;
+        var btn = document.querySelector('.pdp-tabs__nav [data-tab="'+id+'"]');
+        if(btn) btn.remove();
+        panel.remove();
+      }
+    });
+    var tabs = document.querySelectorAll('[data-tab]');
+    var panels = document.querySelectorAll('[data-panel]');
+    function activate(id){
+      tabs.forEach(function(b){ b.classList.toggle('is-active', b.dataset.tab===id); });
+      panels.forEach(function(pn){ pn.classList.toggle('is-active', pn.dataset.panel===id); });
+    }
+    tabs.forEach(function(b){ b.addEventListener('click', function(){ activate(b.dataset.tab); }); });
+    var first = tabs[0]; if(first) activate(first.dataset.tab);
+
     renderBullets(p);
     renderGallery(p);
     renderPrice(p);
