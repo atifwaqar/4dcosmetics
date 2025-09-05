@@ -528,5 +528,228 @@
     "descriptionHTML": "<p>OG jelly highlighter stick is a bouncy, water-based gel stick that delivers a long-lasting, highly pigmented shine for a natural, wet-look finish.</p>",
     "inStock": true,
     "sku": "HGL001"
+  },
+  {
+    "id": "FND004",
+    "name": "Armoso Wow BB Cream",
+    "slug": "armoso-wow-bb-cream",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0019.jpg"
+    ],
+    "price": 1750,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "foundation"
+    ],
+    "brand": "Armoso",
+    "tags": [
+      "foundation"
+    ],
+    "shortDescription": "Moisturizing BB cream for a flawless look.",
+    "descriptionHTML": "<p>Armoso Wow Wow BB Cream for a MOIST FLAWLESS look.</p>",
+    "inStock": true,
+    "sku": "FND004"
+  },
+  {
+    "id": "MSC002",
+    "name": "Bob Mascara",
+    "slug": "bob-mascara",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0018.jpg",
+      "/assets/img/products/IMG-20250830-WA0017.jpg"
+    ],
+    "price": 1099,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "mascara"
+    ],
+    "brand": "BOB",
+    "tags": [
+      "mascara"
+    ],
+    "shortDescription": "Lifts, lengthens, and defines lashes with rich black pigment.",
+    "descriptionHTML": "<p>Wrapping Glaze Black BOB Mascara lifts, lengthens, and defines each lash with rich black pigment for an effortlessly dramatic eye look.</p>",
+    "inStock": true,
+    "sku": "MSC002"
+  },
+  {
+    "id": "FND005",
+    "name": "Hello Annie Flawless Foundation",
+    "slug": "hello-annie-flawless-foundation",
+    "images": [
+      "/assets/img/products/IMG-20250902-WA0000.jpg"
+    ],
+    "price": 2350,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "foundation"
+    ],
+    "brand": "Armoso",
+    "tags": [
+      "foundation"
+    ],
+    "shortDescription": "Hydrating, velvety matte foundation with long-lasting coverage.",
+    "descriptionHTML": "<p>ARMOSO Hello Annie Flawless Velvet Moisturizing Foundation, to provide flawless, long-lasting coverage with a hydrating, velvety matte finish.</p>",
+    "inStock": true,
+    "sku": "FND005"
+  },
+  {
+    "id": "MSC003",
+    "name": "BOB Super Dense Mascara",
+    "slug": "bob-super-dense-mascara",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0014.jpg"
+    ],
+    "price": 750,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "mascara"
+    ],
+    "brand": "BOB",
+    "tags": [
+      "mascara"
+    ],
+    "shortDescription": "Waterproof mascara for precise, voluminous lashes.",
+    "descriptionHTML": "<p>BOB We're Real Super Dense Mascara is a waterproof, super dense mascara designed to provide accurate and voluminous lash enhancement.</p>",
+    "inStock": true,
+    "sku": "MSC003"
+  },
+  {
+    "id": "LNR001",
+    "name": "APK EyeKiner",
+    "slug": "apk-eyekiner",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0013.jpg"
+    ],
+    "price": 550,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "eye-liner"
+    ],
+    "brand": "APK",
+    "tags": [
+      "liner"
+    ],
+    "shortDescription": "Matte, waterproof eyeliner for an intense black line.",
+    "descriptionHTML": "<p>APK In Love Star Eyekiner Intense Black Line Tattoo, which is a matte, waterproof, and quick-drying liquid eyeliner designed to create an intense black line with a tattoo-like finish.</p>",
+    "inStock": true,
+    "sku": "LNR001"
+  },
+  {
+    "id": "HCR001",
+    "name": "Keratin Filler Shampoo With Hair Mask",
+    "slug": "keratin-filler-shampoo-with-hair-mask",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0009.jpg"
+    ],
+    "price": 4700,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "hair-care"
+    ],
+    "brand": "Kolies",
+    "tags": [
+      "haircare"
+    ],
+    "shortDescription": "Keratin-infused shampoo and mask set for extreme repair and smoothing.",
+    "descriptionHTML": "<p>Kolies Keratin Filler Strand-Building Hair Mask and Shampoo set, formulated with Botox and Collagen for extreme repair, straightening, smoothing, and instant recovery for all hair types.</p>",
+    "inStock": true,
+    "sku": "HCR001"
+  },
+  {
+    "id": "HCR002",
+    "name": "Protein Brazilian Keratin Hair Mask & Shampoo",
+    "slug": "protein-brazilian-keratin-hair-mask-shampoo",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0010.jpg"
+    ],
+    "price": 5100,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "hair-care"
+    ],
+    "brand": "Heniways",
+    "tags": [
+      "haircare"
+    ],
+    "shortDescription": "Argan oil infused shampoo and repair mask for salon-level care.",
+    "descriptionHTML": "<p>Set of HENIWAYS Protein Brazilian Keratin Care hair products, including a hair shampoo and a hair repair mask/essence, both formulated with Argan Oil for salon-level hair care.</p>",
+    "inStock": true,
+    "sku": "HCR002"
+  },
+  {
+    "id": "SKN008",
+    "name": "SADOER Watermelon Nicotinamide Essence Toner",
+    "slug": "sadoer-watermelon-nicotinamide-essence-toner",
+    "images": [
+      "/assets/img/products/IMG-20250830-WA0011.jpg"
+    ],
+    "price": 1050,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "SADOER",
+    "tags": [
+      "toner"
+    ],
+    "shortDescription": "Hydrating and brightening toner with watermelon extract and niacinamide.",
+    "descriptionHTML": "<p>SADOER Watermelon Nicotinamide Essence Toner is a hydrating and brightening facial toner enriched with watermelon extract and niacinamide to soothe and improve skin tone.</p>",
+    "inStock": true,
+    "sku": "SKN008"
+  },
+  {
+    "id": "SKN009",
+    "name": "ElFinz Whitening Cream",
+    "slug": "elfinz-whitening-cream",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0222.jpg"
+    ],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care",
+      "creams"
+    ],
+    "brand": "Elfinz",
+    "tags": [
+      "cream"
+    ],
+    "shortDescription": "Brightening cream for intimate and other dark areas.",
+    "descriptionHTML": "<p>Elfinz Private Parts Whitening Cream is designed to brighten and lighten dark, pigmented areas of the body, including intimate areas, underarms, inner thighs, knees, and elbows.</p>",
+    "inStock": true,
+    "sku": "SKN009"
+  },
+  {
+    "id": "SKN010",
+    "name": "Elfinz Anti Stretch Mark Cream",
+    "slug": "elfinz-anti-stretch-mark-cream",
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0220.jpg"
+    ],
+    "price": 2500,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care",
+      "creams"
+    ],
+    "brand": "Elfinz",
+    "tags": [
+      "cream"
+    ],
+    "shortDescription": "Cream to reduce stretch marks and improve skin elasticity.",
+    "descriptionHTML": "<p>Elfinz B-Clear Anti-Stretch Mark Cream is designed to reduce the appearance of stretch marks, enhance skin elasticity, and hydrate the skin, suitable for various causes of stretch marks including pregnancy and weight fluctuations.</p>",
+    "inStock": true,
+    "sku": "SKN010"
   }
 ]
