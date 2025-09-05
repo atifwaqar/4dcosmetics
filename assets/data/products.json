@@ -751,5 +751,75 @@
     "descriptionHTML": "<p>Elfinz B-Clear Anti-Stretch Mark Cream is designed to reduce the appearance of stretch marks, enhance skin elasticity, and hydrate the skin, suitable for various causes of stretch marks including pregnancy and weight fluctuations.</p>",
     "inStock": true,
     "sku": "SKN010"
+  },
+  {
+    "id": "SKN011",
+    "name": "Fayankôu Anti Acne Purify Cleanser",
+    "slug": "fayankou-anti-acne-purify-cleanser",
+    "images": [
+      "/assets/img/products/IMG-20250827-WA0034.jpg"
+    ],
+    "price": 1250,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Fayankou",
+    "tags": [
+      "cleanser",
+      "anti-acne"
+    ],
+    "shortDescription": "Deep-cleansing salicylic acid facial wash targets acne and controls oil.",
+    "descriptionHTML": "<p>FAYANKOU Salicylic Acid Anti-Acne Purify Cleanser is a facial wash designed to deeply cleanse and purify skin, targeting acne, controlling excess oil, and preventing breakouts with the help of salicylic acid.</p>",
+    "inStock": true,
+    "sku": "SKN011"
+  },
+  {
+    "id": "SKN012",
+    "name": "Fayankôu Purify Moisturizing Ckeanser",
+    "slug": "fayankou-purify-moisturizing-ckeanser",
+    "images": [
+      "/assets/img/products/IMG-20250827-WA0033.jpg"
+    ],
+    "price": 1250,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Fayankou",
+    "tags": [
+      "cleanser"
+    ],
+    "shortDescription": "Amino acid cleanser that purifies and moisturizes the skin.",
+    "descriptionHTML": "<p>FAYANKOU Amino Acid Purify Moisturize Cleanser, a facial cleanser designed to purify and moisturize the skin.</p>",
+    "inStock": true,
+    "sku": "SKN012"
+  },
+  {
+    "id": "SKN013",
+    "name": "MADAGASCAR CENTELLA Tone brightening Capsule ampoule",
+    "slug": "madagascar-centella-tone-brightening-capsule-ampoule",
+    "images": [
+      "/assets/img/products/IMG-20250902-WA0002.jpg",
+      "/assets/img/products/IMG-20250902-WA0001.jpg"
+    ],
+    "price": 6500,
+    "currency": "PKR",
+    "categories": [
+      "makeup",
+      "skin-care",
+      "serums"
+    ],
+    "brand": "SKIN1004",
+    "tags": [
+      "serum",
+      "brightening"
+    ],
+    "shortDescription": "Lightweight Centella and Niacinamide serum to brighten and hydrate dull skin.",
+    "descriptionHTML": "<p>Madagascar Centella Tone Brightening Capsule Ampoule is a lightweight serum formulated with Centella Asiatica and Niacinamide to brighten, hydrate, and soothe the skin, targeting dullness and uneven tone.</p>",
+    "inStock": true,
+    "sku": "SKN013"
   }
 ]
