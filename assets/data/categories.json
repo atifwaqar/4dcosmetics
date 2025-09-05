@@ -14,6 +14,13 @@
     "sortOrder": 2
   },
   {
+    "name": "Hair Care",
+    "slug": "hair-care",
+    "parent": null,
+    "descriptionHTML": "<p>Care for and style your hair.</p>",
+    "sortOrder": 3
+  },
+  {
     "name": "Primer",
     "slug": "primer",
     "parent": "makeup",
