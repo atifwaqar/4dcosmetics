@@ -1,6 +1,7 @@
 // exports: renderProductCard(item), formatPrice(number, currency)
 (function(global){
   const WISHLIST_KEY = 'wishlist_ids_v1';
+  const ITEM_CACHE = {};
 
   function loadWishlist(){
     try{ return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }catch{ return []; }
@@ -49,6 +50,7 @@
   function renderProductCard(raw){
     // Accept multiple shapes; normalize to a single item schema
     const item = normalize(raw);
+    ITEM_CACHE[item.id] = item;
     const FALLBACK_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="100%" height="100%" fill="%23f3f3f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="%23999" font-size="18">No image</text></svg>';
     const mainImg = item.image || FALLBACK_IMG;
     const imgAlt = item.image ? escapeHtml(item.image_alt || item.title) : 'No image available';
@@ -93,7 +95,10 @@
             ${priceOld ? `<span class="price price--old">${priceOld}</span>` : ''}
           </div>
           <div class="pc__cta">
-            <button class="btn-modern btn-modern--primary pc__atc" data-id="${item.id}" ${atcAttrs}>${atcLabel}</button>
+            <button type="button" class="btn-modern btn-modern--primary pc__atc" data-id="${item.id}" ${atcAttrs}>
+              <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+              <span>${atcLabel}</span>
+            </button>
           </div>
         </div>
       </article>
@@ -144,11 +149,41 @@
     }
     const atc = e.target.closest('.pc__atc');
     if(atc){
+      e.preventDefault(); e.stopPropagation();
       const id = atc.getAttribute('data-id');
       const evt = new CustomEvent('product:addToCart', { detail: { id }, bubbles:true });
       atc.dispatchEvent(evt);
     }
   });
+
+  document.addEventListener('product:addToCart', (e)=>{
+    const id = e.detail && e.detail.id;
+    const qty = (e.detail && e.detail.qty) || 1;
+    const item = ITEM_CACHE[id];
+    if(!item) return;
+    try{
+      if(typeof simpleCart !== 'undefined'){
+        simpleCart.add({
+          id: id,
+          name: item.title,
+          price: item.price.current,
+          quantity: qty
+        });
+      }
+    }catch(err){ console.warn('cart error', err); }
+    showAddedToast(item.title);
+  });
+
+  function showAddedToast(name){
+    const toast = document.createElement('div');
+    toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
+    toast.style.zIndex = '1055';
+    toast.innerHTML = `Added ${escapeHtml(name)} — <a href="/cart.html" class="text-white text-decoration-underline">View cart</a>`;
+    toast.setAttribute('role','status');
+    toast.setAttribute('aria-live','polite');
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(),3000);
+  }
 
   // expose
   global.ProductCard = { renderProductCard, formatPrice };
