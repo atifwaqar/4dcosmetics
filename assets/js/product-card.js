@@ -187,4 +187,5 @@
 
   // expose
   global.ProductCard = { renderProductCard, formatPrice };
+  if(!global.showAddedToast) global.showAddedToast = showAddedToast;
 })(window);
