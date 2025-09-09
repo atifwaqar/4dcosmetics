@@ -132,7 +132,7 @@
           <div class="cart-drawer-empty" hidden>Your cart is empty.</div>
         </div>
         <footer class="cart-drawer-footer">
-          <div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
+          <div class="row"><span>Subtotal (<span id="summary-count">0 items</span>)</span><span id="summary-subtotal">—</span></div>
           <div class="cart-drawer-actions">
             <a class="btn btn-primary" href="${state.opts.checkoutUrl}">Checkout</a>
           </div>
@@ -152,6 +152,7 @@
     // Do not create duplicate summary ids on /cart page; hide footer subtotals there
     if (location.pathname.includes('/cart')){
       const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
+      const cnt = root.querySelector('#summary-count'); if(cnt){ cnt.removeAttribute('id'); }
     }
 
     // Delegated controls for qty/remove (use same selectors as cart page)
@@ -235,6 +236,11 @@
     }else{
       empty.hidden = true;
       list.innerHTML = items.map(it=>cloneCartLine(it).outerHTML).join('');
+    }
+    const count = items.reduce((s, it) => s + (Number(it.qty) || 0), 0);
+    const countEl = $('#summary-count', root);
+    if (countEl) {
+      countEl.textContent = `${count} item${count === 1 ? '' : 's'}`;
     }
     // Let existing cart-ui.js update summary numbers if present
     if (typeof simpleCart !== 'undefined'){ try{ simpleCart.update(); }catch(_){ } }
