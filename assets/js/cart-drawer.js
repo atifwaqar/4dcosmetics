@@ -75,6 +75,19 @@
     document.head.appendChild(script);
   }
 
+  
+  // Kill legacy toast notifications everywhere (replace with drawer UX)
+  function disableToasts(){
+    try{ window.showAddedToast = function(){}; }catch(_){}
+    try{
+      // Remove any existing toast DOM and block future ones
+      const cleanup = ()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
+      cleanup();
+      const mo = new MutationObserver(()=>cleanup());
+      mo.observe(document.body, { childList:true, subtree:true });
+    }catch(_){}
+  }
+
   const state = {
     api: defaultApi,
     opts: { viewCartUrl:'/cart.html', checkoutUrl:'/cart.html' },
@@ -213,6 +226,7 @@
 
   function open(trigger){
     injectCssOnce();
+      disableToasts();
     injectCartCss();
     buildRoot();
     ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
@@ -259,6 +273,7 @@
         });
       }
       injectCssOnce();
+      disableToasts();
       injectCartCss();
       buildRoot();
       ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
@@ -270,5 +285,5 @@
   };
 
   // Auto-init after DOM ready
-  document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); });
+  document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); disableToasts(); });
 })();
