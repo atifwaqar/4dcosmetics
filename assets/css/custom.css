@@ -53,12 +53,17 @@ footer a:hover { text-decoration: underline; }
   overflow: hidden;
   color: var(--primary-contrast);
   text-align: center;
+}
+
+/* Only apply a tall minimum height when explicitly requested */
+.hero--full {
   min-height: 60vh;
 }
 
 .hero-img {
   width: 100%;
   height: auto;
+  display: block;
   object-fit: cover;
   aspect-ratio: 16/9;
 }
