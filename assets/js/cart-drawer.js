@@ -43,13 +43,22 @@
   };
 
   function injectCssOnce(){
-    // assume cart-drawer.css is linked globally; if not, inject
-    const href = '/assets/css/cart-drawer.css';
-    if (![...document.styleSheets].some(s=>s.href && s.href.endsWith('cart-drawer.css'))){
-      const link = document.createElement('link');
-      link.rel = 'stylesheet'; link.href = href; link.dataset.cartDrawer = '1';
-      document.head.appendChild(link);
+    // Try to resolve CSS path from the script src
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
+    var href = '/assets/css/cart-drawer.css';
+    if (script){
+      try{
+        var url = new URL(script.src, window.location.origin);
+        // replace /js/cart-drawer.js -> /css/cart-drawer.css
+        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
+      }catch(_){}
     }
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.dataset.cartDrawer = '1';
+    document.head.appendChild(link);
   }
 
   function buildRoot(){
@@ -209,7 +218,7 @@
       injectCssOnce();
       buildRoot();
       // Listen for add-to-cart events
-      document.addEventListener('product:addToCart', (e)=>open(e.target));
+      document.addEventListener('product:addToCart', (e)=>open(e && e.target));
     },
     open: ()=>open(),
     close
