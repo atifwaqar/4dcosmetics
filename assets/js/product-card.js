@@ -174,11 +174,10 @@
         });
       }
     }catch(err){ console.warn('cart error', err); }
-    
-    try{ document.dispatchEvent(new CustomEvent('product:addToCart',{ detail:{ id: id, qty: qty } })); }catch(_){}
+    showAddedToast(item.title);
   });
 
-  function // showAddedToast(name){
+  function showAddedToast(name){
     const toast = document.createElement('div');
     toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
     toast.style.zIndex = '1055';

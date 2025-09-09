@@ -42,7 +42,7 @@ export const Analytics = {
 };
 
 // toast helper
-export function // showAddedToast(name) {
+export function showAddedToast(name) {
   const toast = document.createElement('div');
   toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
   toast.style.zIndex = '1055';
@@ -116,7 +116,7 @@ export function buildProductCard(prod) {
     const btn = wrap.querySelector('.item_add');
     btn.addEventListener('click', () => {
       Analytics.addToCart(prod, 1);
-      
+      showAddedToast(prod.name);
     });
   }
   wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
@@ -160,8 +160,7 @@ buildProductCard = function(prod){
       }
     }catch(e){ console.warn('cart error', e); }
     Analytics.addToCart(prod, 1);
-    
-    try{ document.dispatchEvent(new CustomEvent('product:addToCart',{ detail:{ id: prod.id || prod.slug, qty: 1 } })); }catch(_){}
+    showAddedToast(prod.name);
   });
   return el;
 };
