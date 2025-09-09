@@ -226,4 +226,14 @@
 
   // Auto-init after DOM ready
   document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); });
+
+// Make toasts a no-op (replace visual toast with drawer open)
+try{ if(typeof window.showAddedToast === 'function'){ window.showAddedToast = function(){}; } }catch(_){}
+
+// Also open drawer after any simpleCart add, as a safety net
+try{
+  if (typeof simpleCart !== 'undefined' && simpleCart.bind){
+    simpleCart.bind('afterAdd', function(){ try{ window.CartDrawer.open(); }catch(_){ } });
+  }
+}catch(_){}
 })();
