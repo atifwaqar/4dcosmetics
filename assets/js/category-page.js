@@ -284,11 +284,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('open-filters').focus();
     });
 
+    function getPrice(p){ return p.price?.current ?? p.price ?? 0; }
     function sortProducts(arr) {
       const a = [...arr];
       switch(state.sort){
-        case 'price_asc': return a.sort((x,y)=>x.price - y.price);
-        case 'price_desc': return a.sort((x,y)=>y.price - x.price);
+        case 'price_asc': return a.sort((x,y)=>getPrice(x) - getPrice(y));
+        case 'price_desc': return a.sort((x,y)=>getPrice(y) - getPrice(x));
         case 'name_asc': return a.sort((x,y)=>x.name.localeCompare(y.name));
         case 'newest': return a.sort((x,y)=>{
           const dx = x.createdAt ? Date.parse(x.createdAt) : x.id;
@@ -304,8 +305,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       return arr.filter(p => {
         if (state.brand.length && (!p.brand || !state.brand.includes(p.brand))) return false;
         if (state.inStock && !p.inStock) return false;
-        if (state.priceMin !== null && p.price < state.priceMin) return false;
-        if (state.priceMax !== null && p.price > state.priceMax) return false;
+        const priceVal = getPrice(p);
+        if (state.priceMin !== null && priceVal < state.priceMin) return false;
+        if (state.priceMax !== null && priceVal > state.priceMax) return false;
         if (state.tags.length) {
           const ptags = p.tags || [];
           if (!state.tags.some(t => ptags.includes(t))) return false;

@@ -128,7 +128,9 @@
       },
       price: {
         current: Number(raw.price?.current ?? raw.price ?? raw.salePrice ?? 0) || 0,
-        old: raw.price?.old ?? raw.compareAt ?? raw.mrp ?? null,
+        old: (raw.price?.old ?? raw.compareAt ?? raw.mrp) != null
+          ? Number(raw.price?.old ?? raw.compareAt ?? raw.mrp)
+          : null,
         currency: raw.price?.currency || raw.currency || 'PKR'
       }
     };

@@ -38,8 +38,13 @@ products.forEach((prod, idx) => {
   if (!slugPattern.test(prod.slug)) errors.push(`products[${idx}] slug not kebab-case`);
   if (productSlugs.has(prod.slug)) errors.push(`duplicate product slug '${prod.slug}'`);
   productSlugs.add(prod.slug);
-  if (typeof prod.price !== 'number') errors.push(`product '${prod.slug}' price not numeric`);
-  if (!/^[A-Z]{3}$/.test(prod.currency)) errors.push(`product '${prod.slug}' currency invalid`);
+  if (typeof prod.price !== 'object') {
+    errors.push(`product '${prod.slug}' price not object`);
+  } else {
+    if (typeof prod.price.current !== 'number') errors.push(`product '${prod.slug}' price.current not numeric`);
+    if (prod.price.old != null && typeof prod.price.old !== 'number') errors.push(`product '${prod.slug}' price.old not numeric`);
+    if (!/^[A-Z]{3}$/.test(prod.price.currency)) errors.push(`product '${prod.slug}' currency invalid`);
+  }
   if (prod.brand && typeof prod.brand !== 'string') errors.push(`product '${prod.slug}' brand must be string`);
   if (prod.sku && typeof prod.sku !== 'string') errors.push(`product '${prod.slug}' sku must be string`);
   if (prod.tags && !Array.isArray(prod.tags)) {
