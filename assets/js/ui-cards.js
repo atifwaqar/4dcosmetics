@@ -161,6 +161,7 @@ buildProductCard = function(prod){
     }catch(e){ console.warn('cart error', e); }
     Analytics.addToCart(prod, 1);
     showAddedToast(prod.name);
+    try{ document.dispatchEvent(new CustomEvent('product:addToCart',{ detail:{ id: prod.id || prod.slug, qty: 1 } })); }catch(_){}
   });
   return el;
 };

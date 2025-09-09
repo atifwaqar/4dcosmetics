@@ -175,6 +175,7 @@
       }
     }catch(err){ console.warn('cart error', err); }
     showAddedToast(item.title);
+    try{ document.dispatchEvent(new CustomEvent('product:addToCart',{ detail:{ id: id, qty: qty } })); }catch(_){}
   });
 
   function showAddedToast(name){
