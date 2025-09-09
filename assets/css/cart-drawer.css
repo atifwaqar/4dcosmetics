@@ -28,3 +28,10 @@
 .cart-drawer-backdrop{pointer-events:none;}
 .cart-drawer-root.open .cart-drawer-backdrop{pointer-events:auto;}
 .cart-drawer-root:not(.open) .cart-drawer-panel{pointer-events:none;}
+
+/* Drawer footer layout: prevent overlap */
+.cart-drawer-footer .row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.cart-drawer-footer #summary-subtotal{margin-left:auto;white-space:nowrap;}
+
+/* Hide legacy toast if any slips through */
+.toast-notice{display:none !important;}
