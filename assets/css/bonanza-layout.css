@@ -27,6 +27,7 @@
 .pc__price{ font-weight:800; }
 .pc__price .price--new{ font-weight:800; }
 .pc__price .price--old{ font-size:13px; opacity:.75; text-decoration:line-through; }
+.pc__cta{ display:none; }
 .pc__badges{ top:12px; left:12px; }
 .pc-badge{ border-radius:2px; text-transform:uppercase; font-size:10px; padding:3px 6px; }
 .pc-badge--best{ background:#b30000; }
