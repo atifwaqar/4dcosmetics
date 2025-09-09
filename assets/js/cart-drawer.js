@@ -1,0 +1,220 @@
+/*! Cart Drawer - minimal, no cart logic fork. */
+(function(){
+  if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
+
+  // Utilities
+  const $ = (sel, ctx=document)=>ctx.querySelector(sel);
+  const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
+
+  // Cart API bridge (can be overridden via init)
+  const defaultApi = {
+    getCartState(){
+      try{
+        if (typeof simpleCart !== 'undefined'){
+          const items = simpleCart.items() || [];
+          return {
+            items: items.map(it=>({
+              id: it.id(),
+              title: it.get('name'),
+              qty: it.quantity(),
+              price: Number(it.get('price')||0),
+              image: it.get('image') || '',
+              variantTitle: it.get('variant') || ''
+            }))
+          };
+        }
+      }catch(_){}
+      return { items: [] };
+    },
+    updateQty(id, qty){
+      try{ if(typeof simpleCart!=='undefined'){ simpleCart.find(id).set('quantity', qty); simpleCart.update(); } }catch(_){}
+    },
+    removeLineItem(id){
+      try{ if(typeof simpleCart!=='undefined'){ simpleCart.find(id).remove(); simpleCart.update(); } }catch(_){}
+    }
+  };
+
+  const state = {
+    api: defaultApi,
+    opts: { viewCartUrl:'/cart.html', checkoutUrl:'/cart.html' },
+    root: null,
+    lastTrigger: null,
+    autoCloseTimer: null
+  };
+
+  function injectCssOnce(){
+    // assume cart-drawer.css is linked globally; if not, inject
+    const href = '/assets/css/cart-drawer.css';
+    if (![...document.styleSheets].some(s=>s.href && s.href.endsWith('cart-drawer.css'))){
+      const link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = href; link.dataset.cartDrawer = '1';
+      document.head.appendChild(link);
+    }
+  }
+
+  function buildRoot(){
+    if (state.root) return state.root;
+    const root = document.createElement('div');
+    root.className = 'cart-drawer-root';
+    root.setAttribute('aria-hidden','true');
+    root.innerHTML = `
+      <div class="cart-drawer-backdrop" data-close tabindex="-1"></div>
+      <div class="cart-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+        <header class="cart-drawer-header">
+          <h2 id="cart-drawer-title" class="cart-drawer-title">Your cart</h2>
+          <button type="button" class="btn btn-link" data-close aria-label="Close cart">✕</button>
+        </header>
+        <div class="cart-drawer-body">
+          <div id="cart-lines-drawer"></div>
+          <div class="cart-drawer-empty" hidden>Your cart is empty.</div>
+        </div>
+        <footer class="cart-drawer-footer">
+          <div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
+          <div class="cart-drawer-actions">
+            <a class="btn btn-outline-secondary" href="${state.opts.viewCartUrl}">View cart</a>
+            <a class="btn btn-primary" href="${state.opts.checkoutUrl}">Checkout</a>
+          </div>
+        </footer>
+      </div>
+      <div class="visually-hidden" aria-live="polite" id="cart-drawer-live"></div>
+    `;
+    document.body.appendChild(root);
+    state.root = root;
+
+    // Do not create duplicate summary ids on /cart page; hide footer subtotals there
+    if (location.pathname.includes('/cart')){
+      const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
+    }
+
+    // Delegated controls for qty/remove (use same selectors as cart page)
+    root.addEventListener('click', (e)=>{
+      const dec = e.target.closest('[data-dec]'); if(dec){ e.preventDefault(); changeQty(dec.dataset.dec, -1); }
+      const inc = e.target.closest('[data-inc]'); if(inc){ e.preventDefault(); changeQty(inc.dataset.inc, +1); }
+      const del = e.target.closest('[data-del]'); if(del){ e.preventDefault(); state.api.removeLineItem(del.dataset.del); render(); }
+      const cls = e.target.closest('[data-close]'); if(cls){ CartDrawer.close(); }
+    });
+    root.addEventListener('change', (e)=>{
+      const qty = e.target.closest('input[type="number"][data-qty]');
+      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
+    });
+
+    // Basic focus trap
+    root.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') { e.preventDefault(); CartDrawer.close(); }
+      if(e.key === 'Tab' && root.classList.contains('open')){
+        const focusables = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', root.querySelector('.cart-drawer-panel'))
+          .filter(el=>!el.hasAttribute('disabled') && el.offsetParent !== null);
+        if (!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    });
+    return root;
+  }
+
+  function changeQty(id, delta){
+    try{
+      const items = state.api.getCartState().items;
+      const found = items.find(i=>String(i.id)===String(id));
+      const next = Math.max(1, (found?.qty||1) + delta);
+      state.api.updateQty(id, next);
+      render();
+    }catch(_){}
+  }
+
+  function cloneCartLine(it){
+    // IMPORTANT: Keep structure identical to cart-ui.js
+    const total = (Number(it.price)||0) * (Number(it.qty)||0);
+    const html = `
+      <div class="cart-line">
+        <div class="cart-line__img">${it.image ? `<img src="${it.image}" alt="">` : ''}</div>
+        <div>
+          <p class="cart-line__title">${it.title||''}</p>
+          <p class="cart-line__meta">${it.variantTitle||''}</p>
+          <div class="cart-line__qty">
+            <button class="btn btn-outline-secondary" data-dec="${it.id}">−</button>
+            <input type="number" min="1" value="${it.qty}" data-qty="${it.id}">
+            <button class="btn btn-outline-secondary" data-inc="${it.id}">+</button>
+            <button class="btn btn-link text-danger" data-del="${it.id}">Remove</button>
+          </div>
+        </div>
+        <div class="cart-line__total">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</div>
+      </div>`;
+    const t = document.createElement('template'); t.innerHTML = html.trim();
+    return t.content.firstElementChild;
+  }
+
+  function render(){
+    const root = buildRoot();
+    const list = $('#cart-lines-drawer', root);
+    const empty = $('.cart-drawer-empty', root);
+    const { items } = state.api.getCartState();
+    if (!items.length){
+      list.innerHTML = '';
+      empty.hidden = false;
+    }else{
+      empty.hidden = true;
+      list.innerHTML = items.map(it=>cloneCartLine(it).outerHTML).join('');
+    }
+    // Let existing cart-ui.js update summary numbers if present
+    if (typeof simpleCart !== 'undefined'){ try{ simpleCart.update(); }catch(_){ } }
+  }
+
+  function open(trigger){
+    injectCssOnce();
+    buildRoot();
+    state.lastTrigger = trigger || document.activeElement;
+    state.root.classList.add('open');
+    state.root.removeAttribute('aria-hidden');
+    render();
+    const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
+    // Focus first interactive element
+    const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
+    if(first) first.focus();
+    // Auto close on desktop after ~7s (cancel on interaction)
+    clearTimeout(state.autoCloseTimer);
+    if (window.matchMedia('(min-width: 769px)').matches){
+      state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
+      state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
+      state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
+    }
+    // Optional: bump cart badge
+    try{
+      const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
+      if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
+    }catch(_){}
+  }
+  function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
+  function close(){
+    if (!state.root) return;
+    state.root.classList.remove('open');
+    state.root.setAttribute('aria-hidden','true');
+    if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
+  }
+
+  // Global
+  window.CartDrawer = {
+    init(opts={}){
+      // Skip on cart page to avoid duplicate summary IDs
+      if (location.pathname.includes('/cart')) return;
+      state.opts = Object.assign(state.opts, opts);
+      if (opts.getCartState || opts.updateQty || opts.removeLineItem){
+        state.api = Object.assign({}, defaultApi, {
+          getCartState: opts.getCartState || defaultApi.getCartState,
+          updateQty: opts.updateQty || defaultApi.updateQty,
+          removeLineItem: opts.removeLineItem || defaultApi.removeLineItem
+        });
+      }
+      injectCssOnce();
+      buildRoot();
+      // Listen for add-to-cart events
+      document.addEventListener('product:addToCart', (e)=>open(e.target));
+    },
+    open: ()=>open(),
+    close
+  };
+
+  // Auto-init after DOM ready
+  document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); });
+})();
