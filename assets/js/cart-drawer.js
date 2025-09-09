@@ -144,6 +144,12 @@
     document.body.appendChild(root);
     state.root = root;
 
+    // Prevent clicks inside panel from bubbling to root/backdrop
+    const _panel = root.querySelector('.cart-drawer-panel');
+    function panelClickStopper(e){ e.stopPropagation(); }
+    _panel && _panel.addEventListener('click', panelClickStopper);
+
+
     // Do not create duplicate summary ids on /cart page; hide footer subtotals there
     if (location.pathname.includes('/cart')){
       const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
@@ -154,7 +160,7 @@
       // Force navigation for footer links (some global handlers might block default)
       const go = e.target.closest('.cart-drawer-footer a[href]');
       if (go){
-        e.preventDefault();
+        e.preventDefault(); e.stopPropagation();
         const href = go.getAttribute('href') || '/cart.html';
         try{ window.location.assign(href); }catch(_){ window.location.href = href; }
         return;

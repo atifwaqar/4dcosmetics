@@ -35,3 +35,7 @@
 
 /* Hide legacy toast if any slips through */
 .toast-notice{display:none !important;}
+
+/* Ensure panel is always above the backdrop */
+.cart-drawer-backdrop{z-index:1;}
+.cart-drawer-panel{z-index:2;}
