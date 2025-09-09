@@ -295,6 +295,9 @@
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
+    const sb = window.innerWidth - document.documentElement.clientWidth;
+    document.body.classList.add('drawer-open');
+    if(sb > 0) document.body.style.paddingRight = sb + 'px';
     render();
     const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
     // Focus first interactive element
@@ -318,6 +321,8 @@
     if (!state.root) return;
     state.root.classList.remove('open');
     state.root.setAttribute('aria-hidden','true');
+    document.body.classList.remove('drawer-open');
+    document.body.style.paddingRight = '';
     if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
   }
 
