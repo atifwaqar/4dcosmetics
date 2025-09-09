@@ -90,7 +90,7 @@
 
   const state = {
     api: defaultApi,
-    opts: { viewCartUrl:'/cart.html', checkoutUrl:'/cart.html' },
+    opts: { checkoutUrl:'/cart.html' },
     root: null,
     lastTrigger: null,
     autoCloseTimer: null
@@ -134,7 +134,6 @@
         <footer class="cart-drawer-footer">
           <div class="row"><span>Subtotal</span><span id="summary-subtotal">—</span></div>
           <div class="cart-drawer-actions">
-            <a class="btn btn-outline-secondary" href="${state.opts.viewCartUrl}">View cart</a>
             <a class="btn btn-primary" href="${state.opts.checkoutUrl}">Checkout</a>
           </div>
         </footer>
