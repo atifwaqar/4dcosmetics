@@ -39,3 +39,9 @@
 /* Ensure panel is always above the backdrop */
 .cart-drawer-backdrop{z-index:1;}
 .cart-drawer-panel{z-index:2;}
+
+/* Ensure drawer overlays everything and remains interactive */
+.cart-drawer-root{z-index:2147483647;}
+.cart-drawer-panel{pointer-events:auto; overflow:hidden;}
+.cart-drawer-body{overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;}
+.cart-drawer-actions .btn{pointer-events:auto;}

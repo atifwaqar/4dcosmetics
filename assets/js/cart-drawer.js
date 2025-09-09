@@ -157,6 +157,8 @@
 
     // Delegated controls for qty/remove (use same selectors as cart page)
     root.addEventListener('click', (e)=>{
+      // captureNavHandler (bubble)
+      
       // Force navigation for footer links (some global handlers might block default)
       const go = e.target.closest('.cart-drawer-footer a[href]');
       if (go){
