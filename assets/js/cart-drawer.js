@@ -238,7 +238,7 @@
     const html = `
       <div class="cart-line">
         <div class="cart-line__img">${it.image ? `<img src="${it.image}" alt="">` : ''}</div>
-        <div>
+        <div class="cart-line__info">
           <p class="cart-line__title">${it.title||''}</p>
           <p class="cart-line__meta">${it.variantTitle||''}</p>
           <div class="cart-line__qty">

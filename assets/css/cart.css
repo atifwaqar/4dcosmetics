@@ -229,6 +229,9 @@ main.container{width:100%;max-width:1120px;margin:0 auto;padding:0 var(--space-4
 .cart-line .remove-link{ display:block; font-size:13px; color:var(--danger); margin-top:4px; }
 .cart-line .price{ font-weight:600; text-align:right; }
 
+/* Prevent middle column from stretching the drawer */
+.cart-line__info{ min-width:0; }
+
 /* Summary card readability */
 .summary-card .row{ margin:10px 0; }
 .summary-card .row span:last-child{ font-weight:600; }
