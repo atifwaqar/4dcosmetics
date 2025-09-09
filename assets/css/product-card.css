@@ -30,7 +30,7 @@
 
 /* Body */
 .pc__body{ padding:10px; display:flex; flex-direction:column; gap:6px; }
-.pc__title{ margin:0 0 6px; font-size:14px; line-height:1.35; }
+.pc__title{ margin:0 0 6px; font-size:14px; line-height:1.35; min-height:calc(1.35em * 2); }
 .pc__rating{ display:flex; align-items:center; gap:6px; color: var(--muted); font-size:12px; }
 .pc__rating-num{ font-variant-numeric: tabular-nums; }
 .pc__price{ display:flex; align-items:baseline; gap:8px; font-weight:800; }
@@ -138,6 +138,7 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 1.35;
+  min-height: calc(1.35em * 2);
   color: var(--text);
   text-transform: none;
 }
