@@ -131,10 +131,13 @@
           <div id="cart-lines-drawer"></div>
           <div class="cart-drawer-empty" hidden>Your cart is empty.</div>
         </div>
-        <footer class="cart-drawer-footer">
-          <div class="row"><span>Subtotal (<span id="summary-count">0 items</span>)</span><span id="summary-subtotal">—</span></div>
+        <footer class="cart-drawer-footer p-4 border-t bg-gray-50 space-y-3">
+          <div class="flex justify-between">
+            <span class="text-gray-900 text-sm md:text-base font-medium">Subtotal · <span id="summary-count" class="text-gray-500 font-normal">0 items</span></span>
+            <span id="summary-subtotal" class="text-gray-900 font-semibold text-2xl md:text-3xl whitespace-nowrap">—</span>
+          </div>
           <div class="cart-drawer-actions">
-            <a class="btn btn-primary" href="${state.opts.checkoutUrl}">Checkout</a>
+            <a class="w-full rounded-xl h-12 text-base font-semibold bg-[#1E88E5] text-white hover:brightness-95" href="${state.opts.checkoutUrl}">Checkout</a>
           </div>
         </footer>
       </div>
