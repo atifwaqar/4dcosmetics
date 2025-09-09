@@ -1,9 +1,7 @@
 import { buildProductCard, Analytics } from './ui-cards.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const heroPrimary = document.getElementById('hero-primary-cta');
   const heroSecondary = document.getElementById('hero-secondary-cta');
-  heroPrimary?.addEventListener('click', () => Analytics.heroClick('primary'));
   heroSecondary?.addEventListener('click', () => Analytics.heroClick('secondary'));
 
   const newsletterForm = document.getElementById('newsletter-form');
