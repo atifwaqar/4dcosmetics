@@ -143,11 +143,28 @@
     document.body.appendChild(root);
     state.root = root;
 
-    // Prevent clicks inside panel from bubbling to root/backdrop
+    // Panel interactions (qty +/-/remove and footer links)
     const _panel = root.querySelector('.cart-drawer-panel');
-    function panelClickStopper(e){ e.stopPropagation(); }
-    _panel && _panel.addEventListener('click', panelClickStopper);
-
+    if (_panel){
+      _panel.addEventListener('click', (e)=>{
+        const go = e.target.closest('.cart-drawer-footer a[href]');
+        if (go){
+          e.preventDefault(); e.stopPropagation();
+          const href = go.getAttribute('href') || '/cart.html';
+          try{ window.location.assign(href); }catch(_){ window.location.href = href; }
+          return;
+        }
+        const dec = e.target.closest('[data-dec]');
+        if(dec){ e.preventDefault(); e.stopPropagation(); changeQty(dec.dataset.dec, -1); return; }
+        const inc = e.target.closest('[data-inc]');
+        if(inc){ e.preventDefault(); e.stopPropagation(); changeQty(inc.dataset.inc, +1); return; }
+        const del = e.target.closest('[data-del]');
+        if(del){ e.preventDefault(); e.stopPropagation(); state.api.removeLineItem(del.dataset.del); render(); return; }
+        const cls = e.target.closest('[data-close]');
+        if(cls){ e.preventDefault(); e.stopPropagation(); CartDrawer.close(); return; }
+        e.stopPropagation();
+      });
+    }
 
     // Do not create duplicate summary ids on /cart page; hide footer subtotals there
     if (location.pathname.includes('/cart')){
@@ -155,24 +172,12 @@
       const cnt = root.querySelector('#summary-count'); if(cnt){ cnt.removeAttribute('id'); }
     }
 
-    // Delegated controls for qty/remove (use same selectors as cart page)
+    // Close when clicking backdrop
     root.addEventListener('click', (e)=>{
-      // captureNavHandler (bubble)
-      
-      // Force navigation for footer links (some global handlers might block default)
-      const go = e.target.closest('.cart-drawer-footer a[href]');
-      if (go){
-        e.preventDefault(); e.stopPropagation();
-        const href = go.getAttribute('href') || '/cart.html';
-        try{ window.location.assign(href); }catch(_){ window.location.href = href; }
-        return;
-      }
-
-      const dec = e.target.closest('[data-dec]'); if(dec){ e.preventDefault(); changeQty(dec.dataset.dec, -1); }
-      const inc = e.target.closest('[data-inc]'); if(inc){ e.preventDefault(); changeQty(inc.dataset.inc, +1); }
-      const del = e.target.closest('[data-del]'); if(del){ e.preventDefault(); state.api.removeLineItem(del.dataset.del); render(); }
-      const cls = e.target.closest('[data-close]'); if(cls){ CartDrawer.close(); }
+      const cls = e.target.closest('[data-close]');
+      if(cls){ CartDrawer.close(); }
     });
+
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
       if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
