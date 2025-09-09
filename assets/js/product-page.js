@@ -1,5 +1,39 @@
-import { normalizePrice, showAddedToast, Analytics } from './ui-cards.js';
+import { normalizePrice, Analytics } from './ui-cards.js';
 import { applySEO } from './seo.js';
+import { CartDrawer } from './cart-drawer.js';
+
+if(!window.cartApi && typeof simpleCart !== 'undefined'){
+  window.cartApi = {
+    async getCartState(){
+      const items = simpleCart.items().map(it=>({
+        id: it.id(),
+        productId: it.id(),
+        title: it.get('name'),
+        qty: it.quantity(),
+        price: Number(it.get('price'))||0,
+        image: it.get('image')||''
+      }));
+      const subtotal = items.reduce((s,it)=>s+it.price*it.qty,0);
+      return { items, subtotal };
+    },
+    updateQty(id,qty){ try{ simpleCart.find(id).set('quantity',qty); return Promise.resolve(); }catch(e){return Promise.reject(e);} },
+    removeLineItem(id){ try{ simpleCart.find(id).remove(); return Promise.resolve(); }catch(e){return Promise.reject(e);} },
+    undoLastAdd:null
+  };
+}
+CartDrawer.init({
+  getCartState: window.cartApi?.getCartState,
+  updateQty: window.cartApi?.updateQty,
+  removeLineItem: window.cartApi?.removeLineItem,
+  undoLastAdd: window.cartApi?.undoLastAdd,
+  checkoutUrl: '/checkout',
+  viewCartUrl: '/cart'
+});
+const cdLink=document.createElement('link');cdLink.rel='stylesheet';cdLink.href='/assets/css/cart-drawer.css';document.head.appendChild(cdLink);
+const iconHook=document.querySelector('[data-cart-icon]')||document.querySelector('.bnz-icon');
+const badgeHook=document.querySelector('[data-cart-badge]')||document.querySelector('.simpleCart_quantity');
+if(iconHook && !iconHook.hasAttribute('data-cart-icon')) iconHook.setAttribute('data-cart-icon','');
+if(badgeHook && !badgeHook.hasAttribute('data-cart-badge')) badgeHook.setAttribute('data-cart-badge','');
 
 document.addEventListener('DOMContentLoaded', async () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
@@ -190,7 +224,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const item = currentVariant ? {...product, ...currentVariant} : product;
         Analytics.addToCart(item, qty);
         if (liveRegion) liveRegion.textContent = 'Added to cart';
-        showAddedToast(item.name);
+        const detail = { productId: item.id || item.slug, qty };
+        document.dispatchEvent(new CustomEvent('product:addToCart', { detail }));
       });
     }
     const mobileBtn = document.getElementById('mobile-atc-btn');
