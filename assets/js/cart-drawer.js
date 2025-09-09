@@ -34,6 +34,47 @@
     }
   };
 
+  
+  function injectCartCss(){
+    // Ensure cart.css (which styles .cart-line) is present on non-cart pages
+    const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
+    if (present) return;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    // Resolve relative to script src if possible
+    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
+    var href = '/assets/css/cart.css';
+    if (script){
+      try{
+        var url = new URL(script.src, window.location.origin);
+        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css');
+      }catch(_){}
+    }
+    link.href = href;
+    document.head.appendChild(link);
+  }
+  function ensureCartUi(onReady){
+    if (window.__CartUiLoaded || window.__CART_UI_READY){
+      onReady && onReady(); return;
+    }
+    // If the page already loaded cart-ui.js, bail
+    if (window.CartUIReady){ onReady && onReady(); return; }
+    // Dynamically load assets/js/cart-ui.js so subtotal/formatters run
+    var script = document.createElement('script');
+    var base = '/assets/js/cart-ui.js';
+    var me = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
+    if (me){
+      try{
+        var url = new URL(me.src, window.location.origin);
+        base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js');
+      }catch(_){}
+    }
+    script.src = base;
+    script.async = true;
+    script.onload = function(){ try{ window.__CART_UI_READY = true; if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } onReady && onReady(); };
+    document.head.appendChild(script);
+  }
+
   const state = {
     api: defaultApi,
     opts: { viewCartUrl:'/cart.html', checkoutUrl:'/cart.html' },
@@ -172,7 +213,9 @@
 
   function open(trigger){
     injectCssOnce();
+    injectCartCss();
     buildRoot();
+    ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -216,7 +259,9 @@
         });
       }
       injectCssOnce();
+      injectCartCss();
       buildRoot();
+      ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
       // Listen for add-to-cart events
       document.addEventListener('product:addToCart', (e)=>open(e && e.target));
     },
@@ -226,14 +271,4 @@
 
   // Auto-init after DOM ready
   document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); });
-
-// Make toasts a no-op (replace visual toast with drawer open)
-try{ if(typeof window.showAddedToast === 'function'){ window.showAddedToast = function(){}; } }catch(_){}
-
-// Also open drawer after any simpleCart add, as a safety net
-try{
-  if (typeof simpleCart !== 'undefined' && simpleCart.bind){
-    simpleCart.bind('afterAdd', function(){ try{ window.CartDrawer.open(); }catch(_){ } });
-  }
-}catch(_){}
 })();
