@@ -38,10 +38,11 @@ function buildProductItem(p, index) {
   li.setAttribute('data-type', 'product');
   li.setAttribute('data-id', p.id);
   li.setAttribute('data-url', p.url);
+  const priceNum = p.price?.current ?? p.price;
   li.innerHTML = `
     <img src="${p.image}" alt="" class="me-2" width="40" height="40" style="object-fit:cover;"/>
     <span class="flex-grow-1 text-truncate">${p.name}</span>
-    <span class="ms-2">${StorefrontRuntime.formatPrice(p.price)}</span>
+    <span class="ms-2">${StorefrontRuntime.formatPrice(priceNum)}</span>
   `;
   return li;
 }
@@ -56,7 +57,7 @@ async function searchAPI(q, limit = 6, signal) {
     name: p.name,
     url: `/p/${p.slug}`,
     image: Array.isArray(p.images) ? p.images[0] : '',
-    price: p.price,
+    price: p.price?.current ?? p.price,
     rating: p.rating || null,
     reviewsCount: p.reviewsCount || null,
     badges: StorefrontRuntime.getProductBadges(p).map(b => b.label)

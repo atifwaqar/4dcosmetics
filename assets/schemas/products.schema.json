@@ -3,7 +3,7 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "name", "slug", "images", "price", "currency", "categories", "shortDescription", "descriptionHTML", "inStock"],
+    "required": ["id", "name", "slug", "images", "price", "categories", "shortDescription", "descriptionHTML", "inStock"],
     "properties": {
       "id": {"type": "string"},
       "name": {"type": "string"},
@@ -12,8 +12,16 @@
         "type": "array",
         "items": {"type": "string"}
       },
-      "price": {"type": "number"},
-      "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+      "price": {
+        "type": "object",
+        "required": ["current", "currency"],
+        "properties": {
+          "current": {"type": "number"},
+          "old": {"type": ["number", "null"]},
+          "currency": {"type": "string", "pattern": "^[A-Z]{3}$"}
+        },
+        "additionalProperties": false
+      },
       "categories": {
         "type": "array",
         "items": {"type": "string"}

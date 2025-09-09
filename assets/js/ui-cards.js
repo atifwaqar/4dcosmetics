@@ -55,6 +55,7 @@ export function showAddedToast(name) {
 
 // Normalize price to a number. Returns null if invalid.
 export function normalizePrice(val) {
+  if (val && typeof val === 'object') val = val.current;
   const num = Number(val);
   return Number.isFinite(num) ? num : null;
 }
@@ -67,8 +68,8 @@ export function buildProductCard(prod) {
   }
   const img = (prod.images && prod.images[0]) || '/assets/img/products/fallback.png';
   const priceNum = normalizePrice(prod.price);
-  const compareNum = normalizePrice(prod.compareAtPrice);
-    const currency = prod.currency || 'PKR';
+  const compareNum = normalizePrice(prod.compareAtPrice ?? prod.price?.old);
+  const currency = (prod.price && prod.price.currency) || prod.currency || 'PKR';
 
   const wrap = document.createElement('div');
   wrap.className = 'product-card';
