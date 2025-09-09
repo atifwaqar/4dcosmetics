@@ -27,16 +27,21 @@
   if(ratingEl && window.ProductCard){ ratingEl.innerHTML = ProductCard.renderProductCard({ rating:{ value: product.rating?.value || product.rating || 0, count: product.rating?.count || product.reviews || 0 }, id:'__r', url:'#', title:'', image:'' }).match(/pc__rating-stars"[^>]*>(.*?)<\/span>/)?.[1] || ''; }
 
   // Price
-  const priceNew = moneyPKR(product.price?.current ?? product.price);
-  const priceOld = product.price?.old ?? product.compareAt ?? null;
+  const priceCurrent = Number(product.price?.current ?? product.price ?? 0);
+  const priceOldRaw = product.price?.old ?? product.compareAt ?? null;
+  const priceOld = priceOldRaw != null ? Number(priceOldRaw) : null;
   const priceBlock = document.querySelector('.pdp__price');
   if(priceBlock){
+    const priceNewFmt = moneyPKR(priceCurrent);
+    const priceOldFmt = priceOld != null ? moneyPKR(priceOld) : '';
+    const saleBadge = priceOld != null && priceOld > priceCurrent ? '<span class="pc-badge pc-badge--sale">Sale</span>' : '';
     priceBlock.innerHTML = `
-      <span class="price price--new">${priceNew}</span>
-      ${priceOld? `<span class="price price--old">${moneyPKR(priceOld)}</span>`:''}
+      <span class="price price--new">${priceNewFmt}</span>
+      ${priceOldFmt? `<span class="price price--old">${priceOldFmt}</span>`:''}
+      ${saleBadge}
     `;
     const mobilePrice = document.getElementById('mobile-atc-price');
-    if(mobilePrice) mobilePrice.textContent = priceNew;
+    if(mobilePrice) mobilePrice.textContent = priceNewFmt;
   }
 
   // ATC buttons

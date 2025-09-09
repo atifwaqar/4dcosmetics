@@ -27,11 +27,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   await StorefrontRuntime.loadCategories();
   let results = await SearchEngine.search(query);
 
+  function getPrice(p){ return p.price?.current ?? p.price ?? 0; }
   function sortProducts(arr){
     const a=[...arr];
     switch(sort){
-      case 'price_asc': return a.sort((x,y)=>x.price-y.price);
-      case 'price_desc': return a.sort((x,y)=>y.price-x.price);
+      case 'price_asc': return a.sort((x,y)=>getPrice(x)-getPrice(y));
+      case 'price_desc': return a.sort((x,y)=>getPrice(y)-getPrice(x));
       case 'name_asc': return a.sort((x,y)=>x.name.localeCompare(y.name));
       case 'newest': return a.sort((x,y)=>{
         const dx = x.createdAt ? Date.parse(x.createdAt) : x.id;
