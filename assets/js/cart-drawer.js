@@ -145,7 +145,10 @@
 
     // Prevent clicks inside panel from bubbling to root/backdrop
     const _panel = root.querySelector('.cart-drawer-panel');
-    function panelClickStopper(e){ e.stopPropagation(); }
+    function panelClickStopper(e){
+      if (e.target.closest('[data-close]')) return;
+      e.stopPropagation();
+    }
     _panel && _panel.addEventListener('click', panelClickStopper);
 
 
