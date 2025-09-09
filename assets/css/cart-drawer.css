@@ -24,3 +24,7 @@
 }
 
 /* Do not style .cart-line or its children here. */
+/* Fix: ensure page is clickable when drawer is closed */
+.cart-drawer-backdrop{pointer-events:none;}
+.cart-drawer-root.open .cart-drawer-backdrop{pointer-events:auto;}
+.cart-drawer-root:not(.open) .cart-drawer-panel{pointer-events:none;}
