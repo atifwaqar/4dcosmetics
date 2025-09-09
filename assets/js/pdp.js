@@ -43,7 +43,13 @@
   function addToCart(qty){
     try{
       if(typeof simpleCart !== 'undefined'){
-        simpleCart.add({ id: product.id || product.slug, name: product.name || product.title, price: product.price?.current ?? product.price, quantity: qty||1 });
+        simpleCart.add({
+          id: product.id || product.slug,
+          name: product.name || product.title,
+          price: product.price?.current ?? product.price,
+          image: (product.images && product.images[0]) || product.image || '',
+          quantity: qty||1
+        });
       }
     }catch(e){ console.warn('cart error', e); }
     document.dispatchEvent(new CustomEvent('product:addToCart', { detail:{ id: product.id || product.slug, qty: qty||1 }}));

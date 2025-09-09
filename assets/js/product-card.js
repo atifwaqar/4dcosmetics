@@ -167,6 +167,7 @@
           id: id,
           name: item.title,
           price: item.price.current,
+          image: item.image,
           quantity: qty
         });
       }
