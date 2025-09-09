@@ -4,42 +4,6 @@
   if(!product) return;
   const outOfStock = product.inStock === false;
 
-  if(!window.cartApi && typeof simpleCart !== 'undefined'){
-    window.cartApi = {
-      async getCartState(){
-        const items = simpleCart.items().map(it=>({
-          id: it.id(),
-          productId: it.id(),
-          title: it.get('name'),
-          qty: it.quantity(),
-          price: Number(it.get('price'))||0,
-          image: it.get('image')||''
-        }));
-        const subtotal = items.reduce((s,it)=>s+it.price*it.qty,0);
-        return { items, subtotal };
-      },
-      updateQty(id,qty){ try{ simpleCart.find(id).set('quantity',qty); return Promise.resolve(); }catch(e){return Promise.reject(e);} },
-      removeLineItem(id){ try{ simpleCart.find(id).remove(); return Promise.resolve(); }catch(e){return Promise.reject(e);} },
-      undoLastAdd:null
-    };
-  }
-  import('/assets/js/cart-drawer.js').then(({ CartDrawer }) => {
-    CartDrawer.init({
-      getCartState: window.cartApi?.getCartState,
-      updateQty: window.cartApi?.updateQty,
-      removeLineItem: window.cartApi?.removeLineItem,
-      undoLastAdd: window.cartApi?.undoLastAdd,
-      checkoutUrl:'/checkout',
-      viewCartUrl:'/cart'
-    });
-  });
-  const link=document.createElement('link'); link.rel='stylesheet'; link.href='/assets/css/cart-drawer.css'; document.head.appendChild(link);
-
-  const iconHook = document.querySelector('[data-cart-icon]') || document.querySelector('.bnz-icon');
-  const badgeHook = document.querySelector('[data-cart-badge]') || document.querySelector('.simpleCart_quantity');
-  if(iconHook && !iconHook.hasAttribute('data-cart-icon')) iconHook.setAttribute('data-cart-icon','');
-  if(badgeHook && !badgeHook.hasAttribute('data-cart-badge')) badgeHook.setAttribute('data-cart-badge','');
-
   // Populate gallery
   const mainBox = document.querySelector('.pdp__main');
   const thumbs  = document.querySelector('.pdp__thumbs');
@@ -93,8 +57,8 @@
         });
       }
     }catch(e){ console.warn('cart error', e); }
-    const detail = { productId: product.id || product.slug, qty: qty||1 };
-    document.dispatchEvent(new CustomEvent('product:addToCart', { detail }));
+    document.dispatchEvent(new CustomEvent('product:addToCart', { detail:{ id: product.id || product.slug, qty: qty||1 }}));
+    if(typeof showAddedToast === 'function') showAddedToast(product.name || product.title);
   }
   const atcButtons = document.querySelectorAll('[data-atc]');
   if(outOfStock){
