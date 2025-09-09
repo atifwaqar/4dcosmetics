@@ -153,6 +153,7 @@ buildProductCard = function(prod){
           id: prod.id || prod.slug,
           name: prod.name,
           price: priceNum,
+          image: (prod.images && prod.images[0]) || prod.image || '',
           quantity: 1
         });
       }
