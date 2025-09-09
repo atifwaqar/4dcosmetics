@@ -47,6 +47,7 @@
       }
     }catch(e){ console.warn('cart error', e); }
     document.dispatchEvent(new CustomEvent('product:addToCart', { detail:{ id: product.id || product.slug, qty: qty||1 }}));
+    if(typeof showAddedToast === 'function') showAddedToast(product.name || product.title);
   }
   const atcButtons = document.querySelectorAll('[data-atc]');
   if(outOfStock){
