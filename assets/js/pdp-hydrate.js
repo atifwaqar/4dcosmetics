@@ -164,6 +164,7 @@
           }
         }catch(e){ console.warn('cart error', e); }
         document.dispatchEvent(new CustomEvent('product:addToCart',{detail:{id:p.id||p.slug,qty:1}}));
+        if(typeof showAddedToast === 'function') showAddedToast(p.name);
       });
     });
   }
