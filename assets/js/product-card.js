@@ -3,55 +3,6 @@
   const WISHLIST_KEY = 'wishlist_ids_v1';
   const ITEM_CACHE = {};
 
-  // expose simpleCart based cart API for CartDrawer
-  if(!global.cartApi && typeof simpleCart !== 'undefined'){
-    global.cartApi = {
-      async getCartState(){
-        const items = simpleCart.items().map(it => ({
-          id: it.id(),
-          productId: it.id(),
-          title: it.get('name'),
-          qty: it.quantity(),
-          price: Number(it.get('price'))||0,
-          image: it.get('image') || ''
-        }));
-        const subtotal = items.reduce((s,it)=>s + it.price*it.qty,0);
-        return { items, subtotal };
-      },
-      updateQty(id, qty){
-        try{ simpleCart.find(id).set('quantity', qty); return Promise.resolve(); }
-        catch(e){ return Promise.reject(e); }
-      },
-      removeLineItem(id){
-        try{ simpleCart.find(id).remove(); return Promise.resolve(); }
-        catch(e){ return Promise.reject(e); }
-      },
-      undoLastAdd: null
-    };
-  }
-
-  // load cart drawer module once
-  import('/assets/js/cart-drawer.js').then(({ CartDrawer }) => {
-    CartDrawer.init({
-      getCartState: global.cartApi?.getCartState,
-      updateQty: global.cartApi?.updateQty,
-      removeLineItem: global.cartApi?.removeLineItem,
-      undoLastAdd: global.cartApi?.undoLastAdd,
-      checkoutUrl: '/checkout',
-      viewCartUrl: '/cart'
-    });
-  });
-  const link=document.createElement('link');
-  link.rel='stylesheet';
-  link.href='/assets/css/cart-drawer.css';
-  document.head.appendChild(link);
-
-  // ensure cart icon hooks
-  const iconHook = document.querySelector('[data-cart-icon]') || document.querySelector('.bnz-icon');
-  const badgeHook = document.querySelector('[data-cart-badge]') || document.querySelector('.simpleCart_quantity');
-  if(iconHook && !iconHook.hasAttribute('data-cart-icon')) iconHook.setAttribute('data-cart-icon','');
-  if(badgeHook && !badgeHook.hasAttribute('data-cart-badge')) badgeHook.setAttribute('data-cart-badge','');
-
   function loadWishlist(){
     try{ return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }catch{ return []; }
   }
@@ -202,25 +153,42 @@
     if(atc){
       e.preventDefault(); e.stopPropagation();
       const id = atc.getAttribute('data-id');
-      const item = ITEM_CACHE[id];
-      if(!item) return;
-      try{
-        if(typeof simpleCart !== 'undefined'){
-          simpleCart.add({
-            id: id,
-            name: item.title,
-            price: item.price.current,
-            image: item.image,
-            quantity: 1
-          });
-        }
-      }catch(err){ console.warn('cart error', err); }
-      if(window.Analytics) window.Analytics.addToCart(item,1);
-      const detail = { productId: id, qty: 1 };
-      document.dispatchEvent(new CustomEvent('product:addToCart', { detail }));
+      const evt = new CustomEvent('product:addToCart', { detail: { id }, bubbles:true });
+      atc.dispatchEvent(evt);
     }
   });
 
+  document.addEventListener('product:addToCart', (e)=>{
+    const id = e.detail && e.detail.id;
+    const qty = (e.detail && e.detail.qty) || 1;
+    const item = ITEM_CACHE[id];
+    if(!item) return;
+    try{
+      if(typeof simpleCart !== 'undefined'){
+        simpleCart.add({
+          id: id,
+          name: item.title,
+          price: item.price.current,
+          image: item.image,
+          quantity: qty
+        });
+      }
+    }catch(err){ console.warn('cart error', err); }
+    showAddedToast(item.title);
+  });
+
+  function showAddedToast(name){
+    const toast = document.createElement('div');
+    toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
+    toast.style.zIndex = '1055';
+    toast.innerHTML = `Added ${escapeHtml(name)} — <a href="/cart.html" class="text-white text-decoration-underline">View cart</a>`;
+    toast.setAttribute('role','status');
+    toast.setAttribute('aria-live','polite');
+    document.body.appendChild(toast);
+    setTimeout(()=>toast.remove(),3000);
+  }
+
   // expose
   global.ProductCard = { renderProductCard, formatPrice };
+  if(!global.showAddedToast) global.showAddedToast = showAddedToast;
 })(window);
