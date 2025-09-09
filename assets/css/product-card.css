@@ -158,7 +158,7 @@
 
 /* CTA area pinned to bottom if used */
 .pc__cta{ margin-top: auto; display:flex; gap:8px; }
-.pc__cta .btn-modern{ min-height:40px; width:100%; display:flex; align-items:center; justify-content:center; gap:6px; }
+.pc__cta .btn-modern{ min-height:40px; }
 
 
 .badge-warning{ background:var(--danger); color:var(--on-brand); }
