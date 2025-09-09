@@ -6,8 +6,11 @@
     "images": [
       "/assets/img/products/Rbory-Face-Primer-30ml.jpg"
     ],
-    "price": 2500,
-    "currency": "PKR",
+    "price": {
+      "current": 2500,
+      "currency": "PKR",
+      "old": 3000
+    },
     "categories": [
       "makeup",
       "primer"
@@ -28,8 +31,11 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0049.jpg"
     ],
-    "price": 2200,
-    "currency": "PKR",
+    "price": {
+      "current": 2200,
+      "currency": "PKR",
+      "old": 2640
+    },
     "categories": [
       "makeup",
       "primer"
@@ -50,8 +56,10 @@
     "images": [
       "/assets/img/products/art-skin-velvet-lipstick.jpg"
     ],
-    "price": 2000,
-    "currency": "PKR",
+    "price": {
+      "current": 2000,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "lipsticks"
@@ -73,8 +81,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0048.jpg"
     ],
-    "price": 1850,
-    "currency": "PKR",
+    "price": {
+      "current": 1850,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "foundation"
@@ -95,8 +105,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0051.jpg"
     ],
-    "price": 2200,
-    "currency": "PKR",
+    "price": {
+      "current": 2200,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "primer"
@@ -117,8 +129,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0052.jpg"
     ],
-    "price": 1800,
-    "currency": "PKR",
+    "price": {
+      "current": 1800,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup"
     ],
@@ -138,8 +152,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0054.jpg"
     ],
-    "price": 950,
-    "currency": "PKR",
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "foundation"
@@ -160,8 +176,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0053.jpg"
     ],
-    "price": 1750,
-    "currency": "PKR",
+    "price": {
+      "current": 1750,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup"
     ],
@@ -181,8 +199,10 @@
     "images": [
       "/assets/img/products/IMG-20250816-WA0050.jpg"
     ],
-    "price": 550,
-    "currency": "PKR",
+    "price": {
+      "current": 550,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "lipsticks"
@@ -203,8 +223,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0176.jpg"
     ],
-    "price": 220,
-    "currency": "PKR",
+    "price": {
+      "current": 220,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup"
     ],
@@ -221,12 +243,21 @@
     "id": "CON001",
     "name": "Roseberry Concealer",
     "slug": "roseberry-concealer",
-    "images": ["/assets/img/products/IMG-20250820-WA0178.jpg"],
-    "price": 850,
-    "currency": "PKR",
-    "categories": ["makeup", "contour-concealer"],
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0178.jpg"
+    ],
+    "price": {
+      "current": 850,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "contour-concealer"
+    ],
     "brand": "Roseberry",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Roseberry 12-Hours full coverage concealer, 3 colors available",
     "descriptionHTML": "<p>Roseberry 12-Hours full coverage concealer 3 colors available</p>",
     "inStock": true,
@@ -236,12 +267,21 @@
     "id": "CPD001",
     "name": "Sheglam Compact Powder",
     "slug": "sheglam-compact-powder",
-    "images": ["/assets/img/products/IMG-20250820-WA0211.jpg"],
-    "price": 1450,
-    "currency": "PKR",
-    "categories": ["makeup", "face-powder"],
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0211.jpg"
+    ],
+    "price": {
+      "current": 1450,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "face-powder"
+    ],
     "brand": "Sheglam",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.",
     "descriptionHTML": "<p>Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.</p>",
     "inStock": true,
@@ -251,12 +291,20 @@
     "id": "LIP004",
     "name": "RBORY Mate Lipgloss",
     "slug": "rbory-mate-lip-gloss",
-    "images": ["/assets/img/products/IMG-20250820-WA0177.jpg"],
-    "price": 599,
-    "currency": "PKR",
-    "categories": ["makeup"],
+    "images": [
+      "/assets/img/products/IMG-20250820-WA0177.jpg"
+    ],
+    "price": {
+      "current": 599,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup"
+    ],
     "brand": "RBORY",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "RBORY Mate Lip Gloss offers a luscious, matte finish with 16 vibrant colors.",
     "descriptionHTML": "<p>RBORY Mate Lip Gloss offers a luscious, matte finish with vibrant 16 colors available</p>",
     "inStock": true,
@@ -271,8 +319,10 @@
       "/assets/img/products/IMG-20250820-WA0183.jpg",
       "/assets/img/products/IMG-20250820-WA0187.jpg"
     ],
-    "price": 15500,
-    "currency": "PKR",
+    "price": {
+      "current": 15500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup"
     ],
@@ -295,11 +345,17 @@
       "/assets/img/products/IMG-20250820-WA0227.jpg",
       "/assets/img/products/IMG-20250820-WA0233.jpg"
     ],
-    "price": 550,
-    "currency": "PKR",
-    "categories": ["makeup"],
+    "price": {
+      "current": 550,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup"
+    ],
     "brand": "Rhode",
-    "tags": ["makeup"],
+    "tags": [
+      "makeup"
+    ],
     "shortDescription": "Rhode Lipgloss 8 different colors available",
     "descriptionHTML": "<p>Rhode Lipgloss 8 different colors available</p>",
     "inStock": true,
@@ -312,8 +368,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0204.jpg"
     ],
-    "price": 2350,
-    "currency": "PKR",
+    "price": {
+      "current": 2350,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
@@ -335,8 +393,10 @@
     "images": [
       "/assets/img/products/IMG-20250825-WA0015.jpg"
     ],
-    "price": 1799,
-    "currency": "PKR",
+    "price": {
+      "current": 1799,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -357,8 +417,10 @@
     "images": [
       "/assets/img/products/IMG-20250825-WA0014.jpg"
     ],
-    "price": 1699,
-    "currency": "PKR",
+    "price": {
+      "current": 1699,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -379,8 +441,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0202.jpg"
     ],
-    "price": 850,
-    "currency": "PKR",
+    "price": {
+      "current": 850,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -401,8 +465,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0218.jpg"
     ],
-    "price": 1250,
-    "currency": "PKR",
+    "price": {
+      "current": 1250,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "mascara"
@@ -423,8 +489,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0217.jpg"
     ],
-    "price": 950,
-    "currency": "PKR",
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup"
     ],
@@ -444,8 +512,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0223.jpg"
     ],
-    "price": 2500,
-    "currency": "PKR",
+    "price": {
+      "current": 2500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
@@ -467,8 +537,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0224.jpg"
     ],
-    "price": 2500,
-    "currency": "PKR",
+    "price": {
+      "current": 2500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
@@ -490,8 +562,10 @@
     "images": [
       "/assets/img/products/IMG-20250826-WA0071.jpg"
     ],
-    "price": 950,
-    "currency": "PKR",
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -513,8 +587,10 @@
       "/assets/img/products/IMG-20250820-WA0215.jpg",
       "/assets/img/products/IMG-20250820-WA0216.jpg"
     ],
-    "price": 1299,
-    "currency": "PKR",
+    "price": {
+      "current": 1299,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "highlighter"
@@ -536,8 +612,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0019.jpg"
     ],
-    "price": 1750,
-    "currency": "PKR",
+    "price": {
+      "current": 1750,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "foundation"
@@ -559,8 +637,10 @@
       "/assets/img/products/IMG-20250830-WA0018.jpg",
       "/assets/img/products/IMG-20250830-WA0017.jpg"
     ],
-    "price": 1099,
-    "currency": "PKR",
+    "price": {
+      "current": 1099,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "mascara"
@@ -581,8 +661,10 @@
     "images": [
       "/assets/img/products/IMG-20250902-WA0000.jpg"
     ],
-    "price": 2350,
-    "currency": "PKR",
+    "price": {
+      "current": 2350,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "foundation"
@@ -603,8 +685,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0014.jpg"
     ],
-    "price": 750,
-    "currency": "PKR",
+    "price": {
+      "current": 750,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "mascara"
@@ -625,8 +709,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0013.jpg"
     ],
-    "price": 550,
-    "currency": "PKR",
+    "price": {
+      "current": 550,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "eye-liner"
@@ -647,8 +733,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0009.jpg"
     ],
-    "price": 4700,
-    "currency": "PKR",
+    "price": {
+      "current": 4700,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "hair-care"
@@ -669,8 +757,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0010.jpg"
     ],
-    "price": 5100,
-    "currency": "PKR",
+    "price": {
+      "current": 5100,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "hair-care"
@@ -691,8 +781,10 @@
     "images": [
       "/assets/img/products/IMG-20250830-WA0011.jpg"
     ],
-    "price": 1050,
-    "currency": "PKR",
+    "price": {
+      "current": 1050,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -713,8 +805,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0222.jpg"
     ],
-    "price": 2500,
-    "currency": "PKR",
+    "price": {
+      "current": 2500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
@@ -736,8 +830,10 @@
     "images": [
       "/assets/img/products/IMG-20250820-WA0220.jpg"
     ],
-    "price": 2500,
-    "currency": "PKR",
+    "price": {
+      "current": 2500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
@@ -759,8 +855,10 @@
     "images": [
       "/assets/img/products/IMG-20250827-WA0034.jpg"
     ],
-    "price": 1250,
-    "currency": "PKR",
+    "price": {
+      "current": 1250,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -782,8 +880,10 @@
     "images": [
       "/assets/img/products/IMG-20250827-WA0033.jpg"
     ],
-    "price": 1250,
-    "currency": "PKR",
+    "price": {
+      "current": 1250,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care"
@@ -805,8 +905,10 @@
       "/assets/img/products/IMG-20250902-WA0002.jpg",
       "/assets/img/products/IMG-20250902-WA0001.jpg"
     ],
-    "price": 6500,
-    "currency": "PKR",
+    "price": {
+      "current": 6500,
+      "currency": "PKR"
+    },
     "categories": [
       "makeup",
       "skin-care",
