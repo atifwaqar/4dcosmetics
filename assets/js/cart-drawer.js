@@ -124,7 +124,7 @@
       <div class="cart-drawer-backdrop" data-close tabindex="-1"></div>
       <div class="cart-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
         <header class="cart-drawer-header">
-          <h2 id="cart-drawer-title" class="cart-drawer-title font-semibold text-xl md:text-2xl tracking-tight text-gray-900">Your cart</h2>
+          <h2 id="cart-drawer-title" class="cart-drawer-title">Your cart</h2>
           <button type="button" class="btn btn-link" data-close aria-label="Close cart">✕</button>
         </header>
         <div class="cart-drawer-body">
@@ -132,10 +132,7 @@
           <div class="cart-drawer-empty" hidden>Your cart is empty.</div>
         </div>
         <footer class="cart-drawer-footer">
-          <div class="row text-sm md:text-base font-medium">
-            <span class="text-gray-900">Subtotal <span class="text-gray-600">· <span id="summary-count">0 items</span></span></span>
-            <span id="summary-subtotal" class="text-gray-900 font-semibold text-2xl md:text-3xl">—</span>
-          </div>
+          <div class="row"><span>Subtotal (<span id="summary-count">0 items</span>)</span><span id="summary-subtotal">—</span></div>
           <div class="cart-drawer-actions">
             <a class="btn btn-primary" href="${state.opts.checkoutUrl}">Checkout</a>
           </div>
@@ -246,16 +243,16 @@
       <div class="cart-line">
         <div class="cart-line__img">${it.image ? `<img src="${it.image}" alt="">` : ''}</div>
         <div class="cart-line__info">
-          <p class="cart-line__title line-clamp-2">${it.title||''}</p>
+          <p class="cart-line__title">${it.title||''}</p>
           <p class="cart-line__meta">${it.variantTitle||''}</p>
           <div class="cart-line__qty">
-            <button class="btn btn-outline-secondary h-9 w-9 rounded-full border hover:bg-blue-50 flex items-center justify-center" data-dec="${it.id}" aria-label="Decrease quantity"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-            <input type="number" min="1" value="${it.qty}" data-qty="${it.id}" class="min-w-[1.5ch] text-center text-base font-medium text-gray-900">
-            <button class="btn btn-outline-secondary h-9 w-9 rounded-full border hover:bg-blue-50 flex items-center justify-center" data-inc="${it.id}" aria-label="Increase quantity"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-            <button class="btn btn-ghost ml-auto h-9 w-9 text-red-500 hover:bg-red-50 flex items-center justify-center" data-del="${it.id}" aria-label="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+            <button class="btn btn-outline-secondary" data-dec="${it.id}">−</button>
+            <input type="number" min="1" value="${it.qty}" data-qty="${it.id}">
+            <button class="btn btn-outline-secondary" data-inc="${it.id}">+</button>
+            <button class="btn btn-link text-danger" data-del="${it.id}">Remove</button>
           </div>
         </div>
-        <div class="cart-line__total whitespace-nowrap text-[#1E88E5] font-semibold text-xl md:text-2xl">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</div>
+        <div class="cart-line__total">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</div>
       </div>`;
     const t = document.createElement('template'); t.innerHTML = html.trim();
     return t.content.firstElementChild;
