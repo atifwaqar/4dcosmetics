@@ -2,7 +2,7 @@
 (function(){
   // Config (override by defining these on window before this script loads)
   const TAX_RATE = typeof window.CART_TAX_RATE === 'number' ? window.CART_TAX_RATE : 0.10;            // 10%
-  const FREE_SHIP_THRESHOLD = typeof window.CART_FREE_SHIPPING_THRESHOLD === 'number' ? window.CART_FREE_SHIPPING_THRESHOLD : 5000;
+  const FREE_SHIP_THRESHOLD = typeof window.CART_FREE_SHIPPING_THRESHOLD === 'number' ? window.CART_FREE_SHIPPING_THRESHOLD : 50000;
   const COUPONS = window.CART_COUPONS || {
     WELCOME10: { type: 'percent', value: 10, min: 0 },
     OFF500:    { type: 'amount',  value: 500, min: 2000 }
