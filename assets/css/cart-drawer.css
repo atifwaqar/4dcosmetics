@@ -8,11 +8,11 @@
 .cart-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eee;}
 .cart-drawer-title{font-size:1.125rem;margin:0;}
 .cart-drawer-body{padding:12px 16px;overflow:auto;flex:1;contain:content;position:relative;}
-.cart-drawer-footer{border-top:1px solid #eee;padding:12px 16px;}
+
 
 .cart-drawer-empty{padding:24px 8px;color:#666;text-align:center;}
 
-.cart-drawer-actions{display:flex;gap:8px;margin-top:12px;}
+.cart-drawer-actions{display:flex;gap:8px;}
 .cart-drawer-actions .btn{flex:1;}
 
 @media (max-width:768px){
@@ -29,9 +29,7 @@
 .cart-drawer-root.open .cart-drawer-backdrop{pointer-events:auto;}
 .cart-drawer-root:not(.open) .cart-drawer-panel{pointer-events:none;}
 
-/* Drawer footer layout: prevent overlap */
-.cart-drawer-footer .row{display:flex;justify-content:space-between;align-items:center;gap:8px;}
-.cart-drawer-footer #summary-subtotal{margin-left:auto;white-space:nowrap;}
+/* Drawer footer layout: handled by utility classes */
 
 /* Hide legacy toast if any slips through */
 .toast-notice{display:none !important;}
