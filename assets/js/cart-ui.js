@@ -167,6 +167,11 @@
 
     // Summary numbers
     const el = (id)=>document.getElementById(id);
+    const countEl = el('summary-count');
+    if (countEl){
+      const count = items.reduce((s, it) => s + it.quantity(), 0);
+      countEl.textContent = `${count} item${count === 1 ? '' : 's'}`;
+    }
     el('summary-subtotal') && (el('summary-subtotal').textContent = fmt(totals.subtotal));
 
     if (totals.discount > 0){
