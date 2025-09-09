@@ -186,6 +186,27 @@
     const body = root.querySelector('.cart-drawer-body');
     if(body){ body.addEventListener('scroll', updateScrollIndicators); }
 
+    // Close drawer on downward swipe for mobile screens
+    const panel = root.querySelector('.cart-drawer-panel');
+    if(panel){
+      let startY = null;
+      panel.addEventListener('touchstart', function(e){
+        if(!window.matchMedia('(max-width: 768px)').matches) return;
+        startY = e.touches[0].clientY;
+      }, {passive:true});
+      panel.addEventListener('touchmove', function(e){
+        if(startY===null) return;
+        const currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        if(diff > 50 && (!body || body.scrollTop <= 0)){
+          startY = null;
+          close();
+        }
+      }, {passive:true});
+      panel.addEventListener('touchend', function(){ startY = null; }, {passive:true});
+      panel.addEventListener('touchcancel', function(){ startY = null; }, {passive:true});
+    }
+
     // Basic focus trap
     root.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape') { e.preventDefault(); CartDrawer.close(); }
