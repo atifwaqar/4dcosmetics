@@ -178,6 +178,9 @@
       if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
     });
 
+    const body = root.querySelector('.cart-drawer-body');
+    if(body){ body.addEventListener('scroll', updateScrollIndicators); }
+
     // Basic focus trap
     root.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape') { e.preventDefault(); CartDrawer.close(); }
@@ -225,6 +228,16 @@
     return t.content.firstElementChild;
   }
 
+  function updateScrollIndicators(){
+    if(!state.root) return;
+    var body = state.root.querySelector('.cart-drawer-body');
+    if(!body) return;
+    var atTop = body.scrollTop <= 0;
+    var atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 1;
+    body.classList.toggle('scroll-top', !atTop);
+    body.classList.toggle('scroll-bottom', !atBottom);
+  }
+
   function render(){
     const root = buildRoot();
     const list = $('#cart-lines-drawer', root);
@@ -239,6 +252,7 @@
     }
     // Let existing cart-ui.js update summary numbers if present
     if (typeof simpleCart !== 'undefined'){ try{ simpleCart.update(); }catch(_){ } }
+    updateScrollIndicators();
   }
 
   function open(trigger){
@@ -298,7 +312,7 @@
       document.addEventListener('product:addToCart', (e)=>open(e && e.target));
     },
     open: ()=>open(),
-    close
+    close: ()=>close()
   };
 
   // Auto-init after DOM ready
