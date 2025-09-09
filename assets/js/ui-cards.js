@@ -41,6 +41,18 @@ export const Analytics = {
   }
 };
 
+// toast helper
+export function showAddedToast(name) {
+  const toast = document.createElement('div');
+  toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
+  toast.style.zIndex = '1055';
+  toast.innerHTML = `Added ${name} — <a href="/cart.html" class="text-white text-decoration-underline">View cart</a>`;
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 // Normalize price to a number. Returns null if invalid.
 export function normalizePrice(val) {
   if (val && typeof val === 'object') val = val.current;
@@ -104,8 +116,7 @@ export function buildProductCard(prod) {
     const btn = wrap.querySelector('.item_add');
     btn.addEventListener('click', () => {
       Analytics.addToCart(prod, 1);
-      const detail = { productId: prod.id || prod.slug, qty: 1 };
-      document.dispatchEvent(new CustomEvent('product:addToCart', { detail }));
+      showAddedToast(prod.name);
     });
   }
   wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
@@ -116,6 +127,7 @@ export function buildProductCard(prod) {
 
 // expose helpers globally
 window.Analytics = Analytics;
+window.showAddedToast = showAddedToast;
 
 // --- appended modern product card integration ---
 // Override buildProductCard to use ProductCard component
@@ -133,6 +145,22 @@ buildProductCard = function(prod){
   const link = el.querySelector('.pc__link');
   link?.addEventListener('click', () => Analytics.selectItem(prod));
 
-  // cart and analytics handled globally by product-card.js
+  // cart and analytics on add to cart
+  const priceNum = normalizePrice(prod.price);
+  el.addEventListener('product:addToCart', () => {
+    try{
+      if(typeof simpleCart !== 'undefined' && priceNum !== null){
+        simpleCart.add({
+          id: prod.id || prod.slug,
+          name: prod.name,
+          price: priceNum,
+          image: (prod.images && prod.images[0]) || prod.image || '',
+          quantity: 1
+        });
+      }
+    }catch(e){ console.warn('cart error', e); }
+    Analytics.addToCart(prod, 1);
+    showAddedToast(prod.name);
+  });
   return el;
 };
