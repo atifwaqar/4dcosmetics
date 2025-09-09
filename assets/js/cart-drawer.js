@@ -226,8 +226,12 @@
     try{
       const items = state.api.getCartState().items;
       const found = items.find(i=>String(i.id)===String(id));
-      const next = Math.max(1, (found?.qty||1) + delta);
-      state.api.updateQty(id, next);
+      const next = (found?.qty||1) + delta;
+      if(next <= 0){
+        state.api.removeLineItem(id);
+      }else{
+        state.api.updateQty(id, next);
+      }
       render();
     }catch(_){}
   }
