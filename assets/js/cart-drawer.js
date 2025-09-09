@@ -151,6 +151,15 @@
 
     // Delegated controls for qty/remove (use same selectors as cart page)
     root.addEventListener('click', (e)=>{
+      // Force navigation for footer links (some global handlers might block default)
+      const go = e.target.closest('.cart-drawer-footer a[href]');
+      if (go){
+        e.preventDefault();
+        const href = go.getAttribute('href') || '/cart.html';
+        try{ window.location.assign(href); }catch(_){ window.location.href = href; }
+        return;
+      }
+
       const dec = e.target.closest('[data-dec]'); if(dec){ e.preventDefault(); changeQty(dec.dataset.dec, -1); }
       const inc = e.target.closest('[data-inc]'); if(inc){ e.preventDefault(); changeQty(inc.dataset.inc, +1); }
       const del = e.target.closest('[data-del]'); if(del){ e.preventDefault(); state.api.removeLineItem(del.dataset.del); render(); }
