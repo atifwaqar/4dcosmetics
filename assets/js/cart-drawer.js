@@ -243,16 +243,16 @@
       <div class="cart-line flex items-center gap-4 p-3 rounded-2xl shadow-sm bg-white">
         <div class="cart-line__img">${it.image ? `<img src="${it.image}" alt="">` : ''}</div>
         <div class="cart-line__info flex-1 min-w-0">
-          <div class="flex justify-between">
+          <div class="flex justify-between items-start gap-2">
             <p class="text-gray-900 font-semibold text-sm md:text-base leading-snug line-clamp-2 flex-1">${it.title||''}</p>
             <p class="text-[#1E88E5] font-semibold text-xl md:text-2xl whitespace-nowrap">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</p>
           </div>
           <p class="cart-line__meta">${it.variantTitle||''}</p>
-          <div class="cart-line__qty flex items-center">
-            <button size="icon" variant="outline" class="h-9 w-9 rounded-full border" data-dec="${it.id}" aria-label="Decrease quantity"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></button>
+          <div class="cart-line__qty flex items-center gap-3 mt-3">
+            <button type="button" class="h-9 w-9 rounded-full border border-gray-200 bg-white text-gray-700 inline-flex items-center justify-center hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200" data-dec="${it.id}" aria-label="Decrease quantity"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M5 12h14"/></svg></button>
             <span class="text-gray-900 text-base font-medium inline-block text-center min-w-[1.5ch]" data-qty="${it.id}">${it.qty}</span>
-            <button size="icon" variant="outline" class="h-9 w-9 rounded-full border" data-inc="${it.id}" aria-label="Increase quantity"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
-            <button variant="ghost" class="ml-auto text-red-500 hover:bg-red-50 h-9 w-9 rounded-full" data-del="${it.id}" aria-label="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6v-2c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2"/><path d="M19 6l-1 14c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
+            <button type="button" class="h-9 w-9 rounded-full border border-gray-200 bg-white text-gray-700 inline-flex items-center justify-center hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200" data-inc="${it.id}" aria-label="Increase quantity"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+            <button type="button" class="ml-auto h-9 w-9 rounded-full inline-flex items-center justify-center text-red-500 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-200" data-del="${it.id}" aria-label="Remove item"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pointer-events-none"><path d="M3 6h18"/><path d="M8 6v-2c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v2"/><path d="M19 6l-1 14c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
           </div>
         </div>
       </div>`;
