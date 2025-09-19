@@ -188,11 +188,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       addBtn.addEventListener('click', () => {
         const qty = parseInt(qtyEl.value,10) || 1;
         const item = currentVariant ? {...product, ...currentVariant} : product;
-        const detail = { qty, skipSimpleCart: true };
-        const pid = item.id || item.slug || product.id || product.slug;
-        if (pid) detail.id = pid;
-        const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
-        addBtn.dispatchEvent(evt);
         Analytics.addToCart(item, qty);
         if (liveRegion) liveRegion.textContent = 'Added to cart';
         showAddedToast(item.name);
