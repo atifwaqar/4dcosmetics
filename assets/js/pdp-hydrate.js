@@ -163,7 +163,11 @@
             simpleCart.add({ id: p.id || p.slug, name: p.name, price: p.price.current, quantity: 1, image: (p.images && p.images[0]) || '' });
           }
         }catch(e){ console.warn('cart error', e); }
-        document.dispatchEvent(new CustomEvent('product:addToCart',{detail:{id:p.id||p.slug,qty:1}}));
+        var detail = { qty: 1, skipSimpleCart: true };
+        var pid = p.id || p.slug;
+        if(pid) detail.id = pid;
+        var evt = new CustomEvent('product:addToCart',{ detail: detail, bubbles:true });
+        btn.dispatchEvent(evt);
         if(typeof showAddedToast === 'function') showAddedToast(p.name);
       });
     });
