@@ -43,6 +43,18 @@ export const Analytics = {
 
 // toast helper
 export function showAddedToast(name) {
+  const trigger = document.activeElement;
+  try {
+    if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+      window.CartDrawer.open(trigger);
+      return;
+    }
+  } catch (_) {}
+  try {
+    window.__CART_DRAWER_WANTS_OPEN__ = {
+      trigger: trigger && typeof trigger.focus === 'function' ? trigger : null
+    };
+  } catch (_) {}
   const toast = document.createElement('div');
   toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
   toast.style.zIndex = '1055';
@@ -115,6 +127,11 @@ export function buildProductCard(prod) {
   if (!disabled) {
     const btn = wrap.querySelector('.item_add');
     btn.addEventListener('click', () => {
+      const detail = { qty: 1, skipSimpleCart: true };
+      const id = prod.id || prod.slug;
+      if (id) detail.id = id;
+      const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
+      btn.dispatchEvent(evt);
       Analytics.addToCart(prod, 1);
       showAddedToast(prod.name);
     });
@@ -147,19 +164,22 @@ buildProductCard = function(prod){
 
   // cart and analytics on add to cart
   const priceNum = normalizePrice(prod.price);
-  el.addEventListener('product:addToCart', () => {
+  el.addEventListener('product:addToCart', (evt) => {
+    const detail = evt?.detail || {};
+    const qty = Number(detail.qty) || 1;
+    const skipSimpleCart = !!detail.skipSimpleCart;
     try{
-      if(typeof simpleCart !== 'undefined' && priceNum !== null){
+      if(!skipSimpleCart && typeof simpleCart !== 'undefined' && priceNum !== null){
         simpleCart.add({
           id: prod.id || prod.slug,
           name: prod.name,
           price: priceNum,
           image: (prod.images && prod.images[0]) || prod.image || '',
-          quantity: 1
+          quantity: qty
         });
       }
     }catch(e){ console.warn('cart error', e); }
-    Analytics.addToCart(prod, 1);
+    Analytics.addToCart(prod, qty);
     showAddedToast(prod.name);
   });
   return el;
