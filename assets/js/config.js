@@ -49,3 +49,39 @@ $(function() {
     }, 400);
   });
 });
+
+(function ensureCartDrawerScript(){
+  function resolveCartDrawerSrc(){
+    try {
+      var current = Array.prototype.slice.call(document.scripts || [])
+        .find(function(scr){ return scr && scr.src && scr.src.indexOf('config.js') !== -1; });
+      if (current){
+        var raw = current.getAttribute('src');
+        if (raw){
+          var replaced = raw.replace(/config\.js(?:\?.*)?$/,'cart-drawer.js');
+          if (replaced !== raw) return replaced;
+        }
+        var url = new URL(current.src, window.location.href);
+        return url.origin + url.pathname.replace(/config\.js$/, 'cart-drawer.js');
+      }
+    }catch(_){ }
+    return '/assets/js/cart-drawer.js';
+  }
+
+  function loadCartDrawer(){
+    if (window.CartDrawer || window.__CART_DRAWER_LOADING__) return;
+    window.__CART_DRAWER_LOADING__ = true;
+    var script = document.createElement('script');
+    script.src = resolveCartDrawerSrc();
+    script.async = true;
+    script.dataset.cartDrawerAutoload = '1';
+    script.onload = script.onerror = function(){ window.__CART_DRAWER_LOADING__ = false; };
+    (document.head || document.documentElement || document.body).appendChild(script);
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', loadCartDrawer, { once: true });
+  }else{
+    loadCartDrawer();
+  }
+})();

@@ -45,7 +45,8 @@
   }
 
   // ATC buttons
-  function addToCart(qty){
+  function addToCart(qty, trigger){
+    const quantity = qty || 1;
     try{
       if(typeof simpleCart !== 'undefined'){
         simpleCart.add({
@@ -53,11 +54,15 @@
           name: product.name || product.title,
           price: product.price?.current ?? product.price,
           image: (product.images && product.images[0]) || product.image || '',
-          quantity: qty||1
+          quantity: quantity
         });
       }
     }catch(e){ console.warn('cart error', e); }
-    document.dispatchEvent(new CustomEvent('product:addToCart', { detail:{ id: product.id || product.slug, qty: qty||1 }}));
+    const detail = { qty: quantity, skipSimpleCart: true };
+    const pid = product.id || product.slug;
+    if(pid) detail.id = pid;
+    const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
+    (trigger || document).dispatchEvent(evt);
     if(typeof showAddedToast === 'function') showAddedToast(product.name || product.title);
   }
   const atcButtons = document.querySelectorAll('[data-atc]');
@@ -72,7 +77,7 @@
     });
   }else{
     atcButtons.forEach(btn=>{
-      btn.addEventListener('click', ()=> addToCart(1));
+      btn.addEventListener('click', ()=> addToCart(1, btn));
     });
   }
 
