@@ -78,11 +78,7 @@
   
   // Kill legacy toast notifications everywhere (replace with drawer UX)
   function disableToasts(){
-    try{
-      window.showAddedToast = function(){
-        try{ CartDrawer.open(); }catch(_){ }
-      };
-    }catch(_){ }
+    try{ window.showAddedToast = function(){}; }catch(_){}
     try{
       // Remove any existing toast DOM and block future ones
       const cleanup = ()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
@@ -97,9 +93,7 @@
     opts: { checkoutUrl:'/cart.html' },
     root: null,
     lastTrigger: null,
-    autoCloseTimer: null,
-    simpleCartBound: false,
-    initialized: false
+    autoCloseTimer: null
   };
 
   function injectCssOnce(){
@@ -119,52 +113,6 @@
     link.href = href;
     link.dataset.cartDrawer = '1';
     document.head.appendChild(link);
-  }
-
-  function bindSimpleCart(){
-    if (state.simpleCartBound) return;
-    if (typeof simpleCart === 'undefined' || typeof simpleCart.bind !== 'function') return;
-    try{
-      simpleCart.bind('afterAdd', function(){
-        try{
-          if(state.root && state.root.classList.contains('open')){
-            render();
-          }else{
-            open();
-          }
-        }catch(_){}
-      });
-      state.simpleCartBound = true;
-    }catch(_){}
-  }
-
-  function ensureReady(opts){
-    if (opts && typeof opts === 'object'){
-      state.opts = Object.assign(state.opts, opts);
-      if (opts.getCartState || opts.updateQty || opts.removeLineItem){
-        state.api = Object.assign({}, defaultApi, {
-          getCartState: opts.getCartState || defaultApi.getCartState,
-          updateQty: opts.updateQty || defaultApi.updateQty,
-          removeLineItem: opts.removeLineItem || defaultApi.removeLineItem
-        });
-      }
-    }
-    if (location.pathname.includes('/cart')) return false;
-    injectCssOnce();
-    disableToasts();
-    injectCartCss();
-    buildRoot();
-    if (state.root){
-      const checkout = state.root.querySelector('.cart-drawer-actions a[href]');
-      if (checkout){
-        const href = state.opts?.checkoutUrl || '/cart.html';
-        checkout.setAttribute('href', href);
-      }
-    }
-    ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
-    bindSimpleCart();
-    state.initialized = true;
-    return true;
   }
 
   function buildRoot(){
@@ -346,7 +294,11 @@
   }
 
   function open(trigger){
-    if (!ensureReady()) return;
+    injectCssOnce();
+      disableToasts();
+    injectCartCss();
+    buildRoot();
+    ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -384,23 +336,28 @@
   // Global
   window.CartDrawer = {
     init(opts={}){
-      ensureReady(opts);
+      // Skip on cart page to avoid duplicate summary IDs
+      if (location.pathname.includes('/cart')) return;
+      state.opts = Object.assign(state.opts, opts);
+      if (opts.getCartState || opts.updateQty || opts.removeLineItem){
+        state.api = Object.assign({}, defaultApi, {
+          getCartState: opts.getCartState || defaultApi.getCartState,
+          updateQty: opts.updateQty || defaultApi.updateQty,
+          removeLineItem: opts.removeLineItem || defaultApi.removeLineItem
+        });
+      }
+      injectCssOnce();
+      disableToasts();
+      injectCartCss();
+      buildRoot();
+      ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
+      // Listen for add-to-cart events
+      document.addEventListener('product:addToCart', (e)=>open(e && e.target));
     },
     open: ()=>open(),
     close: ()=>close()
   };
 
-  // Always react to add-to-cart events, even if init hasn't run yet
-  document.addEventListener('product:addToCart', (e)=>open(e && e.target));
-
-  function autoInit(){
-    if (window.CartDrawer){ window.CartDrawer.init(); }
-    disableToasts();
-  }
-
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', autoInit);
-  }else{
-    autoInit();
-  }
+  // Auto-init after DOM ready
+  document.addEventListener('DOMContentLoaded', ()=>{ window.CartDrawer && window.CartDrawer.init(); disableToasts(); });
 })();
