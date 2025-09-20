@@ -159,12 +159,14 @@
   });
 
   document.addEventListener('product:addToCart', (e)=>{
-    const id = e.detail && e.detail.id;
-    const qty = (e.detail && e.detail.qty) || 1;
+    const detail = e.detail || {};
+    const id = detail.id;
+    const qty = Number(detail.qty) || 1;
+    const skipSimpleCart = !!detail.skipSimpleCart;
     const item = ITEM_CACHE[id];
     if(!item) return;
     try{
-      if(typeof simpleCart !== 'undefined'){
+      if(!skipSimpleCart && typeof simpleCart !== 'undefined'){
         simpleCart.add({
           id: id,
           name: item.title,
@@ -174,7 +176,7 @@
         });
       }
     }catch(err){ console.warn('cart error', err); }
-    showAddedToast(item.title);
+    if(!skipSimpleCart) showAddedToast(item.title);
   });
 
   function showAddedToast(name){
