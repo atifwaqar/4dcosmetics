@@ -99,52 +99,12 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false,
-    cssPromise: null
+    initialized: false
   };
 
-  function waitForStylesheet(link){
-    if (!link) return Promise.resolve();
-    return new Promise((resolve)=>{
-      let done = false;
-      let timer = null;
-      const finish = ()=>{
-        if (done) return;
-        done = true;
-        if (timer) clearTimeout(timer);
-        try{ link.removeEventListener('load', finish); }catch(_){ }
-        try{ link.removeEventListener('error', finish); }catch(_){ }
-        resolve();
-      };
-      try{
-        if (link.sheet){
-          try{
-            if (link.sheet.cssRules || link.sheet.rules){ finish(); return; }
-          }catch(_){ finish(); return; }
-          if (!done){
-            setTimeout(()=>{
-              try{
-                if (link.sheet && (link.sheet.cssRules || link.sheet.rules)) finish();
-              }catch(_){ finish(); }
-            }, 0);
-          }
-        }
-      }catch(_){ finish(); return; }
-      link.addEventListener('load', finish, { once:true });
-      link.addEventListener('error', finish, { once:true });
-      timer = setTimeout(finish, 2000);
-    });
-  }
-
   function injectCssOnce(){
-    if (state.cssPromise) return state.cssPromise;
-    const existing = document.querySelector('link[data-cart-drawer], link[href*="cart-drawer.css"]');
-    if (existing){
-      existing.dataset.cartDrawer = '1';
-      state.cssPromise = waitForStylesheet(existing);
-      return state.cssPromise;
-    }
     // Try to resolve CSS path from the script src
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart-drawer.css';
     if (script){
@@ -159,8 +119,6 @@
     link.href = href;
     link.dataset.cartDrawer = '1';
     document.head.appendChild(link);
-    state.cssPromise = waitForStylesheet(link);
-    return state.cssPromise;
   }
 
   function bindSimpleCart(){
@@ -389,37 +347,29 @@
 
   function open(trigger){
     if (!ensureReady()) return;
-    const proceed = ()=>{
-      state.lastTrigger = trigger || document.activeElement;
-      state.root.classList.add('open');
-      state.root.removeAttribute('aria-hidden');
-      const sb = window.innerWidth - document.documentElement.clientWidth;
-      document.body.classList.add('drawer-open');
-      if(sb > 0) document.body.style.paddingRight = sb + 'px';
-      render();
-      const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
-      // Focus first interactive element
-      const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
-      if(first) first.focus();
-      // Auto close on desktop after ~7s (cancel on interaction)
-      clearTimeout(state.autoCloseTimer);
-      if (window.matchMedia('(min-width: 769px)').matches){
-        state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
-        state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
-        state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
-      }
-      // Optional: bump cart badge
-      try{
-        const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
-        if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
-      }catch(_){}
-    };
-    const wait = state.cssPromise;
-    if (wait && typeof wait.then === 'function'){
-      wait.then(proceed).catch(proceed);
-    }else{
-      proceed();
+    state.lastTrigger = trigger || document.activeElement;
+    state.root.classList.add('open');
+    state.root.removeAttribute('aria-hidden');
+    const sb = window.innerWidth - document.documentElement.clientWidth;
+    document.body.classList.add('drawer-open');
+    if(sb > 0) document.body.style.paddingRight = sb + 'px';
+    render();
+    const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
+    // Focus first interactive element
+    const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
+    if(first) first.focus();
+    // Auto close on desktop after ~7s (cancel on interaction)
+    clearTimeout(state.autoCloseTimer);
+    if (window.matchMedia('(min-width: 769px)').matches){
+      state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
+      state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
+      state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
     }
+    // Optional: bump cart badge
+    try{
+      const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
+      if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
+    }catch(_){}
   }
   function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
   function close(){
