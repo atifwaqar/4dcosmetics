@@ -99,79 +99,12 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false,
-    cssReady: true,
-    cssPromise: null,
-    cssPromiseHandlerAttached: false,
-    awaitingCssForOpen: false,
-    pendingOpenTrigger: null,
-    cssReadyConfirmed: false
+    initialized: false
   };
-
-  function waitForStylesheet(link){
-    if (!link) return Promise.resolve();
-    return new Promise((resolve)=>{
-      let done = false;
-      let timer = null;
-      const cleanup = ()=>{
-        link.removeEventListener('load', finish);
-        link.removeEventListener('error', finish);
-        if (timer){ clearTimeout(timer); timer = null; }
-      };
-      const finish = ()=>{
-        if (done) return;
-        done = true;
-        cleanup();
-        resolve();
-      };
-      const scheduleCheck = ()=>{
-        if (done) return;
-        if (timer){ clearTimeout(timer); }
-        timer = setTimeout(check, 30);
-      };
-      const sheetReady = ()=>{
-        const sheet = link.sheet;
-        if (!sheet) return false;
-        try{
-          if ('cssRules' in sheet){ void sheet.cssRules; return true; }
-        }catch(err){ }
-        try{
-          if ('rules' in sheet){ void sheet.rules; return true; }
-        }catch(err){ }
-        return false;
-      };
-      const check = ()=>{
-        if (done) return;
-        if (sheetReady()){ finish(); return; }
-        scheduleCheck();
-      };
-      link.addEventListener('load', finish, { once: true });
-      link.addEventListener('error', finish, { once: true });
-      check();
-    });
-  }
 
   function injectCssOnce(){
     // Try to resolve CSS path from the script src
-    if (state.cssReadyConfirmed || state.cssPromise) return;
-    var existing = document.querySelector('link[data-cart-drawer="1"]')
-      || [...document.querySelectorAll('link[rel="stylesheet"]')]
-        .find(l=>l.href && l.href.includes('cart-drawer.css'));
-    if (existing){
-      state.cssReady = false;
-      state.cssPromise = waitForStylesheet(existing).then(()=>{
-        state.cssReady = true;
-        state.cssPromise = null;
-        state.cssReadyConfirmed = true;
-      });
-      return;
-    }
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))){
-      state.cssReady = true;
-      state.cssPromise = null;
-      state.cssReadyConfirmed = true;
-      return;
-    }
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart-drawer.css';
     if (script){
@@ -186,12 +119,6 @@
     link.href = href;
     link.dataset.cartDrawer = '1';
     document.head.appendChild(link);
-    state.cssReady = false;
-    state.cssPromise = waitForStylesheet(link).then(()=>{
-      state.cssReady = true;
-      state.cssPromise = null;
-      state.cssReadyConfirmed = true;
-    });
   }
 
   function bindSimpleCart(){
@@ -420,24 +347,6 @@
 
   function open(trigger){
     if (!ensureReady()) return;
-    if (!state.cssReady){
-      state.pendingOpenTrigger = typeof trigger === 'undefined' ? document.activeElement : trigger;
-      state.awaitingCssForOpen = true;
-      if (state.cssPromise && !state.cssPromiseHandlerAttached){
-        state.cssPromiseHandlerAttached = true;
-        state.cssPromise.then(()=>{
-          state.cssPromiseHandlerAttached = false;
-          if (!state.awaitingCssForOpen) return;
-          const pending = state.pendingOpenTrigger;
-          state.pendingOpenTrigger = null;
-          state.awaitingCssForOpen = false;
-          open(pending);
-        });
-      }
-      return;
-    }
-    state.awaitingCssForOpen = false;
-    state.pendingOpenTrigger = null;
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
