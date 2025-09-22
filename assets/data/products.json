@@ -923,5 +923,222 @@
     "descriptionHTML": "<p>Madagascar Centella Tone Brightening Capsule Ampoule is a lightweight serum formulated with Centella Asiatica and Niacinamide to brighten, hydrate, and soothe the skin, targeting dullness and uneven tone.</p>",
     "inStock": true,
     "sku": "SKN013"
+  },
+  {
+    "id": "SKN014",
+    "name": "Dr.Rashel Aloe Vera Soothe & Moisturizing Lip Balm",
+    "slug": "drrashel-aloe-vera-soothe-moisturizing-lip-balm",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0071.jpg"
+    ],
+    "price": {
+      "current": 550,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "LipCare"
+    ],
+    "shortDescription": "Soothing aloe vera lip balm that softens, repairs lines, and deeply moisturizes dry lips.",
+    "descriptionHTML": "<p>Dr.Rashel Aloe Vera Soothe &amp; Moisturizing lip balm provides soothing &amp; softens, repair lip lines &amp; intensive moisturizer for dry lips.</p>",
+    "inStock": true,
+    "sku": "SKN014"
+  },
+  {
+    "id": "SKN015",
+    "name": "Dr.Rashel Vitamin C Deep Cleansing Nose Strip",
+    "slug": "drrashel-vitamin-c-deep-cleansing-nose-strip",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0077.jpg"
+    ],
+    "price": {
+      "current": 600,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "Vitamin C-infused nose strips that lift impurities for smoother, glowing skin.",
+    "descriptionHTML": "<p>Dr.Rashel Vitamin C Deep Cleansing Nose Strips helps Smooth &amp; Glowing Skin</p>",
+    "inStock": true,
+    "sku": "SKN015"
+  },
+  {
+    "id": "SKN016",
+    "name": "Dr.Rashel Black Charcoal Deep Cleaning Nose Strips",
+    "slug": "drrashel-black-charcoal-deep-cleaning-nose-strips",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0076.jpg"
+    ],
+    "price": {
+      "current": 600,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "Purifying charcoal nose strips that unclog pores and leave skin feeling smooth.",
+    "descriptionHTML": "<p>Dr.Rashel Black Charcoal Deep Cleansing Nose Strips helps Purifying &amp; Smooth Skin</p>",
+    "inStock": true,
+    "sku": "SKN016"
+  },
+  {
+    "id": "SKN017",
+    "name": "Dr.Rashel Salicylic Acid Deep Cleaning Nose Strips",
+    "slug": "drrashel-salicylic-acid-deep-cleaning-nose-strips",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0075.jpg"
+    ],
+    "price": {
+      "current": 600,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "Salicylic acid nose strips that clear pores for smoother, calmer skin.",
+    "descriptionHTML": "<p>Dr.Rashel Salicylic acid Deep Cleansing Nose Strips helps Clear &amp; Smooth Skin</p>",
+    "inStock": true,
+    "sku": "SKN017"
+  },
+  {
+    "id": "SKN018",
+    "name": "SADOER Salicylic Acid 3% Acne Repair Cream",
+    "slug": "sadoer-salicylic-acid-3-acne-repair-cream",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0078.jpg"
+    ],
+    "price": {
+      "current": 750,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care",
+      "creams"
+    ],
+    "brand": "SADOER",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "3% salicylic acid repair cream calms acne-prone skin, refines pores, and hydrates.",
+    "descriptionHTML": "<p>SADOER Salicylic Acid 3% Acne Repair Cream helps repair acne skin, shrink pores, improve pimple scars, and moisturize while stabilizing skin conditions.</p>",
+    "inStock": true,
+    "sku": "SKN018"
+  },
+  {
+    "id": "SKN019",
+    "name": "Dr.Rashel Hydrating Suncream",
+    "slug": "drrashel-hydrating-suncream",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0082.jpg"
+    ],
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "Hydrating suncream delivering lasting UVA/UVB protection with moisture-rich care.",
+    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system with hydrating benefits.</p>",
+    "inStock": true,
+    "sku": "SKN019"
+  },
+  {
+    "id": "SKN020",
+    "name": "Dr.Rashel Anti Aging Sun Cream",
+    "slug": "drrashel-anti-aging-sun-cream",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0081.jpg"
+    ],
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "Skincare"
+    ],
+    "shortDescription": "Anti-aging sun cream shields skin from UV damage and helps prevent premature aging.",
+    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system&amp; protect premature skin aging whitening sun protect sweat &amp; Water Resistant.</p>",
+    "inStock": true,
+    "sku": "SKN020"
+  },
+  {
+    "id": "SKN021",
+    "name": "Dr.Rashel Vitamin C Brighten & Moisturizing Lip Balm",
+    "slug": "drrashel-vitamin-c-brighten-moisturizing-lip-balm",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0079.jpg"
+    ],
+    "price": {
+      "current": 550,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "skin-care"
+    ],
+    "brand": "Dr.Rashel",
+    "tags": [
+      "LipCare"
+    ],
+    "shortDescription": "Vitamin C lip balm that nourishes, brightens, and helps fade fine lip lines.",
+    "descriptionHTML": "<p>Dr.Rashel Vitamin C lip balm provides intense moisture with luminous shine, helping to fade lip lines with its super nourishing formula.</p>",
+    "inStock": true,
+    "sku": "SKN021"
+  },
+  {
+    "id": "LIP007",
+    "name": "PIX Moisture Stick Tint",
+    "slug": "pix-moisture-stick-tint",
+    "images": [
+      "/assets/img/products/IMG-20250910-WA0072.jpg"
+    ],
+    "price": {
+      "current": 950,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup",
+      "lipsticks"
+    ],
+    "brand": "Pixi",
+    "tags": [
+      "Lipsticks"
+    ],
+    "shortDescription": "Moisture-rich stick tint adds dewy color in wearable pink and coral shades.",
+    "descriptionHTML": "<p>Pixi On-the-Glow BLUSH sticks in different shades of pink and coral.</p>",
+    "inStock": true,
+    "sku": "LIP007"
   }
 ]
