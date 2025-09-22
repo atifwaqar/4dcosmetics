@@ -149,13 +149,13 @@
         });
       }
     }
-    if (location.pathname.includes('/cart')) return false;
     injectCssOnce();
     disableToasts();
     injectCartCss();
-    buildRoot();
-    if (state.root){
-      const checkout = state.root.querySelector('.cart-drawer-actions a[href]');
+    const root = buildRoot();
+    if (!root) return false;
+    if (root){
+      const checkout = root.querySelector('.cart-drawer-actions a[href]');
       if (checkout){
         const href = state.opts?.checkoutUrl || '/cart.html';
         checkout.setAttribute('href', href);
