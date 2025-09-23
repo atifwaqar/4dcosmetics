@@ -18,14 +18,8 @@
   var lm = document.getElementById('load-more-container');
   if (lm) lm.style.display = 'none';
 
-  function stripExt(value){
-    return String(value || '')
-      .replace(/\.html?$/i, '')
-      .replace(/\/+$/, '');
-  }
-
   function norm(s){
-    return stripExt(s)
+    return String(s||'')
       .toLowerCase()
       .trim()
       .replace(/&/g,'and')
@@ -43,7 +37,7 @@
 
   function detectCategorySlug(){
     var m = (location.pathname||'').match(/\/c\/([^\/]+)\/?/i);
-    var slug = m ? stripExt(m[1]) : '';
+    var slug = m ? m[1] : '';
     slug = normalizeCategoryName(slug||'beauty');
     return slug;
   }
