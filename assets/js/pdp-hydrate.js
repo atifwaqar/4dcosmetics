@@ -4,9 +4,18 @@
   if (!titleEl) return;
   if (titleEl.textContent && titleEl.textContent.trim() && !titleEl.textContent.includes('{{')) return;
 
+  function normalizeSlugPart(part){
+    return String(part||'')
+      .toLowerCase()
+      .replace(/\.html?$/, '')
+      .replace(/\/+$/, '')
+      .trim();
+  }
+
   function detectSlug(){
     var m = (location.pathname||'').match(/\/p\/([^\/]+)/i);
-    return m ? decodeURIComponent(m[1]).toLowerCase() : '';
+    if (!m) return '';
+    return normalizeSlugPart(decodeURIComponent(m[1]));
   }
   var slug = detectSlug();
 
@@ -24,7 +33,7 @@
   }
 
   function norm(v){
-    return String(v||'').toLowerCase().trim().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+    return normalizeSlugPart(v).replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
   function matchBySlug(p, s){
     if (!p) return false;
