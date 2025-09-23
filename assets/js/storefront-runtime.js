@@ -4,14 +4,6 @@ if (!window.StorefrontRuntime) {
   let categoriesCache = null;
   const RECENT_KEY = 'recently_viewed';
 
-  function normalizeSlug(value) {
-    return String(value || '')
-      .toLowerCase()
-      .replace(/\.html?$/, '')
-      .replace(/\/+$/, '')
-      .trim();
-  }
-
   async function loadProducts() {
     if (productsCache) return productsCache;
     const res = await fetch('/assets/data/products.json');
@@ -29,24 +21,18 @@ if (!window.StorefrontRuntime) {
   }
 
   function findCategoryBySlug(slug) {
-    const target = normalizeSlug(slug);
     if (!categoriesCache) return null;
-    return categoriesCache.find(c => normalizeSlug(c.slug) === target) || null;
+    return categoriesCache.find(c => c.slug === slug) || null;
   }
 
   function listProductsForCategory(slug) {
-    const target = normalizeSlug(slug);
     if (!productsCache) return [];
-    return productsCache.filter(p => {
-      if (!Array.isArray(p.categories)) return false;
-      return p.categories.some(cat => normalizeSlug(cat) === target);
-    });
+    return productsCache.filter(p => Array.isArray(p.categories) && p.categories.includes(slug));
   }
 
   function getProductBySlug(slug) {
-    const target = normalizeSlug(slug);
     if (!productsCache) return null;
-    return productsCache.find(p => normalizeSlug(p.slug) === target) || null;
+    return productsCache.find(p => p.slug === slug) || null;
   }
 
   function paginateArray(arr, page, perPage) {
@@ -90,10 +76,7 @@ if (!window.StorefrontRuntime) {
       const arr = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
       const list = Array.isArray(arr) ? arr : [];
       if (productsCache) {
-        return list.filter(slug => {
-          const target = normalizeSlug(slug);
-          return productsCache.some(p => normalizeSlug(p.slug) === target);
-        });
+        return list.filter(slug => productsCache.some(p => p.slug === slug));
       }
       return list;
     } catch {
@@ -102,9 +85,8 @@ if (!window.StorefrontRuntime) {
   }
 
   function addRecentlyViewed(slug) {
-    const canon = normalizeSlug(slug);
-    const list = getRecentlyViewed().filter(s => normalizeSlug(s) !== canon);
-    list.unshift(canon);
+    const list = getRecentlyViewed().filter(s => s !== slug);
+    list.unshift(slug);
     if (list.length > 8) list.length = 8;
     try {
       localStorage.setItem(RECENT_KEY, JSON.stringify(list));
