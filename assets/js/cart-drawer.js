@@ -6,22 +6,6 @@
   const $ = (sel, ctx=document)=>ctx.querySelector(sel);
   const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
 
-  function waitForFrames(count=2){
-    return new Promise((resolve)=>{
-      const raf = typeof window.requestAnimationFrame === 'function'
-        ? window.requestAnimationFrame.bind(window)
-        : (cb)=>setTimeout(cb, 16);
-      const step = ()=>{
-        if (--count <= 0){
-          resolve();
-        }else{
-          raf(step);
-        }
-      };
-      raf(step);
-    });
-  }
-
   // Cart API bridge (can be overridden via init)
   const defaultApi = {
     getCartState(){
@@ -115,81 +99,12 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false,
-    cssReady: true,
-    cssPromise: null,
-    cssPromiseHandlerAttached: false,
-    awaitingCssForOpen: false,
-    pendingOpenTrigger: null,
-    cssReadyConfirmed: false
+    initialized: false
   };
-
-  function waitForStylesheet(link){
-    if (!link) return Promise.resolve();
-    return new Promise((resolve)=>{
-      let done = false;
-      let timer = null;
-      const cleanup = ()=>{
-        link.removeEventListener('load', finish);
-        link.removeEventListener('error', finish);
-        if (timer){ clearTimeout(timer); timer = null; }
-      };
-      const finish = ()=>{
-        if (done) return;
-        done = true;
-        cleanup();
-        resolve();
-      };
-      const reschedule = ()=>{
-        if (done) return;
-        if (timer){ clearTimeout(timer); }
-        timer = setTimeout(check, 30);
-      };
-      const check = ()=>{
-        if (done) return;
-        const sheet = link.sheet;
-        if (!sheet){ reschedule(); return; }
-        try{
-          if ('cssRules' in sheet){ void sheet.cssRules; finish(); return; }
-        }catch(_){
-          reschedule();
-          return;
-        }
-        try{
-          if ('rules' in sheet){ void sheet.rules; finish(); return; }
-        }catch(_){
-          reschedule();
-          return;
-        }
-        reschedule();
-      };
-      link.addEventListener('load', finish, { once: true });
-      link.addEventListener('error', finish, { once: true });
-      check();
-    });
-  }
 
   function injectCssOnce(){
     // Try to resolve CSS path from the script src
-    if (state.cssReadyConfirmed || state.cssPromise) return;
-    var existing = document.querySelector('link[data-cart-drawer="1"]')
-      || [...document.querySelectorAll('link[rel="stylesheet"]')]
-        .find(l=>l.href && l.href.includes('cart-drawer.css'));
-    if (existing){
-      state.cssReady = false;
-      state.cssPromise = waitForStylesheet(existing).then(()=>{
-        state.cssReady = true;
-        state.cssPromise = null;
-        state.cssReadyConfirmed = true;
-      });
-      return;
-    }
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))){
-      state.cssReady = true;
-      state.cssPromise = null;
-      state.cssReadyConfirmed = true;
-      return;
-    }
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart-drawer.css';
     if (script){
@@ -204,12 +119,6 @@
     link.href = href;
     link.dataset.cartDrawer = '1';
     document.head.appendChild(link);
-    state.cssReady = false;
-    state.cssPromise = waitForStylesheet(link).then(()=>{
-      state.cssReady = true;
-      state.cssPromise = null;
-      state.cssReadyConfirmed = true;
-    });
   }
 
   function bindSimpleCart(){
@@ -436,55 +345,31 @@
     updateScrollIndicators();
   }
 
-  function performOpen(trigger){
-    const root = state.root;
-    if (!root) return;
-    state.awaitingCssForOpen = false;
-    state.pendingOpenTrigger = null;
+  function open(trigger){
+    if (!ensureReady()) return;
     state.lastTrigger = trigger || document.activeElement;
-    root.classList.add('open');
-    root.removeAttribute('aria-hidden');
+    state.root.classList.add('open');
+    state.root.removeAttribute('aria-hidden');
     const sb = window.innerWidth - document.documentElement.clientWidth;
     document.body.classList.add('drawer-open');
     if(sb > 0) document.body.style.paddingRight = sb + 'px';
     render();
     const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
-    const first = root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
+    // Focus first interactive element
+    const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
     if(first) first.focus();
+    // Auto close on desktop after ~7s (cancel on interaction)
     clearTimeout(state.autoCloseTimer);
     if (window.matchMedia('(min-width: 769px)').matches){
       state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
-      root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
-      root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
+      state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
+      state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
     }
+    // Optional: bump cart badge
     try{
       const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
       if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
-    }catch(_){ }
-  }
-
-  function open(trigger){
-    if (!ensureReady()) return;
-    if (!state.cssReady){
-      state.pendingOpenTrigger = typeof trigger === 'undefined' ? document.activeElement : trigger;
-      state.awaitingCssForOpen = true;
-      if (state.cssPromise && !state.cssPromiseHandlerAttached){
-        state.cssPromiseHandlerAttached = true;
-        state.cssPromise.then(()=>{
-          state.cssPromiseHandlerAttached = false;
-          if (!state.awaitingCssForOpen) return;
-          waitForFrames().then(()=>{
-            if (!state.awaitingCssForOpen) return;
-            const pending = state.pendingOpenTrigger;
-            state.pendingOpenTrigger = null;
-            state.awaitingCssForOpen = false;
-            performOpen(pending);
-          });
-        });
-      }
-      return;
-    }
-    performOpen(trigger);
+    }catch(_){}
   }
   function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
   function close(){
