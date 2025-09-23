@@ -1,17 +1,9 @@
 
 (function(){
   // Only run on product pages /p/{slug}
-  function normalizeSlugPart(part){
-    return String(part || '')
-      .toLowerCase()
-      .replace(/\.html?$/, '')
-      .replace(/\/+$/, '')
-      .trim();
-  }
-
   var m = (location.pathname || '').match(/\/p\/([^\/]+)/i);
   if (!m) return;
-  var slug = normalizeSlugPart(decodeURIComponent(m[1]));
+  var slug = decodeURIComponent(m[1]).toLowerCase();
 
   async function loadAllProducts(){
     // Try runtime getters
@@ -30,10 +22,7 @@
   }
 
   function norm(v){
-    return normalizeSlugPart(v)
-      .replace(/&/g,'and')
-      .replace(/[^a-z0-9]+/g,'-')
-      .replace(/^-+|-+$/g,'');
+    return String(v||'').toLowerCase().trim().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
   }
 
   function matchBySlug(p, slug){
