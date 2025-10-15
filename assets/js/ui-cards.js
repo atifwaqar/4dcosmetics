@@ -42,7 +42,6 @@ export const Analytics = {
 };
 
 // toast helper
-export } catch (_) {}
   try {
     window.__CART_DRAWER_WANTS_OPEN__ = {
       trigger: trigger && typeof trigger.focus === 'function' ? trigger : null
