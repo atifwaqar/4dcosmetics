@@ -42,6 +42,14 @@ export const Analytics = {
 };
 
 // toast helper
+export function showAddedToast(name) {
+  const trigger = document.activeElement;
+  try {
+    if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+      window.CartDrawer.open(trigger);
+      return;
+    }
+  } catch (_) {}
   try {
     window.__CART_DRAWER_WANTS_OPEN__ = {
       trigger: trigger && typeof trigger.focus === 'function' ? trigger : null
@@ -65,7 +73,7 @@ export function normalizePrice(val) {
 }
 
 // Renders a uniform, clickable simpleCart card for a product.
-export function buildProductCard(prod) { const CART_DEBUG=(window.CART_DEBUG!==undefined)?!!window.CART_DEBUG:true; function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[UICards] '+a[0]; console.log.apply(console,a);}catch(_){} }
+export function buildProductCard(prod) {
   if (!prod || !prod.name || !prod.slug) {
     console.warn('Invalid product skipped', prod);
     return null;
@@ -118,14 +126,15 @@ export function buildProductCard(prod) { const CART_DEBUG=(window.CART_DEBUG!==u
 
   if (!disabled) {
     const btn = wrap.querySelector('.item_add');
-    btn.addEventListener('click', () => { clog('inline card atc click', {id: prod && (prod.id||prod.slug)});
+    btn.addEventListener('click', () => {
       const detail = { qty: 1, skipSimpleCart: true };
       const id = prod.id || prod.slug;
       if (id) detail.id = id;
       const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
       btn.dispatchEvent(evt);
       Analytics.addToCart(prod, 1);
-      });
+      showAddedToast(prod.name);
+    });
   }
   wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
     a.addEventListener('click', () => Analytics.selectItem(prod));
@@ -171,6 +180,7 @@ buildProductCard = function(prod){
       }
     }catch(e){ console.warn('cart error', e); }
     Analytics.addToCart(prod, qty);
-    });
+    showAddedToast(prod.name);
+  });
   return el;
 };
