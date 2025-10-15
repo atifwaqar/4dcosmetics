@@ -159,8 +159,8 @@
 
 document.addEventListener('product:addToCart', (e)=>{ 
   log('event product:addToCart', e && e.detail);
-  
-  const detail = e.detail || {};
+
+  const detail = e && e.detail ? e.detail : {};
   const id = String(detail.id || '');
   const qty = Math.max(1, Number(detail.qty) || 1);
   const item = ITEM_CACHE[id];
@@ -171,12 +171,7 @@ document.addEventListener('product:addToCart', (e)=>{
 
   try {
     if (typeof simpleCart !== 'undefined') {
-      log('forcing simpleCart.add from product-card (ignore skipSimpleCart)');
-      const priceNum = Number(
-        (item.price && (item.price.current ?? item.price)) ||
-        item.priceCurrent || item.priceNew || 0
-      ) || 0;
-
+      const priceNum = Number(item.price && item.price.value ? item.price.value : item.price) || 0;
       simpleCart.add({
         id: id,
         name: item.title || id,
@@ -184,26 +179,12 @@ document.addEventListener('product:addToCart', (e)=>{
         image: item.image || '',
         quantity: qty
       });
+      // unified behavior: drawer opens via simpleCart.afterAdd in cart-drawer.js
     }
   } catch (err) {
     console.warn('cart error (product-card listener)', err);
   }
-
-  // Always show toast — regardless of skipSimpleCart
-  });
-
-  function var trigger = document.activeElement;
-    try{
-      if(window.CartDrawer && typeof window.CartDrawer.open === 'function'){
-        return;
-      }
-    }catch(_){ }
-    try{
-      window.__CART_DRAWER_WANTS_OPEN__ = {
-        trigger: trigger && typeof trigger.focus === 'function' ? trigger : null
-      };
-    }catch(_){ }
-    const toast = document.createElement('div');
+});
     toast.className = 'toast-notice position-fixed bottom-0 end-0 m-3 p-2 bg-dark text-white rounded';
     toast.style.zIndex = '1055';
     toast.innerHTML = `Added ${escapeHtml(name)} — <a href="/cart.html" class="text-white text-decoration-underline">View cart</a>`;

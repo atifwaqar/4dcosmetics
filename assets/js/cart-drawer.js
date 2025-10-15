@@ -3,13 +3,10 @@
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function log(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.log.apply(console,a);}catch(_){} }
-  function warn(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.warn.apply(console,a);}catch(_){} }
-  function err(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.error.apply(console,a);}catch(_){} }
-
-  log('loaded, readyState=', document.readyState, 'path=', location.pathname);
-
-  const $ = (s,c=document)=>c.querySelector(s);
+function log(){ if(!CART_DEBUG) return; var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.log.apply(console,a); }
+function warn(){ if(!CART_DEBUG) return; var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.warn.apply(console,a); }
+function err(){ if(!CART_DEBUG) return; var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.error.apply(console,a); }
+const $ = (s,c=document)=>c.querySelector(s);
   const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
 
   const defaultApi = {
