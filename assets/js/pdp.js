@@ -63,8 +63,7 @@
     if(pid) detail.id = pid;
     const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
     (trigger || document).dispatchEvent(evt);
-    if(typeof showAddedToast === 'function') showAddedToast(product.name || product.title);
-  }
+    if(typeof showAddedToast === 'function') }
   const atcButtons = document.querySelectorAll('[data-atc]');
   if(outOfStock){
     atcButtons.forEach(btn=>{

@@ -208,8 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
         addBtn.dispatchEvent(evt);
         try { Analytics.addToCart(item, qty); } catch(_){}
         if (liveRegion) liveRegion.textContent = 'Added to cart';
-        showAddedToast(item.name);
-      });
+        });
     }
     const mobileBtn = document.getElementById('mobile-atc-btn');
     if (mobileBtn) mobileBtn.addEventListener('click', () => addBtn.click());

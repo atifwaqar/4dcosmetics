@@ -42,14 +42,7 @@ export const Analytics = {
 };
 
 // toast helper
-export function showAddedToast(name) {
-  const trigger = document.activeElement;
-  try {
-    if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-      window.CartDrawer.open(trigger);
-      return;
-    }
-  } catch (_) {}
+export } catch (_) {}
   try {
     window.__CART_DRAWER_WANTS_OPEN__ = {
       trigger: trigger && typeof trigger.focus === 'function' ? trigger : null
@@ -133,8 +126,7 @@ export function buildProductCard(prod) { const CART_DEBUG=(window.CART_DEBUG!==u
       const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
       btn.dispatchEvent(evt);
       Analytics.addToCart(prod, 1);
-      showAddedToast(prod.name);
-    });
+      });
   }
   wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
     a.addEventListener('click', () => Analytics.selectItem(prod));
@@ -180,7 +172,6 @@ buildProductCard = function(prod){
       }
     }catch(e){ console.warn('cart error', e); }
     Analytics.addToCart(prod, qty);
-    showAddedToast(prod.name);
-  });
+    });
   return el;
 };

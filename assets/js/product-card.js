@@ -194,14 +194,11 @@ document.addEventListener('product:addToCart', (e)=>{
   }
 
   // Always show toast — regardless of skipSimpleCart
-  showAddedToast(item && item.title ? item.title : 'Item');
-});
+  });
 
-  function showAddedToast(name){ log('showAddedToast', name);
-    var trigger = document.activeElement;
+  function var trigger = document.activeElement;
     try{
       if(window.CartDrawer && typeof window.CartDrawer.open === 'function'){
-        window.CartDrawer.open(trigger);
         return;
       }
     }catch(_){ }

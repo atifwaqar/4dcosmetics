@@ -74,7 +74,7 @@
   }
 
   function disableToasts(){
-    try{ window.showAddedToast = function(){ try{ CartDrawer.open(); }catch(_){ } }; }catch(_){}
+    try{ window.showAddedToast = function(){ try{ // unified: open via simpleCart.afterAdd }catch(_){ } }; }catch(_){}
     try{
       const cleanup=()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
       cleanup();
@@ -380,13 +380,13 @@
   // Open the drawer on product:addToCart everywhere
   document.addEventListener('product:addToCart', function(e){
     try { if (CART_DEBUG) console.log('[CartDrawer] open on product:addToCart', e && e.detail); } catch(_){}
-    CartDrawer.open(e && e.target);
+    // unified: open via simpleCart.afterAdd
   });
 
   // Safety: also open on direct add-to-cart button clicks
   document.addEventListener('click', function(e){
     const btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart') || e.target.closest('.item_add'));
-    if (btn){ setTimeout(()=>{ try{ CartDrawer.open(btn); }catch(_){ } }, 40); }
+    if (btn){ setTimeout(()=>{ try{ // unified: open via simpleCart.afterAdd }catch(_){ } }, 40); }
   }, true);
 
   function autoInit(){
@@ -398,7 +398,7 @@
         window.__CART_DRAWER_WANTS_OPEN__ = null;
         const trigger = pending && pending.trigger && typeof pending.trigger.focus === 'function'
           ? pending.trigger : null;
-        CartDrawer.open(trigger);
+        // unified: open via simpleCart.afterAdd
       }
     }catch(_){ }
   }
