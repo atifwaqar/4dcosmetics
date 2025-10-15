@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     document.getElementById('product-badges').innerHTML = StorefrontRuntime.renderProductBadgesHTML(product);
     const priceEl = document.getElementById('product-price');
     const addBtn = document.querySelector('.item_add');
-      const currency = product.price?.currency || product.currency || 'PKR';
+    const currency = product.price?.currency || product.currency || 'PKR';
     const stockEl = document.getElementById('stock-status');
     const variantWrap = document.getElementById('variant-options');
     const idEl = document.getElementById('product-id');
@@ -156,17 +156,17 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     } else if (firstCat) backHref = `/c/${firstCat.slug}/`;
     backLink.href = backHref;
 
-    const mainImg = document.getElementById('main-image');
-    mainImg.classList.add('item_image', 'item_thumb');
+    const mainImg2 = document.getElementById('main-image');
+    mainImg2.classList.add('item_image', 'item_thumb');
     const thumbs = document.getElementById('image-thumbs');
     if (product.images && product.images.length) {
       if (!currentVariant || !currentVariant.image) {
-        mainImg.src = product.images[0];
-        mainImg.alt = product.name;
+        mainImg2.src = product.images[0];
+        mainImg2.alt = product.name;
       }
-      mainImg.loading = 'eager';
-      mainImg.decoding = 'async';
-      mainImg.onerror = function(){ this.src='/assets/img/products/fallback.png'; };
+      mainImg2.loading = 'eager';
+      mainImg2.decoding = 'async';
+      mainImg2.onerror = function(){ this.src='/assets/img/products/fallback.png'; };
       product.images.forEach((img) => {
         const t = document.createElement('img');
         t.src = img;
@@ -176,19 +176,19 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
         t.style.objectFit = 'cover';
         t.loading = 'lazy';
         t.alt = product.name;
-        t.addEventListener('click', () => { mainImg.src = img; });
+        t.addEventListener('click', () => { mainImg2.src = img; });
         thumbs.appendChild(t);
       });
     } else {
-      mainImg.src = '/assets/img/products/fallback.png';
-      mainImg.alt = product.name || '';
+      mainImg2.src = '/assets/img/products/fallback.png';
+      mainImg2.alt = product.name || '';
     }
     if (currentVariant) applyVariant(currentVariant);
 
     const qtyEl = document.getElementById('product-qty');
     if (addBtn) {
       addBtn.setAttribute('aria-label', `Add ${product.name} to cart`);
-      addBtn.addEventListener('click', () => { 
+      addBtn.addEventListener('click', () => { pdplog('addBtn click');
         const qty = parseInt(qtyEl.value,10) || 1;
         const item = currentVariant ? { ...product, ...currentVariant } : product;
         const pid  = item.id || item.slug || product.id || product.slug;
@@ -207,17 +207,6 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
         const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
         addBtn.dispatchEvent(evt);
         try { Analytics.addToCart(item, qty); } catch(_){}
-        if (typeof showAddedToast === 'function') try { showAddedToast(item.name || 'Added'); } catch(_){}
-        });
-          }
-        } catch (e) { console.warn('cart error (product-page)', e); }
-      
-        // 2) Then fire the event (skipSimpleCart can stay true since we already added)
-        const detail = { qty, skipSimpleCart: true, id: pid };
-        const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
-        addBtn.dispatchEvent(evt);
-      
-        Analytics.addToCart(item, qty);
         if (liveRegion) liveRegion.textContent = 'Added to cart';
         showAddedToast(item.name);
       });
@@ -261,4 +250,3 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     container.innerHTML = '<h1>Product not found</h1><p><a href="/">Home</a></p>';
   }
 });
-

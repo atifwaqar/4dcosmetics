@@ -1,23 +1,19 @@
-/*! Cart Drawer - debug+visibility-fallback */
+/*! Cart Drawer - minimal, no cart logic fork. */
 (function(){
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
-  // ========= Debug =========
-  window.__CD_VERSION__ = 'CD-2025-10-15-DBG3';
+  // === Debug logging ===
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
-  function warn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
-  function err(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
+  function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function cwarn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
+  function cerr(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
+  clog('loaded, readyState=', document.readyState, 'path=', location.pathname);
 
-  const scriptEl = [...document.scripts].find(s=>String(s.src||'').includes('cart-drawer.js')) || null;
-  const scriptSrc = scriptEl ? scriptEl.src : '(inline/unknown)';
-  log('loaded', { readyState: document.readyState, path: location.pathname, version: window.__CD_VERSION__, scriptSrc });
-
-  // ========= Utilities =========
+  // Utilities
   const $ = (sel, ctx=document)=>ctx.querySelector(sel);
   const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
 
-  // ========= Cart API bridge =========
+  // Cart API bridge (can be overridden via init)
   const defaultApi = {
     getCartState(){
       try{
@@ -45,55 +41,39 @@
     }
   };
 
-  // ========= CSS helpers =========
-  function injectCartCss(){
-    log('injectCartCss()');
+  function injectCartCss(){ clog('injectCartCss()');
+    // Ensure cart.css (which styles .cart-line) is present on non-cart pages
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
     if (present) return;
     var link = document.createElement('link');
     link.rel = 'stylesheet';
+    // Resolve relative to script src if possible
+    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart.css';
-    if (scriptEl){
+    if (script){
       try{
-        var url = new URL(scriptSrc, window.location.origin);
+        var url = new URL(script.src, window.location.origin);
         href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css');
       }catch(_){}
     }
     link.href = href;
     document.head.appendChild(link);
   }
-
-  function injectCssOnce(){
-    log('injectCssOnce()');
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
-    var href = '/assets/css/cart-drawer.css';
-    if (scriptEl){
-      try{
-        var url = new URL(scriptSrc, window.location.origin);
-        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
-      }catch(_){}
-    }
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    link.dataset.cartDrawer = '1';
-    document.head.appendChild(link);
-  }
-
-  function cssDebug(){
-    try{
-      const sheets = [...document.styleSheets].filter(s=>s.href && (s.href.includes('cart-drawer.css') || s.href.includes('cart.css')));
-      log('cssDebug', sheets.map(s=>({ href: s.href, disabled: s.disabled, rules: (()=>{try{return s.cssRules?.length||0}catch(_){return 'blocked'}})() })));
-    }catch(e){ warn('cssDebug error', e); }
-  }
-
   function ensureCartUi(onReady){
-    if (window.__CartUiLoaded || window.__CART_UI_READY){ onReady && onReady(); return; }
+    if (window.__CartUiLoaded || window.__CART_UI_READY){
+      onReady && onReady(); return;
+    }
+    // If the page already loaded cart-ui.js, bail
     if (window.CartUIReady){ onReady && onReady(); return; }
+    // Dynamically load assets/js/cart-ui.js so subtotal/formatters run
     var script = document.createElement('script');
     var base = '/assets/js/cart-ui.js';
-    if (scriptEl){
-      try{ var url = new URL(scriptSrc, window.location.origin); base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js'); }catch(_){}
+    var me = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
+    if (me){
+      try{
+        var url = new URL(me.src, window.location.origin);
+        base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js');
+      }catch(_){}
     }
     script.src = base;
     script.async = true;
@@ -101,10 +81,15 @@
     document.head.appendChild(script);
   }
 
-  // ========= Toast killer =========
+  // Kill legacy toast notifications everywhere (replace with drawer UX)
   function disableToasts(){
-    try{ window.showAddedToast = function(){ try{ CartDrawer.open(); }catch(_){} }; }catch(_){}
     try{
+      window.showAddedToast = function(){
+        try{ CartDrawer.open(); }catch(_){ }
+      };
+    }catch(_){ }
+    try{
+      // Remove any existing toast DOM and block future ones
       const cleanup = ()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
       cleanup();
       const mo = new MutationObserver(()=>cleanup());
@@ -112,7 +97,6 @@
     }catch(_){}
   }
 
-  // ========= State =========
   const state = {
     api: defaultApi,
     opts: { checkoutUrl:'/cart.html' },
@@ -124,13 +108,30 @@
     _openDebounce: null
   };
 
-  function bindSimpleCart(){
-    log('bindSimpleCart() :: simpleCart present?', typeof simpleCart, 'bind?', simpleCart && typeof simpleCart.bind);
+  function injectCssOnce(){ clog('injectCssOnce()');
+    // Try to resolve CSS path from the script src
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
+    var href = '/assets/css/cart-drawer.css';
+    if (script){
+      try{
+        var url = new URL(script.src, window.location.origin);
+        // replace /js/cart-drawer.js -> /css/cart-drawer.css
+        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
+      }catch(_){}
+    }
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.dataset.cartDrawer = '1';
+    document.head.appendChild(link);
+  }
+
+  function bindSimpleCart(){ clog('bindSimpleCart()');
     if (state.simpleCartBound) return;
     if (typeof simpleCart === 'undefined' || typeof simpleCart.bind !== 'function') return;
     try{
-      simpleCart.bind('afterAdd', function(){
-        log('simpleCart.afterAdd fired');
+      simpleCart.bind('afterAdd', function(){ clog('simpleCart.afterAdd fired');
         try{
           if(state.root && state.root.classList.contains('open')){
             render();
@@ -143,8 +144,7 @@
     }catch(_){}
   }
 
-  function ensureReady(opts){
-    log('ensureReady() called with opts=', !!opts);
+  function ensureReady(opts){ clog('ensureReady() called with opts=', !!opts);
     if (opts && typeof opts === 'object'){
       state.opts = Object.assign(state.opts, opts);
       if (opts.getCartState || opts.updateQty || opts.removeLineItem){
@@ -167,24 +167,13 @@
         checkout.setAttribute('href', href);
       }
     }
-    try{
-      log('env check', {
-        simpleCart: typeof simpleCart,
-        StorefrontRuntime: typeof window.StorefrontRuntime,
-        getProductById: window.StorefrontRuntime && typeof StorefrontRuntime.getProductById,
-        getProductBySlug: window.StorefrontRuntime && typeof StorefrontRuntime.getProductBySlug,
-        getProductBySku: window.StorefrontRuntime && typeof StorefrontRuntime.getProductBySku
-      });
-    }catch(_){}
-    cssDebug();
     ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
     bindSimpleCart();
     state.initialized = true;
     return true;
   }
 
-  function buildRoot(){
-    log('buildRoot()');
+  function buildRoot(){ clog('buildRoot()');
     if (state.root) return state.root;
     const root = document.createElement('div');
     root.className = 'cart-drawer-root';
@@ -215,7 +204,7 @@
     document.body.appendChild(root);
     state.root = root;
 
-    // Panel interactions
+    // Panel interactions (qty +/-/remove and footer links)
     const _panel = root.querySelector('.cart-drawer-panel');
     if (_panel){
       _panel.addEventListener('click', (e)=>{
@@ -238,32 +227,27 @@
       });
     }
 
-    // Avoid duplicate IDs on /cart
+    // Do not create duplicate summary ids on /cart page; hide footer subtotals there
     if (location.pathname.includes('/cart')){
       const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
       const cnt = root.querySelector('#summary-count'); if(cnt){ cnt.removeAttribute('id'); }
     }
 
-    // backdrop close
+    // Close when clicking backdrop
     root.addEventListener('click', (e)=>{
       const cls = e.target.closest('[data-close]');
       if(cls){ CartDrawer.close(); }
     });
 
-    // qty changes (fix the parseInt typo)
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
-      if(qty){
-        const id = qty.dataset.qty;
-        const v = Math.max(1, parseInt(qty.value||'1',10));
-        state.api.updateQty(id, v); render();
-      }
+      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
     });
 
     const body = root.querySelector('.cart-drawer-body');
     if(body){ body.addEventListener('scroll', updateScrollIndicators); }
 
-    // swipe-to-close for mobile
+    // Close drawer on downward swipe for mobile screens
     const panel = root.querySelector('.cart-drawer-panel');
     if(panel){
       let startY = null;
@@ -284,7 +268,7 @@
       panel.addEventListener('touchcancel', function(){ startY = null; }, {passive:true});
     }
 
-    // focus trap
+    // Basic focus trap
     root.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape') { e.preventDefault(); CartDrawer.close(); }
       if(e.key === 'Tab' && root.classList.contains('open')){
@@ -314,6 +298,7 @@
   }
 
   function cloneCartLine(it){
+    // IMPORTANT: Keep structure identical to cart-ui.js
     const total = (Number(it.price)||0) * (Number(it.qty)||0);
     const html = `
       <div class="cart-line">
@@ -344,8 +329,7 @@
     body.classList.toggle('scroll-bottom', !atBottom);
   }
 
-  function render(){
-    try{log('render()');}catch(_){}
+  function render(){ try{clog('render()');}catch(_){ }
     const root = buildRoot();
     const list = $('#cart-lines-drawer', root);
     const empty = $('.cart-drawer-empty', root);
@@ -359,20 +343,22 @@
     }
     const count = items.reduce((s, it) => s + (Number(it.qty) || 0), 0);
     const countEl = $('#summary-count', root);
-    if (countEl) { countEl.textContent = `${count} item${count === 1 ? '' : 's'}`; }
+    if (countEl) {
+      countEl.textContent = `${count} item${count === 1 ? '' : 's'}`;
+    }
+    // Let existing cart-ui.js update summary numbers if present
     if (typeof simpleCart !== 'undefined'){ try{ simpleCart.update(); }catch(_){ } }
     updateScrollIndicators();
   }
 
-  // ====== Debounced open ======
+  // Debounced open
   function open(trigger){
     if (!ensureReady()) return;
     if (state._openDebounce) clearTimeout(state._openDebounce);
     state._openDebounce = setTimeout(()=>_open(trigger), 10);
   }
 
-  function _open(trigger){
-    log('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
+  function _open(trigger){ clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -381,34 +367,9 @@
     if(sb > 0) document.body.style.paddingRight = sb + 'px';
     render();
     const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
-
-    // ===== Visibility diagnostics + fallback =====
-    setTimeout(()=>{
-      try{
-        const panel = state.root.querySelector('.cart-drawer-panel');
-        const backdrop = state.root.querySelector('.cart-drawer-backdrop');
-        const rect = panel && panel.getBoundingClientRect();
-        const cs = panel ? getComputedStyle(panel) : null;
-        log('visibility-check', {
-          panelExists: !!panel,
-          rect, display: cs && cs.display, visibility: cs && cs.visibility,
-          transform: cs && cs.transform, zIndex: cs && cs.zIndex
-        });
-
-        // If panel width is 0 or transform suggests it's still off-screen, force show as fallback
-        const offscreen = panel && (rect.width === 0 || String(cs.transform||'').includes('matrix') && /-?1(\.0+)?e?\d*/i.test('0') /* no-op */);
-        const notShown = panel && (cs.display === 'none' || cs.visibility === 'hidden');
-        if (panel && (offscreen || notShown)) {
-          warn('panel seems hidden/offscreen → applying fallback inline styles');
-          state.root.style.zIndex = '2147483647';
-          panel.style.transform = 'translateX(0)';
-          panel.style.opacity = '1';
-          panel.style.display = 'block';
-          backdrop && (backdrop.style.display = 'block');
-        }
-      }catch(e){ warn('visibility-check error', e); }
-    }, 50);
-
+    // Focus first interactive element
+    const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
+    if(first) first.focus();
     // Auto close on desktop after ~7s (cancel on interaction)
     clearTimeout(state.autoCloseTimer);
     if (window.matchMedia('(min-width: 769px)').matches){
@@ -416,15 +377,14 @@
       state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
       state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
     }
-
+    // Optional: bump cart badge
     try{
       const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
       if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
     }catch(_){}
   }
   function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
-  function close(){
-    log('close()');
+  function close(){ clog('close()');
     if (!state.root) return;
     state.root.classList.remove('open');
     state.root.setAttribute('aria-hidden','true');
@@ -433,75 +393,33 @@
     if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
   }
 
-  // ====== PDP resolver for force-adds (keep, but your cart is already updating) ======
-  function _resolvePDPData(detail){
-    let prod = null;
-    try{
-      if(window.StorefrontRuntime){
-        const id = String(detail && detail.id || '').trim();
-        const slug = (location.pathname.split('/').filter(Boolean)[1]) || '';
-        if(id && typeof StorefrontRuntime.getProductById==='function') prod = StorefrontRuntime.getProductById(id);
-        if(!prod && id && typeof StorefrontRuntime.getProductBySku==='function') prod = StorefrontRuntime.getProductBySku(id);
-        if(!prod && id && typeof StorefrontRuntime.getProductBySlug==='function') prod = StorefrontRuntime.getProductBySlug(id);
-        if(!prod && slug && typeof StorefrontRuntime.getProductBySlug==='function') prod = StorefrontRuntime.getProductBySlug(slug);
-      }
-    }catch(_){}
-    const name = (prod && (prod.name||prod.title))
-      || (document.getElementById('product-title') && document.getElementById('product-title').textContent.trim())
-      || (detail && detail.name) || String(detail && detail.id || '');
-
-    let price = null, priceSelector = '(runtime/auto)';
-    try{ if(prod){ price = Number(prod.price && (prod.price.current ?? prod.price)); } }catch(_){}
-    if(!(price>0)){
-      const probes = [
-        '#product-price .item_price',
-        '.item_price',
-        '[itemprop=price][content]',
-        '[data-price]',
-        '#product-price [data-price]'
-      ];
-      for(const sel of probes){
-        const el = document.querySelector(sel);
-        if(!el) continue;
-        const raw = (el.getAttribute('content') || el.getAttribute('data-price') || el.textContent || '').replace(/[^0-9.]/g,'');
-        const num = Number(raw);
-        if(num>0){ price = num; priceSelector = sel; break; }
-      }
-    }
-    let image = '';
-    try{
-      image = (prod && ((prod.images && prod.images[0])||prod.image))
-        || (document.getElementById('main-image') && document.getElementById('main-image').src)
-        || '';
-    }catch(_){}
-    log('PDP resolver', { resolved: !!prod, price, priceSelector, image: !!image });
-    return { name, price, image };
-  }
-
-  // ========= Global API =========
+  // Global
   window.CartDrawer = {
-    init(opts={}){ ensureReady(opts); },
-    open(trigger){ open(trigger); },
+    init(opts={}){
+      ensureReady(opts);
+    },
+    open(trigger){
+      open(trigger);
+    },
     close: ()=>close()
   };
 
-  // ========= Critical event listener =========
-  log('attaching product:addToCart listener', { version: window.__CD_VERSION__ });
-  document.addEventListener('product:addToCart', (e)=>{ try{ console && console.log && console.log('[CartDrawer] open on product:addToCart', e && e.detail); }catch(_){ } CartDrawer.open(e && e.target); });
-// We still open on every add-to-cart; your cart is already being updated elsewhere.
-    }catch(ex){ err('product:addToCart handler error', ex); }
-    open(e && e.target);
+  // Open drawer on product:addToCart
+  document.addEventListener('product:addToCart', function(e){
+    try {
+      if (CART_DEBUG) console.log('[CartDrawer] open on product:addToCart', e && e.detail);
+    } catch(_) {}
+    CartDrawer.open(e && e.target);
   });
 
-  // ========= Click fallback (capturing) =========
-  document.addEventListener('click', function(ev){
-    const btn = ev.target && (ev.target.closest('.item_add') || ev.target.closest('.pc__atc') || ev.target.closest('[data-add-to-cart]') || ev.target.closest('#add-to-cart') || ev.target.closest('.add-to-cart'));
-    if(!btn) return;
-    log('capturing click fallback for add-to-cart', { tag: btn.tagName, cls: btn.className });
-    setTimeout(()=>{ try{ open(btn); }catch(_){ } }, 30);
-  }, true);
+  // Extra safety: on any direct click of common add-to-cart buttons, open after a short delay.
+  document.addEventListener('click', function(e){
+    var btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart'));
+    if (btn){
+      setTimeout(function(){ try{ CartDrawer.open(btn); }catch(_){ try{ window.__CART_DRAWER_WANTS_OPEN__ = { trigger: btn }; }catch(__){} } }, 50);
+    }
+  });
 
-  // ========= Boot =========
   function autoInit(){
     if (window.CartDrawer){ window.CartDrawer.init(); }
     disableToasts();
@@ -516,6 +434,7 @@
       }
     }catch(_){ }
   }
+
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', autoInit);
   }else{
