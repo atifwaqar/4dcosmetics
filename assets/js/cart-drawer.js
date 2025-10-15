@@ -1,8 +1,7 @@
-/*! Cart Drawer - minimal, no cart logic fork. */
+/*! Cart Drawer - robust version with PDP force-add + debounced open */
 (function(){
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
-  
   // === Debug logging ===
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
   function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
@@ -42,7 +41,6 @@
     }
   };
 
-  
   function injectCartCss(){ clog('injectCartCss()');
     // Ensure cart.css (which styles .cart-line) is present on non-cart pages
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
@@ -61,6 +59,7 @@
     link.href = href;
     document.head.appendChild(link);
   }
+
   function ensureCartUi(onReady){
     if (window.__CartUiLoaded || window.__CART_UI_READY){
       onReady && onReady(); return;
@@ -83,7 +82,6 @@
     document.head.appendChild(script);
   }
 
-  
   // Kill legacy toast notifications everywhere (replace with drawer UX)
   function disableToasts(){
     try{
@@ -107,7 +105,8 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false
+    initialized: false,
+    _openDebounce: null
   };
 
   function injectCssOnce(){ clog('injectCssOnce()');
@@ -120,7 +119,7 @@
         var url = new URL(script.src, window.location.origin);
         // replace /js/cart-drawer.js -> /css/cart-drawer.css
         href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
-      }catch(_){}
+      }catch(_){ }
     }
     var link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -140,7 +139,7 @@
           }else{
             open();
           }
-        }catch(_){}
+        }catch(_){ }
       });
       state.simpleCartBound = true;
     }catch(_){}
@@ -243,7 +242,11 @@
 
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
-      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseparseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
+      if(qty){
+        const id = qty.dataset.qty;
+        const v = Math.max(1, parseInt(qty.value||'1',10));
+        state.api.updateQty(id, v); render();
+      }
     });
 
     const body = root.querySelector('.cart-drawer-body');
@@ -353,8 +356,16 @@
     updateScrollIndicators();
   }
 
-  function open(trigger){ clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
+  // Debounced open to avoid repeated rapid opens
+  function open(trigger){
     if (!ensureReady()) return;
+    if (state._openDebounce) clearTimeout(state._openDebounce);
+    state._openDebounce = setTimeout(()=>_open(trigger), 10);
+  }
+
+  // Original open body moved here
+  function _open(trigger){
+    clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -389,29 +400,94 @@
     if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
   }
 
+  // --- PDP data resolver for force-adds (when skipSimpleCart=true) ---
+  function _resolvePDPData(detail){
+    // Try StorefrontRuntime first (id/sku/slug/URL slug)
+    let prod = null;
+    try{
+      if(window.StorefrontRuntime){
+        const id = String(detail && detail.id || '').trim();
+        const slug = (location.pathname.split('/').filter(Boolean)[1]) || '';
+        if(id && typeof StorefrontRuntime.getProductById==='function') prod = StorefrontRuntime.getProductById(id);
+        if(!prod && id && typeof StorefrontRuntime.getProductBySku==='function') prod = StorefrontRuntime.getProductBySku(id);
+        if(!prod && id && typeof StorefrontRuntime.getProductBySlug==='function') prod = StorefrontRuntime.getProductBySlug(id);
+        if(!prod && slug && typeof StorefrontRuntime.getProductBySlug==='function') prod = StorefrontRuntime.getProductBySlug(slug);
+      }
+    }catch(_){}
+    const name = (prod && (prod.name||prod.title))
+      || (document.getElementById('product-title') && document.getElementById('product-title').textContent.trim())
+      || (detail && detail.name) || String(detail && detail.id || '');
+    // price from data or DOM
+    let price = null;
+    try{ if(prod){ price = Number(prod.price && (prod.price.current ?? prod.price)); } }catch(_){}
+    if(!(price>0)){
+      const probes = [
+        '#product-price .item_price',
+        '.item_price',
+        '[itemprop=price][content]',
+        '[data-price]',
+        '#product-price [data-price]'
+      ];
+      for(const sel of probes){
+        const el = document.querySelector(sel);
+        if(!el) continue;
+        const raw = (el.getAttribute('content') || el.getAttribute('data-price') || el.textContent || '').replace(/[^0-9.]/g,'');
+        const num = Number(raw);
+        if(num>0){ price = num; break; }
+      }
+    }
+    let image = '';
+    try{
+      image = (prod && ((prod.images && prod.images[0])||prod.image))
+        || (document.getElementById('main-image') && document.getElementById('main-image').src)
+        || '';
+    }catch(_){}
+    return { name, price, image };
+  }
+
   // Global
   window.CartDrawer = {
-    init(opts={}){
-      ensureReady(opts);
-    },
-    open(trigger){
-      open(trigger);
-    },
+    init(opts={}){ ensureReady(opts); },
+    open(trigger){ open(trigger); },
     close: ()=>close()
   };
 
   // Always react to add-to-cart events, even if init hasn't run yet
-  document.addEventListener('product:addToCart', (e)=>{ clog('event product:addToCart heard', e && e.detail); open(e && e.target); });
-
-  // Extra safety: on any direct click of common add-to-cart buttons, open after a short delay.
-  document.addEventListener('click', function(e){
-    var btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart'));
-    if (btn){
-      // Wait a tick for cart libraries to update, then open.
-      setTimeout(function(){ try{ CartDrawer.open(btn); }catch(_){ try{ window.__CART_DRAWER_WANTS_OPEN__ = { trigger: btn }; }catch(__){} } }, 50);
-    }
+  document.addEventListener('product:addToCart', (e)=>{
+    try{
+      const d = e && e.detail || {};
+      clog('event product:addToCart heard in cart-drawer', d);
+      const qty = Math.max(1, Number(d.qty)||1);
+      // If dispatcher asked to skip SimpleCart (common on PDP), ensure we still add here
+      if (d && d.id && d.skipSimpleCart === true){
+        try{
+          if (typeof simpleCart !== 'undefined'){
+            const meta = _resolvePDPData(d);
+            if (meta && meta.price && !isNaN(meta.price)){
+              clog('cart-drawer force simpleCart.add', {id: d.id, qty, name: meta.name, price: meta.price});
+              simpleCart.add({
+                id: String(d.id),
+                name: meta.name || String(d.id),
+                price: Number(meta.price) || 0,
+                image: meta.image || '',
+                quantity: qty
+              });
+            }else{
+              clog('cart-drawer STILL could not resolve price; skipping add');
+            }
+          }
+        }catch(err){ cerr('force-add failed', err); }
+      }
+    }catch(_){}
+    open(e && e.target);
   });
 
+  // Capturing click fallback: if user clicks .item_add / .pc__atc, ensure drawer opens
+  document.addEventListener('click', function(ev){
+    const btn = ev.target && (ev.target.closest('.item_add') || ev.target.closest('.pc__atc') || ev.target.closest('[data-add-to-cart]') || ev.target.closest('#add-to-cart') || ev.target.closest('.add-to-cart'));
+    if(!btn) return;
+    setTimeout(()=>{ try{ open(btn); }catch(_){ } }, 30);
+  }, true);
 
   function autoInit(){
     if (window.CartDrawer){ window.CartDrawer.init(); }
@@ -428,47 +504,7 @@
     }catch(_){ }
   }
 
-  document.addEventListener('product:addToCart', (e)=>{
-    try{
-      const d = e && e.detail || {};
-      clog('event product:addToCart heard in cart-drawer', d);
-      // If dispatcher asked to skip simpleCart (common on PDP), ensure we still add here.
-      if (d && d.id && (d.skipSimpleCart === true)){
-        try{
-          if (typeof simpleCart !== 'undefined'){
-            let prod = null;
-            try{
-              if (window.StorefrontRuntime){
-                if (typeof StorefrontRuntime.getProductById === 'function') prod = StorefrontRuntime.getProductById(String(d.id));
-                if (!prod && typeof StorefrontRuntime.getProductBySlug === 'function') prod = StorefrontRuntime.getProductBySlug(String(d.id));
-                if (!prod && typeof StorefrontRuntime.getProductBySku === 'function') prod = StorefrontRuntime.getProductBySku(String(d.id));
-              }
-            }catch(_){}
-            let name = (prod && (prod.name || prod.title)) || d.name || String(d.id);
-            let price = null;
-            if (prod){
-              try{ price = Number(prod.price && (prod.price.current ?? prod.price)) || 0; }catch(_){}
-            }
-            if (price == null || isNaN(price)){
-              const pEl = document.querySelector('#product-price .item_price');
-              if (pEl) { price = Number(pEl.textContent.replace(/[^0-9.]/g,'')) || 0; }
-            }
-            let image = (prod && ((prod.images && prod.images[0]) || prod.image)) || '';
-            const qty = Math.max(1, Number(d.qty) || 1);
-            // Only add if we could derive a numeric price
-            if (price != null && !isNaN(price)){
-              clog('cart-drawer force simpleCart.add', {id: d.id, qty, name, price});
-              simpleCart.add({ id: String(d.id), name, price, image, quantity: qty });
-            }else{
-              clog('cart-drawer could not resolve price; skipping add');
-            }
-          }
-        }catch(err){ cerr('force-add failed', err); }
-      }
-    }catch(_){}
-    open(e && e.target);
-  });
-if (document.readyState === 'loading'){
+  if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', autoInit);
   }else{
     autoInit();
