@@ -1,34 +1,30 @@
-/*! Cart Drawer - minimal, no cart logic fork. */
+/*! Cart Drawer - hardened open with CSS fallback */
 (function(){
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
-  // === Debug logging ===
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
-  function cwarn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
-  function cerr(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
-  clog('loaded, readyState=', document.readyState, 'path=', location.pathname);
+  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function warn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
+  function err(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
 
-  // Utilities
-  const $ = (sel, ctx=document)=>ctx.querySelector(sel);
-  const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
+  log('loaded, readyState=', document.readyState, 'path=', location.pathname);
 
-  // Cart API bridge (can be overridden via init)
+  const $ = (s,c=document)=>c.querySelector(s);
+  const $$ = (s,c=document)=>Array.from(c.querySelectorAll(s));
+
   const defaultApi = {
     getCartState(){
       try{
         if (typeof simpleCart !== 'undefined'){
           const items = simpleCart.items() || [];
-          return {
-            items: items.map(it=>({
-              id: it.id(),
-              title: it.get('name'),
-              qty: it.quantity(),
-              price: Number(it.get('price')||0),
-              image: it.get('image') || '',
-              variantTitle: it.get('variant') || ''
-            }))
-          };
+          return { items: items.map(it=>({
+            id: it.id(),
+            title: it.get('name'),
+            qty: it.quantity(),
+            price: Number(it.get('price')||0),
+            image: it.get('image') || '',
+            variantTitle: it.get('variant') || ''
+          }))};
         }
       }catch(_){}
       return { items: [] };
@@ -41,59 +37,48 @@
     }
   };
 
-  function injectCartCss(){ clog('injectCartCss()');
-    // Ensure cart.css (which styles .cart-line) is present on non-cart pages
+  function injectCartCss(){
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
     if (present) return;
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    // Resolve relative to script src if possible
-    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
-    var href = '/assets/css/cart.css';
-    if (script){
-      try{
-        var url = new URL(script.src, window.location.origin);
-        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css');
-      }catch(_){}
-    }
-    link.href = href;
-    document.head.appendChild(link);
+    const link = document.createElement('link');
+    link.rel='stylesheet';
+    let href='/assets/css/cart.css';
+    try{
+      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      if(me){ const u=new URL(me.src,location.origin); href=u.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css'); }
+    }catch(_){}
+    link.href=href; document.head.appendChild(link);
   }
-  function ensureCartUi(onReady){
-    if (window.__CartUiLoaded || window.__CART_UI_READY){
-      onReady && onReady(); return;
-    }
-    // If the page already loaded cart-ui.js, bail
-    if (window.CartUIReady){ onReady && onReady(); return; }
-    // Dynamically load assets/js/cart-ui.js so subtotal/formatters run
-    var script = document.createElement('script');
-    var base = '/assets/js/cart-ui.js';
-    var me = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
-    if (me){
-      try{
-        var url = new URL(me.src, window.location.origin);
-        base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js');
-      }catch(_){}
-    }
-    script.src = base;
-    script.async = true;
-    script.onload = function(){ try{ window.__CART_UI_READY = true; if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } onReady && onReady(); };
-    document.head.appendChild(script);
+  function injectCssOnce(){
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    const link = document.createElement('link');
+    link.rel='stylesheet';
+    let href='/assets/css/cart-drawer.css';
+    try{
+      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      if(me){ const u=new URL(me.src,location.origin); href=u.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css'); }
+    }catch(_){}
+    link.href=href; link.dataset.cartDrawer='1'; document.head.appendChild(link);
   }
 
-  // Kill legacy toast notifications everywhere (replace with drawer UX)
+  function ensureCartUi(cb){
+    if (window.__CART_UI_READY || window.CartUIReady){ cb&&cb(); return; }
+    const s = document.createElement('script');
+    let src = '/assets/js/cart-ui.js';
+    try{
+      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      if(me){ const u=new URL(me.src,location.origin); src=u.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js'); }
+    }catch(_){}
+    s.src=src; s.async=true; s.onload=function(){ try{ window.__CART_UI_READY=true; if(typeof simpleCart!=='undefined') simpleCart.update(); }catch(_){ } cb&&cb(); };
+    document.head.appendChild(s);
+  }
+
   function disableToasts(){
+    try{ window.showAddedToast = function(){ try{ CartDrawer.open(); }catch(_){ } }; }catch(_){}
     try{
-      window.showAddedToast = function(){
-        try{ CartDrawer.open(); }catch(_){ }
-      };
-    }catch(_){ }
-    try{
-      // Remove any existing toast DOM and block future ones
-      const cleanup = ()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
+      const cleanup=()=>document.querySelectorAll('.toast-notice').forEach(n=>n.remove());
       cleanup();
-      const mo = new MutationObserver(()=>cleanup());
-      mo.observe(document.body, { childList:true, subtree:true });
+      new MutationObserver(()=>cleanup()).observe(document.body,{childList:true,subtree:true});
     }catch(_){}
   }
 
@@ -108,43 +93,20 @@
     _openDebounce: null
   };
 
-  function injectCssOnce(){ clog('injectCssOnce()');
-    // Try to resolve CSS path from the script src
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
-    var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
-    var href = '/assets/css/cart-drawer.css';
-    if (script){
-      try{
-        var url = new URL(script.src, window.location.origin);
-        // replace /js/cart-drawer.js -> /css/cart-drawer.css
-        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
-      }catch(_){}
-    }
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    link.dataset.cartDrawer = '1';
-    document.head.appendChild(link);
-  }
-
-  function bindSimpleCart(){ clog('bindSimpleCart()');
+  function bindSimpleCart(){
     if (state.simpleCartBound) return;
     if (typeof simpleCart === 'undefined' || typeof simpleCart.bind !== 'function') return;
     try{
-      simpleCart.bind('afterAdd', function(){ clog('simpleCart.afterAdd fired');
-        try{
-          if(state.root && state.root.classList.contains('open')){
-            render();
-          }else{
-            open();
-          }
-        }catch(_){}
+      simpleCart.bind('afterAdd', function(){
+        log('simpleCart.afterAdd fired');
+        try{ if(state.root && state.root.classList.contains('open')) render(); else open(); }catch(_){}
       });
       state.simpleCartBound = true;
     }catch(_){}
   }
 
-  function ensureReady(opts){ clog('ensureReady() called with opts=', !!opts);
+  function ensureReady(opts){
+    log('ensureReady() called with opts=', !!opts);
     if (opts && typeof opts === 'object'){
       state.opts = Object.assign(state.opts, opts);
       if (opts.getCartState || opts.updateQty || opts.removeLineItem){
@@ -160,20 +122,18 @@
     injectCartCss();
     const root = buildRoot();
     if (!root) return false;
-    if (root){
-      const checkout = root.querySelector('.cart-drawer-actions a[href]');
-      if (checkout){
-        const href = state.opts?.checkoutUrl || '/cart.html';
-        checkout.setAttribute('href', href);
-      }
+    const checkout = root.querySelector('.cart-drawer-actions a[href]');
+    if (checkout){
+      const href = state.opts?.checkoutUrl || '/cart.html';
+      checkout.setAttribute('href', href);
     }
-    ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
+    ensureCartUi(()=>{ try{ if(typeof simpleCart!=='undefined') simpleCart.update(); }catch(_){ } });
     bindSimpleCart();
     state.initialized = true;
     return true;
   }
 
-  function buildRoot(){ clog('buildRoot()');
+  function buildRoot(){
     if (state.root) return state.root;
     const root = document.createElement('div');
     root.className = 'cart-drawer-root';
@@ -204,7 +164,6 @@
     document.body.appendChild(root);
     state.root = root;
 
-    // Panel interactions (qty +/-/remove and footer links)
     const _panel = root.querySelector('.cart-drawer-panel');
     if (_panel){
       _panel.addEventListener('click', (e)=>{
@@ -227,13 +186,11 @@
       });
     }
 
-    // Do not create duplicate summary ids on /cart page; hide footer subtotals there
     if (location.pathname.includes('/cart')){
       const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
       const cnt = root.querySelector('#summary-count'); if(cnt){ cnt.removeAttribute('id'); }
     }
 
-    // Close when clicking backdrop
     root.addEventListener('click', (e)=>{
       const cls = e.target.closest('[data-close]');
       if(cls){ CartDrawer.close(); }
@@ -247,7 +204,7 @@
     const body = root.querySelector('.cart-drawer-body');
     if(body){ body.addEventListener('scroll', updateScrollIndicators); }
 
-    // Close drawer on downward swipe for mobile screens
+    // swipe-to-close for mobile
     const panel = root.querySelector('.cart-drawer-panel');
     if(panel){
       let startY = null;
@@ -268,7 +225,6 @@
       panel.addEventListener('touchcancel', function(){ startY = null; }, {passive:true});
     }
 
-    // Basic focus trap
     root.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape') { e.preventDefault(); CartDrawer.close(); }
       if(e.key === 'Tab' && root.classList.contains('open')){
@@ -288,17 +244,12 @@
       const items = state.api.getCartState().items;
       const found = items.find(i=>String(i.id)===String(id));
       const next = (found?.qty||1) + delta;
-      if(next <= 0){
-        state.api.removeLineItem(id);
-      }else{
-        state.api.updateQty(id, next);
-      }
+      if(next <= 0){ state.api.removeLineItem(id); } else { state.api.updateQty(id, next); }
       render();
     }catch(_){}
   }
 
   function cloneCartLine(it){
-    // IMPORTANT: Keep structure identical to cart-ui.js
     const total = (Number(it.price)||0) * (Number(it.qty)||0);
     const html = `
       <div class="cart-line">
@@ -315,50 +266,80 @@
         </div>
         <div class="cart-line__total">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</div>
       </div>`;
-    const t = document.createElement('template'); t.innerHTML = html.trim();
+    const t=document.createElement('template'); t.innerHTML=html.trim();
     return t.content.firstElementChild;
   }
 
   function updateScrollIndicators(){
     if(!state.root) return;
-    var body = state.root.querySelector('.cart-drawer-body');
+    const body = state.root.querySelector('.cart-drawer-body');
     if(!body) return;
-    var atTop = body.scrollTop <= 0;
-    var atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 1;
+    const atTop = body.scrollTop <= 0;
+    const atBottom = body.scrollTop + body.clientHeight >= body.scrollHeight - 1;
     body.classList.toggle('scroll-top', !atTop);
     body.classList.toggle('scroll-bottom', !atBottom);
   }
 
-  function render(){ try{clog('render()');}catch(_){ }
+  function render(){
+    try{ log('render()'); }catch(_){}
     const root = buildRoot();
     const list = $('#cart-lines-drawer', root);
     const empty = $('.cart-drawer-empty', root);
     const { items } = state.api.getCartState();
-    if (!items.length){
-      list.innerHTML = '';
-      empty.hidden = false;
-    }else{
-      empty.hidden = true;
-      list.innerHTML = items.map(it=>cloneCartLine(it).outerHTML).join('');
-    }
-    const count = items.reduce((s, it) => s + (Number(it.qty) || 0), 0);
-    const countEl = $('#summary-count', root);
-    if (countEl) {
-      countEl.textContent = `${count} item${count === 1 ? '' : 's'}`;
-    }
-    // Let existing cart-ui.js update summary numbers if present
+    if (!items.length){ list.innerHTML=''; empty.hidden=false; }
+    else { empty.hidden=true; list.innerHTML = items.map(it=>cloneCartLine(it).outerHTML).join(''); }
+    const count = items.reduce((s,it)=>s+(Number(it.qty)||0),0);
+    const countEl = $('#summary-count', root); if (countEl) countEl.textContent = `${count} item${count===1?'':'s'}`;
     if (typeof simpleCart !== 'undefined'){ try{ simpleCart.update(); }catch(_){ } }
     updateScrollIndicators();
   }
 
-  // Debounced open
+  // Ensure CSS visibility even if external CSS fails
+  function forceVisibleStyles(){
+    if(!state.root) return;
+    const panel = state.root.querySelector('.cart-drawer-panel');
+    const backdrop = state.root.querySelector('.cart-drawer-backdrop');
+    // Establish base inline styles to guarantee visibility
+    Object.assign(state.root.style, { zIndex: '2147483646' });
+    if (panel){
+      const base = {
+        position:'fixed', top:'0', right:'0', height:'100vh',
+        width:'min(420px, 100vw)', maxWidth:'100vw',
+        transform:'translateX(0)', transition:'transform .25s ease, opacity .2s ease',
+        opacity:'1', background:'#fff', boxShadow:'-8px 0 24px rgba(0,0,0,.12)',
+        zIndex:'2147483647', display:'block'
+      };
+      for (const k in base){ panel.style[k] = base[k]; }
+    }
+    if (backdrop){
+      const bb = {
+        position:'fixed', left:'0', right:'0', top:'0', bottom:'0',
+        background:'rgba(0,0,0,.4)', opacity:'1', display:'block',
+        zIndex:'2147483645'
+      };
+      for (const k in bb){ backdrop.style[k] = bb[k]; }
+    }
+    document.body.classList.add('drawer-open');
+  }
+
+  function checkVisibilityAndFallback(){
+    try{
+      const panel = state.root && state.root.querySelector('.cart-drawer-panel');
+      if(!panel) return;
+      const cs = getComputedStyle(panel);
+      const need = (!cs || cs.transform==='none' || cs.display==='none' || cs.visibility==='hidden');
+      if (need){ warn('CSS likely missing/overridden on this page → applying inline fallback'); forceVisibleStyles(); }
+    }catch(e){ warn('visibility check error', e); }
+  }
+
   function open(trigger){
     if (!ensureReady()) return;
     if (state._openDebounce) clearTimeout(state._openDebounce);
     state._openDebounce = setTimeout(()=>_open(trigger), 10);
   }
 
-  function _open(trigger){ clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
+  function _open(trigger){
+    log('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -367,24 +348,21 @@
     if(sb > 0) document.body.style.paddingRight = sb + 'px';
     render();
     const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
-    // Focus first interactive element
-    const first = state.root.querySelector('.cart-drawer-panel .btn, .cart-drawer-panel input, .cart-drawer-panel [href]');
-    if(first) first.focus();
-    // Auto close on desktop after ~7s (cancel on interaction)
+    setTimeout(checkVisibilityAndFallback, 30);
     clearTimeout(state.autoCloseTimer);
     if (window.matchMedia('(min-width: 769px)').matches){
       state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
-      state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
-      state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
+      state.root.addEventListener('pointerdown', ()=>clearTimeout(state.autoCloseTimer), { once: true });
+      state.root.addEventListener('keydown', ()=>clearTimeout(state.autoCloseTimer), { once: true });
     }
-    // Optional: bump cart badge
     try{
       const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
       if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
     }catch(_){}
   }
-  function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
-  function close(){ clog('close()');
+
+  function close(){
+    log('close()');
     if (!state.root) return;
     state.root.classList.remove('open');
     state.root.setAttribute('aria-hidden','true');
@@ -393,32 +371,23 @@
     if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
   }
 
-  // Global
   window.CartDrawer = {
-    init(opts={}){
-      ensureReady(opts);
-    },
-    open(trigger){
-      open(trigger);
-    },
+    init(opts={}){ ensureReady(opts); },
+    open(trigger){ open(trigger); },
     close: ()=>close()
   };
 
-  // Open drawer on product:addToCart
+  // Open the drawer on product:addToCart everywhere
   document.addEventListener('product:addToCart', function(e){
-    try {
-      if (CART_DEBUG) console.log('[CartDrawer] open on product:addToCart', e && e.detail);
-    } catch(_) {}
+    try { if (CART_DEBUG) console.log('[CartDrawer] open on product:addToCart', e && e.detail); } catch(_){}
     CartDrawer.open(e && e.target);
   });
 
-  // Extra safety: on any direct click of common add-to-cart buttons, open after a short delay.
+  // Safety: also open on direct add-to-cart button clicks
   document.addEventListener('click', function(e){
-    var btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart'));
-    if (btn){
-      setTimeout(function(){ try{ CartDrawer.open(btn); }catch(_){ try{ window.__CART_DRAWER_WANTS_OPEN__ = { trigger: btn }; }catch(__){} } }, 50);
-    }
-  });
+    const btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart') || e.target.closest('.item_add'));
+    if (btn){ setTimeout(()=>{ try{ CartDrawer.open(btn); }catch(_){ } }, 40); }
+  }, true);
 
   function autoInit(){
     if (window.CartDrawer){ window.CartDrawer.init(); }
@@ -428,16 +397,11 @@
       if(pending){
         window.__CART_DRAWER_WANTS_OPEN__ = null;
         const trigger = pending && pending.trigger && typeof pending.trigger.focus === 'function'
-          ? pending.trigger
-          : null;
+          ? pending.trigger : null;
         CartDrawer.open(trigger);
       }
     }catch(_){ }
   }
-
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', autoInit);
-  }else{
-    autoInit();
-  }
+  if (document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', autoInit); }
+  else { autoInit(); }
 })();
