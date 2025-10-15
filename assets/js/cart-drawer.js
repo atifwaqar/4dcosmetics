@@ -2,6 +2,14 @@
 (function(){
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
+  
+  // === Debug logging ===
+  const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
+  function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function cwarn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
+  function cerr(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
+  clog('loaded, readyState=', document.readyState, 'path=', location.pathname);
+
   // Utilities
   const $ = (sel, ctx=document)=>ctx.querySelector(sel);
   const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
@@ -35,7 +43,7 @@
   };
 
   
-  function injectCartCss(){
+  function injectCartCss(){ clog('injectCartCss()');
     // Ensure cart.css (which styles .cart-line) is present on non-cart pages
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
     if (present) return;
@@ -102,7 +110,7 @@
     initialized: false
   };
 
-  function injectCssOnce(){
+  function injectCssOnce(){ clog('injectCssOnce()');
     // Try to resolve CSS path from the script src
     if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
@@ -121,11 +129,11 @@
     document.head.appendChild(link);
   }
 
-  function bindSimpleCart(){
+  function bindSimpleCart(){ clog('bindSimpleCart()');
     if (state.simpleCartBound) return;
     if (typeof simpleCart === 'undefined' || typeof simpleCart.bind !== 'function') return;
     try{
-      simpleCart.bind('afterAdd', function(){
+      simpleCart.bind('afterAdd', function(){ clog('simpleCart.afterAdd fired');
         try{
           if(state.root && state.root.classList.contains('open')){
             render();
@@ -138,7 +146,7 @@
     }catch(_){}
   }
 
-  function ensureReady(opts){
+  function ensureReady(opts){ clog('ensureReady() called with opts=', !!opts);
     if (opts && typeof opts === 'object'){
       state.opts = Object.assign(state.opts, opts);
       if (opts.getCartState || opts.updateQty || opts.removeLineItem){
@@ -167,7 +175,7 @@
     return true;
   }
 
-  function buildRoot(){
+  function buildRoot(){ clog('buildRoot()');
     if (state.root) return state.root;
     const root = document.createElement('div');
     root.className = 'cart-drawer-root';
@@ -235,7 +243,7 @@
 
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
-      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
+      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
     });
 
     const body = root.querySelector('.cart-drawer-body');
@@ -323,7 +331,7 @@
     body.classList.toggle('scroll-bottom', !atBottom);
   }
 
-  function render(){
+  function render(){ try{clog('render()');}catch(_){ }
     const root = buildRoot();
     const list = $('#cart-lines-drawer', root);
     const empty = $('.cart-drawer-empty', root);
@@ -345,7 +353,7 @@
     updateScrollIndicators();
   }
 
-  function open(trigger){
+  function open(trigger){ clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
     if (!ensureReady()) return;
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
@@ -372,7 +380,7 @@
     }catch(_){}
   }
   function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
-  function close(){
+  function close(){ clog('close()');
     if (!state.root) return;
     state.root.classList.remove('open');
     state.root.setAttribute('aria-hidden','true');
@@ -393,7 +401,7 @@
   };
 
   // Always react to add-to-cart events, even if init hasn't run yet
-  document.addEventListener('product:addToCart', (e)=>open(e && e.target));
+  document.addEventListener('product:addToCart', (e)=>{ clog('event product:addToCart heard', e && e.detail); open(e && e.target); });
 
   // Extra safety: on any direct click of common add-to-cart buttons, open after a short delay.
   document.addEventListener('click', function(e){

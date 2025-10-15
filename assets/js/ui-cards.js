@@ -73,7 +73,7 @@ export function normalizePrice(val) {
 }
 
 // Renders a uniform, clickable simpleCart card for a product.
-export function buildProductCard(prod) {
+export function buildProductCard(prod) { const CART_DEBUG=(window.CART_DEBUG!==undefined)?!!window.CART_DEBUG:true; function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[UICards] '+a[0]; console.log.apply(console,a);}catch(_){} }
   if (!prod || !prod.name || !prod.slug) {
     console.warn('Invalid product skipped', prod);
     return null;
@@ -126,7 +126,7 @@ export function buildProductCard(prod) {
 
   if (!disabled) {
     const btn = wrap.querySelector('.item_add');
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', () => { clog('inline card atc click', {id: prod && (prod.id||prod.slug)});
       const detail = { qty: 1, skipSimpleCart: true };
       const id = prod.id || prod.slug;
       if (id) detail.id = id;

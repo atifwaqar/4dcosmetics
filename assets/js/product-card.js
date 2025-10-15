@@ -1,5 +1,8 @@
 // exports: renderProductCard(item), formatPrice(number, currency)
 (function(global){
+  const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
+  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[PC] '+a[0]; console.log.apply(console,a);}catch(_){} }
+
   const WISHLIST_KEY = 'wishlist_ids_v1';
   const ITEM_CACHE = {};
 
@@ -150,7 +153,7 @@
       return;
     }
     const atc = e.target.closest('.pc__atc');
-    if(atc){
+    if(atc){ log('pc__atc click', {id: atc && atc.getAttribute('data-id')});
       e.preventDefault(); e.stopPropagation();
       const id = atc.getAttribute('data-id');
       const evt = new CustomEvent('product:addToCart', { detail: { id }, bubbles:true });
@@ -158,7 +161,7 @@
     }
   });
 
-  document.addEventListener('product:addToCart', (e)=>{
+  document.addEventListener('product:addToCart', (e)=>{ log('event product:addToCart', e && e.detail);
     const detail = e.detail || {};
     const id = detail.id;
     const qty = Number(detail.qty) || 1;
@@ -166,7 +169,7 @@
     const item = ITEM_CACHE[id];
     if(!item) return;
     try{
-      if(!skipSimpleCart && typeof simpleCart !== 'undefined'){
+      if(!skipSimpleCart && typeof simpleCart !== 'undefined'){ log('simpleCart.add from product-card');
         simpleCart.add({
           id: id,
           name: item.title,
@@ -179,7 +182,7 @@
     if(!skipSimpleCart) showAddedToast(item.title);
   });
 
-  function showAddedToast(name){
+  function showAddedToast(name){ log('showAddedToast', name);
     var trigger = document.activeElement;
     try{
       if(window.CartDrawer && typeof window.CartDrawer.open === 'function'){

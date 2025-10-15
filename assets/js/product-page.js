@@ -1,7 +1,10 @@
 import { normalizePrice, showAddedToast, Analytics } from './ui-cards.js';
 import { applySEO } from './seo.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
+function pdplog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[PDP] '+a[0]; console.log.apply(console,a);}catch(_){} }
+
+document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLoaded');
   const parts = window.location.pathname.split('/').filter(Boolean);
   const slug = parts[1];
   try {
@@ -185,7 +188,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const qtyEl = document.getElementById('product-qty');
     if (addBtn) {
       addBtn.setAttribute('aria-label', `Add ${product.name} to cart`);
-      addBtn.addEventListener('click', () => {
+      addBtn.addEventListener('click', () => { pdplog('addBtn click');
         const qty = parseInt(qtyEl.value,10) || 1;
         const item = currentVariant ? {...product, ...currentVariant} : product;
         const detail = { qty, skipSimpleCart: true };
