@@ -487,11 +487,8 @@
 
   // ========= Critical event listener =========
   log('attaching product:addToCart listener', { version: window.__CD_VERSION__ });
-  document.addEventListener('product:addToCart', (e)=>{
-    try{
-      const d = e && e.detail || {};
-      log('event product:addToCart heard in cart-drawer', d, { version: window.__CD_VERSION__ });
-      // We still open on every add-to-cart; your cart is already being updated elsewhere.
+  document.addEventListener('product:addToCart', (e)=>{ try{ console && console.log && console.log('[CartDrawer] open on product:addToCart', e && e.detail); }catch(_){ } CartDrawer.open(e && e.target); });
+// We still open on every add-to-cart; your cart is already being updated elsewhere.
     }catch(ex){ err('product:addToCart handler error', ex); }
     open(e && e.target);
   });

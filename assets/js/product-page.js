@@ -188,21 +188,27 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     const qtyEl = document.getElementById('product-qty');
     if (addBtn) {
       addBtn.setAttribute('aria-label', `Add ${product.name} to cart`);
-      addBtn.addEventListener('click', () => { pdplog('addBtn click');
+      addBtn.addEventListener('click', () => { 
         const qty = parseInt(qtyEl.value,10) || 1;
         const item = currentVariant ? { ...product, ...currentVariant } : product;
         const pid  = item.id || item.slug || product.id || product.slug;
-      
-        // 1) Actually add to the cart first
         try {
           if (typeof simpleCart !== 'undefined') {
             simpleCart.add({
-              id: pid,
-              name: item.name || product.name || product.title,
-              price: normalizePrice(item.price ?? product.price),
+              id: String(pid),
+              name: item.name || product.name || product.title || String(pid),
+              price: (typeof normalizePrice === 'function' ? normalizePrice(item.price ?? product.price) : Number(item.price ?? product.price) || 0),
               image: (product.images && product.images[0]) || product.image || '',
               quantity: qty
             });
+          }
+        } catch (e) { console.warn('cart error (product-page unified)', e); }
+        const detail = { qty, skipSimpleCart: false, id: pid };
+        const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
+        addBtn.dispatchEvent(evt);
+        try { Analytics.addToCart(item, qty); } catch(_){}
+        if (typeof showAddedToast === 'function') try { showAddedToast(item.name || 'Added'); } catch(_){}
+        });
           }
         } catch (e) { console.warn('cart error (product-page)', e); }
       

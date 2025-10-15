@@ -224,3 +224,49 @@ document.addEventListener('product:addToCart', (e)=>{
   global.ProductCard = { renderProductCard, formatPrice };
   if(!global.showAddedToast) global.showAddedToast = showAddedToast;
 })(window);
+// === Unified ATC Helpers (injected) ===
+(function(){
+  const ATC_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
+  function pclog(){ if(!ATC_DEBUG) return; try{ const a=[...arguments]; a[0]='[PC] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function __pc_price(item){
+    let price = null;
+    try{
+      if (item && item.price && (typeof item.price === 'object')) {
+        price = item.price.current ?? item.price.value ?? item.price.amount ?? item.price;
+      } else if (item) {
+        price = item.priceCurrent ?? item.priceNew ?? item.price;
+      }
+    }catch(_){ }
+    price = Number(price);
+    return isNaN(price) ? 0 : price;
+  }
+  function __pc_simplecart_add(id, item, qty){
+    try{
+      if (typeof simpleCart !== 'undefined'){
+        const name = (item && (item.title || item.name)) || id;
+        const price = __pc_price(item);
+        const image = (item && (item.image || (item.images && item.images[0]))) || '';
+        simpleCart.add({ id: String(id), name, price, image, quantity: Math.max(1, Number(qty)||1) });
+        pclog('simpleCart.add', {id, name, price, qty});
+      }
+    }catch(e){ console.warn('cart error (product-card unified)', e); }
+  }
+  document.addEventListener('click', function(e){
+    const btn = e.target && e.target.closest('.pc__atc');
+    if(!btn) return;
+    const id = btn.getAttribute('data-id') || btn.dataset.id || btn.getAttribute('data-product-id');
+    const qty = btn.getAttribute('data-qty') || btn.dataset.qty || 1;
+    const item = (typeof window.ITEM_CACHE !== 'undefined' && window.ITEM_CACHE && id && window.ITEM_CACHE[id]) ? window.ITEM_CACHE[id] : null;
+    __pc_simplecart_add(id, item, qty);
+    const evt = new CustomEvent('product:addToCart', { detail: { id, qty: Number(qty)||1, skipSimpleCart: false }, bubbles: true });
+    btn.dispatchEvent(evt);
+  }, true);
+  document.addEventListener('product:addToCart', (e)=>{
+    const d = e && e.detail || {};
+    const id = String(d.id || '');
+    const qty = Math.max(1, Number(d.qty)||1);
+    const cache = (typeof window.ITEM_CACHE !== 'undefined' && window.ITEM_CACHE) ? window.ITEM_CACHE : {};
+    const item = cache[id] || d.item || null;
+    __pc_simplecart_add(id, item, qty);
+  });
+})();

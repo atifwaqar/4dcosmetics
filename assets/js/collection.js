@@ -224,3 +224,36 @@
 
   run();
 })();
+
+// === Unified ATC Collection Helper ===
+(function(){
+  const ATC_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
+  function clog(){ if(!ATC_DEBUG) return; try{ const a=[...arguments]; a[0]='[COL] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function priceOf(item){
+    try{
+      if (item && item.price && (typeof item.price === 'object')) return Number(item.price.current ?? item.price.value ?? item.price.amount ?? item.price) || 0;
+      if (item) return Number(item.priceCurrent ?? item.priceNew ?? item.price) || 0;
+    }catch(_){}
+    return 0;
+  }
+  document.addEventListener('click', function(e){
+    const btn = e.target && e.target.closest('.pc__atc, [data-add-to-cart]');
+    if(!btn) return;
+    const id = btn.getAttribute('data-id') || btn.dataset.id || btn.getAttribute('data-product-id');
+    const qty = btn.getAttribute('data-qty') || btn.dataset.qty || 1;
+    const cache = (typeof window.ITEM_CACHE !== 'undefined' && window.ITEM_CACHE) ? window.ITEM_CACHE : {};
+    const item = id && cache[id] ? cache[id] : null;
+    try{
+      if (typeof simpleCart !== 'undefined'){
+        const name = (item && (item.title || item.name)) || id;
+        const price = priceOf(item);
+        const image = (item && (item.image || (item.images && item.images[0]))) || '';
+        simpleCart.add({ id: String(id), name, price, image, quantity: Math.max(1, Number(qty)||1) });
+        clog('simpleCart.add (collection)', {id, name, price, qty});
+      }
+    }catch(ex){ console.warn('cart error (collection unified)', ex); }
+    const evt = new CustomEvent('product:addToCart', { detail: { id, qty: Number(qty)||1, skipSimpleCart: false }, bubbles: true });
+    btn.dispatchEvent(evt);
+  }, true);
+})();
+
