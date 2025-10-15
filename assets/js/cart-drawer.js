@@ -35,12 +35,32 @@
   };
 
   
-  function injectCartCss(){
-    // Ensure cart.css (which styles .cart-line) is present on non-cart pages
-    const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
-    if (present) return;
+  function ensureCartCss(){
+    if (state.cartCssLoaded) return;
+    try{
+      const present = [...document.styleSheets].some((sheet)=>{
+        try{ return sheet.href && sheet.href.includes('cart.css'); }catch(_){ return false; }
+      });
+      if (present){ state.cartCssLoaded = true; return; }
+    }catch(_){ }
+    const existing = document.querySelector('link[data-cart-css]');
+    if (existing){
+      if (existing.dataset.loaded === 'true'){ state.cartCssLoaded = true; return; }
+      try{
+        if (existing.sheet && existing.sheet.cssRules){ existing.dataset.loaded = 'true'; state.cartCssLoaded = true; return; }
+      }catch(_){ }
+      if (!state.cartCssPromise){
+        state.cartCssPromise = new Promise((resolve)=>{
+          const done = ()=>{ state.cartCssLoaded = true; existing.dataset.loaded = 'true'; state.cartCssPromise = null; resolve(); };
+          existing.addEventListener('load', done, { once:true });
+          existing.addEventListener('error', done, { once:true });
+        });
+      }
+      return;
+    }
     var link = document.createElement('link');
     link.rel = 'stylesheet';
+    link.dataset.cartCss = '1';
     // Resolve relative to script src if possible
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart.css';
@@ -51,6 +71,11 @@
       }catch(_){}
     }
     link.href = href;
+    state.cartCssPromise = new Promise((resolve)=>{
+      const done = ()=>{ state.cartCssLoaded = true; link.dataset.loaded = 'true'; state.cartCssPromise = null; resolve(); };
+      link.addEventListener('load', done, { once:true });
+      link.addEventListener('error', done, { once:true });
+    });
     document.head.appendChild(link);
   }
   function ensureCartUi(onReady){
@@ -99,12 +124,22 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false
+    initialized: false,
+    cartCssLoaded: false,
+    cartCssPromise: null,
+    drawerCssLoaded: false,
+    drawerCssPromise: null,
+    waitingForCss: false,
+    pendingTrigger: null
   };
 
   function injectCssOnce(){
     // Try to resolve CSS path from the script src
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))){
+      state.drawerCssLoaded = true;
+      return;
+    }
+    if (state.drawerCssPromise) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart-drawer.css';
     if (script){
@@ -118,6 +153,10 @@
     link.rel = 'stylesheet';
     link.href = href;
     link.dataset.cartDrawer = '1';
+    state.drawerCssPromise = new Promise((resolve)=>{
+      link.addEventListener('load', ()=>{ state.drawerCssLoaded = true; resolve(); }, { once:true });
+      link.addEventListener('error', ()=>{ state.drawerCssLoaded = true; resolve(); }, { once:true });
+    });
     document.head.appendChild(link);
   }
 
@@ -151,7 +190,7 @@
     }
     injectCssOnce();
     disableToasts();
-    injectCartCss();
+    ensureCartCss();
     const root = buildRoot();
     if (!root) return false;
     if (root){
@@ -345,8 +384,31 @@
     updateScrollIndicators();
   }
 
+  function waitForStyles(trigger){
+    ensureCartCss();
+    const pending = [];
+    if (state.cartCssPromise && !state.cartCssLoaded) pending.push(state.cartCssPromise);
+    if (state.drawerCssPromise && !state.drawerCssLoaded) pending.push(state.drawerCssPromise);
+    if (!pending.length) return false;
+    state.pendingTrigger = trigger || state.pendingTrigger || null;
+    if (state.waitingForCss) return true;
+    state.waitingForCss = true;
+    Promise.all(pending).then(()=>{
+      state.waitingForCss = false;
+      const next = state.pendingTrigger;
+      state.pendingTrigger = null;
+      if (next !== false){
+        open(next);
+      }
+    });
+    return true;
+  }
+
   function open(trigger){
     if (!ensureReady()) return;
+    if (waitForStyles(trigger)) return;
+    state.waitingForCss = false;
+    state.pendingTrigger = null;
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
