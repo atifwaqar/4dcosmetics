@@ -235,7 +235,7 @@
 
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
-      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
+      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
     });
 
     const body = root.querySelector('.cart-drawer-body');
@@ -394,6 +394,16 @@
 
   // Always react to add-to-cart events, even if init hasn't run yet
   document.addEventListener('product:addToCart', (e)=>open(e && e.target));
+
+  // Extra safety: on any direct click of common add-to-cart buttons, open after a short delay.
+  document.addEventListener('click', function(e){
+    var btn = e.target && (e.target.closest('.pc__atc') || e.target.closest('[data-add-to-cart]') || e.target.closest('#add-to-cart') || e.target.closest('.add-to-cart'));
+    if (btn){
+      // Wait a tick for cart libraries to update, then open.
+      setTimeout(function(){ try{ CartDrawer.open(btn); }catch(_){ try{ window.__CART_DRAWER_WANTS_OPEN__ = { trigger: btn }; }catch(__){} } }, 50);
+    }
+  });
+
 
   function autoInit(){
     if (window.CartDrawer){ window.CartDrawer.init(); }
