@@ -161,26 +161,41 @@
     }
   });
 
-  document.addEventListener('product:addToCart', (e)=>{ log('event product:addToCart', e && e.detail);
-    const detail = e.detail || {};
-    const id = detail.id;
-    const qty = Number(detail.qty) || 1;
-    const skipSimpleCart = !!detail.skipSimpleCart;
-    const item = ITEM_CACHE[id];
-    if(!item) return;
-    try{
-      if(!skipSimpleCart && typeof simpleCart !== 'undefined'){ log('simpleCart.add from product-card');
-        simpleCart.add({
-          id: id,
-          name: item.title,
-          price: item.price.current,
-          image: item.image,
-          quantity: qty
-        });
-      }
-    }catch(err){ console.warn('cart error', err); }
-    if(!skipSimpleCart) showAddedToast(item.title);
-  });
+document.addEventListener('product:addToCart', (e)=>{ 
+  log('event product:addToCart', e && e.detail);
+  
+  const detail = e.detail || {};
+  const id = String(detail.id || '');
+  const qty = Math.max(1, Number(detail.qty) || 1);
+  const item = ITEM_CACHE[id];
+  if (!item) {
+    log('no item found in ITEM_CACHE for id', id);
+    return;
+  }
+
+  try {
+    if (typeof simpleCart !== 'undefined') {
+      log('forcing simpleCart.add from product-card (ignore skipSimpleCart)');
+      const priceNum = Number(
+        (item.price && (item.price.current ?? item.price)) ||
+        item.priceCurrent || item.priceNew || 0
+      ) || 0;
+
+      simpleCart.add({
+        id: id,
+        name: item.title || id,
+        price: priceNum,
+        image: item.image || '',
+        quantity: qty
+      });
+    }
+  } catch (err) {
+    console.warn('cart error (product-card listener)', err);
+  }
+
+  // Always show toast — regardless of skipSimpleCart
+  showAddedToast(item && item.title ? item.title : 'Item');
+});
 
   function showAddedToast(name){ log('showAddedToast', name);
     var trigger = document.activeElement;
