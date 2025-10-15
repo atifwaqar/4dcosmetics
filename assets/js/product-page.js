@@ -1,10 +1,7 @@
 import { normalizePrice, showAddedToast, Analytics } from './ui-cards.js';
 import { applySEO } from './seo.js';
 
-const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-function pdplog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[PDP] '+a[0]; console.log.apply(console,a);}catch(_){} }
-
-document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLoaded');
+document.addEventListener('DOMContentLoaded', async () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
   const slug = parts[1];
   try {
@@ -61,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     document.getElementById('product-badges').innerHTML = StorefrontRuntime.renderProductBadgesHTML(product);
     const priceEl = document.getElementById('product-price');
     const addBtn = document.querySelector('.item_add');
-    const currency = product.price?.currency || product.currency || 'PKR';
+      const currency = product.price?.currency || product.currency || 'PKR';
     const stockEl = document.getElementById('stock-status');
     const variantWrap = document.getElementById('variant-options');
     const idEl = document.getElementById('product-id');
@@ -156,17 +153,17 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     } else if (firstCat) backHref = `/c/${firstCat.slug}/`;
     backLink.href = backHref;
 
-    const mainImg2 = document.getElementById('main-image');
-    mainImg2.classList.add('item_image', 'item_thumb');
+    const mainImg = document.getElementById('main-image');
+    mainImg.classList.add('item_image', 'item_thumb');
     const thumbs = document.getElementById('image-thumbs');
     if (product.images && product.images.length) {
       if (!currentVariant || !currentVariant.image) {
-        mainImg2.src = product.images[0];
-        mainImg2.alt = product.name;
+        mainImg.src = product.images[0];
+        mainImg.alt = product.name;
       }
-      mainImg2.loading = 'eager';
-      mainImg2.decoding = 'async';
-      mainImg2.onerror = function(){ this.src='/assets/img/products/fallback.png'; };
+      mainImg.loading = 'eager';
+      mainImg.decoding = 'async';
+      mainImg.onerror = function(){ this.src='/assets/img/products/fallback.png'; };
       product.images.forEach((img) => {
         const t = document.createElement('img');
         t.src = img;
@@ -176,39 +173,30 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
         t.style.objectFit = 'cover';
         t.loading = 'lazy';
         t.alt = product.name;
-        t.addEventListener('click', () => { mainImg2.src = img; });
+        t.addEventListener('click', () => { mainImg.src = img; });
         thumbs.appendChild(t);
       });
     } else {
-      mainImg2.src = '/assets/img/products/fallback.png';
-      mainImg2.alt = product.name || '';
+      mainImg.src = '/assets/img/products/fallback.png';
+      mainImg.alt = product.name || '';
     }
     if (currentVariant) applyVariant(currentVariant);
 
     const qtyEl = document.getElementById('product-qty');
     if (addBtn) {
       addBtn.setAttribute('aria-label', `Add ${product.name} to cart`);
-      addBtn.addEventListener('click', () => { pdplog('addBtn click');
+      addBtn.addEventListener('click', () => {
         const qty = parseInt(qtyEl.value,10) || 1;
-        const item = currentVariant ? { ...product, ...currentVariant } : product;
-        const pid  = item.id || item.slug || product.id || product.slug;
-        try {
-          if (typeof simpleCart !== 'undefined') {
-            simpleCart.add({
-              id: String(pid),
-              name: item.name || product.name || product.title || String(pid),
-              price: (typeof normalizePrice === 'function' ? normalizePrice(item.price ?? product.price) : Number(item.price ?? product.price) || 0),
-              image: (product.images && product.images[0]) || product.image || '',
-              quantity: qty
-            });
-          }
-        } catch (e) { console.warn('cart error (product-page unified)', e); }
-        const detail = { qty, skipSimpleCart: false, id: pid };
+        const item = currentVariant ? {...product, ...currentVariant} : product;
+        const detail = { qty, skipSimpleCart: true };
+        const pid = item.id || item.slug || product.id || product.slug;
+        if (pid) detail.id = pid;
         const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
         addBtn.dispatchEvent(evt);
-        try { Analytics.addToCart(item, qty); } catch(_){}
+        Analytics.addToCart(item, qty);
         if (liveRegion) liveRegion.textContent = 'Added to cart';
-        });
+        showAddedToast(item.name);
+      });
     }
     const mobileBtn = document.getElementById('mobile-atc-btn');
     if (mobileBtn) mobileBtn.addEventListener('click', () => addBtn.click());
@@ -249,3 +237,4 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
     container.innerHTML = '<h1>Product not found</h1><p><a href="/">Home</a></p>';
   }
 });
+

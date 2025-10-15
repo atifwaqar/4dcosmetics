@@ -168,7 +168,8 @@
         if(pid) detail.id = pid;
         var evt = new CustomEvent('product:addToCart',{ detail: detail, bubbles:true });
         btn.dispatchEvent(evt);
-        if(typeof showAddedToast === 'function') });
+        if(typeof showAddedToast === 'function') showAddedToast(p.name);
+      });
     });
   }
 
