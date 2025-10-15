@@ -243,7 +243,7 @@
 
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
-      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
+      if(qty){ const id = qty.dataset.qty; const v = Math.max(1, parseparseparseparseInt(qty.value||'1',10)); state.api.updateQty(id, v); render(); }
     });
 
     const body = root.querySelector('.cart-drawer-body');
@@ -428,7 +428,47 @@
     }catch(_){ }
   }
 
-  if (document.readyState === 'loading'){
+  document.addEventListener('product:addToCart', (e)=>{
+    try{
+      const d = e && e.detail || {};
+      clog('event product:addToCart heard in cart-drawer', d);
+      // If dispatcher asked to skip simpleCart (common on PDP), ensure we still add here.
+      if (d && d.id && (d.skipSimpleCart === true)){
+        try{
+          if (typeof simpleCart !== 'undefined'){
+            let prod = null;
+            try{
+              if (window.StorefrontRuntime){
+                if (typeof StorefrontRuntime.getProductById === 'function') prod = StorefrontRuntime.getProductById(String(d.id));
+                if (!prod && typeof StorefrontRuntime.getProductBySlug === 'function') prod = StorefrontRuntime.getProductBySlug(String(d.id));
+                if (!prod && typeof StorefrontRuntime.getProductBySku === 'function') prod = StorefrontRuntime.getProductBySku(String(d.id));
+              }
+            }catch(_){}
+            let name = (prod && (prod.name || prod.title)) || d.name || String(d.id);
+            let price = null;
+            if (prod){
+              try{ price = Number(prod.price && (prod.price.current ?? prod.price)) || 0; }catch(_){}
+            }
+            if (price == null || isNaN(price)){
+              const pEl = document.querySelector('#product-price .item_price');
+              if (pEl) { price = Number(pEl.textContent.replace(/[^0-9.]/g,'')) || 0; }
+            }
+            let image = (prod && ((prod.images && prod.images[0]) || prod.image)) || '';
+            const qty = Math.max(1, Number(d.qty) || 1);
+            // Only add if we could derive a numeric price
+            if (price != null && !isNaN(price)){
+              clog('cart-drawer force simpleCart.add', {id: d.id, qty, name, price});
+              simpleCart.add({ id: String(d.id), name, price, image, quantity: qty });
+            }else{
+              clog('cart-drawer could not resolve price; skipping add');
+            }
+          }
+        }catch(err){ cerr('force-add failed', err); }
+      }
+    }catch(_){}
+    open(e && e.target);
+  });
+if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', autoInit);
   }else{
     autoInit();
