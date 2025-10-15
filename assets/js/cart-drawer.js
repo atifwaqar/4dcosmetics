@@ -38,8 +38,7 @@
   function injectCartCss(){
     // Ensure cart.css (which styles .cart-line) is present on non-cart pages
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
-    if (present){ state.cartCssLoaded = true; return; }
-    if (state.cartCssPromise) return;
+    if (present) return;
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     // Resolve relative to script src if possible
@@ -52,10 +51,6 @@
       }catch(_){}
     }
     link.href = href;
-    state.cartCssPromise = new Promise((resolve)=>{
-      link.addEventListener('load', ()=>{ state.cartCssLoaded = true; resolve(); }, { once:true });
-      link.addEventListener('error', ()=>{ state.cartCssLoaded = true; resolve(); }, { once:true });
-    });
     document.head.appendChild(link);
   }
   function ensureCartUi(onReady){
@@ -104,22 +99,12 @@
     lastTrigger: null,
     autoCloseTimer: null,
     simpleCartBound: false,
-    initialized: false,
-    cartCssLoaded: false,
-    cartCssPromise: null,
-    drawerCssLoaded: false,
-    drawerCssPromise: null,
-    waitingForCss: false,
-    pendingTrigger: null
+    initialized: false
   };
 
   function injectCssOnce(){
     // Try to resolve CSS path from the script src
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))){
-      state.drawerCssLoaded = true;
-      return;
-    }
-    if (state.drawerCssPromise) return;
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     var script = [...document.scripts].find(s=>s.src && s.src.includes('cart-drawer.js'));
     var href = '/assets/css/cart-drawer.css';
     if (script){
@@ -133,10 +118,6 @@
     link.rel = 'stylesheet';
     link.href = href;
     link.dataset.cartDrawer = '1';
-    state.drawerCssPromise = new Promise((resolve)=>{
-      link.addEventListener('load', ()=>{ state.drawerCssLoaded = true; resolve(); }, { once:true });
-      link.addEventListener('error', ()=>{ state.drawerCssLoaded = true; resolve(); }, { once:true });
-    });
     document.head.appendChild(link);
   }
 
@@ -364,30 +345,8 @@
     updateScrollIndicators();
   }
 
-  function waitForStyles(trigger){
-    const pending = [];
-    if (state.cartCssPromise && !state.cartCssLoaded) pending.push(state.cartCssPromise);
-    if (state.drawerCssPromise && !state.drawerCssLoaded) pending.push(state.drawerCssPromise);
-    if (!pending.length) return false;
-    state.pendingTrigger = trigger || state.pendingTrigger || null;
-    if (state.waitingForCss) return true;
-    state.waitingForCss = true;
-    Promise.all(pending).then(()=>{
-      state.waitingForCss = false;
-      const next = state.pendingTrigger;
-      state.pendingTrigger = null;
-      if (next !== false){
-        open(next);
-      }
-    });
-    return true;
-  }
-
   function open(trigger){
     if (!ensureReady()) return;
-    if (waitForStyles(trigger)) return;
-    state.waitingForCss = false;
-    state.pendingTrigger = null;
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
