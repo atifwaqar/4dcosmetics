@@ -1,7 +1,7 @@
 // exports: renderProductCard(item), formatPrice(number, currency)
 (function(global){
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[PC] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function log(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[PC]'); console.log.apply(console,a);}catch(_){} }
 
   const WISHLIST_KEY = 'wishlist_ids_v1';
   const ITEM_CACHE = {};
@@ -43,11 +43,7 @@
     <path fill="none" stroke="currentColor" stroke-width="2" d="${STAR_PATH}"/>
   </svg>`;
 
-    return [
-      ...Array(full).fill(fullStar),
-      ...Array(half).fill(halfStar),
-      ...Array(empty).fill(emptyStar)
-    ].join('');
+    return [...arguments].join('');
   }
 
   function renderProductCard(raw){

@@ -3,9 +3,9 @@
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
-  function warn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
-  function err(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
+  function log(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.log.apply(console,a);}catch(_){} }
+  function warn(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.warn.apply(console,a);}catch(_){} }
+  function err(){ if(!CART_DEBUG) return; try{ var a=Array.prototype.slice.call(arguments); a.unshift('[CartDrawer]'); console.error.apply(console,a);}catch(_){} }
 
   log('loaded, readyState=', document.readyState, 'path=', location.pathname);
 
@@ -38,24 +38,24 @@
   };
 
   function injectCartCss(){
-    const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
+    const present = [...arguments].some(s=>s.href && s.href.includes('cart.css'));
     if (present) return;
     const link = document.createElement('link');
     link.rel='stylesheet';
     let href='/assets/css/cart.css';
     try{
-      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      const me=[...arguments].find(s=>s.src&&s.src.includes('cart-drawer.js'));
       if(me){ const u=new URL(me.src,location.origin); href=u.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css'); }
     }catch(_){}
     link.href=href; document.head.appendChild(link);
   }
   function injectCssOnce(){
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    if ([...arguments].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
     const link = document.createElement('link');
     link.rel='stylesheet';
     let href='/assets/css/cart-drawer.css';
     try{
-      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      const me=[...arguments].find(s=>s.src&&s.src.includes('cart-drawer.js'));
       if(me){ const u=new URL(me.src,location.origin); href=u.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css'); }
     }catch(_){}
     link.href=href; link.dataset.cartDrawer='1'; document.head.appendChild(link);
@@ -66,7 +66,7 @@
     const s = document.createElement('script');
     let src = '/assets/js/cart-ui.js';
     try{
-      const me=[...document.scripts].find(s=>s.src&&s.src.includes('cart-drawer.js'));
+      const me=[...arguments].find(s=>s.src&&s.src.includes('cart-drawer.js'));
       if(me){ const u=new URL(me.src,location.origin); src=u.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js'); }
     }catch(_){}
     s.src=src; s.async=true; s.onload=function(){ try{ window.__CART_UI_READY=true; if(typeof simpleCart!=='undefined') simpleCart.update(); }catch(_){ } cb&&cb(); };
