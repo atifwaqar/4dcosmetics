@@ -190,12 +190,27 @@ document.addEventListener('DOMContentLoaded', async () => { pdplog('DOMContentLo
       addBtn.setAttribute('aria-label', `Add ${product.name} to cart`);
       addBtn.addEventListener('click', () => { pdplog('addBtn click');
         const qty = parseInt(qtyEl.value,10) || 1;
-        const item = currentVariant ? {...product, ...currentVariant} : product;
-        const detail = { qty, skipSimpleCart: true };
-        const pid = item.id || item.slug || product.id || product.slug;
-        if (pid) detail.id = pid;
+        const item = currentVariant ? { ...product, ...currentVariant } : product;
+        const pid  = item.id || item.slug || product.id || product.slug;
+      
+        // 1) Actually add to the cart first
+        try {
+          if (typeof simpleCart !== 'undefined') {
+            simpleCart.add({
+              id: pid,
+              name: item.name || product.name || product.title,
+              price: normalizePrice(item.price ?? product.price),
+              image: (product.images && product.images[0]) || product.image || '',
+              quantity: qty
+            });
+          }
+        } catch (e) { console.warn('cart error (product-page)', e); }
+      
+        // 2) Then fire the event (skipSimpleCart can stay true since we already added)
+        const detail = { qty, skipSimpleCart: true, id: pid };
         const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
         addBtn.dispatchEvent(evt);
+      
         Analytics.addToCart(item, qty);
         if (liveRegion) liveRegion.textContent = 'Added to cart';
         showAddedToast(item.name);
