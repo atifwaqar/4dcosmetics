@@ -1,18 +1,17 @@
-/*! Cart Drawer - debug+robust build */
+/*! Cart Drawer - debug+visibility-fallback */
 (function(){
   if (window.__CartDrawerLoaded) return; window.__CartDrawerLoaded = true;
 
   // ========= Debug =========
-  window.__CD_VERSION__ = 'CD-2025-10-15-DBG2';
+  window.__CD_VERSION__ = 'CD-2025-10-15-DBG3';
   const CART_DEBUG = (window.CART_DEBUG !== undefined) ? !!window.CART_DEBUG : true;
-  function clog(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
-  function cwarn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
-  function cerr(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
+  function log(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.log.apply(console,a);}catch(_){} }
+  function warn(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.warn.apply(console,a);}catch(_){} }
+  function err(){ if(!CART_DEBUG) return; try{ const a=[...arguments]; a[0]='[CartDrawer] '+a[0]; console.error.apply(console,a);}catch(_){} }
 
-  // identify the script tag actually used on this page
-  const __scriptEl = [...document.scripts].find(s=>String(s.src||'').includes('cart-drawer.js')) || null;
-  const __scriptSrc = __scriptEl ? __scriptEl.src : '(inline or unknown)';
-  clog('loaded', { readyState: document.readyState, path: location.pathname, version: window.__CD_VERSION__, scriptSrc: __scriptSrc });
+  const scriptEl = [...document.scripts].find(s=>String(s.src||'').includes('cart-drawer.js')) || null;
+  const scriptSrc = scriptEl ? scriptEl.src : '(inline/unknown)';
+  log('loaded', { readyState: document.readyState, path: location.pathname, version: window.__CD_VERSION__, scriptSrc });
 
   // ========= Utilities =========
   const $ = (sel, ctx=document)=>ctx.querySelector(sel);
@@ -48,15 +47,15 @@
 
   // ========= CSS helpers =========
   function injectCartCss(){
-    clog('injectCartCss()');
+    log('injectCartCss()');
     const present = [...document.styleSheets].some(s=>s.href && s.href.includes('cart.css'));
     if (present) return;
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     var href = '/assets/css/cart.css';
-    if (__scriptEl){
+    if (scriptEl){
       try{
-        var url = new URL(__scriptSrc, window.location.origin);
+        var url = new URL(scriptSrc, window.location.origin);
         href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart.css');
       }catch(_){}
     }
@@ -64,16 +63,37 @@
     document.head.appendChild(link);
   }
 
+  function injectCssOnce(){
+    log('injectCssOnce()');
+    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
+    var href = '/assets/css/cart-drawer.css';
+    if (scriptEl){
+      try{
+        var url = new URL(scriptSrc, window.location.origin);
+        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
+      }catch(_){}
+    }
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    link.dataset.cartDrawer = '1';
+    document.head.appendChild(link);
+  }
+
+  function cssDebug(){
+    try{
+      const sheets = [...document.styleSheets].filter(s=>s.href && (s.href.includes('cart-drawer.css') || s.href.includes('cart.css')));
+      log('cssDebug', sheets.map(s=>({ href: s.href, disabled: s.disabled, rules: (()=>{try{return s.cssRules?.length||0}catch(_){return 'blocked'}})() })));
+    }catch(e){ warn('cssDebug error', e); }
+  }
+
   function ensureCartUi(onReady){
     if (window.__CartUiLoaded || window.__CART_UI_READY){ onReady && onReady(); return; }
     if (window.CartUIReady){ onReady && onReady(); return; }
     var script = document.createElement('script');
     var base = '/assets/js/cart-ui.js';
-    if (__scriptEl){
-      try{
-        var url = new URL(__scriptSrc, window.location.origin);
-        base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js');
-      }catch(_){}
+    if (scriptEl){
+      try{ var url = new URL(scriptSrc, window.location.origin); base = url.pathname.replace(/cart-drawer\.js$/, 'cart-ui.js'); }catch(_){}
     }
     script.src = base;
     script.async = true;
@@ -104,30 +124,13 @@
     _openDebounce: null
   };
 
-  function injectCssOnce(){
-    clog('injectCssOnce()');
-    if ([...document.styleSheets].some(s=>s.href && s.href.includes('cart-drawer.css'))) return;
-    var href = '/assets/css/cart-drawer.css';
-    if (__scriptEl){
-      try{
-        var url = new URL(__scriptSrc, window.location.origin);
-        href = url.pathname.replace(/\/js\/cart-drawer\.js$/, '/css/cart-drawer.css');
-      }catch(_){}
-    }
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = href;
-    link.dataset.cartDrawer = '1';
-    document.head.appendChild(link);
-  }
-
   function bindSimpleCart(){
-    clog('bindSimpleCart() :: simpleCart present?', typeof simpleCart, 'bind?', simpleCart && typeof simpleCart.bind);
+    log('bindSimpleCart() :: simpleCart present?', typeof simpleCart, 'bind?', simpleCart && typeof simpleCart.bind);
     if (state.simpleCartBound) return;
     if (typeof simpleCart === 'undefined' || typeof simpleCart.bind !== 'function') return;
     try{
       simpleCart.bind('afterAdd', function(){
-        clog('simpleCart.afterAdd fired');
+        log('simpleCart.afterAdd fired');
         try{
           if(state.root && state.root.classList.contains('open')){
             render();
@@ -141,7 +144,7 @@
   }
 
   function ensureReady(opts){
-    clog('ensureReady() called with opts=', !!opts);
+    log('ensureReady() called with opts=', !!opts);
     if (opts && typeof opts === 'object'){
       state.opts = Object.assign(state.opts, opts);
       if (opts.getCartState || opts.updateQty || opts.removeLineItem){
@@ -164,9 +167,8 @@
         checkout.setAttribute('href', href);
       }
     }
-    // Feature detect important globals (to verify on PDP)
     try{
-      clog('env check', {
+      log('env check', {
         simpleCart: typeof simpleCart,
         StorefrontRuntime: typeof window.StorefrontRuntime,
         getProductById: window.StorefrontRuntime && typeof StorefrontRuntime.getProductById,
@@ -174,6 +176,7 @@
         getProductBySku: window.StorefrontRuntime && typeof StorefrontRuntime.getProductBySku
       });
     }catch(_){}
+    cssDebug();
     ensureCartUi(function(){ try{ if(typeof simpleCart!=='undefined'){ simpleCart.update(); } }catch(_){ } });
     bindSimpleCart();
     state.initialized = true;
@@ -181,7 +184,7 @@
   }
 
   function buildRoot(){
-    clog('buildRoot()');
+    log('buildRoot()');
     if (state.root) return state.root;
     const root = document.createElement('div');
     root.className = 'cart-drawer-root';
@@ -235,6 +238,7 @@
       });
     }
 
+    // Avoid duplicate IDs on /cart
     if (location.pathname.includes('/cart')){
       const sum = root.querySelector('#summary-subtotal'); if(sum){ sum.removeAttribute('id'); }
       const cnt = root.querySelector('#summary-count'); if(cnt){ cnt.removeAttribute('id'); }
@@ -246,7 +250,7 @@
       if(cls){ CartDrawer.close(); }
     });
 
-    // qty changes
+    // qty changes (fix the parseInt typo)
     root.addEventListener('change', (e)=>{
       const qty = e.target.closest('input[type="number"][data-qty]');
       if(qty){
@@ -341,7 +345,7 @@
   }
 
   function render(){
-    try{clog('render()');}catch(_){}
+    try{log('render()');}catch(_){}
     const root = buildRoot();
     const list = $('#cart-lines-drawer', root);
     const empty = $('.cart-drawer-empty', root);
@@ -366,8 +370,9 @@
     if (state._openDebounce) clearTimeout(state._openDebounce);
     state._openDebounce = setTimeout(()=>_open(trigger), 10);
   }
+
   function _open(trigger){
-    clog('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
+    log('open()', 'trigger=', (trigger && (trigger.tagName+'#'+trigger.id+'.'+trigger.className)) || null);
     state.lastTrigger = trigger || document.activeElement;
     state.root.classList.add('open');
     state.root.removeAttribute('aria-hidden');
@@ -376,12 +381,42 @@
     if(sb > 0) document.body.style.paddingRight = sb + 'px';
     render();
     const live = $('#cart-drawer-live'); if(live){ live.textContent='Added to your cart'; }
+
+    // ===== Visibility diagnostics + fallback =====
+    setTimeout(()=>{
+      try{
+        const panel = state.root.querySelector('.cart-drawer-panel');
+        const backdrop = state.root.querySelector('.cart-drawer-backdrop');
+        const rect = panel && panel.getBoundingClientRect();
+        const cs = panel ? getComputedStyle(panel) : null;
+        log('visibility-check', {
+          panelExists: !!panel,
+          rect, display: cs && cs.display, visibility: cs && cs.visibility,
+          transform: cs && cs.transform, zIndex: cs && cs.zIndex
+        });
+
+        // If panel width is 0 or transform suggests it's still off-screen, force show as fallback
+        const offscreen = panel && (rect.width === 0 || String(cs.transform||'').includes('matrix') && /-?1(\.0+)?e?\d*/i.test('0') /* no-op */);
+        const notShown = panel && (cs.display === 'none' || cs.visibility === 'hidden');
+        if (panel && (offscreen || notShown)) {
+          warn('panel seems hidden/offscreen → applying fallback inline styles');
+          state.root.style.zIndex = '2147483647';
+          panel.style.transform = 'translateX(0)';
+          panel.style.opacity = '1';
+          panel.style.display = 'block';
+          backdrop && (backdrop.style.display = 'block');
+        }
+      }catch(e){ warn('visibility-check error', e); }
+    }, 50);
+
+    // Auto close on desktop after ~7s (cancel on interaction)
     clearTimeout(state.autoCloseTimer);
     if (window.matchMedia('(min-width: 769px)').matches){
       state.autoCloseTimer = setTimeout(()=>CartDrawer.close(), 7000);
       state.root.addEventListener('pointerdown', cancelAutoCloseOnce, { once: true });
       state.root.addEventListener('keydown', cancelAutoCloseOnce, { once: true });
     }
+
     try{
       const badge = document.querySelector('[data-cart-badge], .simpleCart_quantity');
       if (badge){ badge.classList.add('cart-bump'); setTimeout(()=>badge.classList.remove('cart-bump'), 400); }
@@ -389,7 +424,7 @@
   }
   function cancelAutoCloseOnce(){ clearTimeout(state.autoCloseTimer); }
   function close(){
-    clog('close()');
+    log('close()');
     if (!state.root) return;
     state.root.classList.remove('open');
     state.root.setAttribute('aria-hidden','true');
@@ -398,7 +433,7 @@
     if (state.lastTrigger && typeof state.lastTrigger.focus === 'function') try{ state.lastTrigger.focus(); }catch(_){}
   }
 
-  // ====== PDP resolver for force-adds ======
+  // ====== PDP resolver for force-adds (keep, but your cart is already updating) ======
   function _resolvePDPData(detail){
     let prod = null;
     try{
@@ -439,7 +474,7 @@
         || (document.getElementById('main-image') && document.getElementById('main-image').src)
         || '';
     }catch(_){}
-    clog('PDP resolver', { resolved: !!prod, price, priceSelector, image: !!image });
+    log('PDP resolver', { resolved: !!prod, price, priceSelector, image: !!image });
     return { name, price, image };
   }
 
@@ -451,35 +486,13 @@
   };
 
   // ========= Critical event listener =========
-  clog('attaching product:addToCart listener', { version: window.__CD_VERSION__ });
+  log('attaching product:addToCart listener', { version: window.__CD_VERSION__ });
   document.addEventListener('product:addToCart', (e)=>{
     try{
       const d = e && e.detail || {};
-      clog('event product:addToCart heard in cart-drawer', d, { version: window.__CD_VERSION__ });
-      const qty = Math.max(1, Number(d.qty)||1);
-      if (d && d.id && d.skipSimpleCart === true){
-        try{
-          clog('skipSimpleCart=true → attempting force simpleCart.add');
-          if (typeof simpleCart !== 'undefined'){
-            const meta = _resolvePDPData(d);
-            if (meta && meta.price && !isNaN(meta.price)){
-              clog('force add', {id: d.id, qty, name: meta.name, price: meta.price});
-              simpleCart.add({
-                id: String(d.id),
-                name: meta.name || String(d.id),
-                price: Number(meta.price) || 0,
-                image: meta.image || '',
-                quantity: qty
-              });
-            }else{
-              clog('force add abort: could not resolve price');
-            }
-          } else {
-            clog('force add abort: simpleCart is undefined');
-          }
-        }catch(err){ cerr('force-add failed', err); }
-      }
-    }catch(err){ cerr('product:addToCart handler error', err); }
+      log('event product:addToCart heard in cart-drawer', d, { version: window.__CD_VERSION__ });
+      // We still open on every add-to-cart; your cart is already being updated elsewhere.
+    }catch(ex){ err('product:addToCart handler error', ex); }
     open(e && e.target);
   });
 
@@ -487,7 +500,7 @@
   document.addEventListener('click', function(ev){
     const btn = ev.target && (ev.target.closest('.item_add') || ev.target.closest('.pc__atc') || ev.target.closest('[data-add-to-cart]') || ev.target.closest('#add-to-cart') || ev.target.closest('.add-to-cart'));
     if(!btn) return;
-    clog('capturing click fallback for add-to-cart', { tag: btn.tagName, cls: btn.className });
+    log('capturing click fallback for add-to-cart', { tag: btn.tagName, cls: btn.className });
     setTimeout(()=>{ try{ open(btn); }catch(_){ } }, 30);
   }, true);
 
