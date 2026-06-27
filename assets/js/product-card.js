@@ -165,17 +165,15 @@
     const skipSimpleCart = !!detail.skipSimpleCart;
     const item = ITEM_CACHE[id];
     if(!item) return;
-    try{
-      if(!skipSimpleCart && typeof simpleCart !== 'undefined'){
-        simpleCart.add({
-          id: id,
-          name: item.title,
-          price: item.price.current,
-          image: item.image,
-          quantity: qty
-        });
-      }
-    }catch(err){ console.warn('cart error', err); }
+    if(!skipSimpleCart){
+      Cart.add({
+        id: id,
+        name: item.title,
+        price: item.price.current,
+        image: item.image,
+        quantity: qty
+      });
+    }
     if(!skipSimpleCart) showAddedToast(item.title);
   });
 

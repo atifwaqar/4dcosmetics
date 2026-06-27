@@ -47,17 +47,13 @@
   // ATC buttons
   function addToCart(qty, trigger){
     const quantity = qty || 1;
-    try{
-      if(typeof simpleCart !== 'undefined'){
-        simpleCart.add({
-          id: product.id || product.slug,
-          name: product.name || product.title,
-          price: product.price?.current ?? product.price,
-          image: (product.images && product.images[0]) || product.image || '',
-          quantity: quantity
-        });
-      }
-    }catch(e){ console.warn('cart error', e); }
+    Cart.add({
+      id: product.id || product.slug,
+      name: product.name || product.title,
+      price: product.price?.current ?? product.price,
+      image: (product.images && product.images[0]) || product.image || '',
+      quantity: quantity
+    });
     const detail = { qty: quantity, skipSimpleCart: true };
     const pid = product.id || product.slug;
     if(pid) detail.id = pid;

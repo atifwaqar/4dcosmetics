@@ -162,25 +162,10 @@ buildProductCard = function(prod){
   const link = el.querySelector('.pc__link');
   link?.addEventListener('click', () => Analytics.selectItem(prod));
 
-  // cart and analytics on add to cart
-  const priceNum = normalizePrice(prod.price);
+  // Analytics only — the document-level handler in product-card.js performs the
+  // single Cart.add and opens the drawer, so we must not add again here.
   el.addEventListener('product:addToCart', (evt) => {
-    const detail = evt?.detail || {};
-    const qty = Number(detail.qty) || 1;
-    const skipSimpleCart = !!detail.skipSimpleCart;
-    try{
-      if(!skipSimpleCart && typeof simpleCart !== 'undefined' && priceNum !== null){
-        simpleCart.add({
-          id: prod.id || prod.slug,
-          name: prod.name,
-          price: priceNum,
-          image: (prod.images && prod.images[0]) || prod.image || '',
-          quantity: qty
-        });
-      }
-    }catch(e){ console.warn('cart error', e); }
-    Analytics.addToCart(prod, qty);
-    showAddedToast(prod.name);
+    Analytics.addToCart(prod, Number(evt?.detail?.qty) || 1);
   });
   return el;
 };

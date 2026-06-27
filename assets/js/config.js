@@ -15,6 +15,33 @@ simpleCart.currency({
   symbol: SHOP_CURRENCY_SYMBOL
 });
 
+// ── Single source of truth for cart writes ────────────────────────────────
+// Every "add to cart" across the site (product cards, PDP, search) routes
+// through Cart.add, so there is exactly one place that touches simpleCart.
+// The mini-cart drawer opens by listening to simpleCart's afterAdd event
+// (see cart-drawer.js), so callers only need to add the item — they must not
+// open the drawer themselves.
+window.Cart = window.Cart || {
+  add: function (item) {
+    if (!item || typeof simpleCart === 'undefined') return false;
+    var price = item.price;
+    if (price && typeof price === 'object') price = price.current;
+    try {
+      simpleCart.add({
+        id: item.id || item.slug,
+        name: item.name || item.title || '',
+        price: Number(price) || 0,
+        image: item.image || (item.images && item.images[0]) || '',
+        quantity: Number(item.quantity || item.qty) || 1
+      });
+      return true;
+    } catch (e) {
+      console.warn('Cart.add error', e);
+      return false;
+    }
+  }
+};
+
 $(function() {
   // Initialize simpleCart
   simpleCart({

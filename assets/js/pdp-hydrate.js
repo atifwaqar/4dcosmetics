@@ -158,11 +158,7 @@
     }
     buttons.forEach(function(btn){
       btn.addEventListener('click', function(){
-        try{
-          if(typeof simpleCart !== 'undefined'){
-            simpleCart.add({ id: p.id || p.slug, name: p.name, price: p.price.current, quantity: 1, image: (p.images && p.images[0]) || '' });
-          }
-        }catch(e){ console.warn('cart error', e); }
+        Cart.add({ id: p.id || p.slug, name: p.name, price: p.price.current, quantity: 1, image: (p.images && p.images[0]) || '' });
         var detail = { qty: 1, skipSimpleCart: true };
         var pid = p.id || p.slug;
         if(pid) detail.id = pid;
