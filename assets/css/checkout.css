@@ -1,0 +1,30 @@
+.pm-option{display:block;margin:var(--space-1) 0;}
+.pm-feedback{margin-top:var(--space-2);color:var(--danger);}
+.checkout-notes{margin-top:var(--space-2);font-size:var(--font-size-200);color:var(--muted);}
+
+/* Checkout form sections */
+.pm-section{
+  margin-top: var(--space-4);
+}
+
+#buyer-name,
+#buyer-phone,
+#buyer-address,
+#buyer-city,
+#checkout-notes{
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+#buyer-name:focus,
+#buyer-phone:focus,
+#buyer-address:focus,
+#buyer-city:focus,
+#checkout-notes:focus{
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
