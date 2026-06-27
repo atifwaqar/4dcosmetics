@@ -10,17 +10,8 @@ async function ensureSearchEngine() {
   });
 }
 
-function analyticsEvent(type, data = {}) {
-  try {
-    if (window.gtag) {
-      window.gtag('event', type, data);
-    } else if (window.dataLayer) {
-      window.dataLayer.push({ event: type, ...data });
-    }
-  } catch (e) {
-    console.warn('analytics error', e);
-  }
-}
+// Delegates to the single analytics dispatch wrapper (config.js).
+function analyticsEvent(type, data = {}) { window.track(type, data); }
 
 function debounce(fn, delay) {
   let t;

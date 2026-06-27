@@ -1,16 +1,7 @@
 // Simple analytics helpers. Exported so other modules can use and also
 // attached to the window object for non-module scripts.
-function fireEvent(type, data) {
-  try {
-    if (window.gtag) {
-      window.gtag('event', type, data);
-    } else if (window.dataLayer) {
-      window.dataLayer.push({ event: type, ecommerce: data });
-    }
-  } catch (e) {
-    console.warn('analytics error', e);
-  }
-}
+// Delegates to the single analytics dispatch wrapper (config.js).
+function fireEvent(type, data) { window.track(type, data); }
 
 export const Analytics = {
   viewItemList(products, listName = 'Listing') {

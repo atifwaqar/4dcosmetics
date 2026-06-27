@@ -1,10 +1,6 @@
-// exports: renderProductCard(item), formatPrice(number, currency)
+// exports: renderProductCard(item)
 (function(global){
   const ITEM_CACHE = {};
-
-  function formatPrice(n){
-    return moneyPKR(n);
-  }
 
   function starsSVG(value){
     const v = Math.max(0, Math.min(5, Number(value)||0));
@@ -187,6 +183,6 @@
   }
 
   // expose
-  global.ProductCard = { renderProductCard, formatPrice };
+  global.ProductCard = { renderProductCard };
   if(!global.showAddedToast) global.showAddedToast = showAddedToast;
 })(window);

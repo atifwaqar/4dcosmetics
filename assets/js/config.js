@@ -61,6 +61,18 @@ window.Wishlist = window.Wishlist || (function () {
   };
 })();
 
+// ── Single analytics dispatch wrapper ─────────────────────────────────────
+// One place that talks to gtag / dataLayer. The Analytics helpers in
+// ui-cards.js and the search events in search-autocomplete.js both route
+// through this, so the gtag/dataLayer plumbing is not duplicated.
+window.track = window.track || function (type, data) {
+  data = data || {};
+  try {
+    if (window.gtag) window.gtag('event', type, data);
+    else if (window.dataLayer) window.dataLayer.push(Object.assign({ event: type }, data));
+  } catch (e) { console.warn('analytics error', e); }
+};
+
 $(function() {
   // Initialize simpleCart
   simpleCart({
