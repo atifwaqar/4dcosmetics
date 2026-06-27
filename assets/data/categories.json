@@ -1,0 +1,107 @@
+[
+  {
+    "name": "All",
+    "slug": "makeup",
+    "parent": null,
+    "descriptionHTML": "<p>Color cosmetics for every style.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Skin Care",
+    "slug": "skin-care",
+    "parent": null,
+    "descriptionHTML": "<p>Essentials to nourish your skin.</p>",
+    "sortOrder": 2
+  },
+  {
+    "name": "Hair Care",
+    "slug": "hair-care",
+    "parent": null,
+    "descriptionHTML": "<p>Care for and style your hair.</p>",
+    "sortOrder": 3
+  },
+  {
+    "name": "Primer",
+    "slug": "primer",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Prep your skin for makeup.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Foundation",
+    "slug": "foundation",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Find your perfect base.</p>",
+    "sortOrder": 2
+  },
+  {
+    "name": "Contour & Concealer",
+    "slug": "contour-concealer",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Define and correct with contour and concealer.</p>",
+    "sortOrder": 3
+  },
+  {
+    "name": "Highlighter",
+    "slug": "highlighter",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Add glow with luminous highlighters.</p>",
+    "sortOrder": 4
+  },
+  {
+    "name": "Face powder",
+    "slug": "face-powder",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Set your look with smooth face powders.</p>",
+    "sortOrder": 5
+  },
+  {
+    "name": "Blush",
+    "slug": "blush",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Fresh color for cheeks.</p>",
+    "sortOrder": 6
+  },
+  {
+    "name": "Lipsticks",
+    "slug": "lipsticks",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Bold and neutral shades for lips.</p>",
+    "sortOrder": 7
+  },
+  {
+    "name": "Eye shadow",
+    "slug": "eye-shadow",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Shades for every eye look.</p>",
+    "sortOrder": 8
+  },
+  {
+    "name": "Eye liner",
+    "slug": "eye-liner",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Define eyes with precision liners.</p>",
+    "sortOrder": 9
+  },
+  {
+    "name": "Mascara",
+    "slug": "mascara",
+    "parent": "makeup",
+    "descriptionHTML": "<p>Lengthen and volumize lashes.</p>",
+    "sortOrder": 10
+  },
+  {
+    "name": "Serums",
+    "slug": "serums",
+    "parent": "skin-care",
+    "descriptionHTML": "<p>Targeted treatments packed with actives.</p>",
+    "sortOrder": 1
+  },
+  {
+    "name": "Creams",
+    "slug": "creams",
+    "parent": "skin-care",
+    "descriptionHTML": "<p>Hydration heroes for every skin type.</p>",
+    "sortOrder": 2
+  }
+]

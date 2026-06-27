@@ -1,1 +1,0 @@
-(()=>{const r=document.documentElement,o=()=>r.classList.toggle("is-scrolled",window.scrollY>4);window.addEventListener("scroll",o,{passive:!0}),o();function e(n){n.key==="Tab"&&(document.body.classList.add("user-is-tabbing"),window.removeEventListener("keydown",e))}window.addEventListener("keydown",e)})();

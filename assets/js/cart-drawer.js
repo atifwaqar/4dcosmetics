@@ -80,7 +80,7 @@
   function disableToasts(){
     try{
       window.showAddedToast = function(){
-        try{  }catch(_){ }
+        try{ CartDrawer.open(); }catch(_){ }
       };
     }catch(_){ }
     try{
@@ -405,7 +405,7 @@
         const trigger = pending && pending.trigger && typeof pending.trigger.focus === 'function'
           ? pending.trigger
           : null;
-        
+        CartDrawer.open(trigger);
       }
     }catch(_){ }
   }
@@ -416,9 +416,3 @@
     autoInit();
   }
 })();
-// === unified: open drawer after any simpleCart add ===
-try{
-  if (typeof simpleCart!=='undefined' && typeof simpleCart.bind==='function'){
-    simpleCart.bind('afterAdd', function(){ if (window.CartDrawer && typeof window.CartDrawer.open==='function'){ try{ window.CartDrawer.open(); }catch(_){ } } });
-  }
-}catch(_){}

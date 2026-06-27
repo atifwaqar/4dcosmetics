@@ -1,0 +1,40 @@
+{
+  "columns": [
+    {
+      "section": "Shop",
+      "links": [
+        {"label": "Makeup", "href": "/c/makeup/"},
+        {"label": "Perfume", "href": "/c/perfume/"},
+        {"label": "Skincare", "href": "/c/skincare/"},
+        {"label": "Accessories", "href": "/c/accessories/"},
+        {"label": "New In", "href": "/c/new-in/"},
+        {"label": "Bestsellers", "href": "/c/bestsellers/"}
+      ]
+    },
+    {
+      "section": "Help",
+      "links": [
+        {"label": "Shipping & Delivery", "href": "/shipping.html"},
+        {"label": "Returns & Refunds", "href": "/returns.html"},
+        {"label": "FAQs", "href": "/faq.html"},
+        {"label": "Track Order", "href": "/track-order.html"},
+        {"label": "Contact", "href": "/contact.html"}
+      ]
+    },
+    {
+      "section": "Company",
+      "links": [
+        {"label": "About", "href": "/about.html"}
+      ]
+    },
+    {
+      "section": "Legal",
+      "links": [
+        {"label": "Privacy Policy", "href": "/privacy.html"},
+        {"label": "Terms & Conditions", "href": "/terms.html"},
+        {"label": "Cookie Policy", "href": "/cookie.html"},
+        {"label": "Manage Cookies", "href": "#", "action": "open-consent-preferences"}
+      ]
+    }
+  ]
+}

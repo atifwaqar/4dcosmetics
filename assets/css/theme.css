@@ -1,0 +1,104 @@
+:root{
+  /* colors */
+  --bg:#ffffff; --bg-alt:#fafafa;
+  --text:#222; --muted:#666; --border:#eee;
+  --brand:#1E88E5; --brand-600:#1565C0;
+  --accent:#FF5252; --success:#43A047; --warning:#FB8C00; --sale:#D32F2F; --badge:#111;
+
+  /* type & sizing */
+  --fs-base: clamp(14px,1.6vw,16px);
+  --lh: 1.5;
+  --radius:14px; --radius-sm:10px;
+  --shadow:0 8px 24px rgba(0,0,0,.06);
+
+  /* spacing scale */
+  --space-1:4px; --space-2:8px; --space-3:12px;
+  --space-4:16px; --space-5:20px; --space-6:24px;
+}
+
+html{font-size:16px}
+body{background:var(--bg); color:var(--text); font-size:var(--fs-base); line-height:var(--lh); -webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-weight:600; line-height:1.2; letter-spacing:.2px}
+a{color:var(--brand); text-decoration:none}
+a:hover{color:var(--brand-600); text-decoration:underline}
+
+.container-narrow{max-width:1120px; margin:0 auto; padding:0 var(--space-4)}
+.grid{display:grid; gap:var(--space-5)}
+.grid--auto{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.sr-only,.visually-hidden{position:absolute!important; height:1px;width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px)}
+.clamp-1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.clamp-2{-webkit-line-clamp:2}
+.btn-modern{border-radius:999px; padding:10px 16px; border:1px solid transparent; box-shadow:none}
+.btn-modern--primary{background:var(--brand); color:#fff}
+.btn-modern--primary:hover{background:var(--brand-600)}
+.btn-modern--ghost{background:#fff;border-color:var(--border);color:var(--text)}
+.btn-modern--whatsapp{background:#25D366;color:#fff}
+.btn-modern--whatsapp:hover{background:#1EBE57}
+.badge-chip{display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.04em}
+.price{font-weight:600}
+.price--old{color:var(--muted); text-decoration:line-through; margin-left:8px; font-weight:400}
+.card-soft{border:1px solid var(--border); border-radius:var(--radius); background:#fff; box-shadow:var(--shadow)}
+.aspect-1x1{aspect-ratio:1/1; position:relative; overflow:hidden; border-radius:var(--radius-sm)}
+.aspect-1x1 img{width:100%; height:100%; object-fit:cover; display:block}
+
+.header-compact{position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--border)}
+.header-compact .row{align-items:center; min-height:64px}
+@media(max-width:640px){.header-compact .row{min-height:56px}}
+/* Compact header layout */
+.header-compact{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border)}
+.header-compact .nav-container{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--space-4);min-height:64px}
+.logo{font-weight:700;letter-spacing:.2px}
+.nav-links{display:flex;gap:20px}
+.nav-actions{display:flex;gap:16px;align-items:center}
+.search-form input{border-radius:999px;border:1px solid var(--border);padding:10px 14px;min-width:220px}
+@media(max-width:768px){
+  .header-compact .nav-container{grid-template-columns:auto 1fr auto;min-height:56px}
+  .nav-links{display:none} /* hide inline links on mobile */
+  .search-form input{min-width:140px}
+}
+
+/* Hamburger */
+.nav-toggle{display:none;background:transparent;border:0;padding:8px;margin-right:4px}
+.nav-toggle__bar{display:block;width:22px;height:2px;background:var(--text);margin:4px 0;border-radius:1px}
+@media(max-width:768px){ .nav-toggle{display:block} }
+
+/* Drawer */
+.site-drawer{position:fixed;inset:0 0 0 auto;width:min(86%,360px);background:#fff;border-left:1px solid var(--border);box-shadow:var(--shadow);transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;padding:20px}
+.site-drawer.is-open{transform:translateX(0)}
+.drawer-links{display:flex;flex-direction:column;gap:12px;font-size:16px}
+.drawer-search input{margin-top:12px;border-radius:999px;border:1px solid var(--border);padding:10px 14px}
+.body-lock{overflow:hidden}
+/* Primary category tabs */
+.bnz-tabs{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;   /* default left alignment; JS centers when overflow isn't needed */
+  gap:12px;
+  width:100%;
+  margin:10px auto 18px;
+  padding:4px 0;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+@media (min-width: 900px){
+  .bnz-tabs--center{
+    justify-content:center;
+  }
+}
+
+.bnz-tabs__item{
+  flex:0 0 auto;            /* prevent stretching */
+}
+
+@media (max-width: 640px){
+  .bnz-tabs{
+    padding:4px 12px;
+  }
+  .bnz-tabs__item{ scroll-snap-align:center; }
+}
+
+
+/* === Unified sticky header behavior (alt header) === */
+.header-compact{ position: sticky; top:0; z-index: 100; transition: box-shadow .2s ease, background-color .2s ease, backdrop-filter .2s ease; }
+html.scrolled .header-compact{ box-shadow: var(--shadow); background: rgba(255,255,255,.98); backdrop-filter: saturate(160%) blur(4px); }

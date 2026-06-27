@@ -1,0 +1,138 @@
+.pdp{ display:grid; gap: var(--space-6); }
+@media (min-width: 992px){ .pdp{ grid-template-columns: 1fr 1fr; } }
+
+.pdp__media{ position:relative; }
+
+/* ⬅️ Reverted: main image back to original (no sizing rules) */
+.pdp__main.aspect-1x1{ border:1px solid var(--border); border-radius: var(--radius); }
+/* (No .pdp__main {} or .pdp__main img {} blocks) */
+
+/* ✅ Keep: improved thumbnails only */
+.pdp__thumbs{
+  display:flex; gap:10px; margin-top:10px;
+  overflow-x:auto; padding:6px 2px;
+  -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory;
+}
+.pdp__thumbs::-webkit-scrollbar{ height:8px; }
+.pdp__thumbs::-webkit-scrollbar-thumb{ background: var(--hairline,var(--border)); border-radius:10px; }
+
+.pdp__thumb{
+  width:72px; height:72px; border-radius:10px; border:1px solid var(--border);
+  overflow:hidden; cursor:pointer; flex:0 0 auto; background:none; padding:0; scroll-snap-align:start;
+}
+.pdp__thumb img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.pdp__thumb.is-active{ outline:2px solid var(--brand); outline-offset:2px; }
+.pdp__thumb:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+
+.pdp__title{ margin:0 0 6px; font-weight:600; }
+.pdp__brand{ color:var(--muted); font-size:14px; margin-bottom:6px; }
+.pdp__rating{ display:flex; align-items:center; gap:6px; color:var(--muted); font-size:13px; }
+
+.pdp__price{ display:flex; align-items:baseline; gap:8px; margin:8px 0; }
+.pdp__bullets{ margin:12px 0; padding-left:18px; }
+.pdp__cta{ display:flex; gap:10px; margin-top:12px; }
+.pdp__cta .btn-modern{ min-height:44px; }
+.pdp__cod-note{ margin-top:var(--space-2); font-size:var(--font-size-200); color:var(--muted); }
+
+.pdp-tabs{ margin-top:24px; border-top:1px solid var(--border); }
+.pdp-tabs__nav{ display:flex; gap:16px; padding:12px 0; }
+.pdp-tabs__nav button{ background:none; border:0; padding:8px 0; font-weight:600; cursor:pointer; }
+.pdp-tabs__nav .is-active{ color:var(--brand); border-bottom:2px solid var(--brand); }
+.pdp-tabs__panel{ display:none; padding:12px 0; }
+.pdp-tabs__panel.is-active{ display:block; }
+
+.mobile-atc{ position:sticky; bottom:0; left:0; right:0; background:var(--on-brand); border-top:1px solid var(--border);
+  padding:10px 12px; display:flex; gap:10px; align-items:center; }
+.mobile-atc__price{ margin-left:auto; font-weight:700; }
+@media (min-width: 768px){ .mobile-atc{ display:none; } }
+
+/* === UX fixes appended === */
+
+/* Rating on PDP */
+.pdp__rating{ display:flex; align-items:center; gap:8px; color: var(--muted); margin: 6px 0 4px; }
+.pdp__rating-stars{ display:inline-flex; gap:2px; color: var(--accent); }
+.pdp__rating-stars svg{ width:16px; height:16px; display:block; }
+.pc__rating-num, .pdp__rating .pc__rating-num{ font-weight:600; color: var(--text); }
+.pc__rating-count, .pdp__rating .pc__rating-count{ color: var(--muted); }
+
+/* Tabs contrast and affordance */
+.pdp-tabs__nav{ gap:20px; }
+.pdp-tabs__nav button{ background:none; border:0; padding:10px 2px; font-weight:600; color: var(--muted); }
+.pdp-tabs__nav button:hover{ color: var(--text); }
+.pdp-tabs__nav .is-active{ color: var(--text); border-bottom: 2px solid var(--primary); }
+.pdp-tabs__panel{ color: var(--text); }
+
+
+
+/* --- Fix: PDP should not use the global container-narrow scroller --- */
+.pdp.container-narrow{
+  display: grid !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  gap: var(--space-6);
+}
+/* Ensure inner blocks wrap correctly */
+.pdp *{ max-width: 100%; }
+
+
+
+/* === PDP Mobile Fit (hardening) === */
+@media (max-width: 768px){
+  .pdp{ overflow-x:hidden; }
+  .pdp__cta,
+  .pdp__cod-note{ display:none; }
+}
+.pdp__media, .pdp__main{ max-width:100%; }
+.pdp__main{ width:100%; }
+.pdp__main img{ width:100%; height:auto; display:block; }
+.mobile-atc{ left:0; right:0; overflow:hidden; }
+
+
+
+/* === Restore PDP main image square/cropped look === */
+/* Keep container responsive */
+.pdp__main.aspect-1x1{ width:100%; max-width:100%; }
+/* Bring back square cropping inside the fixed aspect-ratio box */
+.pdp__main.aspect-1x1 img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block;
+}
+
+/* Optional: if you ever want a no-crop variant, add .pdp--contain on <section class="pdp ..."> */
+/*
+.pdp.pdp--contain .pdp__main.aspect-1x1 img{
+  object-fit:contain !important;
+  background:var(--on-brand);
+}
+*/
+
+
+
+/* === Best‑practice product imagery === */
+/* PDP hero: 1:1 on mobile (stable), 4:5 on desktop (showcase vertical products) */
+.pdp__main.aspect-1x1{ aspect-ratio: 1 / 1; }
+@media (min-width: 992px){
+  .pdp__main.aspect-1x1{ aspect-ratio: 4 / 5; }
+}
+
+/* Keep premium crop without distortion */
+.pdp__main.aspect-1x1 img{
+  width:100% !important;
+  height:100% !important;
+  object-fit: cover !important;
+  display:block;
+}
+
+/* Thumbs stay square and crop cleanly */
+.pdp__thumb img{ aspect-ratio: 1 / 1; object-fit: cover; display:block; }
+
+
+.badge-warning{ background:var(--danger); color:var(--on-brand); }
+
+.badge-brand{ background:var(--brand); color:var(--on-brand); }
+
+.badge-danger{ background:var(--warning); color:var(--on-brand); }
+
+.badge-exclusive{ background:var(--info); color:var(--on-brand); }

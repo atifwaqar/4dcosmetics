@@ -183,7 +183,7 @@
     var trigger = document.activeElement;
     try{
       if(window.CartDrawer && typeof window.CartDrawer.open === 'function'){
-        
+        window.CartDrawer.open(trigger);
         return;
       }
     }catch(_){ }
