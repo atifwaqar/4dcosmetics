@@ -1,20 +1,6 @@
 // exports: renderProductCard(item), formatPrice(number, currency)
 (function(global){
-  const WISHLIST_KEY = 'wishlist_ids_v1';
   const ITEM_CACHE = {};
-
-  function loadWishlist(){
-    try{ return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }catch{ return []; }
-  }
-  function saveWishlist(arr){ localStorage.setItem(WISHLIST_KEY, JSON.stringify(arr)); }
-  function inWishlist(id){ return loadWishlist().includes(String(id)); }
-  function toggleWishlist(id){
-    const idStr = String(id);
-    let list = loadWishlist();
-    if(list.includes(idStr)) list = list.filter(x=>x!==idStr); else list.push(idStr);
-    saveWishlist(list);
-    return list.includes(idStr);
-  }
 
   function formatPrice(n){
     return moneyPKR(n);
@@ -63,7 +49,7 @@
     if(item.is_best) badges.push('<span class="pc-badge pc-badge--best">Best</span>');
     if(item.price.old && item.price.current < item.price.old) badges.push('<span class="pc-badge pc-badge--sale">Sale</span>');
 
-    const wishPressed = inWishlist(item.id);
+    const wishPressed = Wishlist.has(item.id);
     const wishLabel = wishPressed ? 'Remove from wishlist' : 'Add to wishlist';
     const priceNew = moneyPKR(item.price.current);
     const priceOld = item.price.old ? moneyPKR(item.price.old) : '';
@@ -144,7 +130,7 @@
     if(wish){
       e.preventDefault(); e.stopPropagation();
       const id = wish.getAttribute('data-id');
-      const state = toggleWishlist(id);
+      const state = Wishlist.toggle(id);
       wish.setAttribute('aria-pressed', state ? 'true' : 'false');
       wish.setAttribute('aria-label', state ? 'Remove from wishlist' : 'Add to wishlist');
       return;

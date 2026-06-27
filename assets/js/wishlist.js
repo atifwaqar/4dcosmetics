@@ -1,9 +1,6 @@
 (function(){
-  const WISHLIST_KEY = 'wishlist_ids_v1';
-  function loadWishlist(){
-    try { return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]'); }
-    catch { return []; }
-  }
+  // Wishlist storage is owned by the shared Wishlist module (config.js).
+  const loadWishlist = () => Wishlist.list();
   function getId(raw){
     return String(raw.id || raw.item_id || raw.sku || raw.handle || raw.slug || raw._id || '');
   }

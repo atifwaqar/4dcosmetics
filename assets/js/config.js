@@ -42,6 +42,25 @@ window.Cart = window.Cart || {
   }
 };
 
+// ── Single source of truth for the wishlist ───────────────────────────────
+// Product cards, the PDP, and the wishlist page all read/write the wishlist
+// through this one module (localStorage key wishlist_ids_v1).
+window.Wishlist = window.Wishlist || (function () {
+  var KEY = 'wishlist_ids_v1';
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+  function save(arr) { try { localStorage.setItem(KEY, JSON.stringify(arr)); } catch (e) {} }
+  return {
+    list: load,
+    has: function (id) { return load().includes(String(id)); },
+    toggle: function (id) {
+      var s = String(id), arr = load();
+      if (arr.includes(s)) arr = arr.filter(function (x) { return x !== s; }); else arr.push(s);
+      save(arr);
+      return arr.includes(s);
+    }
+  };
+})();
+
 $(function() {
   // Initialize simpleCart
   simpleCart({

@@ -172,23 +172,13 @@
   function wireWishlist(p){
     var btn = document.querySelector('[data-wishlist]');
     if(!btn) return;
-    var KEY = 'wishlist_ids_v1';
-    function load(){ try{ return JSON.parse(localStorage.getItem(KEY) || '[]'); }catch(_){ return []; } }
-    function save(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
-    function inList(){ return load().includes(String(p.id || p.slug)); }
-    function toggle(){
-      var idStr = String(p.id || p.slug);
-      var list = load();
-      if(list.includes(idStr)) list = list.filter(function(x){ return x!==idStr; }); else list.push(idStr);
-      save(list);
-      return list.includes(idStr);
-    }
+    var id = p.id || p.slug;
     function sync(){
-      var state = inList();
+      var state = Wishlist.has(id);
       btn.setAttribute('aria-pressed', state ? 'true' : 'false');
       btn.textContent = state ? 'Remove from Wishlist' : 'Add to Wishlist';
     }
-    btn.addEventListener('click', function(){ toggle(); sync(); });
+    btn.addEventListener('click', function(){ Wishlist.toggle(id); sync(); });
     sync();
   }
 
