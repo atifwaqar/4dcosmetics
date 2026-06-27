@@ -1,16 +1,7 @@
 // Simple analytics helpers. Exported so other modules can use and also
 // attached to the window object for non-module scripts.
-function fireEvent(type, data) {
-  try {
-    if (window.gtag) {
-      window.gtag('event', type, data);
-    } else if (window.dataLayer) {
-      window.dataLayer.push({ event: type, ecommerce: data });
-    }
-  } catch (e) {
-    console.warn('analytics error', e);
-  }
-}
+// Delegates to the single analytics dispatch wrapper (config.js).
+function fireEvent(type, data) { window.track(type, data); }
 
 export const Analytics = {
   viewItemList(products, listName = 'Listing') {
@@ -72,83 +63,12 @@ export function normalizePrice(val) {
   return Number.isFinite(num) ? num : null;
 }
 
-// Renders a uniform, clickable simpleCart card for a product.
+// Build a product card element by delegating to the single ProductCard
+// renderer (the only card renderer in the codebase). Returns a DOM element so
+// search-page.js can appendChild it. The add-to-cart click is handled once by
+// the document-level delegated handler in product-card.js (Cart.add + drawer);
+// here we only attach analytics.
 export function buildProductCard(prod) {
-  if (!prod || !prod.name || !prod.slug) {
-    console.warn('Invalid product skipped', prod);
-    return null;
-  }
-  const img = (prod.images && prod.images[0]) || '/assets/img/products/fallback.png';
-  const priceNum = normalizePrice(prod.price);
-  const compareNum = normalizePrice(prod.compareAtPrice ?? prod.price?.old);
-  const currency = (prod.price && prod.price.currency) || prod.currency || 'PKR';
-
-  const wrap = document.createElement('div');
-  wrap.className = 'product-card';
-
-  let priceHTML = '';
-  if (priceNum !== null) {
-    priceHTML = `<span class="visually-hidden item_price">${priceNum}</span><span aria-hidden="true" class="price-current">${StorefrontRuntime.formatPrice(priceNum, currency)}</span>`;
-    if (compareNum !== null && compareNum > priceNum) {
-      const pct = Math.round((1 - priceNum / compareNum) * 100);
-      priceHTML += ` <span class="price-compare">${StorefrontRuntime.formatPrice(compareNum, currency)}</span> <span class="price-discount">${pct}% off</span>`;
-    }
-  } else {
-    priceHTML = `<span class="visually-hidden item_price"></span><span aria-hidden="true" class="price-current">Unavailable</span>`;
-  }
-
-  const disabled = priceNum === null || prod.inStock === false;
-  const actionHTML = disabled
-    ? `<a href="/p/${prod.slug}" class="btn btn-secondary mt-auto" aria-label="View details for ${prod.name}">View details</a>`
-    : `<button class="btn btn-primary mt-auto item_add" type="button" aria-label="Add ${prod.name} to cart">Add to Cart</button>`;
-
-  const ratingHTML = prod.rating
-    ? `<div class="rating mb-1" aria-label="Rated ${prod.rating} out of 5">${'★'.repeat(Math.round(prod.rating))}${'☆'.repeat(5 - Math.round(prod.rating))} <span class="text-muted small">(${prod.ratingCount || 0})</span></div>`
-    : '';
-
-  wrap.innerHTML = `
-    <div class="card h-100 simpleCart_shelfItem">
-      <a href="/p/${prod.slug}" class="text-decoration-none text-dark">
-        <img src="${img}" class="card-img-top item_image item_thumb" alt="${prod.name}" loading="lazy" decoding="async" onerror="this.src='/assets/img/products/fallback.png'" width="300" height="375" srcset="${img} 300w, ${img} 600w" sizes="(max-width: 600px) 100vw, 300px">
-      </a>
-      <div class="card-body p-2 d-flex flex-column">
-        <span class="visually-hidden item_id">${prod.id || prod.slug}</span>
-        <span class="visually-hidden item_url">/p/${prod.slug}</span>
-        <div class="mb-1">${StorefrontRuntime.renderProductBadgesHTML(prod) || ''}</div>
-        ${prod.brand ? `<p class="brand mb-1 small text-muted">${prod.brand}</p>` : ''}
-        <a href="/p/${prod.slug}" class="card-title h6 text-decoration-none text-dark item_name">${prod.name}</a>
-        ${prod.variant ? `<p class="variant text-muted mb-1">${prod.variant}</p>` : ''}
-        ${ratingHTML}
-        <p class="card-text price-block mb-1">${priceHTML}</p>
-        ${actionHTML}
-      </div>
-    </div>`;
-
-  if (!disabled) {
-    const btn = wrap.querySelector('.item_add');
-    btn.addEventListener('click', () => {
-      const detail = { qty: 1, skipSimpleCart: true };
-      const id = prod.id || prod.slug;
-      if (id) detail.id = id;
-      const evt = new CustomEvent('product:addToCart', { detail, bubbles: true });
-      btn.dispatchEvent(evt);
-      Analytics.addToCart(prod, 1);
-      showAddedToast(prod.name);
-    });
-  }
-  wrap.querySelectorAll('a[href^="/p/"]').forEach(a => {
-    a.addEventListener('click', () => Analytics.selectItem(prod));
-  });
-  return wrap;
-}
-
-// expose helpers globally
-window.Analytics = Analytics;
-window.showAddedToast = showAddedToast;
-
-// --- appended modern product card integration ---
-// Override buildProductCard to use ProductCard component
-buildProductCard = function(prod){
   if (!prod || !prod.name || !prod.slug) {
     console.warn('Invalid product skipped', prod);
     return null;
@@ -156,31 +76,12 @@ buildProductCard = function(prod){
   const tmp = document.createElement('template');
   tmp.innerHTML = window.ProductCard.renderProductCard(prod).trim();
   const el = tmp.content.firstElementChild;
-  if(!el) return null;
-
-  // analytics: product selection
-  const link = el.querySelector('.pc__link');
-  link?.addEventListener('click', () => Analytics.selectItem(prod));
-
-  // cart and analytics on add to cart
-  const priceNum = normalizePrice(prod.price);
-  el.addEventListener('product:addToCart', (evt) => {
-    const detail = evt?.detail || {};
-    const qty = Number(detail.qty) || 1;
-    const skipSimpleCart = !!detail.skipSimpleCart;
-    try{
-      if(!skipSimpleCart && typeof simpleCart !== 'undefined' && priceNum !== null){
-        simpleCart.add({
-          id: prod.id || prod.slug,
-          name: prod.name,
-          price: priceNum,
-          image: (prod.images && prod.images[0]) || prod.image || '',
-          quantity: qty
-        });
-      }
-    }catch(e){ console.warn('cart error', e); }
-    Analytics.addToCart(prod, qty);
-    showAddedToast(prod.name);
-  });
+  if (!el) return null;
+  el.querySelector('.pc__link')?.addEventListener('click', () => Analytics.selectItem(prod));
+  el.addEventListener('product:addToCart', (evt) => Analytics.addToCart(prod, Number(evt?.detail?.qty) || 1));
   return el;
-};
+}
+
+// expose helpers globally
+window.Analytics = Analytics;
+window.showAddedToast = showAddedToast;
