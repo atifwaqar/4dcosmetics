@@ -116,3 +116,22 @@ Each step is small and verified with the browser harness before moving on.
 Steps 1–2 are the heart of what was requested (single, object-oriented
 Add-to-Cart used identically everywhere). 3–7 are mechanical cleanups that
 follow naturally.
+
+## Status — all steps completed
+
+| # | Step | Done |
+|---|------|------|
+| 1 | Single `Cart.add()` writer; drawer opens via simpleCart `afterAdd` | ✅ (also fixed a search double-add) |
+| 2 | One Add-to-Cart binding; removed dead `pdp.js` controller entirely | ✅ |
+| 3 | One card renderer (`ProductCard`); removed dead `buildProductCard` body | ✅ |
+| 4 | One `Wishlist` module (config.js) replacing 3 copies | ✅ |
+| 5 | One analytics dispatch (`window.track`) replacing 2 copies | ✅ |
+| 6 | Shared header/footer via `partials.js` injected on all 19 pages | ✅ |
+| 7 | Removed redundant `ProductCard.formatPrice` wrapper | ✅ |
+
+Bonus fix: `categories/index.html` was missing `simpleCart.min.js`, so its
+`config.js` threw `simpleCart is not defined` — added.
+
+Every step verified in a headless browser: all 19 page types load with zero
+console/page errors; add-to-cart adds exactly one item and opens the drawer on
+home, PDP, search, and collection; wishlist toggles and renders correctly.
