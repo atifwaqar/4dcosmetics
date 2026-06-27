@@ -11,60 +11,93 @@
   <link rel="stylesheet" href="/assets/css/theme.css">
   <link rel="stylesheet" href="/assets/css/product-card.css">
   <link rel="stylesheet" href="/assets/css/bonanza-layout.css">
-  <script>
-    (function () {
-      const loc = window.location;
-      let path = loc.pathname;
-      const isCategory = path.startsWith('/c/');
-      const isProduct = path.startsWith('/p/');
-      if (isCategory || isProduct) {
-        const parts = path.split('/').filter(Boolean);
-        const slug = parts[1];
-        if (isCategory && !path.endsWith('/')) {
-          path = `/c/${slug}/`;
-          history.replaceState(null, '', path + loc.search);
-        }
-        if (isProduct && path.endsWith('/')) {
-          path = `/p/${slug}`;
-          history.replaceState(null, '', path + loc.search);
-        }
-        const shell = isCategory ? '/c/' : '/p/';
-        fetch(shell)
-          .then(r => (r.ok ? r.text() : Promise.reject()))
-          .then(html => {
-            html = html.replace('<head>', '<head><base href="/">');
-            document.open();
-            document.write(html);
-            document.close();
-          })
-          .catch(() => {});
-      }
-    })();
-  </script>
   <link rel="stylesheet" href="/assets/css/bonanza-overrides.css">
   <link rel="stylesheet" href="/assets/css/cart-drawer.css">
+  <script>
+    // GitHub Pages SPA fallback. Pretty URLs like /p/<slug> and /c/<cat>/ have no
+    // file on disk, so Pages serves this 404.html. For those we swap in the real
+    // SPA shell (p/index.html or c/index.html) via document.write.
+    //
+    // IMPORTANT: in that redirect case we must NOT load this page's own app
+    // scripts. The written-in shell loads them itself; running them here too made
+    // every script execute twice. In particular cart-drawer.js would initialise
+    // against this document, set a one-time guard, then document.write would
+    // destroy that DOM — leaving the cart drawer permanently bound to a dead node
+    // (the drawer never opened on product/category pages, though items still added).
+    window.__SPA_REDIRECTING__ = false;
+    (function () {
+      var loc = window.location;
+      var path = loc.pathname;
+      var isCategory = path.indexOf('/c/') === 0;
+      var isProduct = path.indexOf('/p/') === 0;
+      if (!(isCategory || isProduct)) return;
+      window.__SPA_REDIRECTING__ = true;
+      var slug = path.split('/').filter(Boolean)[1];
+      if (isCategory && path.charAt(path.length - 1) !== '/') {
+        history.replaceState(null, '', '/c/' + slug + '/' + loc.search);
+      }
+      if (isProduct && path.charAt(path.length - 1) === '/') {
+        history.replaceState(null, '', '/p/' + slug + loc.search);
+      }
+      var shell = isCategory ? '/c/' : '/p/';
+      fetch(shell)
+        .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+        .then(function (html) {
+          document.open();
+          document.write(html.replace('<head>', '<head><base href="/">'));
+          document.close();
+        })
+        .catch(function () {
+          // Network failed: fall back to showing this 404 page with its chrome.
+          window.__SPA_REDIRECTING__ = false;
+          bootApp();
+        });
+    })();
+
+    // Load the site chrome/app scripts in order. Used only for a genuine 404
+    // (not when redirecting to a SPA shell).
+    function bootApp() {
+      var srcs = [
+        '/assets/js/partials.js',
+        '/assets/js/jquery-2.2.4.min.js',
+        '/assets/js/bootstrap.bundle.min.js',
+        '/assets/js/simpleCart.min.js',
+        '/assets/js/config.js',
+        '/assets/js/storefront-runtime.js',
+        '/assets/js/product-card.js',
+        '/assets/js/tabs.js',
+        '/assets/js/whatsapp-fab.js',
+        '/assets/js/header-affordance.js',
+        '/assets/js/cart-drawer.js'
+      ];
+      srcs.forEach(function (src) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = false; // preserve execution order
+        document.head.appendChild(s);
+      });
+      var m = document.createElement('script');
+      m.type = 'module';
+      m.src = '/assets/js/money.js';
+      document.head.appendChild(m);
+    }
+  </script>
 </head>
 <body data-active-tab="Beauty">
-<div id="site-header"></div>
-<script src="/assets/js/partials.js"></script>
-<main class="bnz-main">
-  <div class="container-narrow">
-    <h1>Page not found</h1>
-    <p><a href="/">Home</a></p>
-    <p><a href="/categories/">Browse all categories</a></p>
-  </div>
-</main>
-<div id="site-footer"></div>
-<script src="/assets/js/jquery-2.2.4.min.js"></script>
-<script src="/assets/js/bootstrap.bundle.min.js"></script>
-<script src="/assets/js/simpleCart.min.js"></script>
-<script src="/assets/js/config.js"></script>
-  <script type="module" src="/assets/js/money.js"></script>
-<script src="/assets/js/storefront-runtime.js"></script>
-<script src="/assets/js/product-card.js"></script>
-<script src="/assets/js/tabs.js"></script>
-  <script src="/assets/js/whatsapp-fab.js"></script>
-  <script src="/assets/js/header-affordance.js" defer></script>
-  <script src="/assets/js/cart-drawer.js" defer></script>
+  <div id="site-header"></div>
+  <main class="bnz-main">
+    <div class="container-narrow">
+      <h1>Page not found</h1>
+      <p><a href="/">Home</a></p>
+      <p><a href="/categories/">Browse all categories</a></p>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script>
+    // Only boot the app on a genuine 404. When redirecting to a SPA shell the
+    // written-in document loads its own scripts; loading them here as well would
+    // double-execute everything (see note above).
+    if (!window.__SPA_REDIRECTING__) bootApp();
+  </script>
 </body>
 </html>
