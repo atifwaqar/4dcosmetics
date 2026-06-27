@@ -96,7 +96,7 @@
     nav.classList.toggle('bnz-tabs--center', shouldCenter);
   }
 
-document.addEventListener('DOMContentLoaded', async function(){
+(function(run){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', run, {once:true}); else run(); })(async function(){
     try{
       const raw = await loadCategories();
       if (raw && raw.length){
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async function(){
 })();
 
 // Load search autocomplete module on every page
-document.addEventListener('DOMContentLoaded', function(){
+(function(run){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', run, {once:true}); else run(); })(function(){
   const s = document.createElement('script');
   s.type = 'module';
   s.src = '/assets/js/search-autocomplete.js';

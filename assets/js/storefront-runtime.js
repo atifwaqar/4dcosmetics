@@ -137,8 +137,5 @@ if (!window.StorefrontRuntime) {
   };
   })();
 }
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
-  });
-}
+// Service worker registration + update banner live in assets/js/config.js
+// (loaded on every page), so it is not duplicated here.

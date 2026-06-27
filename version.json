@@ -1,0 +1,4 @@
+{
+  "version": "2026.06.28-1",
+  "note": "Keep this in sync with VERSION in sw.js. Bump both on every deploy so returning visitors are offered the update."
+}

@@ -73,6 +73,87 @@ window.track = window.track || function (type, data) {
   } catch (e) { console.warn('analytics error', e); }
 };
 
+// ── App updates: service worker + "Update available" banner ───────────────
+// Registers the network-first service worker (sw.js) so online visitors always
+// get the latest code and the site works offline. When a new version is
+// deployed (sw.js VERSION bumped), a small non-intrusive banner invites the
+// customer to refresh into the new version.
+(function () {
+  if (!('serviceWorker' in navigator)) return;
+
+  function showUpdateBanner(applyUpdate) {
+    if (document.getElementById('app-update-banner')) return;
+    if (!document.body) { document.addEventListener('DOMContentLoaded', function () { showUpdateBanner(applyUpdate); }, { once: true }); return; }
+    var style = document.getElementById('app-update-style');
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'app-update-style';
+      style.textContent =
+        '#app-update-banner{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:2147483000;' +
+        'background:#111;color:#fff;border-radius:12px;padding:10px 12px 10px 16px;display:flex;gap:12px;align-items:center;' +
+        'box-shadow:0 8px 28px rgba(0,0,0,.28);font:500 14px/1.25 Inter,system-ui,Arial,sans-serif;max-width:92vw}' +
+        '#app-update-banner button{border:0;border-radius:8px;padding:8px 12px;font-weight:600;cursor:pointer;font-size:14px}' +
+        '#app-update-banner .au-refresh{background:#fff;color:#111}' +
+        '#app-update-banner .au-later{background:transparent;color:#bbb}';
+      document.head.appendChild(style);
+    }
+    var bar = document.createElement('div');
+    bar.id = 'app-update-banner';
+    bar.setAttribute('role', 'status');
+    bar.setAttribute('aria-live', 'polite');
+    var msg = document.createElement('span');
+    msg.textContent = 'A new version of the site is available.';
+    var refresh = document.createElement('button');
+    refresh.className = 'au-refresh';
+    refresh.textContent = 'Refresh';
+    refresh.onclick = function () { refresh.disabled = true; applyUpdate(); };
+    var later = document.createElement('button');
+    later.className = 'au-later';
+    later.textContent = 'Later';
+    later.onclick = function () { bar.remove(); };
+    bar.appendChild(msg); bar.appendChild(refresh); bar.appendChild(later);
+    document.body.appendChild(bar);
+  }
+
+  var updateAccepted = false; // set when the customer taps Refresh
+
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').then(function (reg) {
+      function offerUpdate(worker) {
+        showUpdateBanner(function () {
+          updateAccepted = true;
+          (worker || reg.waiting).postMessage({ type: 'SKIP_WAITING' });
+        });
+      }
+      // A worker is already waiting from a previous visit.
+      if (reg.waiting && navigator.serviceWorker.controller) offerUpdate(reg.waiting);
+      // A new worker starts installing while the page is open.
+      reg.addEventListener('updatefound', function () {
+        var nw = reg.installing;
+        if (!nw) return;
+        nw.addEventListener('statechange', function () {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) offerUpdate(nw);
+        });
+      });
+      // Check for a new version now and whenever the tab regains focus.
+      try { reg.update(); } catch (e) {}
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) { try { reg.update(); } catch (e) {} }
+      });
+    }).catch(function () {});
+
+    // When the new worker takes control AFTER the customer accepted the update,
+    // reload once to run the fresh code. (Ignore the first-visit claim, which
+    // also fires controllerchange but should not reload the page.)
+    var reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function () {
+      if (reloaded || !updateAccepted) return;
+      reloaded = true;
+      window.location.reload();
+    });
+  });
+})();
+
 $(function() {
   // Initialize simpleCart
   simpleCart({
