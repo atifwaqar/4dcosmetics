@@ -45,6 +45,7 @@
   <script src="/assets/js/product-card.js"></script>
   <script src="/assets/js/tabs.js"></script>
   <script type="module">
+    const esc = (s)=>String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const data = localStorage.getItem('4d-last-order');
     const receipt = document.getElementById('order-receipt');
     const url = new URL(window.location);
@@ -52,15 +53,17 @@
       const order = JSON.parse(data);
       const pm = url.searchParams.get('pm');
       const txn = url.searchParams.get('txn');
-      let html = `<p><strong>Order ID:</strong> ${order.id}</p>`;
-      if(txn) html += `<p><strong>Reference:</strong> ${txn}</p>`;
-      html += '<ul>' + order.items.map(i=>`<li>${i.name} × ${i.quantity} = ${moneyPKR(i.subtotal)}</li>`).join('') + '</ul>';
+      let html = `<p><strong>Order ID:</strong> ${esc(order.id)}</p>`;
+      if(txn) html += `<p><strong>Reference:</strong> ${esc(txn)}</p>`;
+      html += '<ul>' + order.items.map(i=>`<li>${esc(i.name)} × ${esc(i.quantity)} = ${moneyPKR(i.subtotal)}</li>`).join('') + '</ul>';
       html += `<p><strong>Total:</strong> ${moneyPKR(order.amount)}</p>`;
-      if(pm) html += `<p><strong>Payment method:</strong> ${pm === 'whatsappCod' ? 'WhatsApp COD' : pm}</p>`;
+      if(pm) html += `<p><strong>Payment method:</strong> ${pm === 'whatsappCod' ? 'WhatsApp COD' : esc(pm)}</p>`;
       receipt.innerHTML = html;
     } else {
       receipt.innerHTML = '<p>Thank you for your purchase.</p>';
     }
+    // Order is placed — empty the cart so it doesn't linger or get re-ordered.
+    try{ if(typeof simpleCart !== 'undefined') simpleCart.empty(); }catch(_){/* noop */}
   </script>
   <script src="/assets/js/whatsapp-fab.js"></script>
   <script src="/assets/js/header-affordance.js" defer></script>

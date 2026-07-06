@@ -5,6 +5,7 @@
   // Utilities
   const $ = (sel, ctx=document)=>ctx.querySelector(sel);
   const $$ = (sel, ctx=document)=>Array.from(ctx.querySelectorAll(sel));
+  const esc = (s)=>String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   // Cart API bridge (can be overridden via init)
   const defaultApi = {
@@ -294,17 +295,19 @@
   function cloneCartLine(it){
     // IMPORTANT: Keep structure identical to cart-ui.js
     const total = (Number(it.price)||0) * (Number(it.qty)||0);
+    const title = esc(it.title||'');
+    const id = esc(it.id);
     const html = `
       <div class="cart-line">
-        <div class="cart-line__img">${it.image ? `<img src="${it.image}" alt="">` : ''}</div>
+        <div class="cart-line__img">${it.image ? `<img src="${esc(it.image)}" alt="${title}">` : ''}</div>
         <div class="cart-line__info">
-          <p class="cart-line__title">${it.title||''}</p>
-          <p class="cart-line__meta">${it.variantTitle||''}</p>
+          <p class="cart-line__title">${title}</p>
+          <p class="cart-line__meta">${esc(it.variantTitle||'')}</p>
           <div class="cart-line__qty">
-            <button class="btn btn-outline-secondary" data-dec="${it.id}">−</button>
-            <input type="number" min="1" value="${it.qty}" data-qty="${it.id}">
-            <button class="btn btn-outline-secondary" data-inc="${it.id}">+</button>
-            <button class="btn btn-link text-danger" data-del="${it.id}">Remove</button>
+            <button class="btn btn-outline-secondary" data-dec="${id}" aria-label="Decrease quantity of ${title}">−</button>
+            <input type="number" min="1" value="${esc(it.qty)}" data-qty="${id}" aria-label="Quantity of ${title}">
+            <button class="btn btn-outline-secondary" data-inc="${id}" aria-label="Increase quantity of ${title}">+</button>
+            <button class="btn btn-link text-danger" data-del="${id}" aria-label="Remove ${title}">Remove</button>
           </div>
         </div>
         <div class="cart-line__total">${typeof moneyPKR==='function' ? moneyPKR(total) : total}</div>

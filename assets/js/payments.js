@@ -97,7 +97,7 @@ export const Payments = {
   bank: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty} = ${fmt(i.subtotal)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
+      const body = `\nORDER REQUEST (Bank Transfer)\nOrder: ${order.id}\nAmount: ${fmt(order.amount)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.quantity ?? i.qty ?? 1} = ${fmt(i.subtotal)}`).join('\n')}\n---\nBank details:\n${cfg.account.title}\n${cfg.account.bank} – ${cfg.account.branch}\nIBAN: ${cfg.account.iban}\nAccount#: ${cfg.account.accountNo}\n\nReply with transfer receipt to complete your order.`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('Bank Transfer - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
@@ -105,7 +105,7 @@ export const Payments = {
   cod: {
     needsServer:false,
     async start(order, cfg){
-      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.qty}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
+      const body = `\nCOD REQUEST\nOrder: ${order.id}\nAmount to collect on delivery: ${fmt(order.amount)}\nBuyer: ${safeBuyer(order.buyer)}\nItems:\n${order.items.map(i=>`• ${i.name} × ${i.quantity ?? i.qty ?? 1}`).join('\n')}\nAddress: ${order.buyer?.address || '—'}\nPhone: ${order.buyer?.phone || '—'}\n`;
       const mailto = `mailto:${cfg.mailto}?subject=${encodeURIComponent('COD - '+order.id)}&body=${encodeURIComponent(body)}`;
       return { mailto };
     }
