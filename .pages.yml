@@ -72,7 +72,6 @@ content:
       - name: categories
         label: Categories
         type: select
-        list: true
         required: true
         description: Pick the top-level category plus any sub-category that fits.
         options:
