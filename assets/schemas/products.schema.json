@@ -3,11 +3,11 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "name", "slug", "images", "price", "categories", "shortDescription", "descriptionHTML", "inStock"],
+    "required": ["name", "images", "price", "categories", "shortDescription", "descriptionHTML", "inStock"],
     "properties": {
       "id": {"type": "string"},
       "name": {"type": "string"},
-      "slug": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+      "slug": {"type": "string", "pattern": "^[a-z0-9-]*$"},
       "images": {
         "type": "array",
         "items": {"type": "string"}
