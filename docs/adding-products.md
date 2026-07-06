@@ -29,18 +29,20 @@ That's it — from now on you just visit <https://app.pagescms.org> to work.
 
    | Field | What to put |
    |-------|-------------|
-   | **Internal ID** | Leave it — it fills in automatically. |
    | **Product name** | The full name, e.g. *RBory Face Primer*. |
-   | **URL slug** | Lowercase words with hyphens, e.g. `rbory-face-primer`. Must be unique. |
-   | **Product images** | Click to upload one or more photos. The **first** one is the main thumbnail. |
+   | **Brand** | Brand name (e.g. RBory). |
+   | **Product photos** | Click to upload one or more photos. The **first** one is the main thumbnail. |
    | **Price (PKR)** | The selling price, numbers only (e.g. `2500`). |
    | **Old price** | Optional. Fill this to show a crossed-out discount. |
    | **Categories** | Tick the top-level category (Makeup / Skin Care / Hair Care) **and** the sub-category that fits. |
-   | **Brand** | Brand name (optional). |
    | **Short description** | One line shown on product cards. |
    | **Full description** | The longer description on the product page. Plain text is fine. |
    | **In stock?** | On by default. Turn off if sold out. |
-   | Tags / SKU / Details / etc. | All optional — fill only if useful. |
+
+   That's everything you need to fill. The fields at the very bottom — **Web
+   address**, **System ID**, tags, SKU — can be **left completely blank**. The
+   website automatically creates the web address and ID from the product name
+   for you.
 
 4. Click **Save**.
 
@@ -71,8 +73,9 @@ That's it — from now on you just visit <https://app.pagescms.org> to work.
 
 ## Tips & rules
 
-- **Slug must be unique** and use only lowercase letters, numbers, and hyphens.
-  The form will warn you if it's wrong.
+- **You don't need to set a web address (slug)** — leave it blank and the site
+  makes one from the product name automatically. Only change it if you know what
+  you're doing, and never change it once a product is live (its link would break).
 - **Price is numbers only** — don't type "Rs" or commas (`2500`, not `2,500`).
 - If something looks broken after saving, tell the site owner — nothing you do
   here can break the site permanently; it can always be undone.

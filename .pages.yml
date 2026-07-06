@@ -114,20 +114,7 @@ content:
         default: true
         description: Turn off when the product is sold out.
 
-      # ---------- TECHNICAL / OPTIONAL (usually leave as-is) ----------
-      - name: slug
-        label: URL slug
-        type: string
-        required: true
-        description: >-
-          The product's web address (/p/<slug>). Lowercase words with hyphens,
-          e.g. "rbory-face-primer". Tip: just type the product name in lowercase
-          with hyphens instead of spaces. Must be unique.
-        options:
-          pattern:
-            regex: "^[a-z0-9-]+$"
-            message: Use only lowercase letters, numbers, and hyphens (no spaces).
-
+      # ---------- OPTIONAL (leave these alone — they fill in automatically) ----------
       - name: tags
         label: Tags (optional)
         type: string
@@ -138,6 +125,22 @@ content:
         label: SKU / stock code (optional)
         type: string
 
+      - name: slug
+        label: Web address — leave blank, it fills in automatically
+        type: string
+        description: >-
+          Leave blank: the system creates the product's web address from its
+          name for you. (Advanced only: to set a custom address, use lowercase
+          letters, numbers, and hyphens, e.g. "rbory-face-primer". Don't change
+          it once a product is live, or its link will break.)
+        options:
+          pattern:
+            regex: "^[a-z0-9-]*$"
+            message: Use only lowercase letters, numbers, and hyphens (no spaces).
+
       - name: id
-        label: System ID — leave as-is (fills in automatically)
-        type: uuid
+        label: System ID — leave blank, it fills in automatically
+        type: string
+        description: >-
+          Used internally. Leave blank for new products and don't edit it on
+          existing ones.

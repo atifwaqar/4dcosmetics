@@ -1,0 +1,47 @@
+name: Normalize products
+
+# After a product is added/edited (e.g. via Pages CMS), fill in any blank
+# slug / id and enforce currency + inStock defaults, then commit the result
+# back. This lets the CMS form stay minimal — editors never type a slug.
+#
+# The normalizer is idempotent, so the bot's own commit produces no further
+# changes; combined with GitHub's rule that GITHUB_TOKEN pushes don't retrigger
+# workflows, there is no commit loop.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - assets/data/products.json
+
+permissions:
+  contents: write
+
+concurrency:
+  group: normalize-products
+  cancel-in-progress: false
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Fill in slug / id / defaults
+        run: node scripts/normalize-products.js
+
+      - name: Commit changes if any
+        run: |
+          if [ -n "$(git status --porcelain assets/data/products.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/data/products.json
+            git commit -m "chore: auto-fill product slug/id and defaults"
+            git push
+          else
+            echo "No changes needed."
+          fi
