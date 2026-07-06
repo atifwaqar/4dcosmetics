@@ -51,6 +51,17 @@ deployed from the **`master`** branch.
    - Search (`/search/`): `search-page.js` + `search.js` (+ `search-autocomplete.js`, lazy-loaded by `tabs.js`)
    - PDP (`/p/`): `pdp.js` + `pdp-hydrate.js`
 
+## Content editing (adding products)
+
+Non-technical team members add/edit products through **Pages CMS**
+(https://app.pagescms.org) — a hosted, no-code form over this repo. Config lives
+in `.pages.yml` at the repo root; its field names mirror
+`assets/schemas/products.schema.json`, so saved entries pass CI data validation.
+It reads/writes `assets/data/products.json` and uploads images into
+`assets/img/products/`. Editors sign in with their own free GitHub accounts
+(added as free collaborators — unlimited on private repos). See
+`docs/adding-products.md` for the editor-facing guide.
+
 ## Cart & checkout (the one canonical flow)
 
 There is **one** cart pipeline. Earlier scattered/legacy cart code has been removed.

@@ -1,0 +1,194 @@
+# Pages CMS configuration — https://pagescms.org
+#
+# This powers a friendly, no-code admin form for adding/editing products.
+# A team member signs in at https://app.pagescms.org with their (free) GitHub
+# account, picks this repo, and gets a form instead of raw JSON.
+#
+# It reads/writes assets/data/products.json and uploads images into
+# assets/img/products/ — the same files the live site already uses.
+# Field names below intentionally match assets/schemas/products.schema.json,
+# so anything saved here passes the CI data-validation check.
+
+media:
+  - name: product-images
+    label: Product images
+    input: assets/img/products
+    output: /assets/img/products
+    extensions: [jpg, jpeg, png, webp, avif]
+
+content:
+  - name: products
+    label: Products
+    type: file
+    path: assets/data/products.json
+    list: true
+    # Columns shown in the list view:
+    view:
+      fields: [name, brand, inStock]
+      primary: name
+    fields:
+      - name: id
+        label: Internal ID (auto-generated — do not edit)
+        type: uuid
+
+      - name: name
+        label: Product name
+        type: string
+        required: true
+        description: The full product name shown to customers.
+
+      - name: slug
+        label: URL slug
+        type: string
+        required: true
+        description: >-
+          Lowercase words separated by hyphens, e.g. "rbory-face-primer".
+          This becomes the product's web address (/p/<slug>). Keep it unique.
+        options:
+          pattern:
+            regex: "^[a-z0-9-]+$"
+            message: Use only lowercase letters, numbers, and hyphens (no spaces).
+
+      - name: images
+        label: Product images
+        type: image
+        list: true
+        required: true
+        options:
+          media: product-images
+        description: The first image is used as the main thumbnail.
+
+      - name: price
+        label: Price
+        type: object
+        fields:
+          - name: current
+            label: Price (PKR)
+            type: number
+            required: true
+          - name: old
+            label: Old price (optional — shows a strike-through discount)
+            type: number
+          - name: currency
+            label: Currency
+            type: select
+            default: PKR
+            required: true
+            options:
+              values: [PKR]
+
+      - name: categories
+        label: Categories
+        type: select
+        list: true
+        required: true
+        description: Pick the top-level category plus any sub-category that fits.
+        options:
+          multiple: true
+          values:
+            - { value: makeup, label: "Makeup (top-level)" }
+            - { value: skin-care, label: "Skin Care (top-level)" }
+            - { value: hair-care, label: "Hair Care (top-level)" }
+            - { value: primer, label: "— Primer" }
+            - { value: foundation, label: "— Foundation" }
+            - { value: contour-concealer, label: "— Contour & Concealer" }
+            - { value: highlighter, label: "— Highlighter" }
+            - { value: face-powder, label: "— Face powder" }
+            - { value: blush, label: "— Blush" }
+            - { value: lipsticks, label: "— Lipsticks" }
+            - { value: eye-shadow, label: "— Eye shadow" }
+            - { value: eye-liner, label: "— Eye liner" }
+            - { value: mascara, label: "— Mascara" }
+            - { value: serums, label: "— Serums (Skin Care)" }
+            - { value: creams, label: "— Creams (Skin Care)" }
+
+      - name: brand
+        label: Brand
+        type: string
+
+      - name: shortDescription
+        label: Short description
+        type: text
+        required: true
+        description: One line shown on product cards and search results.
+
+      - name: descriptionHTML
+        label: Full description
+        type: text
+        required: true
+        description: >-
+          The description shown on the product page. Plain text is fine.
+          Basic HTML tags (e.g. <p>, <b>, <br>) also work if you know them.
+
+      - name: inStock
+        label: In stock?
+        type: boolean
+        default: true
+
+      - name: tags
+        label: Tags (optional)
+        type: string
+        list: true
+        description: Short keywords, e.g. "matte", "non-greasy".
+
+      - name: sku
+        label: SKU (optional)
+        type: string
+        description: Your own product/stock code, if you use one.
+
+      # ---- Optional richer product-page fields (leave blank if not needed) ----
+      - name: details
+        label: Product details (optional)
+        type: string
+        list: true
+        description: Bullet points listed on the product page.
+
+      - name: howTo
+        label: How to use (optional)
+        type: string
+        list: true
+
+      - name: ingredients
+        label: Ingredients (optional)
+        type: text
+
+      - name: goodToKnow
+        label: Good to know (optional)
+        type: text
+
+      - name: shippingReturns
+        label: Shipping & returns (optional)
+        type: text
+
+      # ---- Variants (optional; only for products sold in shades/colours) ----
+      - name: variants
+        label: Variants (optional — shades / colours)
+        type: object
+        list: true
+        fields:
+          - name: id
+            label: Variant ID
+            type: string
+            required: true
+          - name: name
+            label: Variant name
+            type: string
+            required: true
+          - name: color
+            label: Colour (hex or name)
+            type: string
+          - name: image
+            label: Variant image
+            type: image
+            options:
+              media: product-images
+          - name: price
+            label: Variant price (PKR)
+            type: number
+          - name: inStock
+            label: Variant in stock?
+            type: boolean
+            default: true
+          - name: sku
+            label: Variant SKU
+            type: string
