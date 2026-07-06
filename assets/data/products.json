@@ -1,58 +1,57 @@
 [
   {
-    "id": "PRM001",
     "name": "RBory Face Primer",
-    "slug": "rbory-face-primer",
+    "brand": "RBory",
     "images": [
       "/assets/img/products/Rbory-Face-Primer-30ml.jpg"
     ],
     "price": {
       "current": 2500,
-      "currency": "PKR",
-      "old": 3000
+      "old": 3000,
+      "currency": "PKR"
     },
     "categories": [
       "makeup",
       "primer"
     ],
-    "brand": "RBory",
+    "shortDescription": "Lightweight non-greasy face primer keeps makeup fresh all day.",
+    "descriptionHTML": "<p>Lightweight non greesy face Primer, Makeup Fresh &amp; flawless all day long</p>",
+    "inStock": false,
     "tags": [
       "non-greasy"
     ],
-    "shortDescription": "Lightweight non-greasy face primer keeps makeup fresh all day.",
-    "descriptionHTML": "<p>Lightweight non greesy face Primer, Makeup Fresh &amp; flawless all day long</p>",
-    "inStock": true,
-    "sku": "PRM001"
+    "sku": "PRM001",
+    "slug": "rbory-face-primer",
+    "id": "PRM001"
   },
   {
-    "id": "PRM002",
     "name": "RBory Long Wear Face Primer",
-    "slug": "rbory-long-wear-face-primer",
+    "brand": "RBory",
     "images": [
       "/assets/img/products/IMG-20250816-WA0049.jpg"
     ],
     "price": {
       "current": 2200,
-      "currency": "PKR",
-      "old": 2640
+      "old": 2640,
+      "currency": "PKR"
     },
     "categories": [
       "makeup",
       "primer"
     ],
-    "brand": "RBory",
+    "shortDescription": "Long wear & lightweight face primer keeps makeup fresh all day.",
+    "descriptionHTML": "<p>Long wear &amp; lightweight face primer, makeup fresh &amp; flawless all day long</p>",
+    "inStock": false,
     "tags": [
       "primer"
     ],
-    "shortDescription": "Long wear & lightweight face primer keeps makeup fresh all day.",
-    "descriptionHTML": "<p>Long wear &amp; lightweight face primer, makeup fresh &amp; flawless all day long</p>",
-    "inStock": true,
-    "sku": "PRM002"
+    "sku": "PRM002",
+    "slug": "rbory-long-wear-face-primer",
+    "id": "PRM002"
   },
   {
-    "id": "LIP002",
     "name": "Art skin Velvet Lipstick 6 Pcs",
-    "slug": "art-skin-velvet-lipstick-6-pcs",
+    "brand": "Art Skin",
     "images": [
       "/assets/img/products/art-skin-velvet-lipstick.jpg"
     ],
@@ -64,20 +63,20 @@
       "makeup",
       "lipsticks"
     ],
-    "brand": "Art Skin",
+    "shortDescription": "Velvety matte lipstick set for soft finish and all-day wear.",
+    "descriptionHTML": "<p>Velvety Matte Lipstick with soft finish and All day Wear</p>",
+    "inStock": false,
     "tags": [
       "set",
       "matte"
     ],
-    "shortDescription": "Velvety matte lipstick set for soft finish and all-day wear.",
-    "descriptionHTML": "<p>Velvety Matte Lipstick with soft finish and All day Wear</p>",
-    "inStock": true,
-    "sku": "LIP002"
+    "sku": "LIP002",
+    "slug": "art-skin-velvet-lipstick-6-pcs",
+    "id": "LIP002"
   },
   {
-    "id": "FND002",
     "name": "Roseberry Foundation & Concealer Stick",
-    "slug": "roseberry-foundation-concealer-stick",
+    "brand": "Roseberry",
     "images": [
       "/assets/img/products/IMG-20250816-WA0048.jpg"
     ],
@@ -89,19 +88,19 @@
       "makeup",
       "foundation"
     ],
-    "brand": "Roseberry",
+    "shortDescription": "Flawless Coverage, a lightweight feel, a natural, long last finishing.",
+    "descriptionHTML": "<p>Flawless Coverage, a lightweight feel, a natural, long last finishing.</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "Flawless Coverage, a lightweight feel, a natural, long last finishing.",
-    "descriptionHTML": "<p>Flawless Coverage, a lightweight feel, a natural, long last finishing.</p>",
-    "inStock": true,
-    "sku": "FND002"
+    "sku": "FND002",
+    "slug": "roseberry-foundation-concealer-stick",
+    "id": "FND002"
   },
   {
-    "id": "PRM003",
     "name": "RBORY Water Moisturizing Makeup Face Primer",
-    "slug": "rbory-water-moisturizing-makeup-face-primer",
+    "brand": "RBory",
     "images": [
       "/assets/img/products/IMG-20250816-WA0051.jpg"
     ],
@@ -113,19 +112,19 @@
       "makeup",
       "primer"
     ],
-    "brand": "RBory",
+    "shortDescription": "Silky-smooth, water-based primer that hydrates without cakiness.",
+    "descriptionHTML": "<p>Silky-smooth, water-based moisturizing face primer that hydrates skin without cakiness or powder residue.</p>",
+    "inStock": false,
     "tags": [
       "primer"
     ],
-    "shortDescription": "Silky-smooth, water-based primer that hydrates without cakiness.",
-    "descriptionHTML": "<p>Silky-smooth, water-based moisturizing face primer that hydrates skin without cakiness or powder residue.</p>",
-    "inStock": true,
-    "sku": "PRM003"
+    "sku": "PRM003",
+    "slug": "rbory-water-moisturizing-makeup-face-primer",
+    "id": "PRM003"
   },
   {
-    "id": "FIX001",
     "name": "RBORY Makeup Fixer",
-    "slug": "rbory-makeup-fixer",
+    "brand": "RBORY",
     "images": [
       "/assets/img/products/IMG-20250816-WA0052.jpg"
     ],
@@ -136,19 +135,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "RBORY",
+    "shortDescription": "24 Hrs Makeup fresh, Matte finish & long lasting with a lightweight hydrating fixer",
+    "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "24 Hrs Makeup fresh, Matte finish & long lasting with a lightweight hydrating fixer",
-    "descriptionHTML": "<p>24 Hrs Makeup fresh, Matte finish &amp; long lasting with a lightweight hydrating fixer</p>",
-    "inStock": true,
-    "sku": "FIX001"
+    "sku": "FIX001",
+    "slug": "rbory-makeup-fixer",
+    "id": "FIX001"
   },
   {
-    "id": "FND003",
     "name": "SK Forever Skin Nourishing Liquid Foundation",
-    "slug": "sk-forever-skin-nourishing-liquid-foundation",
+    "brand": "SK",
     "images": [
       "/assets/img/products/IMG-20250816-WA0054.jpg"
     ],
@@ -160,19 +159,19 @@
       "makeup",
       "foundation"
     ],
-    "brand": "SK",
-    "tags": [
-      "makeup"
-    ],
     "shortDescription": "Hydrates, evens tone, and leaves a radiant finish.",
     "descriptionHTML": "<p>A skin-nourishing liquid foundation that hydrates, evens tone, and delivers a radiant, natural finish.</p>",
     "inStock": true,
-    "sku": "FND003"
+    "tags": [
+      "makeup"
+    ],
+    "sku": "FND003",
+    "slug": "sk-forever-skin-nourishing-liquid-foundation",
+    "id": "FND003"
   },
   {
-    "id": "FIX002",
     "name": "RBORY Makeup Setting Spray",
-    "slug": "rbory-makeup-setting-spray",
+    "brand": "RBORY",
     "images": [
       "/assets/img/products/IMG-20250816-WA0053.jpg"
     ],
@@ -183,19 +182,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "RBORY",
+    "shortDescription": "Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day",
+    "descriptionHTML": "<p>Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day",
-    "descriptionHTML": "<p>Long Lasting Setting Spray that locks in makeup for a flawless, fresh look all day</p>",
-    "inStock": true,
-    "sku": "FIX002"
+    "sku": "FIX002",
+    "slug": "rbory-makeup-setting-spray",
+    "id": "FIX002"
   },
   {
-    "id": "LIP003",
     "name": "RBORY Kiss Lipstick",
-    "slug": "rbory-kiss-lipstick",
+    "brand": "RBORY",
     "images": [
       "/assets/img/products/IMG-20250816-WA0050.jpg"
     ],
@@ -207,19 +206,19 @@
       "makeup",
       "lipsticks"
     ],
-    "brand": "RBORY",
+    "shortDescription": "A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color",
+    "descriptionHTML": "<p>A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color",
-    "descriptionHTML": "<p>A richly pigmented kiss-proof lipstick that glides on smoothly for bold, long-lasting color</p>",
-    "inStock": true,
-    "sku": "LIP003"
+    "sku": "LIP003",
+    "slug": "rbory-kiss-lipstick",
+    "id": "LIP003"
   },
   {
-    "id": "SPG001",
     "name": "Halloween Makeup Finger Sponge/ Puff",
-    "slug": "halloween-makeup-finger-sponge-puff",
+    "brand": "4D Cosmetics",
     "images": [
       "/assets/img/products/IMG-20250820-WA0176.jpg"
     ],
@@ -230,19 +229,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "4D Cosmetics",
-    "tags": [
-      "makeup"
-    ],
     "shortDescription": "Dry & Wet Dual Use & applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.",
     "descriptionHTML": "<p>Dry &amp; Wet Dual Use &amp; applying makeup products like foundation and powder, offering a soft texture for blending and achieving a seamless finish.</p>",
     "inStock": true,
-    "sku": "SPG001"
+    "tags": [
+      "makeup"
+    ],
+    "sku": "SPG001",
+    "slug": "halloween-makeup-finger-sponge-puff",
+    "id": "SPG001"
   },
   {
-    "id": "CON001",
     "name": "Roseberry Concealer",
-    "slug": "roseberry-concealer",
+    "brand": "Roseberry",
     "images": [
       "/assets/img/products/IMG-20250820-WA0178.jpg"
     ],
@@ -254,19 +253,19 @@
       "makeup",
       "contour-concealer"
     ],
-    "brand": "Roseberry",
+    "shortDescription": "Roseberry 12-Hours full coverage concealer, 3 colors available",
+    "descriptionHTML": "<p>Roseberry 12-Hours full coverage concealer 3 colors available</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "Roseberry 12-Hours full coverage concealer, 3 colors available",
-    "descriptionHTML": "<p>Roseberry 12-Hours full coverage concealer 3 colors available</p>",
-    "inStock": true,
-    "sku": "CON001"
+    "sku": "CON001",
+    "slug": "roseberry-concealer",
+    "id": "CON001"
   },
   {
-    "id": "CPD001",
     "name": "Sheglam Compact Powder",
-    "slug": "sheglam-compact-powder",
+    "brand": "Sheglam",
     "images": [
       "/assets/img/products/IMG-20250820-WA0211.jpg"
     ],
@@ -278,19 +277,19 @@
       "makeup",
       "face-powder"
     ],
-    "brand": "Sheglam",
+    "shortDescription": "Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.",
+    "descriptionHTML": "<p>Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.",
-    "descriptionHTML": "<p>Compact powder provides a smooth, flawless finish, controlling shine and setting makeup for a fresh, matte look all day.</p>",
-    "inStock": true,
-    "sku": "CPD001"
+    "sku": "CPD001",
+    "slug": "sheglam-compact-powder",
+    "id": "CPD001"
   },
   {
-    "id": "LIP004",
     "name": "RBORY Mate Lipgloss",
-    "slug": "rbory-mate-lip-gloss",
+    "brand": "RBORY",
     "images": [
       "/assets/img/products/IMG-20250820-WA0177.jpg"
     ],
@@ -301,19 +300,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "RBORY",
-    "tags": [
-      "makeup"
-    ],
     "shortDescription": "RBORY Mate Lip Gloss offers a luscious, matte finish with 16 vibrant colors.",
     "descriptionHTML": "<p>RBORY Mate Lip Gloss offers a luscious, matte finish with vibrant 16 colors available</p>",
     "inStock": true,
-    "sku": "LIP004"
+    "tags": [
+      "makeup"
+    ],
+    "sku": "LIP004",
+    "slug": "rbory-mate-lip-gloss",
+    "id": "LIP004"
   },
   {
-    "id": "KIT001",
     "name": "Roseberry Makeup Kit",
-    "slug": "roseberry-makeup-kit",
+    "brand": "Roseberry",
     "images": [
       "/assets/img/products/IMG-20250820-WA0182.jpg",
       "/assets/img/products/IMG-20250820-WA0183.jpg",
@@ -326,20 +325,20 @@
     "categories": [
       "makeup"
     ],
-    "brand": "Roseberry",
+    "shortDescription": "Complete makeup kit with eyeshadow, blush, concealer, lipsticks, lip glosses, and liquid blush.",
+    "descriptionHTML": "<p>Roseberry Branded Makeup kit \"Eyeshadow Palette\", \"Blush highlighter palette\", \"Concealer\", \"3 lipsticks\", \"3 lipgloss\",\"1 liquid blush\" available in makeup kit</p>",
+    "inStock": true,
     "tags": [
       "makeup",
       "kit"
     ],
-    "shortDescription": "Complete makeup kit with eyeshadow, blush, concealer, lipsticks, lip glosses, and liquid blush.",
-    "descriptionHTML": "<p>Roseberry Branded Makeup kit \"Eyeshadow Palette\", \"Blush highlighter palette\", \"Concealer\", \"3 lipsticks\", \"3 lipgloss\",\"1 liquid blush\" available in makeup kit</p>",
-    "inStock": true,
-    "sku": "KIT001"
+    "sku": "KIT001",
+    "slug": "roseberry-makeup-kit",
+    "id": "KIT001"
   },
   {
-    "id": "LIP005",
     "name": "Rhode Lipgloss",
-    "slug": "rhode-lipgloss",
+    "brand": "Rhode",
     "images": [
       "/assets/img/products/IMG-20250820-WA0229.jpg",
       "/assets/img/products/IMG-20250820-WA0227.jpg",
@@ -352,19 +351,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "Rhode",
-    "tags": [
-      "makeup"
-    ],
     "shortDescription": "Rhode Lipgloss 8 different colors available",
     "descriptionHTML": "<p>Rhode Lipgloss 8 different colors available</p>",
     "inStock": true,
-    "sku": "LIP005"
+    "tags": [
+      "makeup"
+    ],
+    "sku": "LIP005",
+    "slug": "rhode-lipgloss",
+    "id": "LIP005"
   },
   {
-    "id": "SKN001",
     "name": "Silkfull Face Serum",
-    "slug": "silkfull-face-serum",
+    "brand": "Silkfull",
     "images": [
       "/assets/img/products/IMG-20250820-WA0204.jpg"
     ],
@@ -377,19 +376,19 @@
       "skin-care",
       "serums"
     ],
-    "brand": "Silkfull",
+    "shortDescription": "Nourishing whitening serum brightens skin, reduces dark spots, and evens tone.",
+    "descriptionHTML": "<p>Nourishing and smoothing whitening serum for brightening skin, eliminating dark spots, and evening out skin tone, suitable for day and night use, with natural ingredients.</p>",
+    "inStock": false,
     "tags": [
       "skincare"
     ],
-    "shortDescription": "Nourishing whitening serum brightens skin, reduces dark spots, and evens tone.",
-    "descriptionHTML": "<p>Nourishing and smoothing whitening serum for brightening skin, eliminating dark spots, and evening out skin tone, suitable for day and night use, with natural ingredients.</p>",
-    "inStock": true,
-    "sku": "SKN001"
+    "sku": "SKN001",
+    "slug": "silkfull-face-serum",
+    "id": "SKN001"
   },
   {
-    "id": "SKN002",
     "name": "O.G Niacinamide Face Wash",
-    "slug": "og-niacinamide-face-wash",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250825-WA0015.jpg"
     ],
@@ -401,19 +400,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "O.G",
-    "tags": [
-      "skincare"
-    ],
     "shortDescription": "Niacinamide face wash gently cleanses and brightens skin, reducing hyperpigmentation and improving skin complexion.",
     "descriptionHTML": "<p>Niacinamide face wash gently cleanses and brightens skin, reducing hyperpigmentation and improving skin complexion.</p>",
     "inStock": true,
-    "sku": "SKN002"
+    "tags": [
+      "skincare"
+    ],
+    "sku": "SKN002",
+    "slug": "og-niacinamide-face-wash",
+    "id": "SKN002"
   },
   {
-    "id": "SKN003",
     "name": "O.G Vitamin C+E Face Wash",
-    "slug": "og-vitamin-c-e-face-wash",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250825-WA0014.jpg"
     ],
@@ -425,19 +424,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "O.G",
-    "tags": [
-      "skincare"
-    ],
     "shortDescription": "Gently cleansing face wash infused with Vitamin C and E to brighten, hydrate, and protect the skin for a radiant glow.",
     "descriptionHTML": "<p>Gently cleansing face wash infused with Vitamin C and E to brighten, hydrate, and protect the skin for a radiant glow.</p>",
     "inStock": true,
-    "sku": "SKN003"
+    "tags": [
+      "skincare"
+    ],
+    "sku": "SKN003",
+    "slug": "og-vitamin-c-e-face-wash",
+    "id": "SKN003"
   },
   {
-    "id": "SKN004",
     "name": "O.G Cotton Pads",
-    "slug": "og-cotton-pads",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250820-WA0202.jpg"
     ],
@@ -449,19 +448,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "O.G",
+    "shortDescription": "80-piece pack of organic cotton pads for makeup removal, skincare, and gentle cleansing.",
+    "descriptionHTML": "<p>80-piece pack of organic cotton pads, ideal for makeup removal, skincare applications, and gentle cleansing.</p>",
+    "inStock": false,
     "tags": [
       "skincare"
     ],
-    "shortDescription": "80-piece pack of organic cotton pads for makeup removal, skincare, and gentle cleansing.",
-    "descriptionHTML": "<p>80-piece pack of organic cotton pads, ideal for makeup removal, skincare applications, and gentle cleansing.</p>",
-    "inStock": true,
-    "sku": "SKN004"
+    "sku": "SKN004",
+    "slug": "og-cotton-pads",
+    "id": "SKN004"
   },
   {
-    "id": "MSC001",
     "name": "OG Extension Mascara",
-    "slug": "og-extension-mascara",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250820-WA0218.jpg"
     ],
@@ -473,19 +472,19 @@
       "makeup",
       "mascara"
     ],
-    "brand": "O.G",
+    "shortDescription": "One step extreme extension mascara and lash tint effect with curved curling brush.",
+    "descriptionHTML": "<p>One step extreme extension mascara &amp; lash tint effect available with curved curling brush</p>",
+    "inStock": false,
     "tags": [
       "mascara"
     ],
-    "shortDescription": "One step extreme extension mascara and lash tint effect with curved curling brush.",
-    "descriptionHTML": "<p>One step extreme extension mascara &amp; lash tint effect available with curved curling brush</p>",
-    "inStock": true,
-    "sku": "MSC001"
+    "sku": "MSC001",
+    "slug": "og-extension-mascara",
+    "id": "MSC001"
   },
   {
-    "id": "LIP006",
     "name": "OG Lip & Cheek Tint",
-    "slug": "og-lip-cheek-tint",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250820-WA0217.jpg"
     ],
@@ -496,19 +495,19 @@
     "categories": [
       "makeup"
     ],
-    "brand": "O.G",
+    "shortDescription": "Vibrant, blendable lip and cheek tint 4 colours available.",
+    "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
+    "inStock": false,
     "tags": [
       "makeup"
     ],
-    "shortDescription": "Vibrant, blendable lip and cheek tint 4 colours available.",
-    "descriptionHTML": "<p>Vibrant, blendable lip and cheek tint 4 colours available</p>",
-    "inStock": true,
-    "sku": "LIP006"
+    "sku": "LIP006",
+    "slug": "og-lip-cheek-tint",
+    "id": "LIP006"
   },
   {
-    "id": "SKN005",
     "name": "Elfinz Lift & Firm Booty Mask",
-    "slug": "elfinz-lift-firm-booty-mask",
+    "brand": "Elfinz",
     "images": [
       "/assets/img/products/IMG-20250820-WA0223.jpg"
     ],
@@ -517,23 +516,22 @@
       "currency": "PKR"
     },
     "categories": [
-      "makeup",
       "skin-care",
       "creams"
-    ],
-    "brand": "Elfinz",
-    "tags": [
-      "cream"
     ],
     "shortDescription": "Natural snail slime mask smooths and firms hips and thighs for all skin types.",
     "descriptionHTML": "<p>Elfinz Lift &amp; Firm Booty Mask with natural snail slime smooths &amp; firms hips and thighs, reducing fatty skin appearance, suitable for all skin types.</p>",
     "inStock": true,
-    "sku": "SKN005"
+    "tags": [
+      "cream"
+    ],
+    "sku": "SKN005",
+    "slug": "elfinz-lift-firm-booty-mask",
+    "id": "SKN005"
   },
   {
-    "id": "SKN006",
     "name": "Elfinz Neck & Decollete Firming Cream",
-    "slug": "elfinz-neck-decollete-firming-cream",
+    "brand": "Elfinz",
     "images": [
       "/assets/img/products/IMG-20250820-WA0224.jpg"
     ],
@@ -546,19 +544,19 @@
       "skin-care",
       "creams"
     ],
-    "brand": "Elfinz",
-    "tags": [
-      "cream"
-    ],
     "shortDescription": "Snail slime cream firms and rejuvenates delicate neck and decollete skin.",
     "descriptionHTML": "<p>Elfinz Neck &amp; Decollete Firming Cream with natural snail slime smooths fine lines and wrinkles, firming and rejuvenating the delicate skin.</p>",
     "inStock": true,
-    "sku": "SKN006"
+    "tags": [
+      "cream"
+    ],
+    "sku": "SKN006",
+    "slug": "elfinz-neck-decollete-firming-cream",
+    "id": "SKN006"
   },
   {
-    "id": "SKN007",
     "name": "OG Lip Scrub & Mask",
-    "slug": "og-lip-scrub-mask",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250826-WA0071.jpg"
     ],
@@ -570,19 +568,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "O.G",
+    "shortDescription": "2-in-1 lip mask and scrub providing 24-hour hydration while gently exfoliating and nourishing lips.",
+    "descriptionHTML": "<p>2-in-1 pure glow lip mask &amp; scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.</p>",
+    "inStock": false,
     "tags": [
       "skincare"
     ],
-    "shortDescription": "2-in-1 lip mask and scrub providing 24-hour hydration while gently exfoliating and nourishing lips.",
-    "descriptionHTML": "<p>2-in-1 pure glow lip mask &amp; scrub providing 24-hour hydration, gently exfoliating and nourishing lips for a soft feel.</p>",
-    "inStock": true,
-    "sku": "SKN007"
+    "sku": "SKN007",
+    "slug": "og-lip-scrub-mask",
+    "id": "SKN007"
   },
   {
-    "id": "HGL001",
     "name": "OG Aqua Jelly Highlighter Stick",
-    "slug": "og-aqua-jelly-highlighter-stick",
+    "brand": "O.G",
     "images": [
       "/assets/img/products/IMG-20250820-WA0215.jpg",
       "/assets/img/products/IMG-20250820-WA0216.jpg"
@@ -595,20 +593,20 @@
       "makeup",
       "highlighter"
     ],
-    "brand": "O.G",
+    "shortDescription": "Bouncy water-based gel stick delivers long-lasting, highly pigmented shine for a natural wet-look finish.",
+    "descriptionHTML": "<p>OG jelly highlighter stick is a bouncy, water-based gel stick that delivers a long-lasting, highly pigmented shine for a natural, wet-look finish.</p>",
+    "inStock": true,
     "tags": [
       "jelly",
       "highlighter"
     ],
-    "shortDescription": "Bouncy water-based gel stick delivers long-lasting, highly pigmented shine for a natural wet-look finish.",
-    "descriptionHTML": "<p>OG jelly highlighter stick is a bouncy, water-based gel stick that delivers a long-lasting, highly pigmented shine for a natural, wet-look finish.</p>",
-    "inStock": true,
-    "sku": "HGL001"
+    "sku": "HGL001",
+    "slug": "og-aqua-jelly-highlighter-stick",
+    "id": "HGL001"
   },
   {
-    "id": "FND004",
     "name": "Armoso Wow BB Cream",
-    "slug": "armoso-wow-bb-cream",
+    "brand": "Armoso",
     "images": [
       "/assets/img/products/IMG-20250830-WA0019.jpg"
     ],
@@ -620,19 +618,19 @@
       "makeup",
       "foundation"
     ],
-    "brand": "Armoso",
+    "shortDescription": "Moisturizing BB cream for a flawless look.",
+    "descriptionHTML": "<p>Armoso Wow Wow BB Cream for a MOIST FLAWLESS look.</p>",
+    "inStock": false,
     "tags": [
       "foundation"
     ],
-    "shortDescription": "Moisturizing BB cream for a flawless look.",
-    "descriptionHTML": "<p>Armoso Wow Wow BB Cream for a MOIST FLAWLESS look.</p>",
-    "inStock": true,
-    "sku": "FND004"
+    "sku": "FND004",
+    "slug": "armoso-wow-bb-cream",
+    "id": "FND004"
   },
   {
-    "id": "MSC002",
     "name": "Bob Mascara",
-    "slug": "bob-mascara",
+    "brand": "BOB",
     "images": [
       "/assets/img/products/IMG-20250830-WA0018.jpg",
       "/assets/img/products/IMG-20250830-WA0017.jpg"
@@ -645,19 +643,19 @@
       "makeup",
       "mascara"
     ],
-    "brand": "BOB",
-    "tags": [
-      "mascara"
-    ],
     "shortDescription": "Lifts, lengthens, and defines lashes with rich black pigment.",
     "descriptionHTML": "<p>Wrapping Glaze Black BOB Mascara lifts, lengthens, and defines each lash with rich black pigment for an effortlessly dramatic eye look.</p>",
     "inStock": true,
-    "sku": "MSC002"
+    "tags": [
+      "mascara"
+    ],
+    "sku": "MSC002",
+    "slug": "bob-mascara",
+    "id": "MSC002"
   },
   {
-    "id": "FND005",
     "name": "Hello Annie Flawless Foundation",
-    "slug": "hello-annie-flawless-foundation",
+    "brand": "Armoso",
     "images": [
       "/assets/img/products/IMG-20250902-WA0000.jpg"
     ],
@@ -669,19 +667,19 @@
       "makeup",
       "foundation"
     ],
-    "brand": "Armoso",
+    "shortDescription": "Hydrating, velvety matte foundation with long-lasting coverage.",
+    "descriptionHTML": "<p>ARMOSO Hello Annie Flawless Velvet Moisturizing Foundation, to provide flawless, long-lasting coverage with a hydrating, velvety matte finish.</p>",
+    "inStock": false,
     "tags": [
       "foundation"
     ],
-    "shortDescription": "Hydrating, velvety matte foundation with long-lasting coverage.",
-    "descriptionHTML": "<p>ARMOSO Hello Annie Flawless Velvet Moisturizing Foundation, to provide flawless, long-lasting coverage with a hydrating, velvety matte finish.</p>",
-    "inStock": true,
-    "sku": "FND005"
+    "sku": "FND005",
+    "slug": "hello-annie-flawless-foundation",
+    "id": "FND005"
   },
   {
-    "id": "MSC003",
     "name": "BOB Super Dense Mascara",
-    "slug": "bob-super-dense-mascara",
+    "brand": "BOB",
     "images": [
       "/assets/img/products/IMG-20250830-WA0014.jpg"
     ],
@@ -693,19 +691,19 @@
       "makeup",
       "mascara"
     ],
-    "brand": "BOB",
-    "tags": [
-      "mascara"
-    ],
     "shortDescription": "Waterproof mascara for precise, voluminous lashes.",
     "descriptionHTML": "<p>BOB We're Real Super Dense Mascara is a waterproof, super dense mascara designed to provide accurate and voluminous lash enhancement.</p>",
     "inStock": true,
-    "sku": "MSC003"
+    "tags": [
+      "mascara"
+    ],
+    "sku": "MSC003",
+    "slug": "bob-super-dense-mascara",
+    "id": "MSC003"
   },
   {
-    "id": "LNR001",
     "name": "APK EyeKiner",
-    "slug": "apk-eyekiner",
+    "brand": "APK",
     "images": [
       "/assets/img/products/IMG-20250830-WA0013.jpg"
     ],
@@ -717,19 +715,19 @@
       "makeup",
       "eye-liner"
     ],
-    "brand": "APK",
+    "shortDescription": "Matte, waterproof eyeliner for an intense black line.",
+    "descriptionHTML": "<p>APK In Love Star Eyekiner Intense Black Line Tattoo, which is a matte, waterproof, and quick-drying liquid eyeliner designed to create an intense black line with a tattoo-like finish.</p>",
+    "inStock": false,
     "tags": [
       "liner"
     ],
-    "shortDescription": "Matte, waterproof eyeliner for an intense black line.",
-    "descriptionHTML": "<p>APK In Love Star Eyekiner Intense Black Line Tattoo, which is a matte, waterproof, and quick-drying liquid eyeliner designed to create an intense black line with a tattoo-like finish.</p>",
-    "inStock": true,
-    "sku": "LNR001"
+    "sku": "LNR001",
+    "slug": "apk-eyekiner",
+    "id": "LNR001"
   },
   {
-    "id": "HCR001",
     "name": "Keratin Filler Shampoo With Hair Mask",
-    "slug": "keratin-filler-shampoo-with-hair-mask",
+    "brand": "Kolies",
     "images": [
       "/assets/img/products/IMG-20250830-WA0009.jpg"
     ],
@@ -741,19 +739,19 @@
       "makeup",
       "hair-care"
     ],
-    "brand": "Kolies",
+    "shortDescription": "Keratin-infused shampoo and mask set for extreme repair and smoothing.",
+    "descriptionHTML": "<p>Kolies Keratin Filler Strand-Building Hair Mask and Shampoo set, formulated with Botox and Collagen for extreme repair, straightening, smoothing, and instant recovery for all hair types.</p>",
+    "inStock": false,
     "tags": [
       "haircare"
     ],
-    "shortDescription": "Keratin-infused shampoo and mask set for extreme repair and smoothing.",
-    "descriptionHTML": "<p>Kolies Keratin Filler Strand-Building Hair Mask and Shampoo set, formulated with Botox and Collagen for extreme repair, straightening, smoothing, and instant recovery for all hair types.</p>",
-    "inStock": true,
-    "sku": "HCR001"
+    "sku": "HCR001",
+    "slug": "keratin-filler-shampoo-with-hair-mask",
+    "id": "HCR001"
   },
   {
-    "id": "HCR002",
     "name": "Protein Brazilian Keratin Hair Mask & Shampoo",
-    "slug": "protein-brazilian-keratin-hair-mask-shampoo",
+    "brand": "Heniways",
     "images": [
       "/assets/img/products/IMG-20250830-WA0010.jpg"
     ],
@@ -765,19 +763,19 @@
       "makeup",
       "hair-care"
     ],
-    "brand": "Heniways",
+    "shortDescription": "Argan oil infused shampoo and repair mask for salon-level care.",
+    "descriptionHTML": "<p>Set of HENIWAYS Protein Brazilian Keratin Care hair products, including a hair shampoo and a hair repair mask/essence, both formulated with Argan Oil for salon-level hair care.</p>",
+    "inStock": false,
     "tags": [
       "haircare"
     ],
-    "shortDescription": "Argan oil infused shampoo and repair mask for salon-level care.",
-    "descriptionHTML": "<p>Set of HENIWAYS Protein Brazilian Keratin Care hair products, including a hair shampoo and a hair repair mask/essence, both formulated with Argan Oil for salon-level hair care.</p>",
-    "inStock": true,
-    "sku": "HCR002"
+    "sku": "HCR002",
+    "slug": "protein-brazilian-keratin-hair-mask-shampoo",
+    "id": "HCR002"
   },
   {
-    "id": "SKN008",
     "name": "SADOER Watermelon Nicotinamide Essence Toner",
-    "slug": "sadoer-watermelon-nicotinamide-essence-toner",
+    "brand": "SADOER",
     "images": [
       "/assets/img/products/IMG-20250830-WA0011.jpg"
     ],
@@ -789,19 +787,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "SADOER",
+    "shortDescription": "Hydrating and brightening toner with watermelon extract and niacinamide.",
+    "descriptionHTML": "<p>SADOER Watermelon Nicotinamide Essence Toner is a hydrating and brightening facial toner enriched with watermelon extract and niacinamide to soothe and improve skin tone.</p>",
+    "inStock": false,
     "tags": [
       "toner"
     ],
-    "shortDescription": "Hydrating and brightening toner with watermelon extract and niacinamide.",
-    "descriptionHTML": "<p>SADOER Watermelon Nicotinamide Essence Toner is a hydrating and brightening facial toner enriched with watermelon extract and niacinamide to soothe and improve skin tone.</p>",
-    "inStock": true,
-    "sku": "SKN008"
+    "sku": "SKN008",
+    "slug": "sadoer-watermelon-nicotinamide-essence-toner",
+    "id": "SKN008"
   },
   {
-    "id": "SKN009",
     "name": "ElFinz Whitening Cream",
-    "slug": "elfinz-whitening-cream",
+    "brand": "Elfinz",
     "images": [
       "/assets/img/products/IMG-20250820-WA0222.jpg"
     ],
@@ -814,19 +812,19 @@
       "skin-care",
       "creams"
     ],
-    "brand": "Elfinz",
-    "tags": [
-      "cream"
-    ],
     "shortDescription": "Brightening cream for intimate and other dark areas.",
     "descriptionHTML": "<p>Elfinz Private Parts Whitening Cream is designed to brighten and lighten dark, pigmented areas of the body, including intimate areas, underarms, inner thighs, knees, and elbows.</p>",
     "inStock": true,
-    "sku": "SKN009"
+    "tags": [
+      "cream"
+    ],
+    "sku": "SKN009",
+    "slug": "elfinz-whitening-cream",
+    "id": "SKN009"
   },
   {
-    "id": "SKN010",
     "name": "Elfinz Anti Stretch Mark Cream",
-    "slug": "elfinz-anti-stretch-mark-cream",
+    "brand": "Elfinz",
     "images": [
       "/assets/img/products/IMG-20250820-WA0220.jpg"
     ],
@@ -839,19 +837,19 @@
       "skin-care",
       "creams"
     ],
-    "brand": "Elfinz",
+    "shortDescription": "Cream to reduce stretch marks and improve skin elasticity.",
+    "descriptionHTML": "<p>Elfinz B-Clear Anti-Stretch Mark Cream is designed to reduce the appearance of stretch marks, enhance skin elasticity, and hydrate the skin, suitable for various causes of stretch marks including pregnancy and weight fluctuations.</p>",
+    "inStock": false,
     "tags": [
       "cream"
     ],
-    "shortDescription": "Cream to reduce stretch marks and improve skin elasticity.",
-    "descriptionHTML": "<p>Elfinz B-Clear Anti-Stretch Mark Cream is designed to reduce the appearance of stretch marks, enhance skin elasticity, and hydrate the skin, suitable for various causes of stretch marks including pregnancy and weight fluctuations.</p>",
-    "inStock": true,
-    "sku": "SKN010"
+    "sku": "SKN010",
+    "slug": "elfinz-anti-stretch-mark-cream",
+    "id": "SKN010"
   },
   {
-    "id": "SKN011",
     "name": "Fayankôu Anti Acne Purify Cleanser",
-    "slug": "fayankou-anti-acne-purify-cleanser",
+    "brand": "Fayankou",
     "images": [
       "/assets/img/products/IMG-20250827-WA0034.jpg"
     ],
@@ -863,20 +861,20 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Fayankou",
+    "shortDescription": "Deep-cleansing salicylic acid facial wash targets acne and controls oil.",
+    "descriptionHTML": "<p>FAYANKOU Salicylic Acid Anti-Acne Purify Cleanser is a facial wash designed to deeply cleanse and purify skin, targeting acne, controlling excess oil, and preventing breakouts with the help of salicylic acid.</p>",
+    "inStock": false,
     "tags": [
       "cleanser",
       "anti-acne"
     ],
-    "shortDescription": "Deep-cleansing salicylic acid facial wash targets acne and controls oil.",
-    "descriptionHTML": "<p>FAYANKOU Salicylic Acid Anti-Acne Purify Cleanser is a facial wash designed to deeply cleanse and purify skin, targeting acne, controlling excess oil, and preventing breakouts with the help of salicylic acid.</p>",
-    "inStock": true,
-    "sku": "SKN011"
+    "sku": "SKN011",
+    "slug": "fayankou-anti-acne-purify-cleanser",
+    "id": "SKN011"
   },
   {
-    "id": "SKN012",
     "name": "Fayankôu Purify Moisturizing Ckeanser",
-    "slug": "fayankou-purify-moisturizing-ckeanser",
+    "brand": "Fayankou",
     "images": [
       "/assets/img/products/IMG-20250827-WA0033.jpg"
     ],
@@ -888,25 +886,25 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Fayankou",
+    "shortDescription": "Amino acid cleanser that purifies and moisturizes the skin.",
+    "descriptionHTML": "<p>FAYANKOU Amino Acid Purify Moisturize Cleanser, a facial cleanser designed to purify and moisturize the skin.</p>",
+    "inStock": false,
     "tags": [
       "cleanser"
     ],
-    "shortDescription": "Amino acid cleanser that purifies and moisturizes the skin.",
-    "descriptionHTML": "<p>FAYANKOU Amino Acid Purify Moisturize Cleanser, a facial cleanser designed to purify and moisturize the skin.</p>",
-    "inStock": true,
-    "sku": "SKN012"
+    "sku": "SKN012",
+    "slug": "fayankou-purify-moisturizing-ckeanser",
+    "id": "SKN012"
   },
   {
-    "id": "SKN013",
     "name": "MADAGASCAR CENTELLA Tone brightening Capsule ampoule",
-    "slug": "madagascar-centella-tone-brightening-capsule-ampoule",
+    "brand": "SKIN1004",
     "images": [
       "/assets/img/products/IMG-20250902-WA0002.jpg",
       "/assets/img/products/IMG-20250902-WA0001.jpg"
     ],
     "price": {
-      "current": 6500,
+      "current": 5000,
       "currency": "PKR"
     },
     "categories": [
@@ -914,20 +912,20 @@
       "skin-care",
       "serums"
     ],
-    "brand": "SKIN1004",
+    "shortDescription": "Lightweight Centella and Niacinamide serum to brighten and hydrate dull skin.",
+    "descriptionHTML": "<p>Madagascar Centella Tone Brightening Capsule Ampoule is a lightweight serum formulated with Centella Asiatica and Niacinamide to brighten, hydrate, and soothe the skin, targeting dullness and uneven tone.</p>",
+    "inStock": true,
     "tags": [
       "serum",
       "brightening"
     ],
-    "shortDescription": "Lightweight Centella and Niacinamide serum to brighten and hydrate dull skin.",
-    "descriptionHTML": "<p>Madagascar Centella Tone Brightening Capsule Ampoule is a lightweight serum formulated with Centella Asiatica and Niacinamide to brighten, hydrate, and soothe the skin, targeting dullness and uneven tone.</p>",
-    "inStock": true,
-    "sku": "SKN013"
+    "sku": "SKN013",
+    "slug": "madagascar-centella-tone-brightening-capsule-ampoule",
+    "id": "SKN013"
   },
   {
-    "id": "SKN014",
     "name": "Dr.Rashel Aloe Vera Soothe & Moisturizing Lip Balm",
-    "slug": "drrashel-aloe-vera-soothe-moisturizing-lip-balm",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0071.jpg"
     ],
@@ -939,19 +937,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Soothing aloe vera lip balm that softens, repairs lines, and deeply moisturizes dry lips.",
+    "descriptionHTML": "<p>Dr.Rashel Aloe Vera Soothe &amp; Moisturizing lip balm provides soothing &amp; softens, repair lip lines &amp; intensive moisturizer for dry lips.</p>",
+    "inStock": false,
     "tags": [
       "LipCare"
     ],
-    "shortDescription": "Soothing aloe vera lip balm that softens, repairs lines, and deeply moisturizes dry lips.",
-    "descriptionHTML": "<p>Dr.Rashel Aloe Vera Soothe &amp; Moisturizing lip balm provides soothing &amp; softens, repair lip lines &amp; intensive moisturizer for dry lips.</p>",
-    "inStock": true,
-    "sku": "SKN014"
+    "sku": "SKN014",
+    "slug": "drrashel-aloe-vera-soothe-moisturizing-lip-balm",
+    "id": "SKN014"
   },
   {
-    "id": "SKN015",
     "name": "Dr.Rashel Vitamin C Deep Cleansing Nose Strip",
-    "slug": "drrashel-vitamin-c-deep-cleansing-nose-strip",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0077.jpg"
     ],
@@ -963,19 +961,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Vitamin C-infused nose strips that lift impurities for smoother, glowing skin.",
+    "descriptionHTML": "<p>Dr.Rashel Vitamin C Deep Cleansing Nose Strips helps Smooth &amp; Glowing Skin</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "Vitamin C-infused nose strips that lift impurities for smoother, glowing skin.",
-    "descriptionHTML": "<p>Dr.Rashel Vitamin C Deep Cleansing Nose Strips helps Smooth &amp; Glowing Skin</p>",
-    "inStock": true,
-    "sku": "SKN015"
+    "sku": "SKN015",
+    "slug": "drrashel-vitamin-c-deep-cleansing-nose-strip",
+    "id": "SKN015"
   },
   {
-    "id": "SKN016",
     "name": "Dr.Rashel Black Charcoal Deep Cleaning Nose Strips",
-    "slug": "drrashel-black-charcoal-deep-cleaning-nose-strips",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0076.jpg"
     ],
@@ -987,19 +985,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Purifying charcoal nose strips that unclog pores and leave skin feeling smooth.",
+    "descriptionHTML": "<p>Dr.Rashel Black Charcoal Deep Cleansing Nose Strips helps Purifying &amp; Smooth Skin</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "Purifying charcoal nose strips that unclog pores and leave skin feeling smooth.",
-    "descriptionHTML": "<p>Dr.Rashel Black Charcoal Deep Cleansing Nose Strips helps Purifying &amp; Smooth Skin</p>",
-    "inStock": true,
-    "sku": "SKN016"
+    "sku": "SKN016",
+    "slug": "drrashel-black-charcoal-deep-cleaning-nose-strips",
+    "id": "SKN016"
   },
   {
-    "id": "SKN017",
     "name": "Dr.Rashel Salicylic Acid Deep Cleaning Nose Strips",
-    "slug": "drrashel-salicylic-acid-deep-cleaning-nose-strips",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0075.jpg"
     ],
@@ -1011,19 +1009,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Salicylic acid nose strips that clear pores for smoother, calmer skin.",
+    "descriptionHTML": "<p>Dr.Rashel Salicylic acid Deep Cleansing Nose Strips helps Clear &amp; Smooth Skin</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "Salicylic acid nose strips that clear pores for smoother, calmer skin.",
-    "descriptionHTML": "<p>Dr.Rashel Salicylic acid Deep Cleansing Nose Strips helps Clear &amp; Smooth Skin</p>",
-    "inStock": true,
-    "sku": "SKN017"
+    "sku": "SKN017",
+    "slug": "drrashel-salicylic-acid-deep-cleaning-nose-strips",
+    "id": "SKN017"
   },
   {
-    "id": "SKN018",
     "name": "SADOER Salicylic Acid 3% Acne Repair Cream",
-    "slug": "sadoer-salicylic-acid-3-acne-repair-cream",
+    "brand": "SADOER",
     "images": [
       "/assets/img/products/IMG-20250910-WA0078.jpg"
     ],
@@ -1036,19 +1034,19 @@
       "skin-care",
       "creams"
     ],
-    "brand": "SADOER",
+    "shortDescription": "3% salicylic acid repair cream calms acne-prone skin, refines pores, and hydrates.",
+    "descriptionHTML": "<p>SADOER Salicylic Acid 3% Acne Repair Cream helps repair acne skin, shrink pores, improve pimple scars, and moisturize while stabilizing skin conditions.</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "3% salicylic acid repair cream calms acne-prone skin, refines pores, and hydrates.",
-    "descriptionHTML": "<p>SADOER Salicylic Acid 3% Acne Repair Cream helps repair acne skin, shrink pores, improve pimple scars, and moisturize while stabilizing skin conditions.</p>",
-    "inStock": true,
-    "sku": "SKN018"
+    "sku": "SKN018",
+    "slug": "sadoer-salicylic-acid-3-acne-repair-cream",
+    "id": "SKN018"
   },
   {
-    "id": "SKN019",
     "name": "Dr.Rashel Hydrating Suncream",
-    "slug": "drrashel-hydrating-suncream",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0082.jpg"
     ],
@@ -1060,19 +1058,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Hydrating suncream delivering lasting UVA/UVB protection with moisture-rich care.",
+    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system with hydrating benefits.</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "Hydrating suncream delivering lasting UVA/UVB protection with moisture-rich care.",
-    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system with hydrating benefits.</p>",
-    "inStock": true,
-    "sku": "SKN019"
+    "sku": "SKN019",
+    "slug": "drrashel-hydrating-suncream",
+    "id": "SKN019"
   },
   {
-    "id": "SKN020",
     "name": "Dr.Rashel Anti Aging Sun Cream",
-    "slug": "drrashel-anti-aging-sun-cream",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0081.jpg"
     ],
@@ -1084,19 +1082,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Anti-aging sun cream shields skin from UV damage and helps prevent premature aging.",
+    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system&amp; protect premature skin aging whitening sun protect sweat &amp; Water Resistant.</p>",
+    "inStock": false,
     "tags": [
       "Skincare"
     ],
-    "shortDescription": "Anti-aging sun cream shields skin from UV damage and helps prevent premature aging.",
-    "descriptionHTML": "<p>Dr. Rashel hydrating suncream offers a long-lasting UVA/UVB protection system&amp; protect premature skin aging whitening sun protect sweat &amp; Water Resistant.</p>",
-    "inStock": true,
-    "sku": "SKN020"
+    "sku": "SKN020",
+    "slug": "drrashel-anti-aging-sun-cream",
+    "id": "SKN020"
   },
   {
-    "id": "SKN021",
     "name": "Dr.Rashel Vitamin C Brighten & Moisturizing Lip Balm",
-    "slug": "drrashel-vitamin-c-brighten-moisturizing-lip-balm",
+    "brand": "Dr.Rashel",
     "images": [
       "/assets/img/products/IMG-20250910-WA0079.jpg"
     ],
@@ -1108,19 +1106,19 @@
       "makeup",
       "skin-care"
     ],
-    "brand": "Dr.Rashel",
+    "shortDescription": "Vitamin C lip balm that nourishes, brightens, and helps fade fine lip lines.",
+    "descriptionHTML": "<p>Dr.Rashel Vitamin C lip balm provides intense moisture with luminous shine, helping to fade lip lines with its super nourishing formula.</p>",
+    "inStock": false,
     "tags": [
       "LipCare"
     ],
-    "shortDescription": "Vitamin C lip balm that nourishes, brightens, and helps fade fine lip lines.",
-    "descriptionHTML": "<p>Dr.Rashel Vitamin C lip balm provides intense moisture with luminous shine, helping to fade lip lines with its super nourishing formula.</p>",
-    "inStock": true,
-    "sku": "SKN021"
+    "sku": "SKN021",
+    "slug": "drrashel-vitamin-c-brighten-moisturizing-lip-balm",
+    "id": "SKN021"
   },
   {
-    "id": "LIP007",
     "name": "PIX Moisture Stick Tint",
-    "slug": "pix-moisture-stick-tint",
+    "brand": "Pixi",
     "images": [
       "/assets/img/products/IMG-20250910-WA0072.jpg"
     ],
@@ -1132,13 +1130,14 @@
       "makeup",
       "lipsticks"
     ],
-    "brand": "Pixi",
+    "shortDescription": "Moisture-rich stick tint adds dewy color in wearable pink and coral shades.",
+    "descriptionHTML": "<p>Pixi On-the-Glow BLUSH sticks in different shades of pink and coral.</p>",
+    "inStock": false,
     "tags": [
       "Lipsticks"
     ],
-    "shortDescription": "Moisture-rich stick tint adds dewy color in wearable pink and coral shades.",
-    "descriptionHTML": "<p>Pixi On-the-Glow BLUSH sticks in different shades of pink and coral.</p>",
-    "inStock": true,
-    "sku": "LIP007"
+    "sku": "LIP007",
+    "slug": "pix-moisture-stick-tint",
+    "id": "LIP007"
   }
 ]
