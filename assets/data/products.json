@@ -1139,5 +1139,25 @@
     "sku": "LIP007",
     "slug": "pix-moisture-stick-tint",
     "id": "LIP007"
+  },
+  {
+    "name": "Radiant Glow Vitamin C gel Cleanser ",
+    "brand": "Radiant Glow",
+    "images": [
+      "/assets/img/products/1000338508.jpg"
+    ],
+    "price": {
+      "current": 1300,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care"
+    ],
+    "shortDescription": "Brightens dull skin while gently removing dirt and excess oil.Leaves your skin fresh, clean, and glowing after every wash.",
+    "descriptionHTML": "Brightens dull skin while gently removing dirt and excess oil.Leaves your skin fresh, clean, and glowing after every wash.",
+    "inStock": true,
+    "tags": [
+      "Facewash"
+    ]
   }
 ]
