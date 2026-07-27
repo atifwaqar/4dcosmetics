@@ -1153,7 +1153,7 @@
     "categories": [
       "skin-care"
     ],
-    "shortDescription": "Brightens dull skin while gently removing dirt and excess oil.Leaves your skin fresh, clean, and glowing after every wash.",
+    "shortDescription": "Gently cleansing,brightens and refreshes your skin.",
     "descriptionHTML": "Brightens dull skin while gently removing dirt and excess oil.Leaves your skin fresh, clean, and glowing after every wash.",
     "inStock": true,
     "tags": [
@@ -1176,10 +1176,115 @@
       "skin-care",
       "primer"
     ],
-    "shortDescription": "Helps makeup stay fresh and last longer throughout the day.",
+    "shortDescription": "Smooth skin for flawless, long lasting makeup.",
     "descriptionHTML": "Creates a smooth, silky base for flawless makeup application.\nHelps makeup stay fresh and last longer throughout the day.",
     "inStock": true,
     "slug": "rbory-soft-touch-face-primer",
     "id": "rbory-soft-touch-face-primer"
+  },
+  {
+    "name": "Medicube Kojic Acid Turmeric Night Wrapping Mask",
+    "brand": "Medicube",
+    "images": [
+      "/assets/img/products/1000338496-1.jpg"
+    ],
+    "price": {
+      "current": 3199,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care"
+    ],
+    "shortDescription": "Brightens and nourishes skin while you sleep.",
+    "descriptionHTML": "Helps reduce dullness and improve skin radiance overnight.\nEnriched with Kojic Acid and Turmeric for brighter-looking skin.",
+    "inStock": true
+  },
+  {
+    "name": "Medicube Collagen Night Wrapping Mask",
+    "brand": "Medicube ",
+    "images": [
+      "/assets/img/products/1000338498.jpg"
+    ],
+    "price": {
+      "current": 3199,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care"
+    ],
+    "shortDescription": "Hydrate and firms skin overnight.",
+    "descriptionHTML": "Deeply hydrates and nourishes skin while you sleep.\nImproves skin elasticity for a soft, plump, and refreshed look.",
+    "inStock": true
+  },
+  {
+    "name": "Rose Berry Invisible UV Flawless Primer",
+    "brand": "Roseberry ",
+    "images": [
+      "/assets/img/products/1000338494.jpg"
+    ],
+    "price": {
+      "current": 1499,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care",
+      "primer"
+    ],
+    "shortDescription": "Preps skin with a smooth finish and daily UV protection.",
+    "descriptionHTML": "Smooths skin texture and preps your face for makeup.\nProvides a lightweight finish with daily UV protection.",
+    "inStock": true
+  },
+  {
+    "name": "Rbory Oil Control Makeup Setting Spray",
+    "brand": "Rbory",
+    "images": [
+      "/assets/img/products/1000338506.jpg"
+    ],
+    "price": {
+      "current": 1300,
+      "currency": "PKR"
+    },
+    "categories": [
+      "makeup"
+    ],
+    "shortDescription": "Keeps makeup fresh,matte and long lasting.",
+    "descriptionHTML": "Locks makeup in place with a long-lasting matte finish.\nControls excess oil to keep your makeup fresh all day.",
+    "inStock": true
+  },
+  {
+    "name": "Radiant Glow Vitamin C Serum",
+    "brand": "Radiant Glow ",
+    "images": [
+      "/assets/img/products/1000338504.jpg"
+    ],
+    "price": {
+      "current": 1499,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care",
+      "serums"
+    ],
+    "shortDescription": "Brightens skin and helps reduce dark spots.",
+    "descriptionHTML": "Brightens skin and helps fade dark spots over time.\nLeaves your complexion even-toned, radiant, and healthy-looking",
+    "inStock": true
+  },
+  {
+    "name": "Maybelline Fit Me Foundation",
+    "brand": "Maybelline ",
+    "images": [
+      "/assets/img/products/1000338502.jpg"
+    ],
+    "price": {
+      "current": 2599,
+      "currency": "PKR"
+    },
+    "categories": [
+      "foundation",
+      "makeup"
+    ],
+    "shortDescription": "Lightweight matte foundation with natural looking coverage.",
+    "descriptionHTML": "Lightweight foundation with natural-looking, buildable coverage.\nControls shine and delivers a smooth, poreless matte finish.",
+    "inStock": true
   }
 ]
