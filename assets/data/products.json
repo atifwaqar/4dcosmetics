@@ -1161,5 +1161,23 @@
     ],
     "slug": "radiant-glow-vitamin-c-gel-cleanser",
     "id": "radiant-glow-vitamin-c-gel-cleanser"
+  },
+  {
+    "name": "Rbory Soft touch Face Primer",
+    "brand": "Rbory",
+    "images": [
+      "/assets/img/products/1000338500.jpg"
+    ],
+    "price": {
+      "current": 1799,
+      "currency": "PKR"
+    },
+    "categories": [
+      "skin-care",
+      "primer"
+    ],
+    "shortDescription": "Helps makeup stay fresh and last longer throughout the day.",
+    "descriptionHTML": "Creates a smooth, silky base for flawless makeup application.\nHelps makeup stay fresh and last longer throughout the day.",
+    "inStock": true
   }
 ]
