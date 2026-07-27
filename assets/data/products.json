@@ -1197,7 +1197,9 @@
     ],
     "shortDescription": "Brightens and nourishes skin while you sleep.",
     "descriptionHTML": "Helps reduce dullness and improve skin radiance overnight.\nEnriched with Kojic Acid and Turmeric for brighter-looking skin.",
-    "inStock": true
+    "inStock": true,
+    "slug": "medicube-kojic-acid-turmeric-night-wrapping-mask",
+    "id": "medicube-kojic-acid-turmeric-night-wrapping-mask"
   },
   {
     "name": "Medicube Collagen Night Wrapping Mask",
@@ -1214,7 +1216,9 @@
     ],
     "shortDescription": "Hydrate and firms skin overnight.",
     "descriptionHTML": "Deeply hydrates and nourishes skin while you sleep.\nImproves skin elasticity for a soft, plump, and refreshed look.",
-    "inStock": true
+    "inStock": true,
+    "slug": "medicube-collagen-night-wrapping-mask",
+    "id": "medicube-collagen-night-wrapping-mask"
   },
   {
     "name": "Rose Berry Invisible UV Flawless Primer",
@@ -1232,7 +1236,9 @@
     ],
     "shortDescription": "Preps skin with a smooth finish and daily UV protection.",
     "descriptionHTML": "Smooths skin texture and preps your face for makeup.\nProvides a lightweight finish with daily UV protection.",
-    "inStock": true
+    "inStock": true,
+    "slug": "rose-berry-invisible-uv-flawless-primer",
+    "id": "rose-berry-invisible-uv-flawless-primer"
   },
   {
     "name": "Rbory Oil Control Makeup Setting Spray",
@@ -1249,7 +1255,9 @@
     ],
     "shortDescription": "Keeps makeup fresh,matte and long lasting.",
     "descriptionHTML": "Locks makeup in place with a long-lasting matte finish.\nControls excess oil to keep your makeup fresh all day.",
-    "inStock": true
+    "inStock": true,
+    "slug": "rbory-oil-control-makeup-setting-spray",
+    "id": "rbory-oil-control-makeup-setting-spray"
   },
   {
     "name": "Radiant Glow Vitamin C Serum",
@@ -1267,7 +1275,9 @@
     ],
     "shortDescription": "Brightens skin and helps reduce dark spots.",
     "descriptionHTML": "Brightens skin and helps fade dark spots over time.\nLeaves your complexion even-toned, radiant, and healthy-looking",
-    "inStock": true
+    "inStock": true,
+    "slug": "radiant-glow-vitamin-c-serum",
+    "id": "radiant-glow-vitamin-c-serum"
   },
   {
     "name": "Maybelline Fit Me Foundation",
@@ -1285,6 +1295,8 @@
     ],
     "shortDescription": "Lightweight matte foundation with natural looking coverage.",
     "descriptionHTML": "Lightweight foundation with natural-looking, buildable coverage.\nControls shine and delivers a smooth, poreless matte finish.",
-    "inStock": true
+    "inStock": true,
+    "slug": "maybelline-fit-me-foundation",
+    "id": "maybelline-fit-me-foundation"
   }
 ]
